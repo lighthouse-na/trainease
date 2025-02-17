@@ -91,7 +91,7 @@
                 </article>
 
             </div>
-            <div class="flex justify-end mt-4">
+            <div class="flex justify-end my-12">
                 <button wire:click="loadPreviousMaterial"
                 class="m-4 bg-gray-500 text-white px-4 py-2 rounded-lg disabled:opacity-50"
                 {{ $content->id === $courseMaterials->first()->id ? 'disabled' : '' }}>
