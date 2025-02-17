@@ -11,6 +11,17 @@ use Livewire\Component;
 
 class Course extends Component
 {
+    public $training;
+    public $courseMaterials;
+    public $courseProgress;
+    public $quizzes;
+    public function mount(Training $training){
+        $this->training = Training::findOrFail($training->id);
+        $this->courseMaterials = CourseMaterial::where('training_id', $training->id)->get();
+        $this->quizzes = $training->quizzes;
+        $this->courseProgress = 50;
+    }
+
     public function show($training_id)
     {
 
@@ -45,6 +56,7 @@ class Course extends Component
 
         return redirect()->route('my.trainings', $training->id)->with('success', 'Course marked as completed!');
     }
+
     public function render()
     {
         return view('livewire.training.course');

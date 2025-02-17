@@ -2,6 +2,7 @@
 
 namespace App\Models\Training;
 
+use App\Models\Quiz\Quiz;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -22,5 +23,12 @@ class Training extends Model
 
     public function materials() {
         return $this->hasMany(CourseMaterial::class, 'training_id');
+    }
+    public function quizzes() {
+        return $this->hasMany(Quiz::class, 'training_id');
+    }
+    public function progress()
+    {
+        return $this->hasMany(CourseProgress::class);
     }
 }

@@ -26,8 +26,7 @@
         @livewire('navigation-menu')
 
         <div class="flex h-screen">
-            @livewire('training.course-sidebar', ['training' => $training])
-            @livewire('training.course-content', ['training' => $training])
+            @livewire('training.course', ['training' => $training])
         </div>
 
         <script>

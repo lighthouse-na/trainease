@@ -14,42 +14,52 @@
                     @endphp
                     <div class="flex-shrink-0 w-1/3 min-w-[300px] p-3"> <!-- Set a min-width for better visibility -->
                         <div
-                            class="bg-white border border-gray-200 rounded-3xl p-6 h-auto hover:border transition duration-300 ease-in-out">
+                            class="bg-white border border-gray-200 rounded-3xl h-auto hover:border transition duration-300 ease-in-out">
                             <div class="flex flex-col justify-between h-full flex-shrink-0">
                                 <!-- Course Title -->
-                                <h1 class="text-lg font-semibold text-gray-900">{{ $course->training->title }}</h1>
+                                <div class="bg-white border overflow-hidden rounded-xl hover:bg-gray-50  transition">
+                                    {{-- Image at the top --}}
+                                    <img src="{{ asset($course->training->image) }}"
+                                        class="w-full h-40 object-cover rounded-t-xl hover:scale-105 transition duration-300 ease-in-out"
+                                        alt="{{ $course->training->title }}">
+                                    <div class="p-6">
+                                        <h3 class="text-lg font-semibold text-gray-900">{{ $course->training->title }}
+                                        </h3>
+                                        <p class="text-sm text-gray-500 mt-2">{{ $course->training->description }}</p>
 
-                                <!-- Course Description -->
-                                <p class="text-sm text-gray-600 mt-2 line-clamp-2">{{ $course->training->description }}
-                                </p>
-                                <div class="mt-4">
-                                    <div class="relative pt-1">
-                                        <div class="flex mb-2 items-center justify-between">
-                                            <div>
-                                                <span
-                                                    class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-teal-600 bg-teal-200">
-                                                    Progress: {{ round($progress) }}%
-                                                </span>
-                                            </div>
+                                        @php
+                                            $progress = min(
+                                                100,
+                                                round(Auth::user()->calculateProgress($course->training->id)),
+                                            );
+                                        @endphp
 
-                                        </div>
-                                        <div class="flex h-2 mb-2 overflow-hidden text-xs bg-gray-200 rounded">
-                                            <div style="width: {{ round($progress) }}%"
-                                                class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-teal-600">
+                                        <div class="mt-4">
+                                            <div class="relative pt-1">
+                                                <div class="flex justify-between text-xs">
+                                                    <span>Course Progress:</span>
+                                                    <span>50%</span>
+                                                </div>
+                                                <div class="h-1 overflow-hidden bg-gray-200 rounded">
+                                                    <div style="width: 50%" class="h-full bg-teal-600 rounded">
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
+                                        <a href="{{ route('start.course', Crypt::encrypt($course->training->id)) }}"
+                                            class="mt-6 flex items-center justify-center gap-2 px-4 py-2 bg-orange-600 text-white text-sm font-medium rounded-full border hover:bg-orange-700 transition duration-300 ease-in-out">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                                viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                            </svg>
+                                            Continue Learning
+                                        </a>
                                     </div>
+
                                 </div>
                                 <!-- CTA Button -->
-                                <a href="{{ route('start.course', $course->training->id) }}"
-                                    class="mt-6 flex items-center justify-center gap-2 px-4 py-2 bg-orange-600 text-white text-sm font-medium rounded-full border hover:bg-orange-700 transition duration-300 ease-in-out">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                                    </svg>
-                                    Continue Learning
-                                </a>
+
                             </div>
                         </div>
                     </div>
@@ -67,7 +77,7 @@
                 </div>
             @endif
         </div>
-        <div class="mb-9">
+        {{-- <div class="mb-9">
             <h1 class="font-bold text-lg">
                 Certifications
             </h1>
@@ -102,8 +112,8 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="">
+        </div> --}}
+        {{-- <div class="">
 
             <div class="bg-white p-6 rounded-3xl border">
                 <h2 class="text-2xl  font-bold mb-4">Train By Category</h2>
@@ -125,6 +135,6 @@
 
                 </div>
             </div>
-        </div>
+        </div> --}}
 
     </div>
