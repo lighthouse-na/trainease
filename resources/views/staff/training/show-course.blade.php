@@ -14,11 +14,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 </head>
-@php
-    $isEnrolled = Enrollment::where('user_id', Auth::user()->id)
-                                      ->where('training_id', $training->id)
-                                      ->exists();
-@endphp
+
 <body class="font-sans antialiased bg-gray-50 text-white">
 
     <x-banner />
@@ -36,20 +32,10 @@
                 <p class="text-gray-200 text-lg mt-2">{{ $training->description }}</p>
             </div>
             <div class="absolute top-6 right-10 p-4 rounded-lg  text-center">
-                <form method="POST" action="{{ route('enroll', Crypt::encrypt($training->id)) }}">
-                    @csrf
-                    <div>
-                        @if($isEnrolled)
-                            <button class="mt-2 px-6 py-2 bg-gray-500 text-white font-semibold rounded-lg cursor-not-allowed" disabled>
-                                Enrolled
-                            </button>
-                        @else
-                            <button wire:click="enroll" class="mt-2 px-6 py-2 bg-white text-black font-semibold rounded-lg hover:bg-gray-300">
-                                Enroll Now
-                            </button>
-                        @endif
-                    </div>
-                </form>
+                <div class="absolute top-6 right-10 p-4 rounded-lg text-center">
+                    @livewire('training.components.enroll-button', ['training' => $training])
+                </div>
+
             </div>
         </div>
 
@@ -85,7 +71,9 @@
                             <!-- Accordion Content -->
                             <div x-show="activeAccordion==id" x-collapse x-cloak>
                                 <div class="p-4 pt-0 text-gray-700 dark:text-gray-300 opacity-80">
-                                    <h1>{{$chapter->description}}</h1>
+                                    <p class="text-gray-700 dark:text-gray-300 opacity-80">
+                                        {{ $chapter->description }}
+                                    </p>
                                 </div>
                             </div>
                         </div>

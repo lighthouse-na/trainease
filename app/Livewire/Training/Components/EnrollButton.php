@@ -5,7 +5,6 @@ namespace App\Livewire\Training\Components;
 use App\Models\Training\Enrollment;
 use App\Models\Training\Training;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Crypt;
 use Livewire\Component;
 
 class EnrollButton extends Component
@@ -13,9 +12,9 @@ class EnrollButton extends Component
     public $training;
     public $isEnrolled = false;
 
-    public function mount($training)
+    public function mount(Training $training)
     {
-        $this->training = Training::findOrFail(Crypt::decrypt($training));
+        $this->training = $training;
         $this->checkEnrollment();
     }
 
@@ -28,25 +27,24 @@ class EnrollButton extends Component
 
     public function enroll()
     {
-        if (!$this->isEnrolled) {
-            Enrollment::create([
-                'user_id' => Auth::user()->id,
-                'training_id' => $this->training->id,
-                'status' => 'approved',
-                'enrolled_at' => now(),
-            ]);
 
-            // Update state
-            $this->isEnrolled = true;
-
-            // Flash success message
-            redirect()->back()->session()->flash('success', 'You have successfully enrolled!');
-        } else {
-            session()->flash('error', 'You are already enrolled in this course.');
+        if ($this->isEnrolled) {
+            return $this->dispatch('showAlert', 'error', 'You are already enrolled in this course.');
         }
+        Enrollment::create([
+            'user_id' => Auth::user()->id,
+            'training_id' => $this->training->id,
+            'status' => 'approved',
+            'enrolled_at' => now(),
+        ]);
+
+        $this->isEnrolled = true;
+
+        $this->dispatch('showAlert', 'success', 'You have successfully enrolled!');
     }
     public function render()
     {
+
 
         return view('livewire.training.components.enroll-button');
     }
