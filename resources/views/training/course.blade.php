@@ -29,18 +29,12 @@
             @livewire('training.course', ['training' => $training])
         </div>
 
-        <script>
-           document.addEventListener('DOMContentLoaded', function() {
-    Livewire.on('courseCompleted', function() {
-        alert("Congratulations! You have completed the course.");
-        window.location.href = "/my/trainings"; // Redirect to the trainings page
-    });
-});
-        </script>
+    </div>
 
 
         @stack('modals')
 
         @livewireScripts
 </body>
+
 </html>

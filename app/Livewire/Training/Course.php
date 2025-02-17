@@ -3,6 +3,7 @@
 namespace App\Livewire\Training;
 
 use App\Models\Training\CourseMaterial;
+use App\Models\Training\CourseProgress;
 use App\Models\Training\Enrollment;
 use App\Models\Training\Training;
 use Illuminate\Support\Facades\Auth;
@@ -15,16 +16,60 @@ class Course extends Component
     public $courseMaterials;
     public $courseProgress;
     public $quizzes;
-    public function mount(Training $training){
+    public $content;
+    public $completedMaterials = [];
+
+    public function mount(Training $training)
+    {
         $this->training = Training::findOrFail($training->id);
         $this->courseMaterials = CourseMaterial::where('training_id', $training->id)->get();
         $this->quizzes = $training->quizzes;
         $this->courseProgress = 50;
+        $this->content = $this->courseMaterials->first() ?? null; // Set to null if no materials exist
+        $this->completedMaterials = $this->getCompletedMaterials(Auth::id());
+    }
+    public function getCompletedMaterials($userId)
+    {
+        return $this->courseMaterials
+            ->filter(fn ($material) => $material->isCompletedByUser($userId))
+            ->pluck('id')
+            ->toArray();
+    }
+    public function setActiveContent($materialId)
+    {
+        $this->content = CourseMaterial::find($materialId);
+
+        // Mark the material as completed if not already
+        if (!in_array($materialId, $this->completedMaterials)) {
+            $this->markMaterialAsCompleted($materialId);
+        }
+    }
+
+    public function markMaterialAsCompleted($materialId)
+    {
+        $userId = Auth::id();
+
+        // Check if already completed
+        $exists = CourseProgress::where('user_id', $userId)
+            ->where('course_material_id', $materialId)
+            ->where('status', 'completed')
+            ->exists();
+
+        if (!$exists) {
+            CourseProgress::create([
+                'user_id' => $userId,
+                'training_id' => $this->training->id,
+                'course_material_id' => $materialId,
+                'status' => 'completed',
+            ]);
+
+            // Refresh the completed materials list in real time
+            $this->completedMaterials[] = $materialId;
+        }
     }
 
     public function show($training_id)
     {
-
         // Ensure the user is enrolled and their status is "approved" or "completed"
         $training = Training::findOrFail(Crypt::decrypt($training_id));
         $enrollment = Auth::user()

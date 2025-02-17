@@ -30,24 +30,11 @@ class CourseMaterial extends Model
         return $this->belongsTo(Training::class, 'training_id');
     }
 
-    public function isVideo()
-    {
-        return $this->material_type === 'video';
-    }
-
-    public function isText()
-    {
-        return $this->material_type === 'text';
-    }
-
-    public function isQuiz()
-    {
-        return $this->material_type === 'quiz';
-    }
     public function isCompletedByUser($userId)
     {
-        return $this->progress()->where('user_id', $userId)->where('status', 'completed')->get()->toArray();
+        return $this->progress()->where('user_id', $userId)->where('status', 'completed')->exists();
     }
+
 
     public function progress()
     {

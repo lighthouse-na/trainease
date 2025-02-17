@@ -29,3 +29,24 @@
 .scrollable-content::-webkit-scrollbar-thumb:hover {
     background: #374151;
 }
+
+.shiki .highlight {
+    @apply bg-gray-600 py-1;
+    @apply rounded-lg;
+}
+
+.shiki .add {
+    @apply bg-green-600/50 dark:bg-green-600/50 py-1 rounded-sm;
+}
+
+.shiki .del {
+    @apply bg-red-300/50 dark:bg-red-600/50 py-1 rounded-sm;
+}
+
+.shiki.focus .line:not(.focus) {
+    @apply transition-all blur-[2px]
+}
+
+.shiki.focus:hover .line {
+    @apply transition-all blur-0
+}

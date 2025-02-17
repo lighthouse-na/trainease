@@ -28,6 +28,4 @@ class CourseProgress extends Model
         return $this->belongsTo(CourseMaterial::class);
     }
 
-
-
 }
