@@ -30,10 +30,7 @@ class Course extends Component
     }
     public function getCompletedMaterials($userId)
     {
-        return $this->courseMaterials
-            ->filter(fn ($material) => $material->isCompletedByUser($userId))
-            ->pluck('id')
-            ->toArray();
+        return $this->courseMaterials->filter(fn($material) => $material->isCompletedByUser($userId))->pluck('id')->toArray();
     }
     public function setActiveContent($materialId)
     {
@@ -50,10 +47,7 @@ class Course extends Component
         $userId = Auth::id();
 
         // Check if already completed
-        $exists = CourseProgress::where('user_id', $userId)
-            ->where('course_material_id', $materialId)
-            ->where('status', 'completed')
-            ->exists();
+        $exists = CourseProgress::where('user_id', $userId)->where('course_material_id', $materialId)->where('status', 'completed')->exists();
 
         if (!$exists) {
             CourseProgress::create([
@@ -65,6 +59,28 @@ class Course extends Component
 
             // Refresh the completed materials list in real time
             $this->completedMaterials[] = $materialId;
+        }
+    }
+
+    public function loadNextMaterial()
+    {
+        $currentMaterialIndex = $this->courseMaterials->search(fn($material) => $material->id === $this->content->id);
+
+        $nextMaterial = $this->courseMaterials->get($currentMaterialIndex + 1);
+
+        if ($nextMaterial) {
+            $this->setActiveContent($nextMaterial->id);
+        }
+    }
+
+    public function loadPreviousMaterial()
+    {
+        $currentMaterialIndex = $this->courseMaterials->search(fn($material) => $material->id === $this->content->id);
+
+        $previousMaterial = $this->courseMaterials->get($currentMaterialIndex - 1);
+
+        if ($previousMaterial) {
+            $this->setActiveContent($previousMaterial->id);
         }
     }
 
