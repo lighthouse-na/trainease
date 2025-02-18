@@ -38,10 +38,10 @@
                                             <div class="relative pt-1">
                                                 <div class="flex justify-between text-xs">
                                                     <span>Course Progress:</span>
-                                                    <span>50%</span>
+                                                    <span>{{$progress}}%</span>
                                                 </div>
                                                 <div class="h-1 overflow-hidden bg-gray-200 rounded">
-                                                    <div style="width: 50%" class="h-full bg-teal-600 rounded">
+                                                    <div style="width: {{$progress}}%" class="h-full bg-teal-600 rounded">
                                                     </div>
                                                 </div>
                                             </div>
