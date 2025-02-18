@@ -32,4 +32,8 @@ class Training extends Model
     {
         return $this->hasMany(CourseProgress::class);
     }
+    public function enrolledUsers()
+    {
+        return $this->belongsToMany(User::class, 'enrollments', 'training_id', 'user_id');
+    }
 }

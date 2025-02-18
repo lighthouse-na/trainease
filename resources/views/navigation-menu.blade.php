@@ -27,34 +27,32 @@
                     </x-nav-link>
                     @endrole
 
-                    @role('admin')
-                    <x-nav-link href=# >{{Woww}}</x-nav-link>
-                    @endrole
 
 
                 </div>
             </div>
 
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
-                <div x-data="window.themeSwitcher()" x-init="switchTheme()" @keydown.window.tab="switchOn = false" class="flex items-center justify-center space-x-2">
-                    <input id="thisId" type="checkbox" name="switch" class="hidden" :checked="switchOn">
 
-                    <button
-                        x-ref="switchButton"
-                        type="button"
-                        @click="switchOn = ! switchOn; switchTheme()"
-                        :class="switchOn ? 'bg-blue-600' : 'bg-neutral-200'"
-                        class="relative inline-flex h-6 py-0.5 ml-4 focus:outline-none rounded-full w-10">
-                        <span :class="switchOn ? 'translate-x-[18px]' : 'translate-x-0.5'" class="w-5 h-5 duration-200 ease-in-out bg-white rounded-full shadow-md"></span>
-                    </button>
-
-                    <label @click="$refs.switchButton.click(); $refs.switchButton.focus()" :id="$id('switch')"
-                        :class="{ 'text-blue-600': switchOn, 'text-gray-400': ! switchOn }"
-                        class="text-sm select-none">
-                        Dark Mode
-                    </label>
-                </div>
                 <!-- Teams Dropdown -->
+                <div class="hidden sm:flex sm:items-center sm:ms-6">
+                    <div x-data="window.themeSwitcher()" x-init="switchTheme()" @keydown.window.tab="switchOn = false" class="flex items-center justify-center space-x-2">
+                        <input id="thisId" type="checkbox" name="switch" class="hidden" :checked="switchOn">
+
+                        <button
+                            x-ref="switchButton"
+                            type="button"
+                            @click="switchOn = ! switchOn; switchTheme()"
+                            :class="switchOn ? 'bg-gray-200' : 'bg-neutral-200'"
+                            class="relative inline-flex h-6 py-0.5 ml-4 focus:outline-none rounded-full w-10">
+                            <span :class="switchOn ? 'translate-x-[18px]' : 'translate-x-0.5'" class="w-5 h-5 duration-200 ease-in-out bg-white rounded-full shadow-md"></span>
+                        </button>
+
+                        <label @click="$refs.switchButton.click(); $refs.switchButton.focus()" :id="$id('switch')"
+                            :class="{ 'text-gray-400': switchOn, 'text-gray-600': ! switchOn }"
+                            class="text-xs select-none">
+                            Dark Mode
+                        </label>
+                    </div>
                 @if (Laravel\Jetstream\Jetstream::hasTeamFeatures())
                     <div class="ms-3 relative">
                         <x-dropdown align="right" width="60">
@@ -132,6 +130,8 @@
                             <div class="block px-4 py-2 text-xs text-gray-400">
                                 {{ __('Manage Account') }}
                             </div>
+
+
 
                             <x-dropdown-link href="{{ route('profile.show') }}">
                                 {{ __('Profile') }}

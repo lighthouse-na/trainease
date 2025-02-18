@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" x-data="{ darkMode: localStorage.getItem('darkMode') === 'true' }" :class="{ 'dark': darkMode }">
 
 <head>
     <meta charset="utf-8">
@@ -15,21 +15,21 @@
     @livewireStyles
 </head>
 
-<body class="font-sans antialiased bg-gray-50 text-white">
-
+<body class="font-sans antialiased bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-200">
     <x-banner />
 
     <div class="min-h-screen">
         @livewire('navigation-menu')
 
         <!-- Hero Section -->
-        <div class="relative w-full h-80 bg-black">
-            <img src="{{ asset($training->image) }}" class="w-full h-full object-cover opacity-50"
+        <div class="relative w-full h-80 bg-gray-800 dark:bg-gray-700">
+            <img src="{{ asset($training->image) }}" class="w-full h-full object-cover opacity-60 dark:opacity-40"
                 alt="{{ $training->title }}">
             <div class="absolute inset-0 flex flex-col justify-center px-10">
-                <a href="{{ route('training.courses') }}" class="text-gray-200 text-sm mb-3">← Back to Courses</a>
-                <h1 class="text-4xl font-bold">{{ $training->title }}</h1>
-                <p class="text-gray-200 text-lg mt-2">{{ $training->description }}</p>
+                <a href="{{ route('training.courses') }}" class="text-gray-200 text-sm mb-3 hover:underline">← Back to
+                    Courses</a>
+                <h1 class="text-gray-100 text-4xl font-bold">{{ $training->title }}</h1>
+                <p class="text-gray-300 text-lg mt-2">{{ $training->description }}</p>
             </div>
             <div class="absolute top-6 right-10 p-4 rounded-lg  text-center">
                 <div class="absolute top-6 right-10 p-4 rounded-lg text-center">
@@ -37,54 +37,44 @@
                 </div>
 
             </div>
+
         </div>
 
         <!-- Course Content & Instructor Section -->
         <div class="grid grid-cols-4 gap-6 p-10">
             <!-- Course Content -->
-            <div class="col-span-3 bg-gray-100 p-6 rounded-lg border">
-                <h2 class="text-2xl font-bold mb-4 text-gray-800">Course Content</h2>
-                <div x-data="{
-                    activeAccordion: '',
-                    setActiveAccordion(id) {
-                        this.activeAccordion = (this.activeAccordion == id) ? '' : id
-                    }
-                }"
-                    class="relative w-full mx-auto overflow-hidden text-sm font-normal bg-white border border-gray-200 divide-y divide-gray-200 rounded-lg">
-
+            <div class="col-span-3 bg-white dark:bg-gray-800 p-6 rounded-lg shadow border dark:border-gray-700">
+                <h2 class="text-2xl font-bold mb-4 text-gray-800 dark:text-gray-200">Course Content</h2>
+                <div x-data="{ activeAccordion: '' }"
+                    class="relative w-full mx-auto overflow-hidden border border-gray-200 dark:border-gray-700 divide-y divide-gray-200 dark:divide-gray-700 rounded-lg">
                     @foreach ($training->materials as $index => $chapter)
                         <div x-data="{ id: 'accordion-{{ $index }}' }" class="cursor-pointer group">
-                            <!-- Accordion Header -->
-                            <button @click="setActiveAccordion(id)"
-                                class="flex items-center justify-between w-full p-4 text-left select-none group-hover:underline">
+                            <button @click="activeAccordion = (activeAccordion == id) ? '' : id"
+                                class="flex items-center justify-between w-full p-4 text-left select-none">
                                 <span class="font-semibold text-gray-900 dark:text-white">
                                     {{ $chapter->material_name }}
                                 </span>
-                                <svg class="w-4 h-4 text-gray-600 duration-200 ease-out"
-                                    :class="{ 'rotate-180': activeAccordion == id }" viewBox="0 0 24 24"
-                                    xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
-                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <svg class="w-4 h-4 text-gray-600 dark:text-gray-300 duration-200"
+                                    :class="{ 'rotate-180': activeAccordion == id }" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
                                     <polyline points="6 9 12 15 18 9"></polyline>
                                 </svg>
                             </button>
-
-                            <!-- Accordion Content -->
-                            <div x-show="activeAccordion==id" x-collapse x-cloak>
+                            <div x-show="activeAccordion == id" x-collapse x-cloak>
                                 <div class="p-4 pt-0 text-gray-700 dark:text-gray-300 opacity-80">
-                                    <p class="text-gray-700 dark:text-gray-300 opacity-80">
-                                        {{ $chapter->description }}
-                                    </p>
+                                    <p>{{ $chapter->description }}</p>
                                 </div>
                             </div>
                         </div>
                     @endforeach
                 </div>
-
             </div>
 
             <!-- Instructor Card -->
-            <div class="col-span-1 h-min bg-gray-100 p-6 rounded-lg border grow-0">
-                <h2 class="text-xl font-bold mb-4 text-gray-800">Instructor</h2>
+            <div
+                class="col-span-1 overflow-y-auto bg-white dark:bg-gray-800 p-6 rounded-lg shadow border dark:border-gray-700">
+                <h2 class="text-xl font-bold mb-4 text-gray-800 dark:text-gray-200">Instructor</h2>
                 <div class="flex items-center">
                     @if ($training->trainer->profile_photo_path)
                         <img src="{{ asset($training->trainer->profile_photo_path) }}"
@@ -96,18 +86,37 @@
                         </div>
                     @endif
                     <div class="ml-4">
-                        <h3 class="text-lg font-semibold text-gray-800">{{ $training->trainer->first_name }}
-                            {{ $training->trainer->last_name }}</h3>
-                        <p class="text-gray-600">{{ $training->trainer->email }}</p>
+                        <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
+                            {{ $training->trainer->first_name }} {{ $training->trainer->last_name }}</h3>
+                        <p class="text-gray-600 dark:text-gray-400">{{ $training->trainer->email }}</p>
                     </div>
                 </div>
-                <p class="text-gray-300 mt-4">{{ $training->trainer->bio }}</p>
-            </div>
-        </div>
-    </div>
+                <p class="text-gray-600 dark:text-gray-400 mt-4">{{ $training->trainer->bio }}</p>
+                <h2 class="text-xl font-bold mb-4 text-gray-800 dark:text-gray-200 mt-4">Enrolled Staff <span
+                        class="text-orange-500 text-xs">({{ $training->enrolledUsers->count() }})
+                    </span></h2>
+                <div class="flex items-center">
+                    @forelse ($training->enrolledUsers as $user)
+                        <div class="border-b border-gray-200 dark:border-gray-700 w-full py-2">
+                            <div class="flex items-center">
 
-    @stack('modals')
-    @livewireScripts
+                                <div class="ml-4">
+                                    <h3 class="text-xs font-semibold text-gray-800 dark:text-gray-200">
+                                        {{ $user->first_name }} {{ $user->last_name }}</h3>
+                                    <p class="text-gray-600 dark:text-gray-400">{{ $user->email }}</p>
+                                </div>
+
+                            </div>
+                        @empty
+                    @endforelse
+
+                </div>
+            </div>
+
+        </div>
+
+        @stack('modals')
+        @livewireScripts
 </body>
 
 </html>
