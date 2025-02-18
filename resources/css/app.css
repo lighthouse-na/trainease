@@ -6,30 +6,31 @@
     display: none;
 }
 /* Apply to all scrollable elements */
-.scrollable-content {
-    overflow-y: auto;
-    max-height: 80vh; /* Adjust height */
+html{
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb-color) var(--scrollbar-track-color);
 }
 
-/* Custom scrollbar */
-.scrollable-content::-webkit-scrollbar {
-    width: 8px;
+html::-webkit-scrollbar {
+    width: 2vw;
 }
 
-.scrollable-content::-webkit-scrollbar-track {
-    background: #e5e7eb;
-    border-radius: 10px;
+html::-webkit-scrollbar-thumb{
+    background-color: var(--scrollbar-thumb-color);
+    border-radius: 6px;
 }
 
-.scrollable-content::-webkit-scrollbar-thumb {
-    background: #6b7280;
-    border-radius: 10px;
+aside{
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb-color) var(--scrollbar-track-color);
 }
 
-.scrollable-content::-webkit-scrollbar-thumb:hover {
-    background: #374151;
+div {
+   scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb-color) var(--scrollbar-track-color);
+    scroll-behavior: smooth;
 }
-
 .shiki .highlight {
     @apply bg-gray-600 py-1;
     @apply rounded-lg;
