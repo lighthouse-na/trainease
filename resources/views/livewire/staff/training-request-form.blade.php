@@ -1,7 +1,7 @@
 <div>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 p-6">
         <!-- Training Request Form -->
-        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg border col-span-2">
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg border span-col-2">
             <h2 class="text-lg font-semibold mb-4">Request Training</h2>
 
             @if (session()->has('message'))

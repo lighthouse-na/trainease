@@ -18,8 +18,9 @@ class Course extends Component
     public $quizzes;
     public $content;
     public $completedMaterials = [];
+    public $enrollment;
 
-    public function mount(Training $training)
+    public function mount(Training $training, Enrollment $enrollment)
     {
         $this->training = Training::findOrFail($training->id);
         $this->courseMaterials = CourseMaterial::where('training_id', $training->id)->get();
@@ -27,6 +28,7 @@ class Course extends Component
         $this->courseProgress = 50;
         $this->content = $this->courseMaterials->first() ?? null; // Set to null if no materials exist
         $this->completedMaterials = $this->getCompletedMaterials(Auth::id());
+        $this->enrollment = Enrollment::find($enrollment->id);
     }
     public function getCompletedMaterials($userId)
     {
@@ -84,6 +86,19 @@ class Course extends Component
         }
     }
 
+    public function completeCourse(){
+        $enrollment = Enrollment::where('user_id', Auth::id())->where('training_id', $this->training->id)->first();
+
+        if (!$enrollment) {
+            abort(403, 'You are not enrolled in this course.');
+        }
+
+        // Mark course as completed
+        $enrollment->update(['status' => 'completed']);
+
+        return redirect()->route('my.trainings', $this->training->id)->with('success', 'Course marked as completed!');
+    }
+
     public function show($training_id)
     {
         // Ensure the user is enrolled and their status is "approved" or "completed"
@@ -101,7 +116,7 @@ class Course extends Component
 
         // Access the course materials
 
-        return view('training.course', compact('training', 'enrollment', 'courseMaterials'));
+        return view('training.course', compact('training', 'enrollment'));
     }
 
     public function complete(Training $training)

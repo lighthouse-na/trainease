@@ -6,7 +6,7 @@
                     class="text-orange-500 text-sm">({{ $courseCount }})</span> </a>
         </h1>
         <div class="flex my-3 justify-start items-center">
-            @if ($enrolledCourses->isNotEmpty())
+            @if ($enrolledCourses->isNotEmpty() )
                 @foreach ($enrolledCourses as $course)
                     @php
                         // Calculate progress for the current training

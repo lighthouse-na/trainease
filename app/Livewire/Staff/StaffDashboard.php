@@ -13,7 +13,7 @@ class StaffDashboard extends Component
     public function render()
     {
         $enrolledCourses = Enrollment::where('user_id', Auth::user()->id)
-        ->whereIn('status', ['approved', 'completed'])
+        ->whereIn('status', ['approved'])
         ->take(2) // or ->limit(3)
         ->get();
 

@@ -26,15 +26,16 @@
         @livewire('navigation-menu')
 
         <div class="flex h-screen">
-            @livewire('training.course', ['training' => $training])
+
+            @livewire('training.course', ['training' => $training, 'enrollment' => $enrollment])
         </div>
 
     </div>
 
 
-        @stack('modals')
+    @stack('modals')
 
-        @livewireScripts
+    @livewireScripts
 </body>
 
 </html>
