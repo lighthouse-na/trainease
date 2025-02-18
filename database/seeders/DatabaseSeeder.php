@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Organisation\Department;
 use App\Models\Organisation\Division;
+use App\Models\Quiz\Quiz;
 use App\Models\Training\Badge;
 use App\Models\Training\CourseMaterial;
 use App\Models\Training\SubsistenceAndTravel;
@@ -22,10 +23,6 @@ class DatabaseSeeder extends Seeder
         $userCount = 50;  // Example: 50 users
 
         $trainingCount = 5;  // Example: 5 trainings
-
-        $subsistenceAndTravelCount = 10; // Example: 10 Subsistence and Travel records
-
-        $badgeCount = 5;  // Example: 5 badges
 
 
         // Start seeding Divisions with progress bar
@@ -101,19 +98,20 @@ class DatabaseSeeder extends Seeder
         // Start seeding Course Materials for each training
 
         $this->command->info('Seeding Course Materials...');
-
+        $materialBar = $this->command->getOutput()->createProgressBar(12 * $trainingCount);
+        $materialBar->start();
         foreach ($trainings as $training) {
-
             // Create course materials for each training
-
             CourseMaterial::factory(12)->create([
                 'training_id' => $training->id,
             ]);
-
-
-
+            Quiz::factory()->create([
+                'training_id' => $training->id,
+                'title' => 'Dummy Quiz for ' . $training->title,
+            ]);
         }
-
+        $materialBar->advance(12 * $trainingCount);
+        $materialBar->finish();
         $this->command->info("\n");
 
 

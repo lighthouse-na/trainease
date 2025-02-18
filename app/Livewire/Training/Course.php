@@ -42,6 +42,7 @@ class Course extends Component
         if (!in_array($materialId, $this->completedMaterials)) {
             $this->markMaterialAsCompleted($materialId);
         }
+        $this->dispatch('content-updated');
     }
 
     public function markMaterialAsCompleted($materialId)

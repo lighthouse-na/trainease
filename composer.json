@@ -15,7 +15,9 @@
         "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.0",
         "owenvoke/blade-fontawesome": "^2.8",
+        "spatie/browsershot": "^5.0",
         "spatie/laravel-markdown": "^2.7",
+        "spatie/laravel-pdf": "^1.5",
         "spatie/laravel-permission": "^6.10"
     },
     "require-dev": {
