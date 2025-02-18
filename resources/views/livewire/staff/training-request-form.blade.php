@@ -66,7 +66,7 @@
                                 </p>
                             </div>
                             <button wire:click="deleteRequest({{ $request->id }})" class="text-red-600 dark:text-red-300 hover:text-red-800 dark:hover:text-red-400 transition">
-                                🗑 Delete
+                                Delete
                             </button>
                         </div>
                     @endforeach

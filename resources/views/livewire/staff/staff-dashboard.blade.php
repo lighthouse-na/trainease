@@ -61,14 +61,14 @@
                 @endforeach
             @else
                 <div
-                    class="bg-gray-800 border border-gray-700 p-12 rounded-3xl h-64 hover:bg-gray-700 transition duration-300 ease-in-out shadow-lg">
-                    <h1 class="font-bold text-3xl text-gray-100">Enroll in your first Training</h1>
-                    <p class="text-xs text-gray-400 my-6">
+                    class=" bg-white dark:bg-gray-800 border dark:border-gray-700 p-12 rounded-3xl h-64 dark:hover:bg-gray-700 transition duration-300 ease-in-out">
+                    <h1 class="font-bold text-3xl text-gray-800 dark:text-gray-100">Enroll in your first Training</h1>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 my-6">
                         Explore and add your first training course to get started. TrainEase offers a variety of
                         trainings and tutorials for you to learn and improve.
                     </p>
                     <a href="{{ route('training.courses') }}"
-                        class="p-2 border border-gray-500 rounded-lg text-gray-300 hover:bg-gray-700 transition duration-300 ease-in-out">
+                        class="p-2 border  dark:border-gray-500 rounded-lg text-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 hover:bg-gray-200 transition duration-300 ease-in-out">
                         Explore Training Courses
                     </a>
                 </div>
