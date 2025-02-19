@@ -22,8 +22,8 @@
                                     alt="{{ $course->training->title }}">
 
                                 <div class="p-6">
-                                    <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100">{{ $course->training->title }}</h3>
-                                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">{{ $course->training->description }}</p>
+                                    <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 line-clamp-1">{{ $course->training->title }}</h3>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-2 line-clamp-2">{{ $course->training->description }}</p>
 
                                     @php
                                         $progress = min(

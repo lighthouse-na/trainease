@@ -1,16 +1,15 @@
 <?php
 
-namespace App\Models\Quiz;
+namespace App\Models\QuizModule;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Question extends Model
 {
-    /** @use HasFactory<\Database\Factories\Quiz\QuestionFactory> */
+    //
     use HasFactory;
-
-    protected $fillable = ['quiz_id', 'question_text', 'type'];
+    protected $fillable = ['quiz_id', 'question_text', 'question_type'];
 
     public function quiz()
     {

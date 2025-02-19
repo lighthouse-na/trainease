@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Models\Organisation\Department;
+use App\Models\QuizModule\UserAnswer;
 use App\Models\Training\Badge;
 use App\Models\Training\Certificate;
 use App\Models\Training\CourseMaterial;
@@ -92,43 +93,50 @@ class User extends Authenticatable
     /**
      * Get the Supervisor of the user
      */
-    public function supervisor(){
-        return $this->belongsTo(User::class,'supervisor_id');
+    public function supervisor()
+    {
+        return $this->belongsTo(User::class, 'supervisor_id');
     }
     /**
      * Get the users a user is supervising
      */
-    public function supervising(){
+    public function supervising()
+    {
         return $this->hasMany(User::class, 'supervisor_id');
     }
     /**
      * Get the users badges
      */
-    public function badges(){
+    public function badges()
+    {
         return $this->hasMany(Badge::class, 'user_id');
     }
     /**
      * Get the Training Requests of the user
      */
-    public function trainingRequests(){
+    public function trainingRequests()
+    {
         return $this->hasMany(TrainingRequest::class, 'user_id');
     }
     /**
      * Get the S&T Requests of the user
      */
-    public function subsistenceAndTravelRequests(){
+    public function subsistenceAndTravelRequests()
+    {
         return $this->hasMany(SubsistenceAndTravel::class, 'user_id');
     }
     /**
      * Get the users department
      */
-    public function department(){
+    public function department()
+    {
         return $this->belongsTo(Department::class, 'department_id');
     }
     /**
      * Get the trainings a user is enrolled in
      */
-    public function trainerTrainings(){
+    public function trainerTrainings()
+    {
         return $this->hasMany(Training::class, 'user_id');
     }
     /**
@@ -168,10 +176,6 @@ class User extends Authenticatable
         // Calculate progress percentage
 
         return $totalMaterials > 0 ? ($completedMaterials / $totalMaterials) * 100 : 0;
-
     }
-
-
-
-
+    
 }

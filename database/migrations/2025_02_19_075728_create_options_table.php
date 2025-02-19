@@ -11,11 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // database/migrations/xxxx_xx_xx_xxxxxx_create_options_table.php
+
         Schema::create('options', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('question_id')->constrained('questions')->onDelete('cascade')->index();
-            $table->string('option_text');
-            $table->boolean('is_correct')->default(false);
+            $table->foreignId('question_id')->constrained()->onDelete('cascade');
+            $table->text('option_text');
+            $table->boolean('is_correct')->nullable(); // For MCQ & Multiple Response
+            $table->integer('sequence_order')->nullable(); // For Sequence Type
+            $table->string('match_pair')->nullable(); // For Matching Type ✅ ADD THIS
             $table->timestamps();
         });
     }

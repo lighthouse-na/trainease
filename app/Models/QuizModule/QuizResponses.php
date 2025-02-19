@@ -1,29 +1,30 @@
 <?php
 
-namespace App\Models\Quiz;
+namespace App\Models\QuizModule;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class QuizAttempt extends Model
+class QuizResponses extends Model
 {
-    /** @use HasFactory<\Database\Factories\Quiz\QuizAttemptFactory> */
+    /** @use HasFactory<\Database\Factories\QuizModule\QuizResponsesFactory> */
     use HasFactory;
+
     protected $fillable = ['user_id', 'quiz_id', 'score'];
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
-
     public function quiz()
     {
         return $this->belongsTo(Quiz::class);
     }
-
     public function responses()
     {
-        return $this->hasMany(QuizResponse::class);
+        return $this->hasMany(UserAnswer::class);
     }
+
+
 }

@@ -4,7 +4,11 @@ namespace Database\Seeders;
 
 use App\Models\Organisation\Department;
 use App\Models\Organisation\Division;
-use App\Models\Quiz\Quiz;
+use App\Models\QuizModule\Option;
+use App\Models\QuizModule\Question;
+use App\Models\QuizModule\Quiz;
+use App\Models\QuizModule\UserAnswer;
+use App\Models\QuizModule\UserSelectedOption;
 use App\Models\Training\Badge;
 use App\Models\Training\CourseMaterial;
 use App\Models\Training\SubsistenceAndTravel;
@@ -100,19 +104,108 @@ class DatabaseSeeder extends Seeder
         $this->command->info('Seeding Course Materials...');
         $materialBar = $this->command->getOutput()->createProgressBar(12 * $trainingCount);
         $materialBar->start();
-        foreach ($trainings as $training) {
-            // Create course materials for each training
-            CourseMaterial::factory(12)->create([
-                'training_id' => $training->id,
-            ]);
-            Quiz::factory()->create([
-                'training_id' => $training->id,
-                'title' => 'Dummy Quiz for ' . $training->title,
-            ]);
-        }
         $materialBar->advance(12 * $trainingCount);
         $materialBar->finish();
         $this->command->info("\n");
+        $this->command->info('Seeding Course Materials and Quizzes...');
+
+        $trainings = Training::all();
+        $trainingCount = $trainings->count();
+
+        $progressBar = $this->command->getOutput()->createProgressBar($trainingCount);
+        $progressBar->start();
+
+        // Define quiz topics
+        $quizTopics = [
+            'Introduction to Laravel',
+            'Advanced Eloquent ORM',
+            'Web Security Best Practices',
+            'Database Design Principles',
+            'REST API Development',
+            'Frontend & Backend Integration',
+        ];
+
+        foreach ($trainings as $training) {
+            // Create course materials
+            CourseMaterial::factory(12)->create(['training_id' => $training->id]);
+
+            foreach ($quizTopics as $topic) {
+                // Create a quiz
+                $quiz = Quiz::factory()->create([
+                    'training_id' => $training->id,
+                    'title' => $topic,
+                    'description' => "Test your knowledge on {$topic}.",
+                ]);
+
+                foreach (range(1, 5) as $i) {
+                    // Generate only multiple-choice questions
+                    $question = Question::factory()->create([
+                        'quiz_id' => $quiz->id,
+                        'question_type' => 'multiple_choice',
+                        'question_text' => $this->generateMultipleChoiceQuestion($topic),
+                    ]);
+
+                    // Generate realistic multiple-choice options
+                    $this->generateMultipleChoiceOptions($question);
+                }
+            }
+
+            $progressBar->advance();
+        }
+
+            $progressBar->finish();
+            $this->command->info("\nSeeding completed successfully.");
+
+            $this->command->info('Database seeding completed!');
+        }
+
+        // Function to generate multiple-choice questions
+        private function generateMultipleChoiceQuestion($topic)
+        {
+            $sampleQuestions = [
+                "What is the main purpose of {$topic}?",
+                "Which of the following is a key feature of {$topic}?",
+                "In {$topic}, what is the best practice for performance optimization?",
+                "Which of these statements about {$topic} is correct?",
+                "What should you consider when implementing {$topic}?",
+            ];
+
+            return $sampleQuestions[array_rand($sampleQuestions)];
+        }
+
+        // Function to generate multiple-choice options
+        private function generateMultipleChoiceOptions(Question $question)
+        {
+            $correctAnswers = [
+                "Correct principle of {$question->question_text}",
+                "Key feature of {$question->question_text}",
+                "Best practice for {$question->question_text}",
+            ];
+
+            $incorrectAnswers = [
+                "Misconception about {$question->question_text}",
+                "Incorrect implementation of {$question->question_text}",
+                "Non-relevant approach to {$question->question_text}",
+            ];
+
+            shuffle($correctAnswers);
+            shuffle($incorrectAnswers);
+
+            // Create one correct option
+            Option::factory()->create([
+                'question_id' => $question->id,
+                'option_text' => $correctAnswers[0],
+                'is_correct' => true,
+            ]);
+
+            // Create three incorrect options
+            foreach (array_slice($incorrectAnswers, 0, 3) as $answer) {
+                Option::factory()->create([
+                    'question_id' => $question->id,
+                    'option_text' => $answer,
+                    'is_correct' => false,
+                ]);
+            }
 
 
         // // Start seeding Subsistence and Travel with progress bar

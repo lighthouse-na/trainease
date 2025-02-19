@@ -2,7 +2,7 @@
 
 namespace App\Models\Training;
 
-use App\Models\Quiz\Quiz;
+use App\Models\QuizModule\Quiz;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

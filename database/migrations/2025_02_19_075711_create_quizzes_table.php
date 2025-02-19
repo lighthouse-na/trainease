@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('quizzes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('training_id')->constrained();
+            $table->foreignId('training_id')->constrained()->onDelete('cascade');
             $table->string('title');
-            $table->boolean('is_active')->default(true);
+            $table->text('description')->nullable();
+            $table->integer('max_attempts')->default(1);
+            $table->integer('passing_score')->default(0);
             $table->timestamps();
         });
     }

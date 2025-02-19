@@ -57,28 +57,40 @@
                     </div>
                 @endforeach
             </div>
+            @php
+                $isCompleted = $progress === 100;
+                $baseClasses = 'flex items-center text-sm border rounded-lg p-3 mt-2 cursor-pointer transition';
+                $themeClasses = $isCompleted
+                    ? 'bg-white border-gray-200 text-gray-700 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200'
+                    : 'bg-indigo-50 border-indigo-200 text-indigo-700 dark:bg-indigo-900 dark:border-indigo-700 dark:text-indigo-200';
+                $hoverClasses =
+                    'hover:shadow-md hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-indigo-400';
+            @endphp
 
             <!-- Course Quizzes -->
             <div class="mt-6">
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Course Quizzes</h3>
                 @forelse ($quizzes as $quiz)
-                    <a href="{{route('quiz.show', ['quiz' => $quiz])}}"
-                        class="flex items-center text-sm border rounded-lg p-3 mt-2 cursor-pointer transition
-                        {{ $progress === 100 ? 'disabled bg-white border-gray-200 text-gray-700 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200' : ' bg-indigo-50 border-indigo-200 text-indigo-700 dark:bg-indigo-900 dark:border-indigo-700 dark:text-indigo-200' }}">
+                    <a href="{{ route('quiz.show', ['quiz' => $quiz]) }}"
+                        class="{{ $baseClasses }} {{ $themeClasses }} {{ $hoverClasses }}"
+                        aria-label="View {{ $quiz->title }} Quiz Results">
+
                         <span class="flex justify-center items-center h-6 w-6 mr-3">
                             <x-fas-square-poll-horizontal />
-
-
                         </span>
                         {{ $quiz->title }}
+
+                        @if ($quiz->userHasCompleted(Auth::id())) <!-- Assuming you have a method to check if the user has completed the quiz -->
+                            <p class="text-sm text-green-500">Score: {{ $quiz->userScore(Auth::id()) }}%</p> <!-- Assuming you have a method to fetch the user's score -->
+                        @endif
                     </a>
                 @empty
-                    <p
-                        class="bg-red-100 border border-red-500 text-red-700 rounded-lg p-3 mt-2 dark:bg-red-900 dark:border-red-700 dark:text-red-200">
+                    <p class="bg-red-100 border border-red-500 text-red-700 rounded-lg p-3 mt-2 dark:bg-red-900 dark:border-red-700 dark:text-red-200">
                         No quizzes available for this course.
                     </p>
                 @endforelse
             </div>
+
         </div>
     </aside>
 

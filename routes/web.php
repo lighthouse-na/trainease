@@ -31,8 +31,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::post('/progress/update', [CourseProgressController::class, 'updateProgress']);
     Route::get('/training/{course_id}', [TrainingCoursesPage::class, 'show'])->name('training.show');
     Route::post('/enroll/{course_id}', [EnrollButton::class, 'enroll'])->name('enroll');
-    Route::get('quiz/{quiz}', [QuizComponent::class, 'show'])->name('quiz.show');
-
+    Route::get('/quiz/{quiz}', [QuizComponent::class, 'show'])->name('quiz.show');
     Route::get('/certificate/{enrollment}', function(Enrollment $enrollment) {
         // Generate the certificate HTML with data
         $template = View::make('downloads.certificate', ['enrollment' => $enrollment])->render();
