@@ -72,6 +72,7 @@ class QuizComponent extends Component
             $this->showResults = true;
             $this->quizCompleted = $this->score >= 50;
             $this->quizResponse->update(['status' => $this->quizCompleted ? 'passed' : 'failed', 'score' => $this->score]);
+            $this->quizResponse->increment('attempts');
         }
     }
 

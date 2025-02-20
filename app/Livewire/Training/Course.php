@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Training;
 
+use App\Models\QuizModule\Quiz;
+use App\Models\QuizModule\QuizResponses;
 use App\Models\Training\CourseMaterial;
 use App\Models\Training\CourseProgress;
 use App\Models\Training\Enrollment;
@@ -16,6 +18,7 @@ class Course extends Component
     public $courseMaterials;
     public $courseProgress;
     public $quizzes;
+    public $quizResponses;
     public $content;
     public $completedMaterials = [];
     public $enrollment;
@@ -29,6 +32,13 @@ class Course extends Component
         $this->content = $this->courseMaterials->first() ?? null; // Set to null if no materials exist
         $this->completedMaterials = $this->getCompletedMaterials(Auth::id());
         $this->enrollment = Enrollment::find($enrollment->id);
+        $this->quizResponses = QuizResponses::where('user_id', Auth::id())
+            ->whereIn('quiz_id', $this->quizzes->pluck('id'))
+            ->get()
+            ->groupBy('quiz_id')
+            ->map(function ($responses) {
+            return count($responses);
+            });
     }
     public function getCompletedMaterials($userId)
     {

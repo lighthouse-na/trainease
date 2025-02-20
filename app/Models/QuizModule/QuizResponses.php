@@ -11,7 +11,7 @@ class QuizResponses extends Model
     /** @use HasFactory<\Database\Factories\QuizModule\QuizResponsesFactory> */
     use HasFactory;
 
-    protected $fillable = ['user_id', 'quiz_id', 'score'];
+    protected $fillable = ['user_id', 'quiz_id', 'score', 'attempts'];
 
     protected $table = 'quiz_responses';
     public function user()
