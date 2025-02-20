@@ -19,7 +19,7 @@
     @livewireStyles
 </head>
 
-<body class="font-sans antialiased">
+<body x-data="themeSwitcher()" :class="{ 'dark': switchOn }" class="font-sans antialiased">
     <x-banner />
 
     <div class="min-h-screen bg-gray-50 dark:bg-gray-900">

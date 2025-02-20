@@ -10,14 +10,12 @@ class MyTrainings extends Component
 {
     public function index()
     {
-
-
         return view('staff.training.my-training');
     }
     public function render()
     {
 
-        $enrollments = Enrollment::where('user_id', Auth::user()->id)->with('training')->get();
+        $enrollments = Enrollment::where('user_id', Auth::user()->id)->with('training')->paginate(3);
 
         return view('livewire.staff.my-trainings',compact('enrollments'));
     }

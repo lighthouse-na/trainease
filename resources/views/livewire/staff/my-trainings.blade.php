@@ -4,7 +4,7 @@
             You are not enrolled in any courses yet. Start learning today!
         </p>
     @else
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 ">
             @foreach ($enrollments as $enrollment)
                 @if ($enrollment->status === 'approved' || $enrollment->status === 'completed')
                     <a href="{{ route('start.course', Crypt::encrypt($enrollment->training->id)) }}" class="block group">
@@ -57,6 +57,9 @@
                     </a>
                 @endif
             @endforeach
+        </div>
+        <div class="mt-6">
+            {{ $enrollments->links('pagination::tailwind') }}
         </div>
     @endif
 </div>

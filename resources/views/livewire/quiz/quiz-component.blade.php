@@ -7,11 +7,11 @@
             <h1 class="font-semibold text-2xl text-gray-800 dark:text-gray-200 leading-tight">
                 {{ $quiz->title }}
             </h1>
-            <h2 class="font-light text-xs text-gray-400 dark:text-gray-200 leading-tight">
+            <h2 class="font-light text-xs text-gray-400 dark:text-gray-300 leading-tight">
                 {{ $quiz->description }}
             </h2>
         </div>
-        <div class="w-full bg-gray-200 h-2 dark:bg-gray-700 mt-4">
+        <div class="w-full bg-gray-200 dark:bg-gray-700 h-2 mt-4">
             <div class="bg-indigo-600 h-2 rounded-r-full transition-all duration-300"
                 style="width: {{ $progress }}%;">
             </div>
@@ -21,8 +21,8 @@
     <div class="flex items-center justify-center my-6">
         @if ($showResults)
             <div class="text-center">
-                <h2 class="text-4xl">Your Score: {{ $score }}%</h2>
-                <p>{{ $quizCompleted ? 'You passed!' : 'You did not pass.' }}</p>
+                <h2 class="text-4xl text-gray-800 dark:text-gray-200">Your Score: {{ $score }}%</h2>
+                <p class="text-gray-600 dark:text-gray-300">{{ $quizCompleted ? 'You passed!' : 'You did not pass.' }}</p>
                 <button wire:click="backToCourse"
                     class="mt-4 px-6 py-3 text-lg font-semibold rounded-xl shadow-sm transition-all {{ $quizCompleted ? 'bg-green-500 hover:bg-green-600' : 'bg-red-500 hover:bg-red-600' }} text-white">
                     {{ $quizCompleted ? 'Finish' : 'Retry Quiz' }}
@@ -34,19 +34,19 @@
                     <h2 class="font-black text-md text-indigo-500 my-3">
                         Question {{ $currentQuestionIndex + 1 }} of {{ $totalQuestions }}
                     </h2>
-                    <p class="font-black text-2xl text-slate-800 mb-6">{{ $currentQuestion->question_text }}</p>
+                    <p class="font-black text-2xl text-slate-800 dark:text-gray-200 mb-6">{{ $currentQuestion->question_text }}</p>
                 @endif
 
                 <!-- Display options -->
                 @if ($currentQuestion->question_type == 'multiple_choice')
-                    <p class="text-sm text-gray-600 mb-2">Select one option:</p>
+                    <p class="text-sm text-gray-600 dark:text-gray-300 mb-2">Select one option:</p>
                     @foreach ($currentQuestion->options as $option)
                         <div class="my-2">
                             <label
-                                class="flex items-center gap-3 p-4 w-full border bg-white hover:bg-indigo-100 rounded-xl cursor-pointer transition-all active:bg-indigo-200">
+                                class="flex items-center gap-3 p-4 w-full border bg-white dark:bg-gray-800 hover:bg-indigo-100 dark:hover:bg-indigo-600 rounded-xl cursor-pointer transition-all active:bg-indigo-200">
                                 <input type="radio" wire:model="selectedOption" value="{{ $option->id }}"
                                     class="w-5 h-5 text-indigo-600 bg-gray-100 border-gray-300 rounded-full focus:ring-indigo-500" />
-                                <span class="text-lg text-gray-700">{{ $option->option_text }}</span>
+                                <span class="text-lg text-gray-700 dark:text-gray-300">{{ $option->option_text }}</span>
                             </label>
                         </div>
                     @endforeach
