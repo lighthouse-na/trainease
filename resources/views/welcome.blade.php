@@ -1218,12 +1218,8 @@
             <div class="relative w-full max-w-2xl px-6 lg:max-w-7xl">
                 <header class="grid grid-cols-2 items-center gap-2 py-10 lg:grid-cols-3">
                     <div class="flex lg:justify-center lg:col-start-2">
-                        <svg class="h-12 w-auto text-white lg:h-16 lg:text-[#FF2D20]" viewBox="0 0 62 65" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M61.8548 14.6253C61.8778 14.7102 61.8895 14.7978 61.8897 14.8858V28.5615C61.8898 28.737 61.8434 28.9095 61.7554 29.0614C61.6675 29.2132 61.5409 29.3392 61.3887 29.4265L49.9104 36.0351V49.1337C49.9104 49.4902 49.7209 49.8192 49.4118 49.9987L25.4519 63.7916C25.3971 63.8227 25.3372 63.8427 25.2774 63.8639C25.255 63.8714 25.2338 63.8851 25.2101 63.8913C25.0426 63.9354 24.8666 63.9354 24.6991 63.8913C24.6716 63.8838 24.6467 63.8689 24.6205 63.8589C24.5657 63.8389 24.5084 63.8215 24.456 63.7916L0.501061 49.9987C0.348882 49.9113 0.222437 49.7853 0.134469 49.6334C0.0465019 49.4816 0.000120578 49.3092 0 49.1337L0 8.10652C0 8.01678 0.0124642 7.92953 0.0348998 7.84477C0.0423783 7.8161 0.0598282 7.78993 0.0697995 7.76126C0.0884958 7.70891 0.105946 7.65531 0.133367 7.6067C0.152063 7.5743 0.179485 7.54812 0.20192 7.51821C0.230588 7.47832 0.256763 7.43719 0.290416 7.40229C0.319084 7.37362 0.356476 7.35243 0.388883 7.32751C0.425029 7.29759 0.457436 7.26518 0.498568 7.2415L12.4779 0.345059C12.6296 0.257786 12.8015 0.211853 12.9765 0.211853C13.1515 0.211853 13.3234 0.257786 13.475 0.345059L25.4531 7.2415H25.4556C25.4955 7.26643 25.5292 7.29759 25.5653 7.32626C25.5977 7.35119 25.6339 7.37362 25.6625 7.40104C25.6974 7.43719 25.7224 7.47832 25.7523 7.51821C25.7735 7.54812 25.8021 7.5743 25.8196 7.6067C25.8483 7.65656 25.8645 7.70891 25.8844 7.76126C25.8944 7.78993 25.9118 7.8161 25.9193 7.84602C25.9423 7.93096 25.954 8.01853 25.9542 8.10652V33.7317L35.9355 27.9844V14.8846C35.9355 14.7973 35.948 14.7088 35.9704 14.6253C35.9792 14.5954 35.9954 14.5692 36.0053 14.5405C36.0253 14.4882 36.0427 14.4346 36.0702 14.386C36.0888 14.3536 36.1163 14.3274 36.1375 14.2975C36.1674 14.2576 36.1923 14.2165 36.2272 14.1816C36.2559 14.1529 36.292 14.1317 36.3244 14.1068C36.3618 14.0769 36.3942 14.0445 36.4341 14.0208L48.4147 7.12434C48.5663 7.03694 48.7383 6.99094 48.9133 6.99094C49.0883 6.99094 49.2602 7.03694 49.4118 7.12434L61.3899 14.0208C61.4323 14.0457 61.4647 14.0769 61.5021 14.1055C61.5333 14.1305 61.5694 14.1529 61.5981 14.1803C61.633 14.2165 61.6579 14.2576 61.6878 14.2975C61.7103 14.3274 61.7377 14.3536 61.7551 14.386C61.7838 14.4346 61.8 14.4882 61.8199 14.5405C61.8312 14.5692 61.8474 14.5954 61.8548 14.6253ZM59.893 27.9844V16.6121L55.7013 19.0252L49.9104 22.3593V33.7317L59.8942 27.9844H59.893ZM47.9149 48.5566V37.1768L42.2187 40.4299L25.953 49.7133V61.2003L47.9149 48.5566ZM1.99677 9.83281V48.5566L23.9562 61.199V49.7145L12.4841 43.2219L12.4804 43.2194L12.4754 43.2169C12.4368 43.1945 12.4044 43.1621 12.3682 43.1347C12.3371 43.1097 12.3009 43.0898 12.2735 43.0624L12.271 43.0586C12.2386 43.0275 12.2162 42.9888 12.1887 42.9539C12.1638 42.9203 12.1339 42.8916 12.114 42.8567L12.1127 42.853C12.0903 42.8156 12.0766 42.7707 12.0604 42.7283C12.0442 42.6909 12.023 42.656 12.013 42.6161C12.0005 42.5688 11.998 42.5177 11.9931 42.4691C11.9881 42.4317 11.9781 42.3943 11.9781 42.3569V15.5801L6.18848 12.2446L1.99677 9.83281ZM12.9777 2.36177L2.99764 8.10652L12.9752 13.8513L22.9541 8.10527L12.9752 2.36177H12.9777ZM18.1678 38.2138L23.9574 34.8809V9.83281L19.7657 12.2459L13.9749 15.5801V40.6281L18.1678 38.2138ZM48.9133 9.14105L38.9344 14.8858L48.9133 20.6305L58.8909 14.8846L48.9133 9.14105ZM47.9149 22.3593L42.124 19.0252L37.9323 16.6121V27.9844L43.7219 31.3174L47.9149 33.7317V22.3593ZM24.9533 47.987L39.59 39.631L46.9065 35.4555L36.9352 29.7145L25.4544 36.3242L14.9907 42.3482L24.9533 47.987Z"
-                                fill="currentColor" />
-                        </svg>
+
+                        <h1 class="text-xl font-bold text-indigo-500">TrainEase</h1>
                     </div>
                     @if (Route::has('login'))
                         <nav class="-mx-3 flex flex-1 justify-end">
@@ -1250,133 +1246,112 @@
                 </header>
 
                 <main class="mt-6">
-                    <section class="relative w-full bg-white">
-                        <div class="absolute w-full h-32 bg-gradient-to-b from-gray-100 to-white"></div>
-                        <div class="relative w-full px-5 py-10 mx-auto sm:py-12 md:py-16 md:px-10 max-w-7xl">
-
-                            <h1
-                                class="mb-1 text-4xl font-extrabold leading-none text-gray-900 lg:text-5xl xl:text-6xl sm:mb-3">
-                                <a href="#_">The Project Blog</a></h1>
-                            <p class="text-lg font-medium text-gray-500 sm:text-2xl">Designs and layouts to help you
-                                with your app.</p>
-                            <div class="flex grid h-full grid-cols-12 gap-10 pb-10 mt-8 sm:mt-16">
+                    <section class="flex items-center justify-center py-16 bg-gray-100 min-w-screen">
+                        <div class="max-w-6xl px-12 mx-auto bg-gray-100 md:px-16 xl:px-10">
+                            <div class="flex flex-col items-center lg:flex-row">
                                 <div
-                                    class="relative flex flex-col items-start justify-end h-full col-span-12 overflow-hidden rounded-xl group md:col-span-6 xl:col-span-4">
+                                    class="flex flex-col items-start justify-center w-full h-full pr-8 mb-10 lg:mb-0 lg:w-1/2">
+                                    <p class="mb-2 text-base font-medium tracking-tight text-indigo-500 uppercase"
+                                        data-primary="indigo-500">Our customers love our product</p>
+                                    <h2
+                                        class="text-4xl font-extrabold leading-10 tracking-tight text-gray-900 sm:text-5xl sm:leading-none md:text-6xl lg:text-5xl xl:text-6xl">
+                                        Testimonials</h2>
+                                    <p class="my-6 text-lg text-gray-600">Don't just take our word for it, read from our
+                                        extensive list of case studies and customer testimonials.</p>
                                     <a href="#_"
-                                        class="block w-full transition duration-300 ease-in-out transform bg-center bg-cover h-96 hover:scale-110"
-                                        style="background-image:url('https://cdn.devdojo.com/images/may2021/quench-satisfying.jpg')">
-                                    </a>
-                                    <div
-                                        class="relative z-20 w-full h-auto py-8 text-white bg-purple-500 border-t-0 border-yellow-200 px-7">
-                                        <a href="#_"
-                                            class="inline-block text-xs font-semibold absolute top-0 -mt-3.5 rounded-full px-4 py-2 uppercase text-purple-500 bg-white">Resources</a>
-                                        <h2 class="mb-5 text-5xl font-bold"><a href="#_">Refreshing Designs</a>
-                                        </h2>
-                                        <p class="mb-2 text-lg font-normal text-purple-100 opacity-100">Quench
-                                            satisfying designs to help you stir up emotion and tell a story.</p>
-
-                                    </div>
+                                        class="flex items-center justify-center px-8 py-3 text-base font-medium leading-6 text-white transition duration-150 ease-in-out bg-indigo-600 border border-transparent rounded-md shadow hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo md:py-4 md:text-lg md:px-10"
+                                        data-primary="indigo-600" data-rounded="rounded-md">View Case Studies</a>
                                 </div>
-
-                                <div
-                                    class="relative flex flex-col items-start justify-end h-full col-span-12 overflow-hidden rounded-xl group md:col-span-6 xl:col-span-4">
-                                    <a href="#_"
-                                        class="block w-full transition duration-300 ease-in-out transform bg-center bg-cover h-96 hover:scale-110"
-                                        style="background-image:url('https://cdn.devdojo.com/images/may2021/orange.jpg')">
-                                    </a>
-                                    <div
-                                        class="relative z-20 w-full h-auto py-8 text-white bg-blue-400 border-t-0 border-yellow-200 px-7">
-                                        <a href="#_"
-                                            class="inline-block text-xs font-semibold absolute top-0 -mt-3.5 rounded-full px-4 py-2 uppercase text-blue-500 bg-white">Lifestyle</a>
-                                        <h2 class="mb-5 text-5xl font-bold"><a href="#_">Healthier Lifestyle</a>
-                                        </h2>
-                                        <p class="mb-2 text-lg font-normal text-blue-100 opacity-100">Living a healthier
-                                            lifestyle will help with your productivity and your mind-set.</p>
-
-                                    </div>
-                                </div>
-
-                                <div
-                                    class="relative flex flex-col items-start justify-end h-full col-span-12 overflow-hidden rounded-xl group sm:col-span-12 xl:col-span-4 sm:flex-row xl:flex-col">
-                                    <a href="#_"
-                                        class="block w-full transition duration-300 ease-in-out transform bg-center bg-cover h-96 hover:scale-110"
-                                        style="background-image:url('https://cdn.devdojo.com/images/may2021/gbc.jpg')"></a>
-                                    <div
-                                        class="relative z-20 flex flex-col items-start justify-center w-full h-auto py-8 text-white bg-yellow-400 border-t-0 border-yellow-200 sm:h-full xl:h-auto px-7">
-                                        <a href="#_"
-                                            class="inline-block text-xs font-semibold absolute sm:mb-5 xl:mb-0 sm:relative xl:absolute top-0 -mt-3.5 rounded-full px-4 py-2 uppercase text-yellow-400 bg-white">Entertainment</a>
-                                        <h2 class="mb-5 text-5xl font-bold"><a href="#_">Gaming Evolution</a></h2>
-                                        <p class="mb-2 text-lg font-normal opacity-100 text-yellow-50">Learn about the
-                                            evolution of gaming and how it started a revolution.</p>
-
-                                    </div>
-                                </div>
-
-                                <div class="grid grid-cols-12 col-span-12 gap-7">
-                                    <div
-                                        class="flex flex-col items-start col-span-12 overflow-hidden shadow-sm rounded-xl md:col-span-6 lg:col-span-4">
-                                        <a href="#_"
-                                            class="block transition duration-200 ease-out transform hover:scale-110">
-                                            <img class="object-cover w-full shadow-sm max-h-56"
-                                                src="https://cdn.devdojo.com/images/may2021/workstation.jpg">
-                                        </a>
-                                        <div
-                                            class="relative flex flex-col items-start px-6 bg-white border border-t-0 border-gray-200 py-7 rounded-b-2xl">
-                                            <div
-                                                class="bg-indigo-400 absolute top-0 -mt-3 flex items-center px-3 py-1.5 leading-none w-auto inline-block rounded-full text-xs font-medium uppercase text-white inline-block">
-                                                <span>Inspiration</span>
+                                <div class="w-full lg:w-1/2">
+                                    <blockquote
+                                        class="flex items-center justify-between w-full col-span-1 p-6 bg-white rounded-lg shadow"
+                                        data-rounded="rounded-lg" data-rounded-max="rounded-full">
+                                        <div class="flex flex-col pr-8">
+                                            <div class="relative pl-12">
+                                                <svg class="absolute left-0 w-10 h-10 text-indigo-500 fill-current"
+                                                    data-primary="indigo-500" xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 100 125">
+                                                    <path
+                                                        d="M30.7 42c0 6.1 12.6 7 12.6 22 0 11-7.9 19.2-18.9 19.2C12.7 83.1 5 72.6 5 61.5c0-19.2 18-44.6 29.2-44.6 2.8 0 7.9 2 7.9 5.4S30.7 31.6 30.7 42zM82.4 42c0 6.1 12.6 7 12.6 22 0 11-7.9 19.2-18.9 19.2-11.8 0-19.5-10.5-19.5-21.6 0-19.2 18-44.6 29.2-44.6 2.8 0 7.9 2 7.9 5.4S82.4 31.6 82.4 42z" />
+                                                </svg>
+                                                <p
+                                                    class="mt-2 text-sm text-gray-600 sm:text-base lg:text-sm xl:text-base">
+                                                    Awesome product! And the customer service is exceptionally well.</p>
                                             </div>
-                                            <h2 class="text-base font-bold sm:text-lg md:text-xl"><a href="#_">Best
-                                                    Workstations of the Year</a></h2>
-                                            <p class="mt-2 text-sm text-gray-500">Check out these inspiring workstations
-                                                to get ideas on how to level-up your workstation.</p>
-                                        </div>
-                                    </div>
 
-                                    <div
-                                        class="flex flex-col items-start col-span-12 overflow-hidden shadow-sm rounded-xl md:col-span-6 lg:col-span-4">
-                                        <a href="#_"
-                                            class="block transition duration-200 ease-out transform hover:scale-110">
-                                            <img class="object-cover w-full shadow-sm max-h-56"
-                                                src="https://cdn.devdojo.com/images/may2021/snacks.jpg">
-                                        </a>
-                                        <div
-                                            class="relative flex flex-col items-start px-6 bg-white border border-t-0 border-gray-200 py-7 rounded-b-2xl">
-                                            <div
-                                                class="bg-red-400 absolute top-0 -mt-3 flex items-center px-3 py-1.5 leading-none w-auto inline-block rounded-full text-xs font-medium uppercase text-white inline-block">
-                                                <span>Food</span>
-                                            </div>
-                                            <h2 class="text-base font-bold sm:text-lg md:text-xl"><a
-                                                    href="#_">Eating for Productivity</a></h2>
-                                            <p class="mt-2 text-sm text-gray-500">Learn how to be more disciplined in
-                                                your diet and how you can eat to maximize productivity.</p>
+                                            <h3
+                                                class="pl-12 mt-3 text-sm font-medium leading-5 text-gray-800 truncate sm:text-base lg:text-sm lg:text-base">
+                                                Jane Cooper
+                                                <span class="mt-1 text-sm leading-5 text-gray-500 truncate">- CEO
+                                                    SomeCompany</span>
+                                            </h3>
                                         </div>
-                                    </div>
+                                        <img class="flex-shrink-0 w-20 h-20 bg-gray-300 rounded-full xl:w-24 xl:h-24"
+                                            src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60"
+                                            alt="">
+                                    </blockquote>
+                                    <blockquote
+                                        class="flex items-center justify-between w-full col-span-1 p-6 mt-4 bg-white rounded-lg shadow"
+                                        data-rounded="rounded-lg" data-rounded-max="rounded-full">
+                                        <div class="flex flex-col pr-10">
+                                            <div class="relative pl-12">
+                                                <svg class="absolute left-0 w-10 h-10 text-indigo-500 fill-current"
+                                                    data-primary="indigo-500" xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 100 125">
+                                                    <path
+                                                        d="M30.7 42c0 6.1 12.6 7 12.6 22 0 11-7.9 19.2-18.9 19.2C12.7 83.1 5 72.6 5 61.5c0-19.2 18-44.6 29.2-44.6 2.8 0 7.9 2 7.9 5.4S30.7 31.6 30.7 42zM82.4 42c0 6.1 12.6 7 12.6 22 0 11-7.9 19.2-18.9 19.2-11.8 0-19.5-10.5-19.5-21.6 0-19.2 18-44.6 29.2-44.6 2.8 0 7.9 2 7.9 5.4S82.4 31.6 82.4 42z" />
+                                                </svg>
+                                                <p
+                                                    class="mt-2 text-sm text-gray-600 sm:text-base lg:text-sm xl:text-base">
+                                                    I can't express enough, how amazing this service has been for my
+                                                    company.</p>
+                                            </div>
+                                            <h3
+                                                class="pl-12 mt-3 text-sm font-medium leading-5 text-gray-800 truncate sm:text-base lg:text-sm lg:text-base">
+                                                John Doe
+                                                <span class="mt-1 text-sm leading-5 text-gray-500 truncate">- CEO
+                                                    SomeCompany</span>
+                                            </h3>
+                                            <p class="mt-1 text-sm leading-5 text-gray-500 truncate"></p>
+                                        </div>
+                                        <img class="flex-shrink-0 w-24 h-24 bg-gray-300 rounded-full"
+                                            src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&aauto=format&fit=facearea&facepad=4&w=256&h=256&q=60"
+                                            alt="">
+                                    </blockquote>
+                                    <blockquote
+                                        class="flex items-center justify-between w-full col-span-1 p-6 mt-4 bg-white rounded-lg shadow"
+                                        data-rounded="rounded-lg" data-rounded-max="rounded-full">
+                                        <div class="flex flex-col pr-10">
+                                            <div class="relative pl-12">
+                                                <svg class="absolute left-0 w-10 h-10 text-indigo-500 fill-current"
+                                                    data-primary="indigo-500" xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 100 125">
+                                                    <path
+                                                        d="M30.7 42c0 6.1 12.6 7 12.6 22 0 11-7.9 19.2-18.9 19.2C12.7 83.1 5 72.6 5 61.5c0-19.2 18-44.6 29.2-44.6 2.8 0 7.9 2 7.9 5.4S30.7 31.6 30.7 42zM82.4 42c0 6.1 12.6 7 12.6 22 0 11-7.9 19.2-18.9 19.2-11.8 0-19.5-10.5-19.5-21.6 0-19.2 18-44.6 29.2-44.6 2.8 0 7.9 2 7.9 5.4S82.4 31.6 82.4 42z" />
+                                                </svg>
+                                                <p
+                                                    class="mt-2 text-sm text-gray-600 sm:text-base lg:text-sm xl:text-base">
+                                                    I can't express enough, how amazing this service has been for my
+                                                    company.</p>
+                                            </div>
 
-                                    <div
-                                        class="flex flex-col items-start col-span-12 overflow-hidden shadow-sm rounded-xl md:col-span-6 lg:col-span-4">
-                                        <a href="#_"
-                                            class="block transition duration-200 ease-out transform hover:scale-110">
-                                            <img class="object-cover w-full shadow-sm max-h-56"
-                                                src="https://cdn.devdojo.com/images/may2021/book-design.jpg">
-                                        </a>
-                                        <div
-                                            class="relative flex flex-col items-start px-6 bg-white border border-t-0 border-gray-200 py-7 rounded-b-2xl">
-                                            <div
-                                                class="bg-purple-500 absolute top-0 -mt-3 flex items-center px-3 py-1.5 leading-none w-auto inline-block rounded-full text-xs font-medium uppercase text-white inline-block">
-                                                <span>Resources</span>
-                                            </div>
-                                            <h2 class="text-base font-bold sm:text-lg md:text-xl"><a href="#_">A
-                                                    Design Mind-set</a></h2>
-                                            <p class="mt-2 text-sm text-gray-500">What does it mean to have a design
-                                                mind-set? Learn how to improve your eye for design.</p>
+                                            <h3
+                                                class="pl-12 mt-3 text-sm font-medium leading-5 text-gray-800 truncate sm:text-base lg:text-sm lg:text-base">
+                                                John Smith
+                                                <span class="mt-1 text-sm leading-5 text-gray-500 truncate">- CEO
+                                                    SomeCompany</span>
+                                            </h3>
+                                            <p class="mt-1 text-sm leading-5 text-gray-500 truncate"></p>
                                         </div>
-                                    </div>
+                                        <img class="flex-shrink-0 w-24 h-24 bg-gray-300 rounded-full"
+                                            src="https://images.unsplash.com/photo-1545167622-3a6ac756afa4?ixlib=rrb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&aauto=format&fit=facearea&facepad=4&w=256&h=256&q=60"
+                                            alt="">
+                                    </blockquote>
                                 </div>
-
                             </div>
                         </div>
                     </section>
+
 
 
 
