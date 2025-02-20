@@ -9,15 +9,28 @@ class UserAnswer extends Model
 {
     //
     use HasFactory;
-    protected $fillable = ['user_id', 'question_id', 'answer_text'];
+    protected $fillable = [ 'question_id', 'answer_text','quiz_response_id', 'option_id', 'is_correct'];
 
+    public function quizResponse()
+    {
+        return $this->belongsTo(QuizResponses::class);
+    }
+
+    // Relationship: A user answer belongs to a question
     public function question()
     {
         return $this->belongsTo(Question::class);
     }
 
-    public function selectedOptions()
+    // Relationship: A user answer belongs to a selected option
+    public function selectedOption()
     {
-        return $this->hasMany(UserSelectedOption::class);
+        return $this->belongsTo(Option::class, 'option_id');
+    }
+
+    // Check if this answer is correct
+    public function isCorrect()
+    {
+        return $this->selectedOption && $this->selectedOption->is_correct;
     }
 }

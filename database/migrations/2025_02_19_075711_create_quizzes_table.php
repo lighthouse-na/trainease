@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('title');
             $table->text('description')->nullable();
             $table->integer('max_attempts')->default(1);
-            $table->integer('passing_score')->default(0);
+            $table->integer('passing_score')->default(70);
             $table->timestamps();
         });
     }

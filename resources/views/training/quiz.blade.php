@@ -22,10 +22,10 @@
 <body class="font-sans antialiased">
     <x-banner />
 
-    <div class="min-h-screen bg-slate-50 dark:bg-gray-900">
+    <div class="min-h-screen bg-slate-50 dark:bg-gray-900 overflow-y-scrollable">
 
 
-        <div class="h-screen">
+        <div class="min-h-screen">
             @livewire('quiz.quiz-component', ['quiz' => $quiz])
 
         </div>

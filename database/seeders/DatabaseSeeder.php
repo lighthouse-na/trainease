@@ -155,12 +155,13 @@ class DatabaseSeeder extends Seeder
 
             $progressBar->finish();
             $this->command->info("\nSeeding completed successfully.");
-
             $this->command->info('Database seeding completed!');
         }
 
-        // Function to generate multiple-choice questions
-        private function generateMultipleChoiceQuestion($topic)
+        /**
+         * Generate a multiple-choice question based on a topic.
+         */
+        private function generateMultipleChoiceQuestion(string $topic): string
         {
             $sampleQuestions = [
                 "What is the main purpose of {$topic}?",
@@ -173,8 +174,10 @@ class DatabaseSeeder extends Seeder
             return $sampleQuestions[array_rand($sampleQuestions)];
         }
 
-        // Function to generate multiple-choice options
-        private function generateMultipleChoiceOptions(Question $question)
+        /**
+         * Generate multiple-choice options for a given question.
+         */
+        private function generateMultipleChoiceOptions(Question $question): void
         {
             $correctAnswers = [
                 "Correct principle of {$question->question_text}",
@@ -206,6 +209,8 @@ class DatabaseSeeder extends Seeder
                     'is_correct' => false,
                 ]);
             }
+
+
 
 
         // // Start seeding Subsistence and Travel with progress bar

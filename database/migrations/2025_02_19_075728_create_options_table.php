@@ -18,8 +18,6 @@ return new class extends Migration
             $table->foreignId('question_id')->constrained()->onDelete('cascade');
             $table->text('option_text');
             $table->boolean('is_correct')->nullable(); // For MCQ & Multiple Response
-            $table->integer('sequence_order')->nullable(); // For Sequence Type
-            $table->string('match_pair')->nullable(); // For Matching Type ✅ ADD THIS
             $table->timestamps();
         });
     }

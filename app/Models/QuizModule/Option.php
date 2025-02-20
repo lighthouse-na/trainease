@@ -15,4 +15,10 @@ class Option extends Model
     {
         return $this->belongsTo(Question::class);
     }
+
+    // Relationship: An option can be selected in many user answers
+    public function userAnswers()
+    {
+        return $this->hasMany(UserAnswer::class, 'selected_option_id');
+    }
 }

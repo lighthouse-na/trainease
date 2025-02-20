@@ -16,8 +16,15 @@ class Question extends Model
         return $this->belongsTo(Quiz::class);
     }
 
+    // Relationship: A question has many options
     public function options()
     {
         return $this->hasMany(Option::class);
+    }
+
+    // Relationship: A question has many user answers
+    public function userAnswers()
+    {
+        return $this->hasMany(UserAnswer::class);
     }
 }
