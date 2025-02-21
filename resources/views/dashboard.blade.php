@@ -1,4 +1,5 @@
 <x-app-layout>
+    @role('staff')
     <x-slot name="header">
         <h2 class="font-light text-xs text-gray-400 dark:text-gray-200 leading-tight">
             {{ __('Dashboard') }}
@@ -11,17 +12,35 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="">
-                @role('admin')
-                    @livewire('admin.admin-dashboard')
-                @endrole
-                @role('trainer')
-                    @livewire('trainer.trainer-dashboard')
-                @endrole
                 {{-- Display User Content --}}
-                @role('staff')
+
                     @livewire('staff.staff-dashboard')
-                @endrole
+
             </div>
         </div>
     </div>
+    @endrole
+
+    @role('admin')
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="">
+                {{-- Display User Content --}}
+                @livewire('admin.admin-dashboard')
+            </div>
+        </div>
+    </div>
+@endrole
+
+@role('trainer')
+<div class="m-0">
+    <div class="m-0">
+        <div class="">
+            {{-- Display User Content --}}
+            @livewire('trainer.trainer-dashboard')
+        </div>
+    </div>
+</div>
+@endrole
+
 </x-app-layout>

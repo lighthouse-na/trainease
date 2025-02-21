@@ -6,6 +6,7 @@ use App\Models\QuizModule\Quiz;
 use App\Models\QuizModule\UserAnswer;
 use App\Models\QuizModule\QuizResponses;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Livewire\Component;
 
 class QuizComponent extends Component
@@ -22,6 +23,7 @@ class QuizComponent extends Component
 
     public function mount(Quiz $quiz)
     {
+
         $this->quiz = $quiz;
         $this->questions = $quiz->questions()->with('options')->get();
         $this->totalQuestions = $this->questions->count();

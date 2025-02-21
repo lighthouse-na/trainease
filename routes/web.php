@@ -11,8 +11,7 @@ use App\Models\Training\Enrollment;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
-use Spatie\Browsershot\Browsershot;
-use Spatie\LaravelPdf\Facades\Pdf;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 
 Route::get('/', function () {
@@ -34,17 +33,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::get('/quiz/{quiz}', [QuizComponent::class, 'show'])->name('quiz.show');
     Route::get('/certificate/{enrollment}', function(Enrollment $enrollment) {
         // Generate the certificate HTML with data
-        $template = View::make('downloads.certificate', ['enrollment' => $enrollment])->render();
-
-        // Define a temporary file path for the PDF
-        $pdfPath = storage_path('app/certificates/certificate-' . $enrollment->id . '.pdf');
-
-        // Generate PDF using Browsershot
-        Browsershot::html($template)
-            ->showBackground()
-            ->savePdf($pdfPath);
+            $pdf = Pdf::loadView('downloads.certificate', ['enrollment' => $enrollment]);
+        return $pdf->download('certificate.pdf');
 
         // Return the PDF for download
-        return Response::download($pdfPath, 'certificate-' . $enrollment->id . '.pdf')->deleteFileAfterSend(true);
     })->name('certificate');
 });
