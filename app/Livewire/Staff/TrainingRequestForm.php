@@ -29,21 +29,21 @@ class TrainingRequestForm extends Component
     public function submit()
     {
         $this->validate([
-            'training_id' => 'required|exists:trainings,id',
+            'training_title' => 'required|string|max:255',
             'title' => 'required|string|max:255',
             'description' => 'required|string',
         ]);
 
         TrainingRequest::create([
             'user_id' => Auth::id(),
-            'training_id' => $this->training_id,
+            'training_title' => $this->training_title,
             'title' => $this->title,
             'description' => $this->description,
             'status' => 'pending',
         ]);
 
         // Reset form fields
-        $this->reset(['training_id', 'title', 'description']);
+        $this->reset(['training_title', 'title', 'description']);
 
         // Refresh requests
         $this->loadRequests();

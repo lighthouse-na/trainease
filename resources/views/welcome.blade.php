@@ -1235,7 +1235,7 @@
                         <span>
                             <h1 x-data="{
                                 startingAnimation: { opacity: 0 },
-                                endingAnimation: { opacity: 1, stagger: 0.08, duration: 2.7, ease: 'power4.easeOut' },
+                                endingAnimation: { opacity: 1, stagger: 0.08, duration: 1.7, ease: 'power4.easeOut' },
                                 addCNDScript: true,
                                 splitCharactersIntoSpans(element) {
                                     text = element.innerHTML;

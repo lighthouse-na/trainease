@@ -20,9 +20,7 @@
                         <x-nav-link href="{{ route('training.courses') }}" :active="request()->routeIs('training.courses')">
                             {{ __('Online Courses') }}
                         </x-nav-link>
-                        <x-nav-link href="{{ route('training.request') }}" :active="request()->routeIs('training.request')">
-                            {{ __('Request for Training') }}
-                        </x-nav-link>
+
                     @endrole
 
 
@@ -137,7 +135,9 @@
                                 {{ __('Manage Account') }}
                             </div>
 
-
+                            <x-dropdown-link href="{{ route('training.request') }}">
+                                {{ __('Request for Training') }}
+                            </x-dropdown-link>
 
                             <x-dropdown-link href="{{ route('profile.show') }}">
                                 {{ __('Profile') }}

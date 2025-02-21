@@ -3,6 +3,7 @@
         $progress = round((($this->currentQuestionIndex + 1) / max(1, $this->totalQuestions)) * 100);
     @endphp
     <header class="bg-white dark:bg-gray-800 border-b">
+
         <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
             <h1 class="font-semibold text-2xl text-gray-800 dark:text-gray-200 leading-tight">
                 {{ $quiz->title }}
@@ -35,6 +36,8 @@
                         Question {{ $currentQuestionIndex + 1 }} of {{ $totalQuestions }}
                     </h2>
                     <p class="font-black text-2xl text-slate-800 dark:text-gray-200 mb-6">{{ $currentQuestion->question_text }}</p>
+                    <x-validation-errors class="mb-4" />
+
                 @endif
 
                 <!-- Display options -->
@@ -53,6 +56,7 @@
                 @endif
 
                 <div class="my-6 w-full flex justify-center items-center">
+
                     <button wire:click="submitAnswer"
                         class="flex justify-center items-center bg-indigo-500 text-white px-4 py-2 rounded">
                         Submit

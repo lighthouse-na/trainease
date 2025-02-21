@@ -6,7 +6,6 @@ use App\Models\QuizModule\Quiz;
 use App\Models\QuizModule\UserAnswer;
 use App\Models\QuizModule\QuizResponses;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Crypt;
 use Livewire\Component;
 
 class QuizComponent extends Component
@@ -37,6 +36,12 @@ class QuizComponent extends Component
 
     public function submitAnswer()
     {
+        $this->resetErrorBag('selectedOption');
+        // Validate that an option is selected
+        if ($this->selectedOption === null) {
+            $this->addError('selectedOption', 'Please select an answer before proceeding.');
+            return;
+        }
         if (!isset($this->questions[$this->currentQuestionIndex])) {
             return;
         }
@@ -89,10 +94,12 @@ class QuizComponent extends Component
         $this->score = round(($correctAnswers / max(1, $this->totalQuestions)) * 100, 2);
     }
 
+    // Redirects to the course page
     public function backToCourse()
     {
         return redirect()->route('start.course', ['course_id' => encrypt($this->quiz->training->id)]);
     }
+    //Displays quiz
     public function show(Quiz $quiz)
     {
         return view('training.quiz', compact('quiz'));

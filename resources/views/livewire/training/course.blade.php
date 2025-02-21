@@ -79,7 +79,7 @@
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Course Quizzes</h3>
                 @forelse ($quizzes as $quiz)
                     @php
-                        $attemptsUsed = $quizResponses[$quiz->id] ?? 0;
+                        $attemptsUsed = Auth::user()->getQuizAttempts($quiz->id) ?? 0;
                         $remainingAttempts = $quiz->max_attempts - $attemptsUsed;
                         $isDisabled = $remainingAttempts <= 0;
                     @endphp
@@ -147,9 +147,7 @@
                                 <div class="flex items-center ml-auto">
                                     <p class="flex justify-end bg-white text-xs p-1 rounded-lg">
                                         @if ($quiz->userHasCompleted(Auth::id()))
-                                            <!-- Assuming you have a method to check if the user has completed the quiz -->
                                             {{ $quiz->userScore(Auth::id()) }}%
-                                            <!-- Assuming you have a method to fetch the user's score -->
                                         @endif
                                     </p>
                                 </div>

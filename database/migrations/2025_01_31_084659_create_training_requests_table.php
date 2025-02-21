@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('training_requests', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->onDelete('cascade');
-            $table->foreignId('training_id')->onDelete('cascade');
+            $table->string('training_title');
             $table->string('title');
             $table->text('description');
             $table->string('status');

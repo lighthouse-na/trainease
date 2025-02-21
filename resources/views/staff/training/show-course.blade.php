@@ -31,8 +31,8 @@
                 <h1 class="text-gray-100 text-4xl font-bold">{{ $training->title }}</h1>
                 <p class="text-gray-300 text-lg mt-2">{{ $training->description }}</p>
             </div>
-            <div class="absolute top-6 right-10 p-4 rounded-lg  text-center">
-                <div class="absolute top-6 right-10 p-4 rounded-lg text-center">
+            <div class="absolute top-6 right-10 p-4 rounded-xl  text-center">
+                <div class="absolute top-6 right-10 p-4 rounded-xl text-center">
                     @livewire('training.components.enroll-button', ['training' => $training])
                 </div>
 
@@ -43,10 +43,10 @@
         <!-- Course Content & Instructor Section -->
         <div class="grid grid-cols-4 gap-6 p-10">
             <!-- Course Content -->
-            <div class="col-span-3 bg-white dark:bg-gray-800 p-6 rounded-lg shadow border dark:border-gray-700">
+            <div class="col-span-3 dark:bg-gray-800 p-6 rounded-xl  dark:border-gray-700">
                 <h2 class="text-2xl font-bold mb-4 text-gray-800 dark:text-gray-200">Course Content</h2>
                 <div x-data="{ activeAccordion: '' }"
-                    class="relative w-full mx-auto overflow-hidden border border-gray-200 dark:border-gray-700 divide-y divide-gray-200 dark:divide-gray-700 rounded-lg">
+                    class="relative w-full mx-auto overflow-hidden border border-gray-200 dark:border-gray-700 divide-y divide-gray-200 dark:divide-gray-700 rounded-xl bg-white">
                     @foreach ($training->materials as $index => $chapter)
                         <div x-data="{ id: 'accordion-{{ $index }}' }" class="cursor-pointer group">
                             <button @click="activeAccordion = (activeAccordion == id) ? '' : id"
@@ -73,7 +73,7 @@
 
             <!-- Instructor Card -->
             <div
-                class="col-span-1 bg-white dark:bg-gray-800 p-6 rounded-lg shadow border dark:border-gray-700">
+                class="col-span-1 bg-white dark:bg-gray-800 p-6 rounded-xl shadow border dark:border-gray-700">
                 <h2 class="text-xl font-bold mb-4 text-gray-800 dark:text-gray-200">Instructor</h2>
                 <div class="flex items-center">
                     @if ($training->trainer->profile_photo_path)
@@ -124,7 +124,7 @@
                                             }, this.hoverCardLeaveDelay);
                                         }
                                     }" class="relative" @mouseover="hoverCardEnter()" @mouseleave="hoverCardLeave()">
-                                    <a href="#_" class="hover:underline bg-gray-100 p-1 my-2 rounded-lg ">@<span>{{ $user->last_name }}{{ substr($user->first_name, 0, 1) }}</span></a>
+                                    <a href="#_" class="hover:underline bg-gray-100 p-1 my-2 rounded-xl ">@<span>{{ $user->last_name }}{{ substr($user->first_name, 0, 1) }}</span></a>
                                     <div x-show="hoverCardHovered" class="absolute top-0 w-[365px] max-w-lg mt-5 z-30 -translate-x-1/2 translate-y-3 left-1/2" x-cloak>
                                         <div x-show="hoverCardHovered" class="w-[full] h-auto bg-white space-x-3 p-5 flex items-start rounded-md shadow-sm border border-neutral-200/70" x-transition>
                                             <div class="w-14 h-14 flex items-center justify-center rounded-full bg-red-600 text-white font-bold text-lg p-4">

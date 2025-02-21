@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Models\Organisation\Department;
+use App\Models\QuizModule\QuizResponses;
 use App\Models\QuizModule\UserAnswer;
 use App\Models\Training\Badge;
 use App\Models\Training\Certificate;
@@ -177,5 +178,16 @@ class User extends Authenticatable
 
         return $totalMaterials > 0 ? ($completedMaterials / $totalMaterials) * 100 : 0;
     }
-    
+
+    public function quizResponses()
+    {
+        return $this->hasMany(QuizResponses::class, 'user_id');
+    }
+
+    public function getQuizAttempts($quiz_id)
+    {
+        return $this->quizResponses()
+            ->where('quiz_id', $quiz_id)
+            ->sum('attempts');
+    }
 }
