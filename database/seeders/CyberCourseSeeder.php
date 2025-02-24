@@ -19,7 +19,7 @@ class CyberCourseSeeder extends Seeder
     {
         //
         $course = Training::create([
-            'title' => 'Occupational Cybersecurity',
+            'title' => 'Cyber Security Awareness',
             'description' => 'A fundamental cybersecurity awareness course for Telecom Namibia employees.',
             'user_id' => 1,
             'training_type' => 'online',

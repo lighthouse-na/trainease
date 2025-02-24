@@ -5,6 +5,8 @@
 [x-cloak] {
     display: none;
 }
+
+
 /* Apply to all scrollable elements */
 html{
     scroll-behavior: smooth;

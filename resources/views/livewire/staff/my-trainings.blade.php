@@ -7,7 +7,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 ">
             @foreach ($enrollments as $enrollment)
                 @if ($enrollment->status === 'approved' || $enrollment->status === 'completed')
-                    <a href="{{ route('start.course', Crypt::encrypt($enrollment->training->id)) }}" class="block group">
+                    <a href="{{ route('start.course', Hashids::encode($enrollment->training->id)) }}" class="block group">
                         <div class="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-2xl overflow-hidden shadow-md hover:shadow-lg transition duration-300 ease-in-out">
 
                             {{-- Image at the top with hover zoom effect --}}

@@ -10,6 +10,7 @@
         "barryvdh/laravel-dompdf": "^3.1",
         "codeat3/blade-academicons": "^1.7",
         "davidhsianturi/blade-bootstrap-icons": "^1.5",
+        "hashids/hashids": "^5.0",
         "laravel/framework": "^11.31",
         "laravel/jetstream": "^5.3",
         "laravel/sanctum": "^4.0",
@@ -19,7 +20,8 @@
         "spatie/browsershot": "^5.0",
         "spatie/laravel-markdown": "^2.7",
         "spatie/laravel-pdf": "^1.5",
-        "spatie/laravel-permission": "^6.10"
+        "spatie/laravel-permission": "^6.10",
+        "vinkla/hashids": "^12.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

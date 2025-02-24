@@ -11,6 +11,7 @@ use App\Models\Training\Training;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Livewire\Component;
+use Vinkla\Hashids\Facades\Hashids;
 
 class Course extends Component
 {
@@ -113,7 +114,7 @@ class Course extends Component
     public function show($training_id)
     {
         // Ensure the user is enrolled and their status is "approved" or "completed"
-        $training = Training::findOrFail(Crypt::decrypt($training_id));
+        $training = Training::findOrFail(Hashids::decode($training_id)[0]);
         $enrollment = Auth::user()
             ->enrollments->where('training_id', $training->id)
             ->whereIn('status', ['approved', 'completed'])

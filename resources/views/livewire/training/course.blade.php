@@ -33,7 +33,7 @@
 
                 @elseif ($enrollment->status === 'completed')
                     <div class="flex justify-between items-center mt-4">
-                        <a href="{{ route('certificate', ['enrollment' => $enrollment]) }}"
+                        <a href="{{ route('certificate', ['enrollment' => Hashids::encode($enrollment->id)]) }}"
                             class="bg-white border px-3 py-2 text-xs rounded-lg cursor-pointer hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200">
                             Download Certificate
                         </a>
@@ -198,6 +198,7 @@
                     {{ $content->id === $courseMaterials->first()->id ? 'disabled' : '' }}>
                     <x-fas-angle-left class="h-3 w-3" />
                 </button>
+
 
                 <button wire:click="loadNextMaterial"
                     class="m-4 bg-gray-500 text-white px-4 py-2 rounded-lg disabled:opacity-50 transition hover:bg-gray-600"
