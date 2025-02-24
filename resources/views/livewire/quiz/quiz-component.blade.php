@@ -30,7 +30,7 @@
                 </button>
             </div>
         @else
-            <div class="w-1/2 h-1/2 overflow-y-auto">
+            <div class="w-1/2 h-1/2 overflow-y-auto"  x-data="{ questionKey: 0 }" x-effect="questionKey = {{ $currentQuestionIndex }}; $el.classList.remove('animate-fadeIn'); void $el.offsetWidth; $el.classList.add('animate-fadeIn');">
                 @if ($currentQuestion)
                     <h2 class="font-black text-md text-indigo-500 my-3">
                         Question {{ $currentQuestionIndex + 1 }} of {{ $totalQuestions }}

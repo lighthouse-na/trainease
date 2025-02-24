@@ -7,6 +7,7 @@ use App\Models\QuizModule\UserAnswer;
 use App\Models\QuizModule\QuizResponses;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Vinkla\Hashids\Facades\Hashids;
 
 class QuizComponent extends Component
 {
@@ -97,7 +98,7 @@ class QuizComponent extends Component
     // Redirects to the course page
     public function backToCourse()
     {
-        return redirect()->route('start.course', ['course_id' => encrypt($this->quiz->training->id)]);
+        return redirect()->route('start.course', ['course_id' => Hashids::encode($this->quiz->training->id)]);
     }
     //Displays quiz
     public function show(Quiz $quiz)
