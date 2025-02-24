@@ -2,22 +2,19 @@
 
 namespace App\Livewire\Staff;
 
-use App\Models\Training\Training;
 use App\Models\Training\TrainingRequest;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class TrainingRequestForm extends Component
 {
-    public $trainings;
-    public $training_id;
+    public $training_title;
     public $title;
     public $description;
     public $requests;
 
     public function mount()
     {
-        $this->trainings = Training::all();
         $this->loadRequests();
     }
 
@@ -62,7 +59,8 @@ class TrainingRequestForm extends Component
         }
     }
 
-    public function index(){
+    public function index()
+    {
         return view('staff.training.request-form');
     }
     public function render()
