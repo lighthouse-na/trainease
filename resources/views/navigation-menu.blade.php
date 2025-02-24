@@ -20,9 +20,7 @@
                         <x-nav-link href="{{ route('training.courses') }}" :active="request()->routeIs('training.courses')">
                             {{ __('Online Courses') }}
                         </x-nav-link>
-                        <x-nav-link href="{{ route('test.certificate') }}" :active="request()->routeIs('test.certificate')">
-                            {{ __('Test Certificate') }}
-                        </x-nav-link>
+
 
 
                     @endrole

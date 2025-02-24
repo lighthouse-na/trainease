@@ -49,12 +49,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 
         // Return the PDF for download
     })->name('certificate');
-    Route::get('/test/certificate', function () {
-        // Generate the certificate HTML with data
-        $data = Enrollment::find(1);
-        return view('downloads.certificate', ['enrollment' => $data]);
 
-    })->name('test.certificate');
 
 
 });
