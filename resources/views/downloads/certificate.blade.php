@@ -47,7 +47,7 @@
 <body x-data="themeSwitcher()" :class="{ 'dark': switchOn }" class="font-nunito antialiased">
     <div class="content">
         <div class="grid grid-cols-5 gap-4">
-            <div class="bg-[url(https://cdn.dribbble.com/userupload/3482018/file/original-502168680c0e2ac6bc92ba46b6f6cbe3.png?resize=1504x1504&vertical=center)] bg-center col-span-1"></div>
+            <div class="bg-[url(https://cdn.dribbble.com/userupload/3482018/file/original-502168680c0e2ac6bc92ba46b6f6cbe3.png?resize=1504x1504&vertical=center)] bg-center col-span-1 "></div>
               <div class="col-span-4">
                 <div class="h-auto p-6 dark:bg-gray-900">
                   <div class="grid grid-cols-2 gap-4">
@@ -82,16 +82,17 @@
                               <path fill-rule="evenodd" clip-rule="evenodd" d="M240.172 22.994c-8.007 1.246-15.477 2.23-31.26 4.114-18.506 2.21-26.323 2.977-34.487 3.386-2.971.149-3.727.324-6.566 1.523-15.124 6.388-43.775 9.404-69.425 7.31-26.207-2.14-50.986-7.103-78-15.624C10.912 20.7.988 16.143.734 14.657c-.066-.381.043-.344 1.324.456 10.423 6.506 49.649 16.322 77.8 19.468 23.708 2.65 38.249 2.95 55.821 1.156 9.407-.962 24.451-3.773 25.101-4.692.074-.104.053-.155-.058-.135-1.062.195-13.863-.271-18.848-.687-16.681-1.389-28.722-4.345-38.142-9.364-15.294-8.15-7.298-19.232 14.802-20.514 16.095-.934 32.793 1.517 47.423 6.96 13.524 5.033 17.942 12.326 11.463 18.922l-.859.874.697-.006c2.681-.026 15.304-1.302 29.208-2.953 25.845-3.07 35.659-4.519 54.027-7.978 9.863-1.858 11.021-2.048 13.055-2.145a61.901 61.901 0 0 0 4.506-.417c1.891-.259 2.151-.267 1.543-.047-.402.145-2.33.913-4.285 1.707-4.635 1.882-5.202 2.07-8.736 2.903-3.414.805-19.773 3.797-26.404 4.829Zm40.321-9.93c.1-.066.231-.085.29-.041.059.043-.024.096-.183.119-.177.024-.219-.007-.107-.079ZM172.299 26.22c9.364-6.058 5.161-12.039-12.304-17.51-11.656-3.653-23.145-5.47-35.243-5.576-22.552-.198-33.577 7.462-21.321 14.814 12.012 7.205 32.994 10.557 61.531 9.831 4.563-.116 5.372-.288 7.337-1.559Z"></path>
                             </svg>
 
-                            <span class="relative my-3 text-left text-3xl">
+                            <span class="relative my-3 text-left text-2xl">
                               @php
                                   $words = explode(' ', $enrollment->training->title);
                                   $lastWord = array_pop($words);
                                   $firstWords = implode(' ', $words);
                               @endphp
                               <span class="text-orange-500">{{ $firstWords }}</span>
-                              <span class="text-black dark:text-white">{{ $lastWord }}</span>
                             </span>
                           </span>
+                          <span class="text-black text-2xl dark:text-white">{{ $lastWord }}</span>
+
                         </h2>
                         <div class="mt-6">
                           <div class="flex flex-wrap justify-start gap-2">
@@ -104,8 +105,8 @@
                         </div>
                       </div>
                       <div class="flex w-full justify-end">
-                        <div class="mt-8 w-48 border-t-2 border-gray-300 pt-4">
-                          <img src="https://upload.wikimedia.org/wikipedia/commons/a/ac/Chris_Hemsworth_Signature.png" alt="Signature" class="mx-auto mb-2 h-16" />
+                        <div class="mt-8 w-48 border-gray-300 pt-4">
+                          <img src="https://upload.wikimedia.org/wikipedia/commons/a/ac/Chris_Hemsworth_Signature.png" alt="Signature" class="mx-auto mb-2 h-16 border-b-2" />
                           <p class="text-lg font-semibold">Mr. Hubert Mouton</p>
                           <p class="text-sm text-gray-600">Senior Manager of Trainease</p>
                         </div>

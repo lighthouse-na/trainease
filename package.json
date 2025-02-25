@@ -18,7 +18,7 @@
     },
     "dependencies": {
         "alpinejs": "^3.14.8",
-        "puppeteer": "^24.2.1",
+        "puppeteer": "^24.3.0",
         "shiki": "^2.4.2"
     }
 }
