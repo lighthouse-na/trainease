@@ -1260,7 +1260,7 @@
         </div>
     </header>
     <main>
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-20 pb-16 text-center lg:pt-32">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-20 pb-16 text-center min-h-screen lg:pt-32">
             <h1 class="mx-auto max-w-4xl font-display text-5xl font-medium tracking-tight text-slate-900 sm:text-7xl">
                 Training<!-- --> <span class="relative whitespace-nowrap text-blue-600"><svg aria-hidden="true"
                         viewBox="0 0 418 42" class="absolute top-2/3 left-0 h-[0.58em] w-full fill-blue-300/70"
@@ -1271,50 +1271,8 @@
                     </svg><span class="relative">made simple</span></span> <!-- -->for all businesses.</h1>
             <p class="mx-auto mt-6 max-w-2xl text-lg tracking-tight text-slate-700">Most E-Learning software is
                 accurate, but hard to use. We make the opposite trade-off, and hope you get smarter.</p>
-            <div class="mt-10 flex justify-center gap-x-6"><a
-                    class="group inline-flex items-center justify-center rounded-full py-2 px-4 text-sm font-semibold focus:outline-hidden focus-visible:outline-2 focus-visible:outline-offset-2 bg-slate-900 text-white hover:bg-slate-700 hover:text-slate-100 active:bg-slate-800 active:text-slate-300 focus-visible:outline-slate-900"
-                    variant="solid" color="slate" href="/register">Get 6 months free</a><a
-                    class="group inline-flex ring-1 items-center justify-center rounded-full py-2 px-4 text-sm focus:outline-hidden ring-slate-200 text-slate-700 hover:text-slate-900 hover:ring-slate-300 active:bg-slate-100 active:text-slate-600 focus-visible:outline-blue-600 focus-visible:ring-slate-300"
-                    variant="outline" color="slate" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"><svg
-                        aria-hidden="true" class="h-3 w-3 flex-none fill-blue-600 group-active:fill-current">
-                        <path
-                            d="m9.997 6.91-7.583 3.447A1 1 0 0 1 1 9.447V2.553a1 1 0 0 1 1.414-.91L9.997 5.09c.782.355.782 1.465 0 1.82Z">
-                        </path>
-                    </svg><span class="ml-3">Watch video</span></a></div>
-            <div class="mt-36 lg:mt-44">
-                <p class="font-display text-base text-slate-900">Trusted by these six companies so far</p>
-                <ul role="list"
-                    class="mt-8 flex items-center justify-center gap-x-8 sm:flex-col sm:gap-x-0 sm:gap-y-10 xl:flex-row xl:gap-x-12 xl:gap-y-0">
-                    <li>
-                        <ul role="list"
-                            class="flex flex-col items-center gap-y-8 sm:flex-row sm:gap-x-12 sm:gap-y-0">
-                            <li class="flex"><img alt="Transistor" loading="lazy" width="158" height="48"
-                                    decoding="async" data-nimg="1" style="color:transparent"
-                                    src="/_next/static/media/transistor.7274e6c3.svg"></li>
-                            <li class="flex"><img alt="Tuple" loading="lazy" width="105" height="48"
-                                    decoding="async" data-nimg="1" style="color:transparent"
-                                    src="/_next/static/media/tuple.74eb0ae0.svg"></li>
-                            <li class="flex"><img alt="StaticKit" loading="lazy" width="127" height="48"
-                                    decoding="async" data-nimg="1" style="color:transparent"
-                                    src="/_next/static/media/statickit.d7937794.svg"></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <ul role="list"
-                            class="flex flex-col items-center gap-y-8 sm:flex-row sm:gap-x-12 sm:gap-y-0">
-                            <li class="flex"><img alt="Mirage" loading="lazy" width="138" height="48"
-                                    decoding="async" data-nimg="1" style="color:transparent"
-                                    src="/_next/static/media/mirage.18d2ec4e.svg"></li>
-                            <li class="flex"><img alt="Laravel" loading="lazy" width="136" height="48"
-                                    decoding="async" data-nimg="1" style="color:transparent"
-                                    src="/_next/static/media/laravel.7deed17e.svg"></li>
-                            <li class="flex"><img alt="Statamic" loading="lazy" width="147" height="48"
-                                    decoding="async" data-nimg="1" style="color:transparent"
-                                    src="/_next/static/media/statamic.6da5ebfb.svg"></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
+
+
         </div>
         <section id="features" aria-label="Features for running your books"
             class="relative overflow-hidden bg-blue-600 pt-20 pb-28 sm:py-32"><img alt="" loading="lazy"
@@ -1324,9 +1282,7 @@
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative">
                 <div class="max-w-2xl md:mx-auto md:text-center xl:max-w-none">
                     <h2 class="font-display text-3xl tracking-tight text-white sm:text-4xl md:text-5xl">Everything you
-                        need to run your books.</h2>
-                    <p class="mt-6 text-lg tracking-tight text-blue-100">Well everything you need if you aren’t that
-                        picky about minor details like tax compliance.</p>
+                        need to train your staff.</h2>
                 </div>
                 <div
                     class="mt-16 grid grid-cols-1 items-center gap-y-2 pt-10 sm:gap-y-6 md:mt-20 lg:grid-cols-12 lg:pt-0">
@@ -1337,134 +1293,107 @@
                                 class="group relative rounded-full px-4 py-1 lg:rounded-l-xl lg:rounded-r-none lg:p-6 bg-white lg:bg-white/10 lg:ring-1 lg:ring-white/10 lg:ring-inset">
                                 <h3><button
                                         class="font-display text-lg data-selected:not-data-focus:outline-hidden text-blue-600 lg:text-white"
-                                        id="headlessui-tabs-tab-:R9d9afja:" role="tab" type="button"
-                                        aria-selected="true" tabindex="0" data-headlessui-state="selected"
-                                        data-selected="" aria-controls="headlessui-tabs-panel-:R1l9afja:"><span
-                                            class="absolute inset-0 rounded-full lg:rounded-l-xl lg:rounded-r-none"></span>Payroll</button>
+                                        id="tab-course-management" role="tab" type="button" aria-selected="true"
+                                        tabindex="0" data-headlessui-state="selected" data-selected=""
+                                        aria-controls="panel-course-management">
+                                        <span
+                                            class="absolute inset-0 rounded-full lg:rounded-l-xl lg:rounded-r-none"></span>
+                                        Course Management
+                                    </button>
                                 </h3>
-                                <p class="mt-2 hidden text-sm lg:block text-white">Keep track of everyone's salaries
-                                    and whether or not they've been paid. Direct deposit not supported.</p>
+                                <p class="mt-2 hidden text-sm lg:block text-white">Create and manage training courses,
+                                    track progress, and assess employee performance efficiently.</p>
                             </div>
                             <div
                                 class="group relative rounded-full px-4 py-1 lg:rounded-l-xl lg:rounded-r-none lg:p-6 hover:bg-white/10 lg:hover:bg-white/5">
                                 <h3><button
                                         class="font-display text-lg data-selected:not-data-focus:outline-hidden text-blue-100 hover:text-white lg:text-white"
-                                        id="headlessui-tabs-tab-:Rad9afja:" role="tab" type="button"
-                                        aria-selected="false" tabindex="-1" data-headlessui-state=""
-                                        aria-controls="headlessui-tabs-panel-:R2l9afja:"><span
-                                            class="absolute inset-0 rounded-full lg:rounded-l-xl lg:rounded-r-none"></span>Claim
-                                        expenses</button></h3>
-                                <p class="mt-2 hidden text-sm lg:block text-blue-100 group-hover:text-white">All of
-                                    your receipts organized into one place, as long as you don't mind typing in the data
-                                    by hand.</p>
-                            </div>
-                            <div
-                                class="group relative rounded-full px-4 py-1 lg:rounded-l-xl lg:rounded-r-none lg:p-6 hover:bg-white/10 lg:hover:bg-white/5">
-                                <h3><button
-                                        class="font-display text-lg data-selected:not-data-focus:outline-hidden text-blue-100 hover:text-white lg:text-white"
-                                        id="headlessui-tabs-tab-:Rbd9afja:" role="tab" type="button"
-                                        aria-selected="false" tabindex="-1" data-headlessui-state=""
-                                        aria-controls="headlessui-tabs-panel-:R3l9afja:"><span
-                                            class="absolute inset-0 rounded-full lg:rounded-l-xl lg:rounded-r-none"></span>VAT
-                                        handling</button></h3>
-                                <p class="mt-2 hidden text-sm lg:block text-blue-100 group-hover:text-white">We only
-                                    sell our software to companies who don't deal with VAT at all, so technically we do
-                                    all the VAT stuff they need.</p>
-                            </div>
-                            <div
-                                class="group relative rounded-full px-4 py-1 lg:rounded-l-xl lg:rounded-r-none lg:p-6 hover:bg-white/10 lg:hover:bg-white/5">
-                                <h3><button
-                                        class="font-display text-lg data-selected:not-data-focus:outline-hidden text-blue-100 hover:text-white lg:text-white"
-                                        id="headlessui-tabs-tab-:Rcd9afja:" role="tab" type="button"
-                                        aria-selected="false" tabindex="-1" data-headlessui-state=""
-                                        aria-controls="headlessui-tabs-panel-:R4l9afja:"><span
-                                            class="absolute inset-0 rounded-full lg:rounded-l-xl lg:rounded-r-none"></span>Reporting</button>
+                                        id="tab-skills-tracking" role="tab" type="button" aria-selected="false"
+                                        tabindex="-1" data-headlessui-state=""
+                                        aria-controls="panel-skills-tracking">
+                                        <span
+                                            class="absolute inset-0 rounded-full lg:rounded-l-xl lg:rounded-r-none"></span>
+                                        Skills Tracking
+                                    </button>
                                 </h3>
-                                <p class="mt-2 hidden text-sm lg:block text-blue-100 group-hover:text-white">Easily
-                                    export your data into an Excel spreadsheet where you can do whatever the hell you
-                                    want with it.</p>
+                                <p class="mt-2 hidden text-sm lg:block text-blue-100 group-hover:text-white">Monitor
+                                    employee skill development and identify training needs with our comprehensive
+                                    tracking system.</p>
+                            </div>
+                            <div
+                                class="group relative rounded-full px-4 py-1 lg:rounded-l-xl lg:rounded-r-none lg:p-6 hover:bg-white/10 lg:hover:bg-white/5">
+                                <h3><button
+                                        class="font-display text-lg data-selected:not-data-focus:outline-hidden text-blue-100 hover:text-white lg:text-white"
+                                        id="tab-certifications" role="tab" type="button" aria-selected="false"
+                                        tabindex="-1" data-headlessui-state="" aria-controls="panel-certifications">
+                                        <span
+                                            class="absolute inset-0 rounded-full lg:rounded-l-xl lg:rounded-r-none"></span>
+                                        Certifications
+                                    </button>
+                                </h3>
+                                <p class="mt-2 hidden text-sm lg:block text-blue-100 group-hover:text-white">Manage and
+                                    track employee certifications, ensuring compliance and professional development
+                                    requirements are met.</p>
+                            </div>
+                            <div
+                                class="group relative rounded-full px-4 py-1 lg:rounded-l-xl lg:rounded-r-none lg:p-6 hover:bg-white/10 lg:hover:bg-white/5">
+                                <h3><button
+                                        class="font-display text-lg data-selected:not-data-focus:outline-hidden text-blue-100 hover:text-white lg:text-white"
+                                        id="tab-analytics" role="tab" type="button" aria-selected="false"
+                                        tabindex="-1" data-headlessui-state="" aria-controls="panel-analytics">
+                                        <span
+                                            class="absolute inset-0 rounded-full lg:rounded-l-xl lg:rounded-r-none"></span>
+                                        Analytics
+                                    </button>
+                                </h3>
+                                <p class="mt-2 hidden text-sm lg:block text-blue-100 group-hover:text-white">Get
+                                    detailed insights into training effectiveness and employee progress through
+                                    comprehensive analytics and reporting.</p>
                             </div>
                         </div>
                     </div>
                     <div class="lg:col-span-7">
-                        <div id="headlessui-tabs-panel-:R1l9afja:" role="tabpanel" tabindex="0"
-                            data-headlessui-state="selected" data-selected=""
-                            aria-labelledby="headlessui-tabs-tab-:R9d9afja:">
+                        <div id="panel-course-management" role="tabpanel" tabindex="0"
+                            data-headlessui-state="selected" aria-labelledby="tab-course-management">
                             <div class="relative sm:px-6 lg:hidden">
                                 <div
                                     class="absolute -inset-x-4 top-[-6.5rem] bottom-[-4.25rem] bg-white/10 ring-1 ring-white/10 ring-inset sm:inset-x-0 sm:rounded-t-xl">
                                 </div>
-                                <p class="relative mx-auto max-w-2xl text-base text-white sm:text-center">Keep track of
-                                    everyone's salaries and whether or not they've been paid. Direct deposit not
-                                    supported.</p>
+                                <p class="relative mx-auto max-w-2xl text-base text-white sm:text-center">
+                                    Create and manage training courses, track progress, and assess employee performance
+                                    efficiently.
+                                </p>
                             </div>
                             <div
                                 class="mt-10 w-[45rem] overflow-hidden rounded-xl bg-slate-50 shadow-xl shadow-blue-900/20 sm:w-auto lg:mt-0 lg:w-[67.8125rem]">
-                                <img alt="" fetchpriority="high" width="2174" height="1464"
-                                    decoding="async" data-nimg="1" class="w-full" style="color:transparent"
-                                    sizes="(min-width: 1024px) 67.8125rem, (min-width: 640px) 100vw, 45rem"
-                                    srcset="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fpayroll.517af4e7.png&amp;w=640&amp;q=75 640w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fpayroll.517af4e7.png&amp;w=750&amp;q=75 750w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fpayroll.517af4e7.png&amp;w=828&amp;q=75 828w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fpayroll.517af4e7.png&amp;w=1080&amp;q=75 1080w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fpayroll.517af4e7.png&amp;w=1200&amp;q=75 1200w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fpayroll.517af4e7.png&amp;w=1920&amp;q=75 1920w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fpayroll.517af4e7.png&amp;w=2048&amp;q=75 2048w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fpayroll.517af4e7.png&amp;w=3840&amp;q=75 3840w"
-                                    src="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fpayroll.517af4e7.png&amp;w=3840&amp;q=75">
+                                <img alt="Course Management Interface" width="1024" height="768" class="w-full"
+                                    src="https://cdn.dribbble.com/userupload/6340825/file/original-04ebf72576ebbf578cb21baa3685fdbe.png?resize=1024x768&vertical=center">
                             </div>
                         </div>
-                        <div id="headlessui-tabs-panel-:R2l9afja:" role="tabpanel" tabindex="-1" hidden=""
-                            style="display:none" data-headlessui-state=""
-                            aria-labelledby="headlessui-tabs-tab-:Rad9afja:">
-                            <div class="relative sm:px-6 lg:hidden">
-                                <div
-                                    class="absolute -inset-x-4 top-[-6.5rem] bottom-[-4.25rem] bg-white/10 ring-1 ring-white/10 ring-inset sm:inset-x-0 sm:rounded-t-xl">
-                                </div>
-                                <p class="relative mx-auto max-w-2xl text-base text-white sm:text-center">All of your
-                                    receipts organized into one place, as long as you don't mind typing in the data by
-                                    hand.</p>
-                            </div>
+
+                        <div id="panel-skills-tracking" role="tabpanel" class="hidden" tabindex="-1"
+                            aria-labelledby="tab-skills-tracking">
                             <div
                                 class="mt-10 w-[45rem] overflow-hidden rounded-xl bg-slate-50 shadow-xl shadow-blue-900/20 sm:w-auto lg:mt-0 lg:w-[67.8125rem]">
-                                <img alt="" fetchpriority="high" width="2174" height="1464"
-                                    decoding="async" data-nimg="1" class="w-full" style="color:transparent"
-                                    sizes="(min-width: 1024px) 67.8125rem, (min-width: 640px) 100vw, 45rem"
-                                    srcset="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fexpenses.3f331919.png&amp;w=640&amp;q=75 640w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fexpenses.3f331919.png&amp;w=750&amp;q=75 750w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fexpenses.3f331919.png&amp;w=828&amp;q=75 828w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fexpenses.3f331919.png&amp;w=1080&amp;q=75 1080w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fexpenses.3f331919.png&amp;w=1200&amp;q=75 1200w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fexpenses.3f331919.png&amp;w=1920&amp;q=75 1920w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fexpenses.3f331919.png&amp;w=2048&amp;q=75 2048w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fexpenses.3f331919.png&amp;w=3840&amp;q=75 3840w"
-                                    src="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fexpenses.3f331919.png&amp;w=3840&amp;q=75">
+                                <img alt="Skills Tracking Interface" width="1504" height="1128" class="w-full"
+                                    src="https://cdn.dribbble.com/userupload/20812023/file/original-f847da681530f812dd38e256eff7bfc9.png?resize=1504x1128&vertical=center">
                             </div>
                         </div>
-                        <div id="headlessui-tabs-panel-:R3l9afja:" role="tabpanel" tabindex="-1" hidden=""
-                            style="display:none" data-headlessui-state=""
-                            aria-labelledby="headlessui-tabs-tab-:Rbd9afja:">
-                            <div class="relative sm:px-6 lg:hidden">
-                                <div
-                                    class="absolute -inset-x-4 top-[-6.5rem] bottom-[-4.25rem] bg-white/10 ring-1 ring-white/10 ring-inset sm:inset-x-0 sm:rounded-t-xl">
-                                </div>
-                                <p class="relative mx-auto max-w-2xl text-base text-white sm:text-center">We only sell
-                                    our software to companies who don't deal with VAT at all, so technically we do all
-                                    the VAT stuff they need.</p>
-                            </div>
+
+                        <div id="panel-certifications" role="tabpanel" class="hidden" tabindex="-1"
+                            aria-labelledby="tab-certifications">
                             <div
                                 class="mt-10 w-[45rem] overflow-hidden rounded-xl bg-slate-50 shadow-xl shadow-blue-900/20 sm:w-auto lg:mt-0 lg:w-[67.8125rem]">
-                                <img alt="" fetchpriority="high" width="2174" height="1464"
-                                    decoding="async" data-nimg="1" class="w-full" style="color:transparent"
-                                    sizes="(min-width: 1024px) 67.8125rem, (min-width: 640px) 100vw, 45rem"
-                                    srcset="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fvat-returns.7402820f.png&amp;w=640&amp;q=75 640w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fvat-returns.7402820f.png&amp;w=750&amp;q=75 750w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fvat-returns.7402820f.png&amp;w=828&amp;q=75 828w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fvat-returns.7402820f.png&amp;w=1080&amp;q=75 1080w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fvat-returns.7402820f.png&amp;w=1200&amp;q=75 1200w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fvat-returns.7402820f.png&amp;w=1920&amp;q=75 1920w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fvat-returns.7402820f.png&amp;w=2048&amp;q=75 2048w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fvat-returns.7402820f.png&amp;w=3840&amp;q=75 3840w"
-                                    src="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fvat-returns.7402820f.png&amp;w=3840&amp;q=75">
+                                <img alt="Certifications Interface" width="1024" height="768" class="w-full"
+                                    src="https://cdn.dribbble.com/userupload/6340827/file/original-49019ded289dbfb7dcd133c570984b42.png?resize=1024x768&vertical=center">
                             </div>
                         </div>
-                        <div id="headlessui-tabs-panel-:R4l9afja:" role="tabpanel" tabindex="-1" hidden=""
-                            style="display:none" data-headlessui-state=""
-                            aria-labelledby="headlessui-tabs-tab-:Rcd9afja:">
-                            <div class="relative sm:px-6 lg:hidden">
-                                <div
-                                    class="absolute -inset-x-4 top-[-6.5rem] bottom-[-4.25rem] bg-white/10 ring-1 ring-white/10 ring-inset sm:inset-x-0 sm:rounded-t-xl">
-                                </div>
-                                <p class="relative mx-auto max-w-2xl text-base text-white sm:text-center">Easily export
-                                    your data into an Excel spreadsheet where you can do whatever the hell you want with
-                                    it.</p>
-                            </div>
+                        <div id="panel-analytics" role="tabpanel" class="hidden" tabindex="-1"
+                            aria-labelledby="tab-analytics">
                             <div
                                 class="mt-10 w-[45rem] overflow-hidden rounded-xl bg-slate-50 shadow-xl shadow-blue-900/20 sm:w-auto lg:mt-0 lg:w-[67.8125rem]">
-                                <img alt="" fetchpriority="high" width="2174" height="1464"
-                                    decoding="async" data-nimg="1" class="w-full" style="color:transparent"
-                                    sizes="(min-width: 1024px) 67.8125rem, (min-width: 640px) 100vw, 45rem"
-                                    srcset="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Freporting.2ad6f065.png&amp;w=640&amp;q=75 640w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Freporting.2ad6f065.png&amp;w=750&amp;q=75 750w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Freporting.2ad6f065.png&amp;w=828&amp;q=75 828w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Freporting.2ad6f065.png&amp;w=1080&amp;q=75 1080w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Freporting.2ad6f065.png&amp;w=1200&amp;q=75 1200w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Freporting.2ad6f065.png&amp;w=1920&amp;q=75 1920w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Freporting.2ad6f065.png&amp;w=2048&amp;q=75 2048w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Freporting.2ad6f065.png&amp;w=3840&amp;q=75 3840w"
-                                    src="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Freporting.2ad6f065.png&amp;w=3840&amp;q=75">
+                                <img alt="Analytics Interface" width="1024" height="768" class="w-full"
+                                    src="https://cdn.dribbble.com/userupload/16525185/file/original-81f4bc352cab419f69f46f4171b04df7.jpg?resize=1504x1128&vertical=center">
                             </div>
                         </div>
                     </div>
@@ -2225,11 +2154,39 @@
                         </svg></a></div>
                 <p class="mt-6 text-sm text-slate-500 sm:mt-0">Copyright ©
                     <!-- -->{{ $year = (new DateTime())->format('Y') }}<!-- --> TrainEase. All rights
-                    reserved.</p>
+                    reserved.
+                </p>
             </div>
         </div>
     </footer>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const tabs = document.querySelectorAll('[role="tab"]');
+        const tabPanels = document.querySelectorAll('[role="tabpanel"]');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function () {
+                const selectedPanel = document.getElementById(tab.getAttribute('aria-controls'));
+
+                tabs.forEach(t => {
+                    t.setAttribute('aria-selected', 'false');
+                    t.setAttribute('tabindex', '-1');
+                });
+
+                tabPanels.forEach(panel => {
+                    panel.classList.add('hidden');
+                    panel.setAttribute('tabindex', '-1');
+                });
+
+                tab.setAttribute('aria-selected', 'true');
+                tab.setAttribute('tabindex', '0');
+                selectedPanel.classList.remove('hidden');
+                selectedPanel.setAttribute('tabindex', '0');
+            });
+        });
+    });
+</script>
 </body>
 
 </html>
