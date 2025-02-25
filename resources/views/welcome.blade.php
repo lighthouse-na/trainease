@@ -949,7 +949,7 @@
                 z-index: 10
             }
 
-            .focus\:border-blue-300:focus {
+            .focus\:border-cyan-300:focus {
                 --tw-border-opacity: 1;
                 border-color: rgb(147 197 253 / var(--tw-border-opacity, 1))
             }
@@ -1186,12 +1186,12 @@
                     --tw-ring-color: rgb(63 63 70 / var(--tw-ring-opacity, 1))
                 }
 
-                .dark\:focus\:border-blue-700:focus {
+                .dark\:focus\:border-cyan-700:focus {
                     --tw-border-opacity: 1;
                     border-color: rgb(29 78 216 / var(--tw-border-opacity, 1))
                 }
 
-                .dark\:focus\:border-blue-800:focus {
+                .dark\:focus\:border-cyan-800:focus {
                     --tw-border-opacity: 1;
                     border-color: rgb(30 64 175 / var(--tw-border-opacity, 1))
                 }
@@ -1224,21 +1224,24 @@
     <header class="py-10">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <nav class="relative z-50 flex justify-between">
-                <div class="flex items-center md:gap-x-12"><a aria-label="Home" href="#"></a>
-                    <div class="hidden md:flex md:gap-x-6"><a
-                            class="inline-block rounded-lg px-2 py-1 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900"
-                            href="#features">Features</a><a
-                            class="inline-block rounded-lg px-2 py-1 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900"
-                            href="#testimonials">Testimonials</a><a
-                            class="inline-block rounded-lg px-2 py-1 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900"
-                            href="#pricing">Pricing</a></div>
+                <div class="flex items-center md:gap-x-12">
+                    <a aria-label="Home" href="#">
+                        <div class="shrink-0 flex items-center">
+                            <x-application-mark class="block h-9 w-auto" />
+                        </div>
+                    </a>
+                    <div class="hidden md:flex md:gap-x-6">
+                        <a class="inline-block rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900 transition-colors duration-200" href="#features">Features</a>
+                        <a class="inline-block rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900 transition-colors duration-200" href="#testimonials">Testimonials</a>
+                        <a class="inline-block rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900 transition-colors duration-200" href="#pricing">Pricing</a>
+                    </div>
                 </div>
                 <div class="flex items-center gap-x-5 md:gap-x-8">
                     <div class="hidden md:block"><a
                             class="inline-block rounded-lg px-2 py-1 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900"
                             href="/login">Sign in</a></div><a
-                        class="group inline-flex items-center justify-center rounded-full py-2 px-4 text-sm font-semibold focus:outline-hidden focus-visible:outline-2 focus-visible:outline-offset-2 bg-blue-600 text-white hover:text-slate-100 hover:bg-blue-500 active:bg-blue-800 active:text-blue-100 focus-visible:outline-blue-600"
-                        color="blue" variant="solid" href="/register"><span>Get started <span
+                        class="group inline-flex items-center justify-center rounded-full py-2 px-4 text-sm font-semibold focus:outline-hidden focus-visible:outline-2 focus-visible:outline-offset-2 bg-cyan-600 text-white hover:text-slate-100 hover:bg-cyan-500 active:bg-cyan-800 active:text-cyan-100 focus-visible:outline-cyan-600"
+                        color="cyan" variant="solid" href="/register"><span>Get started <span
                                 class="hidden lg:inline">today</span></span></a>
                     <div class="-mr-1 md:hidden">
                         <div data-headlessui-state=""><button
@@ -1262,8 +1265,8 @@
     <main>
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-20 pb-16 text-center min-h-screen lg:pt-32">
             <h1 class="mx-auto max-w-4xl font-display text-5xl font-medium tracking-tight text-slate-900 sm:text-7xl">
-                Training<!-- --> <span class="relative whitespace-nowrap text-blue-600"><svg aria-hidden="true"
-                        viewBox="0 0 418 42" class="absolute top-2/3 left-0 h-[0.58em] w-full fill-blue-300/70"
+                Training<!-- --> <span class="relative whitespace-nowrap text-green-400"><svg aria-hidden="true"
+                        viewBox="0 0 418 42" class="absolute top-2/3 left-0 h-[0.58em] w-full fill-cyan-400/70"
                         preserveAspectRatio="none">
                         <path
                             d="M203.371.916c-26.013-2.078-76.686 1.963-124.73 9.946L67.3 12.749C35.421 18.062 18.2 21.766 6.004 25.934 1.244 27.561.828 27.778.874 28.61c.07 1.214.828 1.121 9.595-1.176 9.072-2.377 17.15-3.92 39.246-7.496C123.565 7.986 157.869 4.492 195.942 5.046c7.461.108 19.25 1.696 19.17 2.582-.107 1.183-7.874 4.31-25.75 10.366-21.992 7.45-35.43 12.534-36.701 13.884-2.173 2.308-.202 4.407 4.442 4.734 2.654.187 3.263.157 15.593-.78 35.401-2.686 57.944-3.488 88.365-3.143 46.327.526 75.721 2.23 130.788 7.584 19.787 1.924 20.814 1.98 24.557 1.332l.066-.011c1.201-.203 1.53-1.825.399-2.335-2.911-1.31-4.893-1.604-22.048-3.261-57.509-5.556-87.871-7.36-132.059-7.842-23.239-.254-33.617-.116-50.627.674-11.629.54-42.371 2.494-46.696 2.967-2.359.259 8.133-3.625 26.504-9.81 23.239-7.825 27.934-10.149 28.304-14.005.417-4.348-3.529-6-16.878-7.066Z">
@@ -1275,7 +1278,7 @@
 
         </div>
         <section id="features" aria-label="Features for running your books"
-            class="relative overflow-hidden bg-blue-600 pt-20 pb-28 sm:py-32"><img alt="" loading="lazy"
+            class="relative overflow-hidden bg-cyan-600 pt-20 pb-28 sm:py-32"><img alt="" loading="lazy"
                 width="2245" height="1636" decoding="async" data-nimg="1"
                 class="absolute top-1/2 left-1/2 max-w-none translate-x-[-44%] translate-y-[-42%]"
                 style="color:transparent" src="/_next/static/media/background-features.5f7a9ac9.jpg">
@@ -1292,7 +1295,7 @@
                             <div
                                 class="group relative rounded-full px-4 py-1 lg:rounded-l-xl lg:rounded-r-none lg:p-6 bg-white lg:bg-white/10 lg:ring-1 lg:ring-white/10 lg:ring-inset">
                                 <h3><button
-                                        class="font-display text-lg data-selected:not-data-focus:outline-hidden text-blue-600 lg:text-white"
+                                        class="font-display text-lg data-selected:not-data-focus:outline-hidden text-cyan-600 lg:text-white"
                                         id="tab-course-management" role="tab" type="button" aria-selected="true"
                                         tabindex="0" data-headlessui-state="selected" data-selected=""
                                         aria-controls="panel-course-management">
@@ -1307,7 +1310,7 @@
                             <div
                                 class="group relative rounded-full px-4 py-1 lg:rounded-l-xl lg:rounded-r-none lg:p-6 hover:bg-white/10 lg:hover:bg-white/5">
                                 <h3><button
-                                        class="font-display text-lg data-selected:not-data-focus:outline-hidden text-blue-100 hover:text-white lg:text-white"
+                                        class="font-display text-lg data-selected:not-data-focus:outline-hidden text-cyan-100 hover:text-white lg:text-white"
                                         id="tab-skills-tracking" role="tab" type="button" aria-selected="false"
                                         tabindex="-1" data-headlessui-state=""
                                         aria-controls="panel-skills-tracking">
@@ -1316,14 +1319,14 @@
                                         Skills Tracking
                                     </button>
                                 </h3>
-                                <p class="mt-2 hidden text-sm lg:block text-blue-100 group-hover:text-white">Monitor
+                                <p class="mt-2 hidden text-sm lg:block text-cyan-100 group-hover:text-white">Monitor
                                     employee skill development and identify training needs with our comprehensive
                                     tracking system.</p>
                             </div>
                             <div
                                 class="group relative rounded-full px-4 py-1 lg:rounded-l-xl lg:rounded-r-none lg:p-6 hover:bg-white/10 lg:hover:bg-white/5">
                                 <h3><button
-                                        class="font-display text-lg data-selected:not-data-focus:outline-hidden text-blue-100 hover:text-white lg:text-white"
+                                        class="font-display text-lg data-selected:not-data-focus:outline-hidden text-cyan-100 hover:text-white lg:text-white"
                                         id="tab-certifications" role="tab" type="button" aria-selected="false"
                                         tabindex="-1" data-headlessui-state="" aria-controls="panel-certifications">
                                         <span
@@ -1331,14 +1334,14 @@
                                         Certifications
                                     </button>
                                 </h3>
-                                <p class="mt-2 hidden text-sm lg:block text-blue-100 group-hover:text-white">Manage and
+                                <p class="mt-2 hidden text-sm lg:block text-cyan-100 group-hover:text-white">Manage and
                                     track employee certifications, ensuring compliance and professional development
                                     requirements are met.</p>
                             </div>
                             <div
                                 class="group relative rounded-full px-4 py-1 lg:rounded-l-xl lg:rounded-r-none lg:p-6 hover:bg-white/10 lg:hover:bg-white/5">
                                 <h3><button
-                                        class="font-display text-lg data-selected:not-data-focus:outline-hidden text-blue-100 hover:text-white lg:text-white"
+                                        class="font-display text-lg data-selected:not-data-focus:outline-hidden text-cyan-100 hover:text-white lg:text-white"
                                         id="tab-analytics" role="tab" type="button" aria-selected="false"
                                         tabindex="-1" data-headlessui-state="" aria-controls="panel-analytics">
                                         <span
@@ -1346,7 +1349,7 @@
                                         Analytics
                                     </button>
                                 </h3>
-                                <p class="mt-2 hidden text-sm lg:block text-blue-100 group-hover:text-white">Get
+                                <p class="mt-2 hidden text-sm lg:block text-cyan-100 group-hover:text-white">Get
                                     detailed insights into training effectiveness and employee progress through
                                     comprehensive analytics and reporting.</p>
                             </div>
@@ -1365,7 +1368,7 @@
                                 </p>
                             </div>
                             <div
-                                class="mt-10 w-[45rem] overflow-hidden rounded-xl bg-slate-50 shadow-xl shadow-blue-900/20 sm:w-auto lg:mt-0 lg:w-[67.8125rem]">
+                                class="mt-10 w-[45rem] overflow-hidden rounded-xl bg-slate-50 shadow-xl shadow-cyan-900/20 sm:w-auto lg:mt-0 lg:w-[67.8125rem]">
                                 <img alt="Course Management Interface" width="1024" height="768" class="w-full"
                                     src="https://cdn.dribbble.com/userupload/6340825/file/original-04ebf72576ebbf578cb21baa3685fdbe.png?resize=1024x768&vertical=center">
                             </div>
@@ -1374,7 +1377,7 @@
                         <div id="panel-skills-tracking" role="tabpanel" class="hidden" tabindex="-1"
                             aria-labelledby="tab-skills-tracking">
                             <div
-                                class="mt-10 w-[45rem] overflow-hidden rounded-xl bg-slate-50 shadow-xl shadow-blue-900/20 sm:w-auto lg:mt-0 lg:w-[67.8125rem]">
+                                class="mt-10 w-[45rem] overflow-hidden rounded-xl bg-slate-50 shadow-xl shadow-cyan-900/20 sm:w-auto lg:mt-0 lg:w-[67.8125rem]">
                                 <img alt="Skills Tracking Interface" width="1504" height="1128" class="w-full"
                                     src="https://cdn.dribbble.com/userupload/20812023/file/original-f847da681530f812dd38e256eff7bfc9.png?resize=1504x1128&vertical=center">
                             </div>
@@ -1383,7 +1386,7 @@
                         <div id="panel-certifications" role="tabpanel" class="hidden" tabindex="-1"
                             aria-labelledby="tab-certifications">
                             <div
-                                class="mt-10 w-[45rem] overflow-hidden rounded-xl bg-slate-50 shadow-xl shadow-blue-900/20 sm:w-auto lg:mt-0 lg:w-[67.8125rem]">
+                                class="mt-10 w-[45rem] overflow-hidden rounded-xl bg-slate-50 shadow-xl shadow-cyan-900/20 sm:w-auto lg:mt-0 lg:w-[67.8125rem]">
                                 <img alt="Certifications Interface" width="1024" height="768" class="w-full"
                                     src="https://cdn.dribbble.com/userupload/6340827/file/original-49019ded289dbfb7dcd133c570984b42.png?resize=1024x768&vertical=center">
                             </div>
@@ -1391,7 +1394,7 @@
                         <div id="panel-analytics" role="tabpanel" class="hidden" tabindex="-1"
                             aria-labelledby="tab-analytics">
                             <div
-                                class="mt-10 w-[45rem] overflow-hidden rounded-xl bg-slate-50 shadow-xl shadow-blue-900/20 sm:w-auto lg:mt-0 lg:w-[67.8125rem]">
+                                class="mt-10 w-[45rem] overflow-hidden rounded-xl bg-slate-50 shadow-xl shadow-cyan-900/20 sm:w-auto lg:mt-0 lg:w-[67.8125rem]">
                                 <img alt="Analytics Interface" width="1024" height="768" class="w-full"
                                     src="https://cdn.dribbble.com/userupload/16525185/file/original-81f4bc352cab419f69f46f4171b04df7.jpg?resize=1504x1128&vertical=center">
                             </div>
@@ -1412,7 +1415,7 @@
                 <div class="-mx-4 mt-20 flex flex-col gap-y-10 overflow-hidden px-4 sm:-mx-6 sm:px-6 lg:hidden">
                     <div>
                         <div class="mx-auto max-w-2xl">
-                            <div class="w-9 rounded-lg bg-blue-600"><svg aria-hidden="true" class="h-9 w-9"
+                            <div class="w-9 rounded-lg bg-cyan-600"><svg aria-hidden="true" class="h-9 w-9"
                                     fill="none">
                                     <defs>
                                         <linearGradient id=":Rapqfja:" x1="11.5" y1="18" x2="36"
@@ -1424,7 +1427,7 @@
                                     <path d="m30 15-4 5-4-11-4 18-4-11-4 7-4-5" stroke="url(#:Rapqfja:)"
                                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
                                 </svg></div>
-                            <h3 class="mt-6 text-sm font-medium text-blue-600">Reporting</h3>
+                            <h3 class="mt-6 text-sm font-medium text-cyan-600">Reporting</h3>
                             <p class="mt-2 font-display text-xl text-slate-900">Stay on top of things with always
                                 up-to-date reporting features.</p>
                             <p class="mt-4 text-sm text-slate-600">We talked about reporting in the section above but
@@ -1436,14 +1439,13 @@
                                 class="relative mx-auto w-[52.75rem] overflow-hidden rounded-xl bg-white ring-1 shadow-lg shadow-slate-900/5 ring-slate-500/10">
                                 <img alt="" loading="lazy" width="1688" height="856" decoding="async"
                                     data-nimg="1" class="w-full" style="color:transparent" sizes="52.75rem"
-                                    srcset="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fprofit-loss.2a2f85d5.png&amp;w=16&amp;q=75 16w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fprofit-loss.2a2f85d5.png&amp;w=32&amp;q=75 32w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fprofit-loss.2a2f85d5.png&amp;w=48&amp;q=75 48w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fprofit-loss.2a2f85d5.png&amp;w=64&amp;q=75 64w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fprofit-loss.2a2f85d5.png&amp;w=96&amp;q=75 96w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fprofit-loss.2a2f85d5.png&amp;w=128&amp;q=75 128w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fprofit-loss.2a2f85d5.png&amp;w=256&amp;q=75 256w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fprofit-loss.2a2f85d5.png&amp;w=384&amp;q=75 384w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fprofit-loss.2a2f85d5.png&amp;w=640&amp;q=75 640w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fprofit-loss.2a2f85d5.png&amp;w=750&amp;q=75 750w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fprofit-loss.2a2f85d5.png&amp;w=828&amp;q=75 828w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fprofit-loss.2a2f85d5.png&amp;w=1080&amp;q=75 1080w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fprofit-loss.2a2f85d5.png&amp;w=1200&amp;q=75 1200w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fprofit-loss.2a2f85d5.png&amp;w=1920&amp;q=75 1920w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fprofit-loss.2a2f85d5.png&amp;w=2048&amp;q=75 2048w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fprofit-loss.2a2f85d5.png&amp;w=3840&amp;q=75 3840w"
-                                    src="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fprofit-loss.2a2f85d5.png&amp;w=3840&amp;q=75">
+                                    srcset="https://cdn.dribbble.com/userupload/2999484/file/original-7064877ce42f47033be7b9782a562fa6.png?resize=1504x847&vertical=center">
                             </div>
                         </div>
                     </div>
                     <div>
                         <div class="mx-auto max-w-2xl">
-                            <div class="w-9 rounded-lg bg-blue-600"><svg aria-hidden="true" class="h-9 w-9"
+                            <div class="w-9 rounded-lg bg-cyan-600"><svg aria-hidden="true" class="h-9 w-9"
                                     fill="none">
                                     <path opacity=".5"
                                         d="M8 17a1 1 0 0 1 1-1h18a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2Z"
@@ -1454,7 +1456,7 @@
                                     <path d="M8 10a1 1 0 0 1 1-1h18a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2Z"
                                         fill="#fff"></path>
                                 </svg></div>
-                            <h3 class="mt-6 text-sm font-medium text-blue-600">Inventory</h3>
+                            <h3 class="mt-6 text-sm font-medium text-cyan-600">Inventory</h3>
                             <p class="mt-2 font-display text-xl text-slate-900">Never lose track of what’s in stock
                                 with accurate inventory tracking.</p>
                             <p class="mt-4 text-sm text-slate-600">We don’t offer this as part of our software but that
@@ -1466,14 +1468,13 @@
                                 class="relative mx-auto w-[52.75rem] overflow-hidden rounded-xl bg-white ring-1 shadow-lg shadow-slate-900/5 ring-slate-500/10">
                                 <img alt="" loading="lazy" width="1688" height="856" decoding="async"
                                     data-nimg="1" class="w-full" style="color:transparent" sizes="52.75rem"
-                                    srcset="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Finventory.14ec7758.png&amp;w=16&amp;q=75 16w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Finventory.14ec7758.png&amp;w=32&amp;q=75 32w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Finventory.14ec7758.png&amp;w=48&amp;q=75 48w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Finventory.14ec7758.png&amp;w=64&amp;q=75 64w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Finventory.14ec7758.png&amp;w=96&amp;q=75 96w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Finventory.14ec7758.png&amp;w=128&amp;q=75 128w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Finventory.14ec7758.png&amp;w=256&amp;q=75 256w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Finventory.14ec7758.png&amp;w=384&amp;q=75 384w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Finventory.14ec7758.png&amp;w=640&amp;q=75 640w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Finventory.14ec7758.png&amp;w=750&amp;q=75 750w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Finventory.14ec7758.png&amp;w=828&amp;q=75 828w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Finventory.14ec7758.png&amp;w=1080&amp;q=75 1080w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Finventory.14ec7758.png&amp;w=1200&amp;q=75 1200w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Finventory.14ec7758.png&amp;w=1920&amp;q=75 1920w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Finventory.14ec7758.png&amp;w=2048&amp;q=75 2048w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Finventory.14ec7758.png&amp;w=3840&amp;q=75 3840w"
-                                    src="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Finventory.14ec7758.png&amp;w=3840&amp;q=75">
+                                    srcset="https://cdn.dribbble.com/userupload/3161795/file/original-5b6eb6d06051e6fa317ad459f31079c4.png?resize=1504x846&vertical=center">
                             </div>
                         </div>
                     </div>
                     <div>
                         <div class="mx-auto max-w-2xl">
-                            <div class="w-9 rounded-lg bg-blue-600"><svg aria-hidden="true" class="h-9 w-9"
+                            <div class="w-9 rounded-lg bg-cyan-600"><svg aria-hidden="true" class="h-9 w-9"
                                     fill="none">
                                     <path opacity=".5"
                                         d="M25.778 25.778c.39.39 1.027.393 1.384-.028A11.952 11.952 0 0 0 30 18c0-6.627-5.373-12-12-12S6 11.373 6 18c0 2.954 1.067 5.659 2.838 7.75.357.421.993.419 1.384.028.39-.39.386-1.02.036-1.448A9.959 9.959 0 0 1 8 18c0-5.523 4.477-10 10-10s10 4.477 10 10a9.959 9.959 0 0 1-2.258 6.33c-.35.427-.354 1.058.036 1.448Z"
@@ -1482,7 +1483,7 @@
                                         d="M12 28.395V28a6 6 0 0 1 12 0v.395A11.945 11.945 0 0 1 18 30c-2.186 0-4.235-.584-6-1.605ZM21 16.5c0-1.933-.5-3.5-3-3.5s-3 1.567-3 3.5 1.343 3.5 3 3.5 3-1.567 3-3.5Z"
                                         fill="#fff"></path>
                                 </svg></div>
-                            <h3 class="mt-6 text-sm font-medium text-blue-600">Contacts</h3>
+                            <h3 class="mt-6 text-sm font-medium text-cyan-600">Contacts</h3>
                             <p class="mt-2 font-display text-xl text-slate-900">Organize all of your contacts, service
                                 providers, and invoices in one place.</p>
                             <p class="mt-4 text-sm text-slate-600">This also isn’t actually a feature, it’s just some
@@ -1495,8 +1496,7 @@
                                 class="relative mx-auto w-[52.75rem] overflow-hidden rounded-xl bg-white ring-1 shadow-lg shadow-slate-900/5 ring-slate-500/10">
                                 <img alt="" loading="lazy" width="1688" height="856" decoding="async"
                                     data-nimg="1" class="w-full" style="color:transparent" sizes="52.75rem"
-                                    srcset="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcontacts.a61dce95.png&amp;w=16&amp;q=75 16w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcontacts.a61dce95.png&amp;w=32&amp;q=75 32w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcontacts.a61dce95.png&amp;w=48&amp;q=75 48w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcontacts.a61dce95.png&amp;w=64&amp;q=75 64w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcontacts.a61dce95.png&amp;w=96&amp;q=75 96w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcontacts.a61dce95.png&amp;w=128&amp;q=75 128w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcontacts.a61dce95.png&amp;w=256&amp;q=75 256w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcontacts.a61dce95.png&amp;w=384&amp;q=75 384w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcontacts.a61dce95.png&amp;w=640&amp;q=75 640w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcontacts.a61dce95.png&amp;w=750&amp;q=75 750w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcontacts.a61dce95.png&amp;w=828&amp;q=75 828w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcontacts.a61dce95.png&amp;w=1080&amp;q=75 1080w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcontacts.a61dce95.png&amp;w=1200&amp;q=75 1200w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcontacts.a61dce95.png&amp;w=1920&amp;q=75 1920w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcontacts.a61dce95.png&amp;w=2048&amp;q=75 2048w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcontacts.a61dce95.png&amp;w=3840&amp;q=75 3840w"
-                                    src="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcontacts.a61dce95.png&amp;w=3840&amp;q=75">
+                                    srcset="https://cdn.dribbble.com/userupload/18355035/file/original-1008659e8663e416903b1d1f327c4967.png?resize=1905x1072&vertical=center">
                             </div>
                         </div>
                     </div>
@@ -1504,7 +1504,7 @@
                 <div class="hidden lg:mt-20 lg:block">
                     <div class="grid grid-cols-3 gap-x-8" role="tablist" aria-orientation="horizontal">
                         <div class="relative">
-                            <div class="w-9 rounded-lg bg-blue-600"><svg aria-hidden="true" class="h-9 w-9"
+                            <div class="w-9 rounded-lg bg-cyan-600"><svg aria-hidden="true" class="h-9 w-9"
                                     fill="none">
                                     <defs>
                                         <linearGradient id=":R1bdqfja:" x1="11.5" y1="18" x2="36"
@@ -1516,7 +1516,7 @@
                                     <path d="m30 15-4 5-4-11-4 18-4-11-4 7-4-5" stroke="url(#:R1bdqfja:)"
                                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
                                 </svg></div>
-                            <h3 class="mt-6 text-sm font-medium text-blue-600"><button
+                            <h3 class="mt-6 text-sm font-medium text-cyan-600"><button
                                     class="data-selected:not-data-focus:outline-hidden"
                                     id="headlessui-tabs-tab-:R2bdqfja:" role="tab" type="button"
                                     aria-selected="true" tabindex="0" data-headlessui-state="selected"
@@ -1585,8 +1585,7 @@
                                     <img alt="" loading="lazy" width="1688" height="856"
                                         decoding="async" data-nimg="1" class="w-full" style="color:transparent"
                                         sizes="52.75rem"
-                                        srcset="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fprofit-loss.2a2f85d5.png&amp;w=16&amp;q=75 16w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fprofit-loss.2a2f85d5.png&amp;w=32&amp;q=75 32w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fprofit-loss.2a2f85d5.png&amp;w=48&amp;q=75 48w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fprofit-loss.2a2f85d5.png&amp;w=64&amp;q=75 64w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fprofit-loss.2a2f85d5.png&amp;w=96&amp;q=75 96w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fprofit-loss.2a2f85d5.png&amp;w=128&amp;q=75 128w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fprofit-loss.2a2f85d5.png&amp;w=256&amp;q=75 256w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fprofit-loss.2a2f85d5.png&amp;w=384&amp;q=75 384w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fprofit-loss.2a2f85d5.png&amp;w=640&amp;q=75 640w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fprofit-loss.2a2f85d5.png&amp;w=750&amp;q=75 750w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fprofit-loss.2a2f85d5.png&amp;w=828&amp;q=75 828w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fprofit-loss.2a2f85d5.png&amp;w=1080&amp;q=75 1080w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fprofit-loss.2a2f85d5.png&amp;w=1200&amp;q=75 1200w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fprofit-loss.2a2f85d5.png&amp;w=1920&amp;q=75 1920w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fprofit-loss.2a2f85d5.png&amp;w=2048&amp;q=75 2048w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fprofit-loss.2a2f85d5.png&amp;w=3840&amp;q=75 3840w"
-                                        src="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fprofit-loss.2a2f85d5.png&amp;w=3840&amp;q=75">
+                                        srcset="https://cdn.dribbble.com/userupload/2999484/file/original-7064877ce42f47033be7b9782a562fa6.png?resize=1504x847&vertical=center">
                                 </div>
                             </div>
                             <div class="px-5 transition duration-500 ease-in-out data-selected:not-data-focus:outline-hidden opacity-60"
@@ -1598,8 +1597,7 @@
                                     <img alt="" loading="lazy" width="1688" height="856"
                                         decoding="async" data-nimg="1" class="w-full" style="color:transparent"
                                         sizes="52.75rem"
-                                        srcset="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Finventory.14ec7758.png&amp;w=16&amp;q=75 16w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Finventory.14ec7758.png&amp;w=32&amp;q=75 32w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Finventory.14ec7758.png&amp;w=48&amp;q=75 48w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Finventory.14ec7758.png&amp;w=64&amp;q=75 64w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Finventory.14ec7758.png&amp;w=96&amp;q=75 96w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Finventory.14ec7758.png&amp;w=128&amp;q=75 128w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Finventory.14ec7758.png&amp;w=256&amp;q=75 256w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Finventory.14ec7758.png&amp;w=384&amp;q=75 384w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Finventory.14ec7758.png&amp;w=640&amp;q=75 640w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Finventory.14ec7758.png&amp;w=750&amp;q=75 750w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Finventory.14ec7758.png&amp;w=828&amp;q=75 828w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Finventory.14ec7758.png&amp;w=1080&amp;q=75 1080w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Finventory.14ec7758.png&amp;w=1200&amp;q=75 1200w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Finventory.14ec7758.png&amp;w=1920&amp;q=75 1920w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Finventory.14ec7758.png&amp;w=2048&amp;q=75 2048w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Finventory.14ec7758.png&amp;w=3840&amp;q=75 3840w"
-                                        src="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Finventory.14ec7758.png&amp;w=3840&amp;q=75">
+                                        srcset="https://cdn.dribbble.com/userupload/3161795/file/original-5b6eb6d06051e6fa317ad459f31079c4.png?resize=1504x846&vertical=center">
                                 </div>
                             </div>
                             <div class="px-5 transition duration-500 ease-in-out data-selected:not-data-focus:outline-hidden opacity-60"
@@ -1611,8 +1609,7 @@
                                     <img alt="" loading="lazy" width="1688" height="856"
                                         decoding="async" data-nimg="1" class="w-full" style="color:transparent"
                                         sizes="52.75rem"
-                                        srcset="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcontacts.a61dce95.png&amp;w=16&amp;q=75 16w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcontacts.a61dce95.png&amp;w=32&amp;q=75 32w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcontacts.a61dce95.png&amp;w=48&amp;q=75 48w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcontacts.a61dce95.png&amp;w=64&amp;q=75 64w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcontacts.a61dce95.png&amp;w=96&amp;q=75 96w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcontacts.a61dce95.png&amp;w=128&amp;q=75 128w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcontacts.a61dce95.png&amp;w=256&amp;q=75 256w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcontacts.a61dce95.png&amp;w=384&amp;q=75 384w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcontacts.a61dce95.png&amp;w=640&amp;q=75 640w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcontacts.a61dce95.png&amp;w=750&amp;q=75 750w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcontacts.a61dce95.png&amp;w=828&amp;q=75 828w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcontacts.a61dce95.png&amp;w=1080&amp;q=75 1080w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcontacts.a61dce95.png&amp;w=1200&amp;q=75 1200w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcontacts.a61dce95.png&amp;w=1920&amp;q=75 1920w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcontacts.a61dce95.png&amp;w=2048&amp;q=75 2048w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcontacts.a61dce95.png&amp;w=3840&amp;q=75 3840w"
-                                        src="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcontacts.a61dce95.png&amp;w=3840&amp;q=75">
+                                        srcset="https://cdn.dribbble.com/userupload/18355035/file/original-1008659e8663e416903b1d1f327c4967.png?resize=1905x1072&vertical=center">
                                 </div>
                             </div>
                         </div>
@@ -1623,7 +1620,7 @@
                 </div>
             </div>
         </section>
-        <section id="get-started-today" class="relative overflow-hidden bg-blue-600 py-32"><img alt=""
+        <section id="get-started-today" class="relative overflow-hidden bg-cyan-600 py-32"><img alt=""
                 loading="lazy" width="2347" height="1244" decoding="async" data-nimg="1"
                 class="absolute top-1/2 left-1/2 max-w-none -translate-x-1/2 -translate-y-1/2"
                 style="color:transparent" src="/_next/static/media/background-call-to-action.6a5a5672.jpg">
@@ -1632,221 +1629,19 @@
                     <h2 class="font-display text-3xl tracking-tight text-white sm:text-4xl">Get started today</h2>
                     <p class="mt-4 text-lg tracking-tight text-white">It’s time to take control of your books. Buy our
                         software so you can feel like you’re doing something productive.</p><a
-                        class="group inline-flex items-center justify-center rounded-full py-2 px-4 text-sm font-semibold focus:outline-hidden focus-visible:outline-2 focus-visible:outline-offset-2 bg-white text-slate-900 hover:bg-blue-50 active:bg-blue-200 active:text-slate-600 focus-visible:outline-white mt-10"
+                        class="group inline-flex items-center justify-center rounded-full py-2 px-4 text-sm font-semibold focus:outline-hidden focus-visible:outline-2 focus-visible:outline-offset-2 bg-white text-slate-900 hover:bg-cyan-50 active:bg-cyan-200 active:text-slate-600 focus-visible:outline-white mt-10"
                         color="white" variant="solid" href="/register">Get 6 months free</a>
                 </div>
             </div>
         </section>
-        <section id="testimonials" aria-label="What our customers are saying" class="bg-slate-50 py-20 sm:py-32">
-            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div class="mx-auto max-w-2xl md:text-center">
-                    <h2 class="font-display text-3xl tracking-tight text-slate-900 sm:text-4xl">Loved by businesses
-                        worldwide.</h2>
-                    <p class="mt-4 text-lg tracking-tight text-slate-700">Our software is so simple that people can’t
-                        help but fall in love with it. Simplicity is easy when you just skip tons of mission-critical
-                        features.</p>
-                </div>
-                <ul role="list"
-                    class="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-6 sm:gap-8 lg:mt-20 lg:max-w-none lg:grid-cols-3">
-                    <li>
-                        <ul role="list" class="flex flex-col gap-y-6 sm:gap-y-8">
-                            <li>
-                                <figure class="relative rounded-2xl bg-white p-6 shadow-xl shadow-slate-900/10"><svg
-                                        aria-hidden="true" width="105" height="78"
-                                        class="absolute top-6 left-6 fill-slate-100">
-                                        <path
-                                            d="M25.086 77.292c-4.821 0-9.115-1.205-12.882-3.616-3.767-2.561-6.78-6.102-9.04-10.622C1.054 58.534 0 53.411 0 47.686c0-5.273.904-10.396 2.712-15.368 1.959-4.972 4.746-9.567 8.362-13.786a59.042 59.042 0 0 1 12.43-11.3C28.325 3.917 33.599 1.507 39.324 0l11.074 13.786c-6.479 2.561-11.677 5.951-15.594 10.17-3.767 4.219-5.65 7.835-5.65 10.848 0 1.356.377 2.863 1.13 4.52.904 1.507 2.637 3.089 5.198 4.746 3.767 2.41 6.328 4.972 7.684 7.684 1.507 2.561 2.26 5.5 2.26 8.814 0 5.123-1.959 9.19-5.876 12.204-3.767 3.013-8.588 4.52-14.464 4.52Zm54.24 0c-4.821 0-9.115-1.205-12.882-3.616-3.767-2.561-6.78-6.102-9.04-10.622-2.11-4.52-3.164-9.643-3.164-15.368 0-5.273.904-10.396 2.712-15.368 1.959-4.972 4.746-9.567 8.362-13.786a59.042 59.042 0 0 1 12.43-11.3C82.565 3.917 87.839 1.507 93.564 0l11.074 13.786c-6.479 2.561-11.677 5.951-15.594 10.17-3.767 4.219-5.65 7.835-5.65 10.848 0 1.356.377 2.863 1.13 4.52.904 1.507 2.637 3.089 5.198 4.746 3.767 2.41 6.328 4.972 7.684 7.684 1.507 2.561 2.26 5.5 2.26 8.814 0 5.123-1.959 9.19-5.876 12.204-3.767 3.013-8.588 4.52-14.464 4.52Z">
-                                        </path>
-                                    </svg>
-                                    <blockquote class="relative">
-                                        <p class="text-lg tracking-tight text-slate-900">TaxPal is so easy to use I
-                                            can’t help but wonder if it’s really doing the things the government expects
-                                            me to do.</p>
-                                    </blockquote>
-                                    <figcaption
-                                        class="relative mt-6 flex items-center justify-between border-t border-slate-100 pt-6">
-                                        <div>
-                                            <div class="font-display text-base text-slate-900">Sheryl Berge</div>
-                                            <div class="mt-1 text-sm text-slate-500">CEO at Lynch LLC</div>
-                                        </div>
-                                        <div class="overflow-hidden rounded-full bg-slate-50"><img alt=""
-                                                loading="lazy" width="56" height="56" decoding="async"
-                                                data-nimg="1" class="h-14 w-14 object-cover"
-                                                style="color:transparent"
-                                                srcset="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar-1.c78616b7.png&amp;w=64&amp;q=75 1x, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar-1.c78616b7.png&amp;w=128&amp;q=75 2x"
-                                                src="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar-1.c78616b7.png&amp;w=128&amp;q=75">
-                                        </div>
-                                    </figcaption>
-                                </figure>
-                            </li>
-                            <li>
-                                <figure class="relative rounded-2xl bg-white p-6 shadow-xl shadow-slate-900/10"><svg
-                                        aria-hidden="true" width="105" height="78"
-                                        class="absolute top-6 left-6 fill-slate-100">
-                                        <path
-                                            d="M25.086 77.292c-4.821 0-9.115-1.205-12.882-3.616-3.767-2.561-6.78-6.102-9.04-10.622C1.054 58.534 0 53.411 0 47.686c0-5.273.904-10.396 2.712-15.368 1.959-4.972 4.746-9.567 8.362-13.786a59.042 59.042 0 0 1 12.43-11.3C28.325 3.917 33.599 1.507 39.324 0l11.074 13.786c-6.479 2.561-11.677 5.951-15.594 10.17-3.767 4.219-5.65 7.835-5.65 10.848 0 1.356.377 2.863 1.13 4.52.904 1.507 2.637 3.089 5.198 4.746 3.767 2.41 6.328 4.972 7.684 7.684 1.507 2.561 2.26 5.5 2.26 8.814 0 5.123-1.959 9.19-5.876 12.204-3.767 3.013-8.588 4.52-14.464 4.52Zm54.24 0c-4.821 0-9.115-1.205-12.882-3.616-3.767-2.561-6.78-6.102-9.04-10.622-2.11-4.52-3.164-9.643-3.164-15.368 0-5.273.904-10.396 2.712-15.368 1.959-4.972 4.746-9.567 8.362-13.786a59.042 59.042 0 0 1 12.43-11.3C82.565 3.917 87.839 1.507 93.564 0l11.074 13.786c-6.479 2.561-11.677 5.951-15.594 10.17-3.767 4.219-5.65 7.835-5.65 10.848 0 1.356.377 2.863 1.13 4.52.904 1.507 2.637 3.089 5.198 4.746 3.767 2.41 6.328 4.972 7.684 7.684 1.507 2.561 2.26 5.5 2.26 8.814 0 5.123-1.959 9.19-5.876 12.204-3.767 3.013-8.588 4.52-14.464 4.52Z">
-                                        </path>
-                                    </svg>
-                                    <blockquote class="relative">
-                                        <p class="text-lg tracking-tight text-slate-900">I’m trying to get a hold of
-                                            someone in support, I’m in a lot of trouble right now and they are saying it
-                                            has something to do with my books. Please get back to me right away.</p>
-                                    </blockquote>
-                                    <figcaption
-                                        class="relative mt-6 flex items-center justify-between border-t border-slate-100 pt-6">
-                                        <div>
-                                            <div class="font-display text-base text-slate-900">Amy Hahn</div>
-                                            <div class="mt-1 text-sm text-slate-500">Director at Velocity Industries
-                                            </div>
-                                        </div>
-                                        <div class="overflow-hidden rounded-full bg-slate-50"><img alt=""
-                                                loading="lazy" width="56" height="56" decoding="async"
-                                                data-nimg="1" class="h-14 w-14 object-cover"
-                                                style="color:transparent"
-                                                srcset="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar-4.16b4e29e.png&amp;w=64&amp;q=75 1x, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar-4.16b4e29e.png&amp;w=128&amp;q=75 2x"
-                                                src="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar-4.16b4e29e.png&amp;w=128&amp;q=75">
-                                        </div>
-                                    </figcaption>
-                                </figure>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <ul role="list" class="flex flex-col gap-y-6 sm:gap-y-8">
-                            <li>
-                                <figure class="relative rounded-2xl bg-white p-6 shadow-xl shadow-slate-900/10"><svg
-                                        aria-hidden="true" width="105" height="78"
-                                        class="absolute top-6 left-6 fill-slate-100">
-                                        <path
-                                            d="M25.086 77.292c-4.821 0-9.115-1.205-12.882-3.616-3.767-2.561-6.78-6.102-9.04-10.622C1.054 58.534 0 53.411 0 47.686c0-5.273.904-10.396 2.712-15.368 1.959-4.972 4.746-9.567 8.362-13.786a59.042 59.042 0 0 1 12.43-11.3C28.325 3.917 33.599 1.507 39.324 0l11.074 13.786c-6.479 2.561-11.677 5.951-15.594 10.17-3.767 4.219-5.65 7.835-5.65 10.848 0 1.356.377 2.863 1.13 4.52.904 1.507 2.637 3.089 5.198 4.746 3.767 2.41 6.328 4.972 7.684 7.684 1.507 2.561 2.26 5.5 2.26 8.814 0 5.123-1.959 9.19-5.876 12.204-3.767 3.013-8.588 4.52-14.464 4.52Zm54.24 0c-4.821 0-9.115-1.205-12.882-3.616-3.767-2.561-6.78-6.102-9.04-10.622-2.11-4.52-3.164-9.643-3.164-15.368 0-5.273.904-10.396 2.712-15.368 1.959-4.972 4.746-9.567 8.362-13.786a59.042 59.042 0 0 1 12.43-11.3C82.565 3.917 87.839 1.507 93.564 0l11.074 13.786c-6.479 2.561-11.677 5.951-15.594 10.17-3.767 4.219-5.65 7.835-5.65 10.848 0 1.356.377 2.863 1.13 4.52.904 1.507 2.637 3.089 5.198 4.746 3.767 2.41 6.328 4.972 7.684 7.684 1.507 2.561 2.26 5.5 2.26 8.814 0 5.123-1.959 9.19-5.876 12.204-3.767 3.013-8.588 4.52-14.464 4.52Z">
-                                        </path>
-                                    </svg>
-                                    <blockquote class="relative">
-                                        <p class="text-lg tracking-tight text-slate-900">The best part about TaxPal is
-                                            every time I pay my employees, my bank balance doesn’t go down like it used
-                                            to. Looking forward to spending this extra cash when I figure out why my
-                                            card is being declined.</p>
-                                    </blockquote>
-                                    <figcaption
-                                        class="relative mt-6 flex items-center justify-between border-t border-slate-100 pt-6">
-                                        <div>
-                                            <div class="font-display text-base text-slate-900">Leland Kiehn</div>
-                                            <div class="mt-1 text-sm text-slate-500">Founder of Kiehn and Sons</div>
-                                        </div>
-                                        <div class="overflow-hidden rounded-full bg-slate-50"><img alt=""
-                                                loading="lazy" width="56" height="56" decoding="async"
-                                                data-nimg="1" class="h-14 w-14 object-cover"
-                                                style="color:transparent"
-                                                srcset="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar-5.e7f7faf2.png&amp;w=64&amp;q=75 1x, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar-5.e7f7faf2.png&amp;w=128&amp;q=75 2x"
-                                                src="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar-5.e7f7faf2.png&amp;w=128&amp;q=75">
-                                        </div>
-                                    </figcaption>
-                                </figure>
-                            </li>
-                            <li>
-                                <figure class="relative rounded-2xl bg-white p-6 shadow-xl shadow-slate-900/10"><svg
-                                        aria-hidden="true" width="105" height="78"
-                                        class="absolute top-6 left-6 fill-slate-100">
-                                        <path
-                                            d="M25.086 77.292c-4.821 0-9.115-1.205-12.882-3.616-3.767-2.561-6.78-6.102-9.04-10.622C1.054 58.534 0 53.411 0 47.686c0-5.273.904-10.396 2.712-15.368 1.959-4.972 4.746-9.567 8.362-13.786a59.042 59.042 0 0 1 12.43-11.3C28.325 3.917 33.599 1.507 39.324 0l11.074 13.786c-6.479 2.561-11.677 5.951-15.594 10.17-3.767 4.219-5.65 7.835-5.65 10.848 0 1.356.377 2.863 1.13 4.52.904 1.507 2.637 3.089 5.198 4.746 3.767 2.41 6.328 4.972 7.684 7.684 1.507 2.561 2.26 5.5 2.26 8.814 0 5.123-1.959 9.19-5.876 12.204-3.767 3.013-8.588 4.52-14.464 4.52Zm54.24 0c-4.821 0-9.115-1.205-12.882-3.616-3.767-2.561-6.78-6.102-9.04-10.622-2.11-4.52-3.164-9.643-3.164-15.368 0-5.273.904-10.396 2.712-15.368 1.959-4.972 4.746-9.567 8.362-13.786a59.042 59.042 0 0 1 12.43-11.3C82.565 3.917 87.839 1.507 93.564 0l11.074 13.786c-6.479 2.561-11.677 5.951-15.594 10.17-3.767 4.219-5.65 7.835-5.65 10.848 0 1.356.377 2.863 1.13 4.52.904 1.507 2.637 3.089 5.198 4.746 3.767 2.41 6.328 4.972 7.684 7.684 1.507 2.561 2.26 5.5 2.26 8.814 0 5.123-1.959 9.19-5.876 12.204-3.767 3.013-8.588 4.52-14.464 4.52Z">
-                                        </path>
-                                    </svg>
-                                    <blockquote class="relative">
-                                        <p class="text-lg tracking-tight text-slate-900">There are so many things I had
-                                            to do with my old software that I just don’t do at all with TaxPal.
-                                            Suspicious but I can’t say I don’t love it.</p>
-                                    </blockquote>
-                                    <figcaption
-                                        class="relative mt-6 flex items-center justify-between border-t border-slate-100 pt-6">
-                                        <div>
-                                            <div class="font-display text-base text-slate-900">Erin Powlowski</div>
-                                            <div class="mt-1 text-sm text-slate-500">COO at Armstrong Inc</div>
-                                        </div>
-                                        <div class="overflow-hidden rounded-full bg-slate-50"><img alt=""
-                                                loading="lazy" width="56" height="56" decoding="async"
-                                                data-nimg="1" class="h-14 w-14 object-cover"
-                                                style="color:transparent"
-                                                srcset="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar-2.c72e5a40.png&amp;w=64&amp;q=75 1x, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar-2.c72e5a40.png&amp;w=128&amp;q=75 2x"
-                                                src="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar-2.c72e5a40.png&amp;w=128&amp;q=75">
-                                        </div>
-                                    </figcaption>
-                                </figure>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <ul role="list" class="flex flex-col gap-y-6 sm:gap-y-8">
-                            <li>
-                                <figure class="relative rounded-2xl bg-white p-6 shadow-xl shadow-slate-900/10"><svg
-                                        aria-hidden="true" width="105" height="78"
-                                        class="absolute top-6 left-6 fill-slate-100">
-                                        <path
-                                            d="M25.086 77.292c-4.821 0-9.115-1.205-12.882-3.616-3.767-2.561-6.78-6.102-9.04-10.622C1.054 58.534 0 53.411 0 47.686c0-5.273.904-10.396 2.712-15.368 1.959-4.972 4.746-9.567 8.362-13.786a59.042 59.042 0 0 1 12.43-11.3C28.325 3.917 33.599 1.507 39.324 0l11.074 13.786c-6.479 2.561-11.677 5.951-15.594 10.17-3.767 4.219-5.65 7.835-5.65 10.848 0 1.356.377 2.863 1.13 4.52.904 1.507 2.637 3.089 5.198 4.746 3.767 2.41 6.328 4.972 7.684 7.684 1.507 2.561 2.26 5.5 2.26 8.814 0 5.123-1.959 9.19-5.876 12.204-3.767 3.013-8.588 4.52-14.464 4.52Zm54.24 0c-4.821 0-9.115-1.205-12.882-3.616-3.767-2.561-6.78-6.102-9.04-10.622-2.11-4.52-3.164-9.643-3.164-15.368 0-5.273.904-10.396 2.712-15.368 1.959-4.972 4.746-9.567 8.362-13.786a59.042 59.042 0 0 1 12.43-11.3C82.565 3.917 87.839 1.507 93.564 0l11.074 13.786c-6.479 2.561-11.677 5.951-15.594 10.17-3.767 4.219-5.65 7.835-5.65 10.848 0 1.356.377 2.863 1.13 4.52.904 1.507 2.637 3.089 5.198 4.746 3.767 2.41 6.328 4.972 7.684 7.684 1.507 2.561 2.26 5.5 2.26 8.814 0 5.123-1.959 9.19-5.876 12.204-3.767 3.013-8.588 4.52-14.464 4.52Z">
-                                        </path>
-                                    </svg>
-                                    <blockquote class="relative">
-                                        <p class="text-lg tracking-tight text-slate-900">I used to have to remit tax to
-                                            the EU and with TaxPal I somehow don’t have to do that anymore. Nervous to
-                                            travel there now though.</p>
-                                    </blockquote>
-                                    <figcaption
-                                        class="relative mt-6 flex items-center justify-between border-t border-slate-100 pt-6">
-                                        <div>
-                                            <div class="font-display text-base text-slate-900">Peter Renolds</div>
-                                            <div class="mt-1 text-sm text-slate-500">Founder of West Inc</div>
-                                        </div>
-                                        <div class="overflow-hidden rounded-full bg-slate-50"><img alt=""
-                                                loading="lazy" width="56" height="56" decoding="async"
-                                                data-nimg="1" class="h-14 w-14 object-cover"
-                                                style="color:transparent"
-                                                srcset="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar-3.eaa9ef6f.png&amp;w=64&amp;q=75 1x, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar-3.eaa9ef6f.png&amp;w=128&amp;q=75 2x"
-                                                src="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar-3.eaa9ef6f.png&amp;w=128&amp;q=75">
-                                        </div>
-                                    </figcaption>
-                                </figure>
-                            </li>
-                            <li>
-                                <figure class="relative rounded-2xl bg-white p-6 shadow-xl shadow-slate-900/10"><svg
-                                        aria-hidden="true" width="105" height="78"
-                                        class="absolute top-6 left-6 fill-slate-100">
-                                        <path
-                                            d="M25.086 77.292c-4.821 0-9.115-1.205-12.882-3.616-3.767-2.561-6.78-6.102-9.04-10.622C1.054 58.534 0 53.411 0 47.686c0-5.273.904-10.396 2.712-15.368 1.959-4.972 4.746-9.567 8.362-13.786a59.042 59.042 0 0 1 12.43-11.3C28.325 3.917 33.599 1.507 39.324 0l11.074 13.786c-6.479 2.561-11.677 5.951-15.594 10.17-3.767 4.219-5.65 7.835-5.65 10.848 0 1.356.377 2.863 1.13 4.52.904 1.507 2.637 3.089 5.198 4.746 3.767 2.41 6.328 4.972 7.684 7.684 1.507 2.561 2.26 5.5 2.26 8.814 0 5.123-1.959 9.19-5.876 12.204-3.767 3.013-8.588 4.52-14.464 4.52Zm54.24 0c-4.821 0-9.115-1.205-12.882-3.616-3.767-2.561-6.78-6.102-9.04-10.622-2.11-4.52-3.164-9.643-3.164-15.368 0-5.273.904-10.396 2.712-15.368 1.959-4.972 4.746-9.567 8.362-13.786a59.042 59.042 0 0 1 12.43-11.3C82.565 3.917 87.839 1.507 93.564 0l11.074 13.786c-6.479 2.561-11.677 5.951-15.594 10.17-3.767 4.219-5.65 7.835-5.65 10.848 0 1.356.377 2.863 1.13 4.52.904 1.507 2.637 3.089 5.198 4.746 3.767 2.41 6.328 4.972 7.684 7.684 1.507 2.561 2.26 5.5 2.26 8.814 0 5.123-1.959 9.19-5.876 12.204-3.767 3.013-8.588 4.52-14.464 4.52Z">
-                                        </path>
-                                    </svg>
-                                    <blockquote class="relative">
-                                        <p class="text-lg tracking-tight text-slate-900">This is the fourth email I’ve
-                                            sent to your support team. I am literally being held in jail for tax fraud.
-                                            Please answer your damn emails, this is important.</p>
-                                    </blockquote>
-                                    <figcaption
-                                        class="relative mt-6 flex items-center justify-between border-t border-slate-100 pt-6">
-                                        <div>
-                                            <div class="font-display text-base text-slate-900">Amy Hahn</div>
-                                            <div class="mt-1 text-sm text-slate-500">Director at Velocity Industries
-                                            </div>
-                                        </div>
-                                        <div class="overflow-hidden rounded-full bg-slate-50"><img alt=""
-                                                loading="lazy" width="56" height="56" decoding="async"
-                                                data-nimg="1" class="h-14 w-14 object-cover"
-                                                style="color:transparent"
-                                                srcset="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar-4.16b4e29e.png&amp;w=64&amp;q=75 1x, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar-4.16b4e29e.png&amp;w=128&amp;q=75 2x"
-                                                src="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar-4.16b4e29e.png&amp;w=128&amp;q=75">
-                                        </div>
-                                    </figcaption>
-                                </figure>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </section>
+{{--
         <section id="pricing" aria-label="Pricing" class="bg-slate-900 py-20 sm:py-32">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div class="md:text-center">
                     <h2 class="font-display text-3xl tracking-tight text-white sm:text-4xl"><span
                             class="relative whitespace-nowrap"><svg aria-hidden="true" viewBox="0 0 281 40"
                                 preserveAspectRatio="none"
-                                class="absolute top-1/2 left-0 h-[1em] w-full fill-blue-400">
+                                class="absolute top-1/2 left-0 h-[1em] w-full fill-cyan-400">
                                 <path fill-rule="evenodd" clip-rule="evenodd"
                                     d="M240.172 22.994c-8.007 1.246-15.477 2.23-31.26 4.114-18.506 2.21-26.323 2.977-34.487 3.386-2.971.149-3.727.324-6.566 1.523-15.124 6.388-43.775 9.404-69.425 7.31-26.207-2.14-50.986-7.103-78-15.624C10.912 20.7.988 16.143.734 14.657c-.066-.381.043-.344 1.324.456 10.423 6.506 49.649 16.322 77.8 19.468 23.708 2.65 38.249 2.95 55.821 1.156 9.407-.962 24.451-3.773 25.101-4.692.074-.104.053-.155-.058-.135-1.062.195-13.863-.271-18.848-.687-16.681-1.389-28.722-4.345-38.142-9.364-15.294-8.15-7.298-19.232 14.802-20.514 16.095-.934 32.793 1.517 47.423 6.96 13.524 5.033 17.942 12.326 11.463 18.922l-.859.874.697-.006c2.681-.026 15.304-1.302 29.208-2.953 25.845-3.07 35.659-4.519 54.027-7.978 9.863-1.858 11.021-2.048 13.055-2.145a61.901 61.901 0 0 0 4.506-.417c1.891-.259 2.151-.267 1.543-.047-.402.145-2.33.913-4.285 1.707-4.635 1.882-5.202 2.07-8.736 2.903-3.414.805-19.773 3.797-26.404 4.829Zm40.321-9.93c.1-.066.231-.085.29-.041.059.043-.024.096-.183.119-.177.024-.219-.007-.107-.079ZM172.299 26.22c9.364-6.058 5.161-12.039-12.304-17.51-11.656-3.653-23.145-5.47-35.243-5.576-22.552-.198-33.577 7.462-21.321 14.814 12.012 7.205 32.994 10.557 61.531 9.831 4.563-.116 5.372-.288 7.337-1.559Z">
                                 </path>
@@ -1907,7 +1702,7 @@
                             variant="outline" color="white" aria-label="Get started with the Starter plan for $9"
                             href="/register">Get started</a>
                     </section>
-                    <section class="flex flex-col rounded-3xl px-6 sm:px-8 order-first bg-blue-600 py-8 lg:order-none">
+                    <section class="flex flex-col rounded-3xl px-6 sm:px-8 order-first bg-cyan-600 py-8 lg:order-none">
                         <h3 class="mt-5 font-display text-lg text-white">Small business</h3>
                         <p class="mt-2 text-base text-white">Perfect for small / medium sized businesses.</p>
                         <p class="order-first font-display text-5xl font-light tracking-tight text-white">$15</p>
@@ -1969,7 +1764,7 @@
                                         stroke-linecap="round" stroke-linejoin="round"></circle>
                                 </svg><span class="ml-4">Track in multiple currencies</span></li>
                         </ul><a
-                            class="group inline-flex items-center justify-center rounded-full py-2 px-4 text-sm font-semibold focus:outline-hidden focus-visible:outline-2 focus-visible:outline-offset-2 bg-white text-slate-900 hover:bg-blue-50 active:bg-blue-200 active:text-slate-600 focus-visible:outline-white mt-8"
+                            class="group inline-flex items-center justify-center rounded-full py-2 px-4 text-sm font-semibold focus:outline-hidden focus-visible:outline-2 focus-visible:outline-offset-2 bg-white text-slate-900 hover:bg-cyan-50 active:bg-cyan-200 active:text-slate-600 focus-visible:outline-white mt-8"
                             variant="solid" color="white"
                             aria-label="Get started with the Small business plan for $15" href="/register">Get
                             started</a>
@@ -2026,107 +1821,13 @@
                     </section>
                 </div>
             </div>
-        </section>
-        <section id="faq" aria-labelledby="faq-title"
-            class="relative overflow-hidden bg-slate-50 py-20 sm:py-32"><img alt="" loading="lazy"
-                width="1558" height="946" decoding="async" data-nimg="1"
-                class="absolute top-0 left-1/2 max-w-none -translate-y-1/4 translate-x-[-30%]"
-                style="color:transparent" src="">
-            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative">
-                <div class="mx-auto max-w-2xl lg:mx-0">
-                    <h2 id="faq-title" class="font-display text-3xl tracking-tight text-slate-900 sm:text-4xl">
-                        Frequently asked questions</h2>
-                    <p class="mt-4 text-lg tracking-tight text-slate-700">If you can’t find what you’re looking for,
-                        email our support team and if you’re lucky someone will get back to you.</p>
-                </div>
-                <ul role="list"
-                    class="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-8 lg:max-w-none lg:grid-cols-3">
-                    <li>
-                        <ul role="list" class="flex flex-col gap-y-8">
-                            <li>
-                                <h3 class="font-display text-lg/7 text-slate-900">Does TaxPal handle VAT?</h3>
-                                <p class="mt-4 text-sm text-slate-700">Well no, but if you move your company offshore
-                                    you can probably ignore it.</p>
-                            </li>
-                            <li>
-                                <h3 class="font-display text-lg/7 text-slate-900">Can I pay for my subscription via
-                                    purchase order?</h3>
-                                <p class="mt-4 text-sm text-slate-700">Absolutely, we are happy to take your money in
-                                    all forms.</p>
-                            </li>
-                            <li>
-                                <h3 class="font-display text-lg/7 text-slate-900">How do I apply for a job at TaxPal?
-                                </h3>
-                                <p class="mt-4 text-sm text-slate-700">We only hire our customers, so subscribe for a
-                                    minimum of 6 months and then let’s talk.</p>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <ul role="list" class="flex flex-col gap-y-8">
-                            <li>
-                                <h3 class="font-display text-lg/7 text-slate-900">What was that testimonial about tax
-                                    fraud all about?</h3>
-                                <p class="mt-4 text-sm text-slate-700">TaxPal is just a software application,
-                                    ultimately your books are your responsibility.</p>
-                            </li>
-                            <li>
-                                <h3 class="font-display text-lg/7 text-slate-900">TaxPal sounds horrible but why do I
-                                    still feel compelled to purchase?</h3>
-                                <p class="mt-4 text-sm text-slate-700">This is the power of excellent visual design.
-                                    You just can’t resist it, no matter how poorly it actually functions.</p>
-                            </li>
-                            <li>
-                                <h3 class="font-display text-lg/7 text-slate-900">I found other companies called
-                                    TaxPal, are you sure you can use this name?</h3>
-                                <p class="mt-4 text-sm text-slate-700">Honestly not sure at all. We haven’t actually
-                                    incorporated or anything, we just thought it sounded cool and made this website.</p>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <ul role="list" class="flex flex-col gap-y-8">
-                            <li>
-                                <h3 class="font-display text-lg/7 text-slate-900">How do you generate reports?</h3>
-                                <p class="mt-4 text-sm text-slate-700">You just tell us what data you need a report
-                                    for, and we get our kids to create beautiful charts for you using only the finest
-                                    crayons.</p>
-                            </li>
-                            <li>
-                                <h3 class="font-display text-lg/7 text-slate-900">Can we expect more inventory
-                                    features?</h3>
-                                <p class="mt-4 text-sm text-slate-700">In life it’s really better to never expect
-                                    anything at all.</p>
-                            </li>
-                            <li>
-                                <h3 class="font-display text-lg/7 text-slate-900">I lost my password, how do I get into
-                                    my account?</h3>
-                                <p class="mt-4 text-sm text-slate-700">Send us an email and we will send you a copy of
-                                    our latest password spreadsheet so you can find your information.</p>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </section>
+        </section> --}}
+
     </main>
     <footer class="bg-slate-50">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div class="py-16"><svg aria-hidden="true" viewBox="0 0 109 40" class="mx-auto h-10 w-auto">
-                    <path fill-rule="evenodd" clip-rule="evenodd"
-                        d="M0 20c0 11.046 8.954 20 20 20s20-8.954 20-20S31.046 0 20 0 0 8.954 0 20Zm20 16c-7.264 0-13.321-5.163-14.704-12.02C4.97 22.358 6.343 21 8 21h24c1.657 0 3.031 1.357 2.704 2.98C33.32 30.838 27.264 36 20 36Z"
-                        fill="#2563EB"></path>
-                    <path d="M55.528 26.57V15.842H52V13.97h9.108v1.872h-3.636V26.57h-1.944Z" fill="#0F172A"></path>
-                    <path
-                        d="M83.084 26.57v-12.6h5.346c.744 0 1.416.18 2.016.54a3.773 3.773 0 0 1 1.44 1.44c.36.612.54 1.302.54 2.07 0 .78-.18 1.482-.54 2.106a4 4 0 0 1-1.44 1.494c-.6.36-1.272.54-2.016.54h-2.646v4.41h-2.7Zm2.664-6.84h2.376c.288 0 .546-.072.774-.216.228-.156.408-.36.54-.612a1.71 1.71 0 0 0 .216-.864c0-.324-.072-.606-.216-.846a1.394 1.394 0 0 0-.54-.576 1.419 1.419 0 0 0-.774-.216h-2.376v3.33ZM106.227 26.57V13.25h2.556v13.32h-2.556Z"
-                        fill="#2563EB"></path>
-                    <path fill-rule="evenodd" clip-rule="evenodd"
-                        d="M95.906 26.102c.636.432 1.35.648 2.142.648.444 0 .864-.066 1.26-.198a4.25 4.25 0 0 0 1.062-.558 3.78 3.78 0 0 0 .702-.668v1.244h2.574v-9.522h-2.538v1.248a3.562 3.562 0 0 0-.648-.672 3.13 3.13 0 0 0-1.026-.558 3.615 3.615 0 0 0-1.278-.216c-.828 0-1.566.216-2.214.648-.648.42-1.164 1.002-1.548 1.746-.372.732-.558 1.578-.558 2.538 0 .96.186 1.812.558 2.556.372.744.876 1.332 1.512 1.764Zm4.104-1.908c-.36.228-.78.342-1.26.342-.468 0-.882-.114-1.242-.342a2.387 2.387 0 0 1-.828-.954c-.204-.42-.306-.906-.306-1.458 0-.54.102-1.014.306-1.422.204-.408.48-.726.828-.954.36-.24.774-.36 1.242-.36.48 0 .9.12 1.26.36.36.228.636.546.828.954.204.408.306.882.306 1.422 0 .552-.102 1.038-.306 1.458a2.218 2.218 0 0 1-.828.954Z"
-                        fill="#2563EB"></path>
-                    <path fill-rule="evenodd" clip-rule="evenodd"
-                        d="m76.322 23.197 2.595 3.373h2.268l-3.662-4.787 3.338-4.663h-2.196l-2.162 3.334-2.554-3.334h-2.34l3.652 4.71-3.634 4.74h2.196l2.5-3.373ZM62.738 26.102a3.78 3.78 0 0 0 2.142.648c.456 0 .888-.072 1.296-.216.42-.144.798-.336 1.134-.576a3.418 3.418 0 0 0 .864-.835v1.447h1.872v-9.45h-1.872v1.45a3.118 3.118 0 0 0-.72-.82 3.2 3.2 0 0 0-1.062-.612 4.033 4.033 0 0 0-1.35-.216c-.828 0-1.578.21-2.25.63-.66.42-1.188 1.002-1.584 1.746-.384.732-.576 1.572-.576 2.52 0 .936.192 1.776.576 2.52.384.744.894 1.332 1.53 1.764Zm4.122-1.476c-.432.276-.93.414-1.494.414a2.682 2.682 0 0 1-1.476-.414 2.987 2.987 0 0 1-1.008-1.134c-.24-.492-.36-1.05-.36-1.674 0-.612.12-1.158.36-1.638.252-.48.588-.858 1.008-1.134a2.682 2.682 0 0 1 1.476-.414c.564 0 1.062.138 1.494.414.432.276.768.654 1.008 1.134.252.48.378 1.026.378 1.638 0 .624-.126 1.182-.378 1.674-.24.48-.576.858-1.008 1.134Z"
-                        fill="#0F172A"></path>
-                </svg>
+            <div class="py-16">
+                <x-application-logo class="h-8 w-auto" />
                 <nav class="mt-10 text-sm" aria-label="quick links">
                     <div class="-my-1 flex justify-center gap-x-6"><a
                             class="inline-block rounded-lg px-2 py-1 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900"
@@ -2160,33 +1861,34 @@
         </div>
     </footer>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const tabs = document.querySelectorAll('[role="tab"]');
-        const tabPanels = document.querySelectorAll('[role="tabpanel"]');
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('[role="tab"]');
+            const tabPanels = document.querySelectorAll('[role="tabpanel"]');
 
-        tabs.forEach(tab => {
-            tab.addEventListener('click', function () {
-                const selectedPanel = document.getElementById(tab.getAttribute('aria-controls'));
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const selectedPanel = document.getElementById(tab.getAttribute(
+                    'aria-controls'));
 
-                tabs.forEach(t => {
-                    t.setAttribute('aria-selected', 'false');
-                    t.setAttribute('tabindex', '-1');
+                    tabs.forEach(t => {
+                        t.setAttribute('aria-selected', 'false');
+                        t.setAttribute('tabindex', '-1');
+                    });
+
+                    tabPanels.forEach(panel => {
+                        panel.classList.add('hidden');
+                        panel.setAttribute('tabindex', '-1');
+                    });
+
+                    tab.setAttribute('aria-selected', 'true');
+                    tab.setAttribute('tabindex', '0');
+                    selectedPanel.classList.remove('hidden');
+                    selectedPanel.setAttribute('tabindex', '0');
                 });
-
-                tabPanels.forEach(panel => {
-                    panel.classList.add('hidden');
-                    panel.setAttribute('tabindex', '-1');
-                });
-
-                tab.setAttribute('aria-selected', 'true');
-                tab.setAttribute('tabindex', '0');
-                selectedPanel.classList.remove('hidden');
-                selectedPanel.setAttribute('tabindex', '0');
             });
         });
-    });
-</script>
+    </script>
 </body>
 
 </html>
