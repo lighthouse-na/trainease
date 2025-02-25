@@ -9,6 +9,7 @@
         "php": "^8.2",
         "barryvdh/laravel-dompdf": "^3.1",
         "codeat3/blade-academicons": "^1.7",
+        "codeat3/blade-fluentui-system-icons": "^1.34",
         "davidhsianturi/blade-bootstrap-icons": "^1.5",
         "hashids/hashids": "^5.0",
         "laravel/framework": "^11.31",
