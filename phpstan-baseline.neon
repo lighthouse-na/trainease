@@ -1,0 +1,265 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Cannot call method hasVerifiedEmail\(\) on App\\Models\\User\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Http/Controllers/Auth/VerifyEmailController.php
+
+		-
+			message: '#^Cannot call method markEmailAsVerified\(\) on App\\Models\\User\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Http/Controllers/Auth/VerifyEmailController.php
+
+		-
+			message: '#^Cannot call method hasRole\(\) on App\\Models\\User\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Http/Middleware/RoleMiddleware.php
+
+		-
+			message: '#^Method App\\Http\\Middleware\\RoleMiddleware\:\:handle\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Middleware/RoleMiddleware.php
+
+		-
+			message: '#^Method App\\Http\\Middleware\\RoleMiddleware\:\:handle\(\) has parameter \$role with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Middleware/RoleMiddleware.php
+
+		-
+			message: '#^Method App\\Livewire\\Actions\\Logout\:\:__invoke\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Livewire/Actions/Logout.php
+
+		-
+			message: '#^Method App\\Models\\Organisation\\Department\:\:division\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Organisation/Department.php
+
+		-
+			message: '#^Method App\\Models\\Organisation\\Department\:\:users\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Organisation/Department.php
+
+		-
+			message: '#^Method App\\Models\\Organisation\\Division\:\:department\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Organisation/Division.php
+
+		-
+			message: '#^Method App\\Models\\Organisation\\Division\:\:organisation\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Organisation/Division.php
+
+		-
+			message: '#^Method App\\Models\\Organisation\\Division\:\:users\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Organisation/Division.php
+
+		-
+			message: '#^Method App\\Models\\Organisation\\Organisation\:\:divisions\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Organisation/Organisation.php
+
+		-
+			message: '#^Method App\\Models\\Training\\Course\:\:enrolledUsers\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Training/Course.php
+
+		-
+			message: '#^Method App\\Models\\Training\\Course\:\:enrollment\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Training/Course.php
+
+		-
+			message: '#^Method App\\Models\\Training\\Course\:\:feedback\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Training/Course.php
+
+		-
+			message: '#^Method App\\Models\\Training\\Course\:\:materials\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Training/Course.php
+
+		-
+			message: '#^Method App\\Models\\Training\\Course\:\:progress\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Training/Course.php
+
+		-
+			message: '#^Method App\\Models\\Training\\Course\:\:trainer\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Training/Course.php
+
+		-
+			message: '#^Method App\\Models\\Training\\CourseFeedback\:\:enrollment\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Training/CourseFeedback.php
+
+		-
+			message: '#^Cannot call method exists\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Models/Training/CourseMaterial.php
+
+		-
+			message: '#^Cannot call method where\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: app/Models/Training/CourseMaterial.php
+
+		-
+			message: '#^Method App\\Models\\Training\\CourseMaterial\:\:course\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Training/CourseMaterial.php
+
+		-
+			message: '#^Method App\\Models\\Training\\CourseMaterial\:\:isCompletedByUser\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Training/CourseMaterial.php
+
+		-
+			message: '#^Method App\\Models\\Training\\CourseMaterial\:\:isCompletedByUser\(\) has parameter \$userId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/Training/CourseMaterial.php
+
+		-
+			message: '#^Method App\\Models\\Training\\CourseMaterial\:\:progress\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Training/CourseMaterial.php
+
+		-
+			message: '#^Method App\\Models\\Training\\CourseProgress\:\:course\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Training/CourseProgress.php
+
+		-
+			message: '#^Method App\\Models\\Training\\CourseProgress\:\:material\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Training/CourseProgress.php
+
+		-
+			message: '#^Method App\\Models\\Training\\CourseProgress\:\:user\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Training/CourseProgress.php
+
+		-
+			message: '#^Method App\\Models\\Training\\Enrollment\:\:courses\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Training/Enrollment.php
+
+		-
+			message: '#^Method App\\Models\\Training\\Enrollment\:\:feedback\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Training/Enrollment.php
+
+		-
+			message: '#^Method App\\Models\\Training\\Enrollment\:\:user\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Training/Enrollment.php
+
+		-
+			message: '#^Binary operation "/" between mixed and int\<1, max\> results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 1
+			path: app/Models/User.php
+
+		-
+			message: '#^Cannot call method count\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Models/User.php
+
+		-
+			message: '#^Cannot call method where\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Models/User.php
+
+		-
+			message: '#^Cannot call method whereIn\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Models/User.php
+
+		-
+			message: '#^Method App\\Models\\User\:\:calculateProgress\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/User.php
+
+		-
+			message: '#^Method App\\Models\\User\:\:calculateProgress\(\) has parameter \$courseId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/User.php
+
+		-
+			message: '#^Method App\\Models\\User\:\:courseProgress\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/User.php
+
+		-
+			message: '#^Method App\\Models\\User\:\:enrollments\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/User.php
+
+		-
+			message: '#^Method App\\Models\\User\:\:user_detail\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/User.php
+
+		-
+			message: '#^Method App\\Models\\UserDetail\:\:department\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/UserDetail.php
+
+		-
+			message: '#^Method App\\Models\\UserDetail\:\:division\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/UserDetail.php
+
+		-
+			message: '#^Method App\\Models\\UserDetail\:\:supervisor\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/UserDetail.php
+
+		-
+			message: '#^Method App\\Models\\UserDetail\:\:user\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/UserDetail.php

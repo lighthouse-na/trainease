@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('departments', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('division_id')->onDelete('cascade');
+            $table->string('department_name');
             $table->timestamps();
         });
     }

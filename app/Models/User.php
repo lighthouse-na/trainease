@@ -3,6 +3,10 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Models\Training\CourseMaterial;
+use App\Models\Training\CourseProgress;
+use App\Models\Training\Enrollment;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -62,4 +66,41 @@ class User extends Authenticatable
     public function user_detail(){
         return $this->hasOne(UserDetail::class);
     }
+
+    public function enrollments()
+    {
+        return $this->hasMany(Enrollment::class);
+    }
+
+    public function courseProgress()
+    {
+        return $this->hasMany(CourseProgress::class);
+    }
+    public function calculateProgress($courseId)
+
+    {
+
+        // Get all course materials for the training
+
+        $courseMaterials = CourseMaterial::where('course_id', $courseId)->get();
+        $totalMaterials = $courseMaterials->count();
+
+
+        // Get completed materials for the user in this training
+
+        $completedMaterials = $this->courseProgress()
+
+            ->whereIn('course_material_id', $courseMaterials->pluck('id'))
+
+            ->where('status', 'completed')
+
+            ->count();
+
+
+        // Calculate progress percentage
+
+        return $totalMaterials > 0 ? ($completedMaterials / $totalMaterials) * 100 : 0;
+    }
+
+
 }

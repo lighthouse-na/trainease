@@ -15,6 +15,7 @@
                 <flux:navbar.item icon="layout-grid" href="{{ route('dashboard') }}" :current="request()->routeIs('dashboard')" wire:navigate>
                     {{ __('Dashboard') }}
                 </flux:navbar.item>
+                <flux:navlist.item icon="book-open-text" :href="route('training.coursespage')" :current="request()->routeIs('training.coursespage')" wire:navigate>{{ __('Online Courses') }}</flux:navlist.item>
             </flux:navbar>
 
             <flux:spacer />

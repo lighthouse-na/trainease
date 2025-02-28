@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('organisations', function (Blueprint $table) {
+        Schema::create('course_feedback', function (Blueprint $table) {
             $table->id();
-            $table->string('organisation_name');
-            $table->string('organisation_logo')->nullable();
+            $table->foreignId('enrollment_id')->constrained('enrollments');
+            $table->text('feedback');
+            $table->integer('rating');
             $table->timestamps();
         });
     }
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('organisations');
+        Schema::dropIfExists('course_feedback');
     }
 };
