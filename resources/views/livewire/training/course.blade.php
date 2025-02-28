@@ -81,6 +81,21 @@ new class extends Component {
             $this->setActiveContent($previousMaterial->id);
         }
     }
+
+    public function completeCourse(){
+        $enrollment = Enrollment::where('user_id', Auth::id())->where('course_id', $this->course->id)->first();
+
+        if (!$enrollment) {
+            abort(403, 'You are not enrolled in this course.');
+        }
+
+        // Mark course as completed
+        $enrollment->update(['status' => 'completed']);
+
+        return redirect('/dashboard')->with('success', 'Course completed successfully!');
+    }
+
+
 }; ?>
 
 <div class="flex m-0 border h-screen w-full bg-slate-100 dark:bg-slate-900 rounded-l-xl">
@@ -117,10 +132,10 @@ new class extends Component {
                     </div>
                 @elseif ($enrollment->status === 'completed')
                     <div class="flex justify-between items-center mt-4">
-                        <a href="#"
-                            class="bg-white border px-3 py-2 text-xs rounded-lg cursor-pointer hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200">
+                        <flux:button wire:click="completeCourse" icon-trailing="document-chart-bar" dark:variant="primary">
                             Download Certificate
-                        </a>
+
+                        </flux:button>
                     </div>
                 @endif
             </div>
