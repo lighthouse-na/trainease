@@ -21,6 +21,7 @@ Route::middleware(['auth'])->group(function () {
 
     Volt::route('courses', 'training.coursespage')->name('training.coursespage');
     Volt::route('courses/{course}', 'training.showcourse')->name('training.coursepage');
+    Volt::route('quiz/{quiz}', 'training.quiz.quiz')->name('training.quiz');
 });
 
 Route::view('course/{course_id}/{enrollment_id}', 'courses.show-course')

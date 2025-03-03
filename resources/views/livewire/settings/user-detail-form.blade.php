@@ -64,7 +64,7 @@ new class extends Component {
                 <flux:radio value="male" label="Male" checked />
                 <flux:radio value="female" label="Female" />
             </flux:radio.group>
-            <flux:input wire:model="dob" label="{{ __('Date of Birth') }}" type="date" required />
+            <flux:input wire:model="dob" label="{{ __('Date of Birth') }}" type="date" required/>
             <flux:input mask="(+264) 99 999 9999" wire:model="phone_number" label="{{ __('Phone Number') }}" type="text" required
                 placeholder="(+264) 85 999 9999" />
             <flux:input wire:model="address" label="{{ __('Address') }}" type="text" required

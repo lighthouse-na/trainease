@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Models\Training\CourseMaterial;
 use App\Models\Training\CourseProgress;
 use App\Models\Training\Enrollment;
+use App\Models\Training\Quiz\QuizResponse;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -100,6 +101,25 @@ class User extends Authenticatable
         // Calculate progress percentage
 
         return $totalMaterials > 0 ? ($completedMaterials / $totalMaterials) * 100 : 0;
+    }
+    public function quizResponses()
+    {
+        return $this->hasMany(QuizResponse::class, 'user_id');
+    }
+
+    public function getQuizAttempts($quiz_id)
+    {
+        return $this->quizResponses()
+            ->where('quiz_id', $quiz_id)
+            ->sum('attempts');
+    }
+    public function userHasPassed($quiz_id)
+    {
+        return $this->quizResponses()
+            ->where('quiz_id', $quiz_id)
+            ->where('status', 'passed')
+            ->exists();
+
     }
 
 

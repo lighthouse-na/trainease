@@ -5,6 +5,7 @@ use App\Models\Training\Course;
 use App\Models\Training\CourseMaterial;
 use App\Models\Training\CourseProgress;
 use App\Models\Training\Enrollment;
+use App\Models\Training\Quiz\Quiz;
 
 new class extends Component {
     //
@@ -15,6 +16,7 @@ new class extends Component {
     public $content;
     public $completedMaterials = [];
     public $enrollment;
+    public $quizes;
 
     public function mount($course_id, $enrollment_id)
     {
@@ -24,6 +26,7 @@ new class extends Component {
         $this->content = $this->courseMaterials->first() ?? null; // Set to null if no materials exist
         $this->completedMaterials = $this->getCompletedMaterials(Auth::id());
         $this->enrollment = Enrollment::find($enrollment_id);
+        $this->quizes = $this->course->quizes;
     }
     public function getCompletedMaterials($userId)
     {
@@ -95,6 +98,16 @@ new class extends Component {
         return redirect('/dashboard')->with('success', 'Course completed successfully!');
     }
 
+    public function startQuiz($quizId)
+    {
+        $quiz = Quiz::find($quizId);
+
+        if (!$quiz) {
+            abort(404, 'Quiz not found.');
+        }
+
+        return redirect()->route('training.quiz', ['quiz' => $quiz]);
+    }
 
 }; ?>
 
@@ -123,7 +136,7 @@ new class extends Component {
                         </div>
                     </div>
                 </div>
-                @if ($progress = 100 && $enrollment->status !== 'completed')
+                {{-- @if ($progress = 100 && $enrollment->status !== 'completed')
                     <div class="flex justify-between items-center mt-4">
                         <flux:button wire:click="completeCourse" icon-trailing="document-check" dark:variant="primary">
                             Complete Course
@@ -137,7 +150,7 @@ new class extends Component {
 
                         </flux:button>
                     </div>
-                @endif
+                @endif --}}
             </div>
 
             <!-- Course Materials -->
@@ -183,12 +196,26 @@ new class extends Component {
                     : 'bg-indigo-50 border-indigo-200 text-indigo-700 dark:bg-indigo-900 dark:border-indigo-700 dark:text-indigo-200';
                 $hoverClasses =
                     'hover:shadow-md hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-indigo-400';
+
             @endphp
 
             <!-- Course Quizzes -->
             <div class="mt-6">
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Course Quizzes</h3>
+                @forelse ($quizes as $quiz)
+                @php
+                    $attemptsUsed = Auth::user()->getQuizAttempts($quiz->id) ?? 0;
+                        $remainingAttempts = $quiz->max_attempts - $attemptsUsed;
+                        $isDisabled = $remainingAttempts <= 0;
+                @endphp
+                <flux:tooltip position="right" content="{{$remainingAttempts <= 0 ? 'You have exhausted all attempts for this quiz.' : 'You have ' . $remainingAttempts . ' attempts remaining.'}}">
 
+                <flux:button icon="document-text" class="cursor-pointer" variant="primary" wire:click.prevent="startQuiz({{$quiz->id}})">{{$quiz->title}}</flux:button>
+                </flux:tooltip>
+
+                @empty
+                    <p class="text-gray-700 dark:text-gray-300">No quizzes available.</p>
+                @endforelse
 
             </div>
         </div>

@@ -5,6 +5,7 @@ namespace App\Models\Training;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Training\Quiz\Quiz;
 
 class Course extends Model
 {
@@ -23,9 +24,9 @@ class Course extends Model
     public function materials() {
         return $this->hasMany(CourseMaterial::class, 'course_id');
     }
-    // public function quizzes() {
-    //     return $this->hasMany(Quiz::class, 'course_id');
-    // }
+    public function quizes() {
+        return $this->hasMany(Quiz::class, 'course_id');
+    }
     public function progress()
     {
         return $this->hasMany(CourseProgress::class);
