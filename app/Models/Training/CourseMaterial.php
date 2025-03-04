@@ -9,6 +9,7 @@ class CourseMaterial extends Model
 {
     /** @use HasFactory<\Database\Factories\Training\CourseMaterialFactory> */
     use HasFactory;
+
     protected $fillable = [
         'course_id',
         'material_name',
@@ -28,7 +29,6 @@ class CourseMaterial extends Model
     {
         return $this->progress()->where('user_id', $userId)->where('status', 'completed')->exists();
     }
-
 
     public function progress()
     {

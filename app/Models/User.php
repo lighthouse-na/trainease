@@ -17,7 +17,7 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasRoles;
+    use HasFactory, HasRoles, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -64,7 +64,8 @@ class User extends Authenticatable
             ->implode('');
     }
 
-    public function user_detail(){
+    public function user_detail()
+    {
         return $this->hasOne(UserDetail::class);
     }
 
@@ -77,15 +78,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(CourseProgress::class);
     }
-    public function calculateProgress($courseId)
 
+    public function calculateProgress($courseId)
     {
 
         // Get all course materials for the training
 
         $courseMaterials = CourseMaterial::where('course_id', $courseId)->get();
         $totalMaterials = $courseMaterials->count();
-
 
         // Get completed materials for the user in this training
 
@@ -97,11 +97,11 @@ class User extends Authenticatable
 
             ->count();
 
-
         // Calculate progress percentage
 
         return $totalMaterials > 0 ? ($completedMaterials / $totalMaterials) * 100 : 0;
     }
+
     public function quizResponses()
     {
         return $this->hasMany(QuizResponse::class, 'user_id');
@@ -113,6 +113,7 @@ class User extends Authenticatable
             ->where('quiz_id', $quiz_id)
             ->sum('attempts');
     }
+
     public function userHasPassed($quiz_id)
     {
         return $this->quizResponses()
@@ -121,6 +122,4 @@ class User extends Authenticatable
             ->exists();
 
     }
-
-
 }

@@ -9,6 +9,7 @@ class Organisation extends Model
 {
     /** @use HasFactory<\Database\Factories\Organisation\OrganisationFactory> */
     use HasFactory;
+
     protected $fillable = ['organisation_name', 'organisation_logo'];
 
     public function divisions()

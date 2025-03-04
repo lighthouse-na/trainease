@@ -3,17 +3,17 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class RolesAndPermissionsSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
-    public function run() {
+    public function run()
+    {
         // Create roles
         $admin = Role::create(['name' => 'admin']);
         $trainer = Role::create(['name' => 'trainer']);
@@ -25,7 +25,6 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'enroll in training']);
         Permission::create(['name' => 'approve enrollments']);
         Permission::create(['name' => 'generate certificates']);
-
 
         // Assign permissions to roles
         $admin->givePermissionTo(['manage users', 'create training', 'approve enrollments', 'generate certificates']);
@@ -65,7 +64,6 @@ class RolesAndPermissionsSeeder extends Seeder
         $userStaff->assignRole('staff');
 
         $this->command->info('Roles and users seeded successfully!');
-
 
         // Assign Admin role to the first user (example)
         $user = \App\Models\User::find(1);

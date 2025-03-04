@@ -1,27 +1,29 @@
 <?php
 
-namespace Database\Seeders;
-
 use App\Models\Training\Course;
 use App\Models\Training\CourseMaterial;
 use App\Models\Training\Quiz\Option;
 use App\Models\Training\Quiz\Question;
 use App\Models\Training\Quiz\Quiz;
-use Illuminate\Database\Seeder;
+use Illuminate\Database\Migrations\Migration;
 
-class CyberCourseSeeder extends Seeder
+return new class extends Migration
 {
     /**
-     * Run the database seeds.
+     * Run the migrations.
      */
-    public function run(): void
+    public function up(): void
     {
-        //
+        $this->seedCyberCourse();
+    }
+
+    public function seedCyberCourse(): void
+    {
         $course = Course::create([
             'course_name' => 'Cyber Security Awareness',
             'course_description' => 'A fundamental cybersecurity awareness course for Telecom Namibia employees.',
             'user_id' => 1,
-            'course_fee' => 0,
+            'course_fee' => 500,
             'course_image' => 'https://cdn.dribbble.com/userupload/14375213/file/original-fd4b67a6f4e6c8bfeca200725dd400a3.jpg?resize=1600x1333&vertical=center',
 
         ]);
@@ -166,6 +168,7 @@ Knowing how to respond to a cyber incident can minimize damage.
                 'material_name' => $moduleData['title'],
                 'description' => $moduleData['description'],
                 'material_content' => $moduleData['content'],
+
             ]);
         }
 
@@ -333,4 +336,4 @@ Knowing how to respond to a cyber incident can minimize damage.
             }
         }
     }
-}
+};

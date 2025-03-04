@@ -6,6 +6,7 @@ use App\Models\Training\Quiz\Quiz;
 use App\Models\Training\Quiz\UserAnswer;
 use App\Models\Training\Quiz\QuizResponse;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Training\Enrollment;
 new #[Layout('components.layouts.course')] class extends Component {
     //
     public $quiz;
@@ -76,6 +77,18 @@ new #[Layout('components.layouts.course')] class extends Component {
             'score' => $this->score,
             'attempts' => $this->quizResponse->attempts + 1
         ]);
+        $courseId = $this->quiz->course_id;
+        $userId = Auth::user()->id;
+        // Update user's enrollment score with highest quiz response score
+        $highestScore = QuizResponse::whereHas('quiz', function ($query) use ($courseId) {
+        $query->where('course_id', $courseId);
+    })
+    ->where('user_id', $userId)
+    ->max('score'); // Assuming 'score' is a column in quiz_responses
+
+    Enrollment::where('user_id', $userId)
+        ->where('course_id', $courseId)
+        ->update(['score' => $highestScore ?? 0]);
     }
 
     public function calculateScore()

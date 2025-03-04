@@ -19,13 +19,6 @@ return new class extends Migration
             $table->text('material_content')->nullable(); // For text content or JSON quiz data
             $table->timestamps();
         });
-    }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::dropIfExists('course_materials');
     }
 };

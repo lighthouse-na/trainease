@@ -13,12 +13,13 @@ class Department extends Model
 
     protected $fillable = ['department_name', 'division_id'];
 
-    public function users(){
+    public function users()
+    {
         return $this->hasMany(UserDetail::class);
     }
-    public function division(){
+
+    public function division()
+    {
         return $this->belongsTo(Division::class);
     }
-
-
 }

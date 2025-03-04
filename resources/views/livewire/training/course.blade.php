@@ -205,12 +205,19 @@ new class extends Component {
                 @forelse ($quizes as $quiz)
                 @php
                     $attemptsUsed = Auth::user()->getQuizAttempts($quiz->id) ?? 0;
-                        $remainingAttempts = $quiz->max_attempts - $attemptsUsed;
-                        $isDisabled = $remainingAttempts <= 0;
+                    $remainingAttempts = $quiz->max_attempts - $attemptsUsed;
+                    $isDisabled = $remainingAttempts <= 0;
                 @endphp
                 <flux:tooltip position="right" content="{{$remainingAttempts <= 0 ? 'You have exhausted all attempts for this quiz.' : 'You have ' . $remainingAttempts . ' attempts remaining.'}}">
 
-                <flux:button icon="document-text" class="cursor-pointer" variant="primary" wire:click.prevent="startQuiz({{$quiz->id}})">{{$quiz->title}}</flux:button>
+                <flux:button
+                    icon="document-text"
+                    class="cursor-pointer mt-6"
+                    variant="primary"
+                    wire:click.prevent="startQuiz({{$quiz->id}})"
+                    :disabled="$isDisabled">
+                    {{$quiz->title}}
+                </flux:button>
                 </flux:tooltip>
 
                 @empty

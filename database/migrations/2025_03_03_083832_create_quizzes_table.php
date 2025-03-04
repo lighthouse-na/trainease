@@ -20,13 +20,6 @@ return new class extends Migration
             $table->integer('passing_score')->default(70);
             $table->timestamps();
         });
-    }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::dropIfExists('quizzes');
     }
 };

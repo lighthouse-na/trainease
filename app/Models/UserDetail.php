@@ -12,7 +12,6 @@ class UserDetail extends Model
     /** @use HasFactory<\Database\Factories\UserDetailFactory> */
     use HasFactory;
 
-
     protected $fillable = [
         'user_id',
         'division_id',
@@ -25,22 +24,28 @@ class UserDetail extends Model
         'address',
 
     ];
+
     protected $casts = [
         'dob' => 'date:dd-mm-YYYY',
     ];
 
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
-    public function division(){
+
+    public function division()
+    {
         return $this->belongsTo(Division::class);
     }
-    public function department(){
+
+    public function department()
+    {
         return $this->belongsTo(Department::class);
     }
-    public function supervisor(){
+
+    public function supervisor()
+    {
         return $this->belongsTo(User::class, 'supervisor_id');
     }
-
-
 }

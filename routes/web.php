@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
@@ -7,8 +8,8 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
+Route::get('dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth'])
     ->name('dashboard');
 
 Route::middleware(['auth'])->group(function () {
@@ -25,8 +26,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::view('course/{course_id}/{enrollment_id}', 'courses.show-course')
-->middleware(['auth', 'verified'])
-->name('course.show');
-
+    ->middleware(['auth', 'verified'])
+    ->name('course.show');
 
 require __DIR__.'/auth.php';

@@ -64,7 +64,7 @@ new class extends Component {
                                         </span>
                                     </div>
                                     <span
-                                        class="px-3 py-1 text-xs font-medium bg-accent text-accent-foreground dark:bg-accent dark:text-accent-content rounded-full">
+                                        class="px-3 py-1 text-xs font-medium bg-accent text-accent-foreground dark:bg-accent dark:text-accent-foreground rounded-full">
                                         {{ $course->course_fee }}
                                     </span>
                                 </div>
