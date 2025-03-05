@@ -38,7 +38,7 @@ new class extends Component {
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 my-3">
                 @foreach ($courses as $course)
-                    <a href="{{route('training.coursepage', ['course' => $course->id])}}" class="block group">
+                    <a href="{{route('training.coursepage', ['course' => Hashids::encode($course->id)])}}" class="block group">
                         <div
                             class="bg-white dark:bg-gray-800 border border-neutral-200 dark:border-neutral-700  rounded-xl overflow-hidden transition duration-300 ease-in-out cursor-pointer">
 
@@ -65,7 +65,7 @@ new class extends Component {
                                     </div>
                                     <span
                                         class="px-3 py-1 text-xs font-medium bg-accent text-accent-foreground dark:bg-accent dark:text-accent-foreground rounded-full">
-                                        {{ $course->course_fee }}
+                                        {{ $course->course_fee === 0 ? 'Free' : $course->course_fee }}
                                     </span>
                                 </div>
                             </div>

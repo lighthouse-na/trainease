@@ -114,6 +114,12 @@ class User extends Authenticatable
             ->sum('attempts');
     }
 
+    public function hasCompletedQuiz(){
+        return $this->quizResponses()
+            ->where('status', 'passed')
+            ->exists();
+    }
+
     public function userHasPassed($quiz_id)
     {
         return $this->quizResponses()

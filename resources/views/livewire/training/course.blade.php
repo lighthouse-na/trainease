@@ -20,12 +20,12 @@ new class extends Component {
 
     public function mount($course_id, $enrollment_id)
     {
-        $this->course = Course::findOrFail($course_id);
-        $this->courseMaterials = CourseMaterial::where('course_id', $course_id)->get();
+        $this->course = Course::findOrFail(Hashids::decode($course_id)[0]);
+        $this->courseMaterials = CourseMaterial::where('course_id', Hashids::decode($course_id)[0])->get();
         $this->courseProgress = 50;
         $this->content = $this->courseMaterials->first() ?? null; // Set to null if no materials exist
         $this->completedMaterials = $this->getCompletedMaterials(Auth::id());
-        $this->enrollment = Enrollment::find($enrollment_id);
+        $this->enrollment = Enrollment::find(Hashids::decode($enrollment_id)[0]);
         $this->quizes = $this->course->quizes;
     }
     public function getCompletedMaterials($userId)
@@ -85,7 +85,8 @@ new class extends Component {
         }
     }
 
-    public function completeCourse(){
+    public function completeCourse()
+    {
         $enrollment = Enrollment::where('user_id', Auth::id())->where('course_id', $this->course->id)->first();
 
         if (!$enrollment) {
@@ -100,15 +101,8 @@ new class extends Component {
 
     public function startQuiz($quizId)
     {
-        $quiz = Quiz::find($quizId);
-
-        if (!$quiz) {
-            abort(404, 'Quiz not found.');
-        }
-
-        return redirect()->route('training.quiz', ['quiz' => $quiz]);
+        return redirect()->route('training.quiz', ['quiz' => Hashids::encode($quizId)]);
     }
-
 }; ?>
 
 <div class="flex m-0 border h-screen w-full bg-slate-100 dark:bg-slate-900 rounded-l-xl">
@@ -136,21 +130,21 @@ new class extends Component {
                         </div>
                     </div>
                 </div>
-                {{-- @if ($progress = 100 && $enrollment->status !== 'completed')
+                @if ($progress == 100 && $quizes->count() > 0 && $quizes->every(function($quiz) { return Auth::user()->hasCompletedQuiz($quiz->id); }))
                     <div class="flex justify-between items-center mt-4">
                         <flux:button wire:click="completeCourse" icon-trailing="document-check" dark:variant="primary">
                             Complete Course
-
                         </flux:button>
                     </div>
                 @elseif ($enrollment->status === 'completed')
                     <div class="flex justify-between items-center mt-4">
-                        <flux:button wire:click="completeCourse" icon-trailing="document-chart-bar" dark:variant="primary">
+                        <flux:button wire:click="completeCourse" icon-trailing="document-chart-bar"
+                            dark:variant="primary">
                             Download Certificate
 
                         </flux:button>
                     </div>
-                @endif --}}
+                @endif
             </div>
 
             <!-- Course Materials -->
@@ -203,28 +197,30 @@ new class extends Component {
             <div class="mt-6">
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Course Quizzes</h3>
                 @forelse ($quizes as $quiz)
-                @php
-                    $attemptsUsed = Auth::user()->getQuizAttempts($quiz->id) ?? 0;
-                    $remainingAttempts = $quiz->max_attempts - $attemptsUsed;
-                    $isDisabled = $remainingAttempts <= 0;
-                @endphp
-                <flux:tooltip position="right" content="{{$remainingAttempts <= 0 ? 'You have exhausted all attempts for this quiz.' : 'You have ' . $remainingAttempts . ' attempts remaining.'}}">
-
-                <flux:button
-                    icon="document-text"
-                    class="cursor-pointer mt-6"
-                    variant="primary"
-                    wire:click.prevent="startQuiz({{$quiz->id}})"
-                    :disabled="$isDisabled">
-                    {{$quiz->title}}
-                </flux:button>
-                </flux:tooltip>
+                    @php
+                        $attemptsUsed = Auth::user()->getQuizAttempts($quiz->id) ?? 0;
+                        $remainingAttempts = $quiz->max_attempts - $attemptsUsed;
+                        $progress = min(100, round(Auth::user()->calculateProgress($course->id)));
+                        $isDisabled = $remainingAttempts <= 0 || $progress < 100;
+                        $tooltipMessage =
+                            $remainingAttempts <= 0
+                                ? 'You have exhausted all attempts for this quiz.'
+                                : ($progress < 100
+                                    ? 'Complete the course to unlock this quiz.'
+                                    : 'You have ' . $remainingAttempts . ' attempts remaining.');
+                    @endphp
+                    <flux:tooltip position="right" content="{{ $tooltipMessage }}">
+                        <flux:button icon="document-text"
+                            class="cursor-pointer mt-6 {{ $isDisabled ? 'cursor-not-allowed' : '' }}" variant="primary"
+                            wire:click.prevent="startQuiz({{ $quiz->id }})" :disabled="$isDisabled">
+                            {{ $quiz->title }}
+                        </flux:button>
+                    </flux:tooltip>
 
                 @empty
                     <p class="text-gray-700 dark:text-gray-300">No quizzes available.</p>
                 @endforelse
 
-            </div>
         </div>
 
 
@@ -258,15 +254,13 @@ new class extends Component {
 
             <div class="flex justify-end items-center my-12">
                 <div class="flex items-center space-x-4">
-                    <flux:button wire:click="loadPreviousMaterial"
-                    icon="arrow-left-circle">
+                    <flux:button wire:click="loadPreviousMaterial" icon="arrow-left-circle">
 
                         Previous
                     </flux:button>
-                    <flux:button wire:click="loadNextMaterial"
-                icon-trailing="arrow-right-circle">
-                    Next
-                </flux:button>
+                    <flux:button wire:click="loadNextMaterial" icon-trailing="arrow-right-circle">
+                        Next
+                    </flux:button>
                 </div>
 
 

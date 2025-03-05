@@ -14,6 +14,7 @@ class CourseMaterial extends Model
         'course_id',
         'material_name',
         'material_content',
+        'description',
     ];
 
     protected $casts = [

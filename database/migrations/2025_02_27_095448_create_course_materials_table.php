@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('course_id')->constrained()->onDelete('cascade');
             $table->string('material_name'); // Title of the material
-            $table->text('description')->nullable(); // Description of the material
+            $table->text('description'); // Description of the material
             $table->text('material_content')->nullable(); // For text content or JSON quiz data
             $table->timestamps();
         });

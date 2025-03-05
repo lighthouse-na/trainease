@@ -22,14 +22,14 @@ new #[Layout('components.layouts.course')] class extends Component {
 
     public function mount($quiz)
     {
-        $this->quiz = Quiz::findOrFail($quiz);
+        $this->quiz = Quiz::findOrFail(Hashids::decode($quiz)[0]);
         $this->questions = $this->quiz->questions()->with('options')->get();
         $this->totalQuestions = $this->questions->count();
         $this->currentQuestion = $this->questions->first();
 
         // Create or retrieve quiz response in one query
         $this->quizResponse = QuizResponse::firstOrCreate(
-            ['user_id' => Auth::id(), 'quiz_id' => $quiz],
+            ['user_id' => Auth::id(), 'quiz_id' => $this->quiz->id],
             ['score' => 0, 'status' => 'in_progress']
         );
     }
@@ -102,7 +102,7 @@ new #[Layout('components.layouts.course')] class extends Component {
 
     public function backToCourse()
     {
-        return redirect()->back();
+        return redirect()->route('dashboard');
     }
 }; ?>
 

@@ -11,7 +11,7 @@ new class extends Component {
     public $userEnrollments = [];
     public function mount($course)
     {
-        $this->course = Course::find($course);
+        $this->course = Course::find(Hashids::decode($course)[0]);
         $this->userEnrollments = Enrollment::where('user_id', Auth::id())->pluck('course_id')->toArray();
     }
     public function enroll($courseId)

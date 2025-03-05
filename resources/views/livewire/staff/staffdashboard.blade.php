@@ -9,45 +9,36 @@ new class extends Component {
     public $stats;
     public function mount()
     {
+        $userId = Auth::id();
 
-        $this->enrollments = Enrollment::where('user_id', Auth::user()->id)
-            ->with('courses')
-            ->get();
-        $stat1 = Enrollment::where('user_id', Auth::user()->id)->count();
-        $stat2 = Enrollment::where('user_id', Auth::user()->id)
-            ->where('status', 'in_progress')
-            ->count();
-        $stat3 = Enrollment::where('user_id', Auth::user()->id)->avg('score');
+        // Single query with eager loading for enrollments
+        $this->enrollments = Enrollment::with('courses')->where('user_id', $userId)->get();
 
-        $stat4 = Enrollment::where('user_id', Auth::user()->id)
-            ->with('courses') // Eager load courses
-            ->get()
-            ->sum(function ($enrollment) {
-                // Access the course fee from the related course
-                return $enrollment->courses->course_fee ?? 0;
-            });
+        // Calculate stats from the collection instead of separate queries
+        $enrollmentCollection = $this->enrollments;
+        $totalEnrollments = $enrollmentCollection->count();
+        $averageScore = $enrollmentCollection->avg('score') ?? 0;
+        $totalCost = $enrollmentCollection->sum(function ($enrollment) {
+            return $enrollment->courses->course_fee ?? 0;
+        });
+
         $this->stats = [
             [
-                'title' => 'Courses Completed',
-                'value' => $stat1,
+                'title' => 'Enrolled Courses',
+                'value' => $totalEnrollments,
                 'trend' => '+23.1%',
                 'trendUp' => true,
             ],
-            [
-                'title' => 'Active Courses',
-                'value' => $stat2,
-                'trend' => '+14.8%',
-                'trendUp' => true,
-            ],
+
             [
                 'title' => 'Average Score',
-                'value' => $stat3 . '%',
+                'value' => $averageScore . '%',
                 'trend' => '+4.3%',
                 'trendUp' => true,
             ],
             [
                 'title' => 'My Total Training Cost',
-                'value' => 'N$ ' . $stat4,
+                'value' => 'N$ ' . $totalCost,
                 'trend' => '+17.2%',
                 'trendUp' => true,
             ],
@@ -64,11 +55,11 @@ new class extends Component {
 
                 <flux:heading size="xl" class="mb-2">{{ $stat['value'] }}</flux:heading>
 
-                <div
+                {{-- <div
                     class="flex items-center gap-1 font-medium text-sm @if ($stat['trendUp']) text-green-600 dark:text-green-400 @else text-red-500 dark:text-red-400 @endif">
                     <flux:icon :icon="$stat['trendUp'] ? 'arrow-trending-up' : 'arrow-trending-down'" variant="micro" />
                     {{ $stat['trend'] }}
-                </div>
+                </div> --}}
 
                 <div class="absolute top-0 right-0 pr-2 pt-2">
                     <flux:button icon="ellipsis-horizontal" variant="subtle" size="sm" />
@@ -102,14 +93,15 @@ new class extends Component {
                             <tbody class="divide-y divide-neutral-200">
                                 @forelse ($enrollments as $enrollment)
                                     <tr class="text-neutral-800 hover:bg-slate-100 dark:hover:bg-neutral-600 cursor-pointer"
-                                        onclick="window.location='{{ route('course.show', ['course_id' => $enrollment->courses->id, 'enrollment_id' => $enrollment->id]) }}'">
+                                        onclick="window.location='{{ route('course.show', ['course_id' => Hashids::encode($enrollment->courses->id), 'enrollment_id' => Hashids::encode($enrollment->id)]) }}'">
                                         <td
                                             class="px-5 py-4 text-sm font-medium whitespace-nowrap dark:text-accent text-accent-content">
                                             {{ $enrollment->courses->course_name }}
                                         </td>
                                         @php
-                                            $progress = $enrollment->progress;
+                                            $progress = min(100, round(Auth::user()->calculateProgress($enrollment->courses->id)));
                                         @endphp
+
                                         <td class="px-5 py-4 text-sm whitespace-nowrap text-center">
                                             <div class=" ">
                                                 <div
