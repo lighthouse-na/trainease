@@ -18,6 +18,8 @@ class DepartmentFactory extends Factory
     {
         return [
             //
+            'department_name' => $this->faker->unique()->word(),
+            'division_id' => \App\Models\Organisation\Division::factory(),
         ];
     }
 }

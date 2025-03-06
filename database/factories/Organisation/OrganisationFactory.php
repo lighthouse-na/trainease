@@ -18,6 +18,9 @@ class OrganisationFactory extends Factory
     {
         return [
             //
+            'organisation_name' => $this->faker->unique()->word(),
+            'organisation_logo' => $this->faker->unique()->word(),
+
         ];
     }
 }
