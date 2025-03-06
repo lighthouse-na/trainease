@@ -105,5 +105,60 @@ return new class extends Migration {
             'updated_at' => now(),
             ]);
         }
+
+        // Get the Finance division ID
+        $financeDivisionId = DB::table('divisions')
+            ->where('division_name', 'Finance')
+            ->first()->id;
+
+        // Define departments for Finance
+        $financeDepartments = [
+            'Accounting & Control',
+            'Credit Control',
+            'Management Accounting & Financial Planning',
+            'Supply Chain',
+            'Revenue Assurance & Network Fraud'
+        ];
+
+        // Insert Finance departments
+        foreach ($financeDepartments as $departmentName) {
+            DB::table('departments')->insert([
+            'division_id' => $financeDivisionId,
+            'department_name' => $departmentName,
+            'created_at' => now(),
+            'updated_at' => now(),
+            ]);
+        }
+
+        // Get the Commercial division ID
+        $commercialDivisionId = DB::table('divisions')
+            ->where('division_name', 'Commercial')
+            ->first()->id;
+
+        // Define departments for Commercial
+        $commercialDepartments = [
+            'Back Office',
+            'Customer Contact Centre',
+            'Central Business Area',
+            'Government',
+            'Maritime Rescue Coordination Centre',
+            'Retail/Teleshop',
+            'Wholesale',
+            'Office of CCO',
+            'Commercial Central',
+            'Commercial Erongo',
+            'Commercial North',
+            'Commercial South'
+        ];
+
+        // Insert Commercial departments
+        foreach ($commercialDepartments as $departmentName) {
+            DB::table('departments')->insert([
+            'division_id' => $commercialDivisionId,
+            'department_name' => $departmentName,
+            'created_at' => now(),
+            'updated_at' => now(),
+            ]);
+        }
     }
 };

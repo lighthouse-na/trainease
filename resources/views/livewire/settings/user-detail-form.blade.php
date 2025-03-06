@@ -8,7 +8,6 @@ use Livewire\Attributes\Computed;
 use App\Models\Organisation\Division;
 use App\Models\Organisation\Department;
 use App\Models\User;
-
 new class extends Component {
     public ?int $division_id = null;
     public ?int $department_id = null;
@@ -50,7 +49,7 @@ new class extends Component {
 
     #[Computed()]
     public function supervisors(){
-        return User::where('department_id', $this->department_id)->get();
+       return User::all();
     }
 
     public function updateUserDetails(): void
