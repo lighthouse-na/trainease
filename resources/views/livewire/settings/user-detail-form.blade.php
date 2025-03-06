@@ -4,6 +4,10 @@ use App\Models\UserDetail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Livewire\Volt\Component;
+use Livewire\Attributes\Computed;
+use App\Models\Organisation\Division;
+use App\Models\Organisation\Department;
+use App\Models\User;
 
 new class extends Component {
     public ?int $division_id = null;
@@ -14,6 +18,10 @@ new class extends Component {
     public string $dob;
     public string $phone_number;
     public string $address;
+
+    public $divisions;
+    public $departments;
+    public $supervisors;
 
     public function mount(): void
     {
@@ -28,6 +36,21 @@ new class extends Component {
             $this->phone_number = $userDetail->phone_number;
             $this->address = $userDetail->address;
         }
+    }
+
+    #[Computed()]
+    public function divisions(){
+        return Division::all();
+    }
+
+    #[Computed()]
+    public function departments(){
+        return Department::where('division_id', $this->division_id)->get();
+    }
+
+    #[Computed()]
+    public function supervisors(){
+        return User::where('department_id', $this->department_id)->get();
     }
 
     public function updateUserDetails(): void
@@ -53,7 +76,7 @@ new class extends Component {
 };
 ?>
 
-<section class="w-full">
+<section class="w-full" >
     @include('partials.settings-heading')
 
     <x-settings.layout heading="{{ __('User Details') }}" subheading="{{ __('Update your personal information') }}">
@@ -69,19 +92,20 @@ new class extends Component {
                 placeholder="(+264) 85 999 9999" />
             <flux:input wire:model="address" label="{{ __('Address') }}" type="text" required
                 placeholder="28 Barbet Street, Hochland Park" />
-            <flux:select wire:model="division_id" label="{{ __('Division') }}" placeholder="Choose division...">
-                @foreach (App\Models\Organisation\Division::pluck('name', 'id') as $id => $name)
-                    <flux:select.option value="{{ $id }}">{{ $name }}</flux:select.option>
+            <flux:select wire:model.live="division_id" label="{{ __('Division') }}" placeholder="Choose division..." >
+                @foreach ($this->divisions() as $division)
+                    <flux:select.option value="{{ $division->id }}">{{ $division->division_name }}</flux:select.option>
                 @endforeach
             </flux:select>
-            <flux:select wire:model="department_id" label="{{ __('Department') }}" placeholder="Choose department...">
-                @foreach (App\Models\Organisation\Department::pluck('name', 'id') as $id => $name)
-                    <flux:select.option value="{{ $id }}">{{ $name }}</flux:select.option>
+            <flux:select wire:model.live="department_id" label="{{ __('Department') }}" placeholder="Choose department...">
+
+                @foreach ($this->departments() as $department)
+                    <flux:select.option value="{{ $department->id }}">{{ $department->department_name }}</flux:select.option>
                 @endforeach
             </flux:select>
-            <flux:select wire:model="supervisor_id" label="{{ __('Supervisor') }}" placeholder="Choose supervisor...">
-                @foreach (App\Models\User::pluck('name', 'id') as $id => $name)
-                    <flux:select.option value="{{ $id }}">{{ $name }}</flux:select.option>
+            <flux:select wire:model.live="supervisor_id" label="{{ __('Supervisor') }}" placeholder="Choose supervisor...">
+                @foreach ($this->supervisors() as $supervisor)
+                    <flux:select.option value="{{ $supervisor->id }}">{{ $supervisor->name }}</flux:select.option>
                 @endforeach
             </flux:select>
 

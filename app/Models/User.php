@@ -64,6 +64,11 @@ class User extends Authenticatable
             ->implode('');
     }
 
+    public function user_details_filled(): bool
+    {
+        return $this->user_detail()->exists();
+    }
+
     public function user_detail()
     {
         return $this->hasOne(UserDetail::class);

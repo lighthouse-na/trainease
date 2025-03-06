@@ -39,7 +39,21 @@ new class extends Component {
     }
 }; ?>
 
-<div>
+<div x-data="{
+    title: 'Default Toast Notification',
+    description: '',
+    type: 'default',
+    position: 'top-center',
+    expanded: false,
+    popToast(custom) {
+        let html = '';
+        if (typeof custom != 'undefined') {
+            html = custom;
+        }
+        toast(this.title, { description: this.description, type: this.type, position: this.position, html: html })
+    }
+
+}">
     <div class="relative rounded-xl w-full h-80 bg-gray-800 dark:bg-gray-700">
         <img src="{{ asset($course->course_image) }}"
             class="rounded-xl w-full h-full object-cover opacity-60 dark:opacity-20" alt="{{ $course->title }}">
@@ -57,11 +71,14 @@ new class extends Component {
                             Enrolled
                         </flux:button>
                     @else
-                        <flux:button variant="primary" wire:click.prevent="enroll({{ $course->id }})" class="cursor-pointer">
+                        <flux:button
+                        class="inline-flex items-center justify-center flex-shrink-0 px-3 py-1 text-xs font-medium transition-colors border rounded-md h-9 hover:bg-gray-50 active:bg-white focus:bg-white focus:outline-none" variant="primary"  wire:click.prevent="enroll({{ $course->id }})"
+                            class="cursor-pointer">
                             Enroll
                         </flux:button>
                     @endif
                 </div>
+
             </div>
 
         </div>
@@ -123,4 +140,39 @@ new class extends Component {
             </div>
         </div>
 
+        <script>
+            // Listen for the Livewire v3 event format
+            document.addEventListener('livewire:initialized', () => {
+                Livewire.on('toast-show', (data) => {
+                    window.toast(data[0].message, data[0].options);
+                });
+            });
+
+            // Store toast in localStorage
+            window.addEventListener('store-toast', event => {
+                localStorage.setItem('pendingToast', JSON.stringify({
+                    message: event.detail.message,
+                    options: event.detail.options
+                }));
+            });
+
+            // Check for pending toast on page load
+            document.addEventListener('DOMContentLoaded', () => {
+                const pendingToast = localStorage.getItem('pendingToast');
+                if (pendingToast) {
+                    try {
+                        const {
+                            message,
+                            options
+                        } = JSON.parse(pendingToast);
+                        window.toast(message, options);
+                        localStorage.removeItem('pendingToast');
+                    } catch (e) {
+                        console.error('Error displaying toast:', e);
+                        localStorage.removeItem('pendingToast');
+                    }
+                }
+            });
+        </script>
     </div>
+</div>

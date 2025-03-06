@@ -96,7 +96,6 @@ new class extends Component {
         // Mark course as completed
         $enrollment->update(['status' => 'completed']);
 
-        return redirect('/dashboard')->with('success', 'Course completed successfully!');
     }
 
     public function startQuiz($quizId)
@@ -133,7 +132,7 @@ new class extends Component {
                 @if ($progress == 100 && $quizes->count() > 0 && $quizes->every(function($quiz) { return Auth::user()->hasCompletedQuiz($quiz->id); }))
                     <div class="flex justify-between items-center mt-4">
                         <flux:button wire:click="completeCourse" icon-trailing="document-check" dark:variant="primary">
-                            Complete Course
+                            {{$enrollment->status === 'completed' ? 'Course Completed!' : 'Complete Course'}}
                         </flux:button>
                     </div>
                 @elseif ($enrollment->status === 'completed')

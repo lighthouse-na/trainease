@@ -21,7 +21,7 @@
             <flux:spacer />
 
             <flux:navbar class="mr-1.5 space-x-0.5 py-0!">
-                <flux:tooltip content="Search" position="bottom">
+                {{-- <flux:tooltip content="Search" position="bottom">
                     <flux:navbar.item class="!h-10 [&>div>svg]:size-5" icon="magnifying-glass" href="#" label="Search" />
                 </flux:tooltip>
                 <flux:tooltip content="Repository" position="bottom">
@@ -41,7 +41,7 @@
                         target="_blank"
                         label="Documentation"
                     />
-                </flux:tooltip>
+                </flux:tooltip> --}}
             </flux:navbar>
 
             <!-- Desktop User Menu -->
@@ -117,7 +117,6 @@
                 </flux:navlist.item>
             </flux:navlist>
         </flux:sidebar>
-
         {{ $slot }}
 
         @fluxScripts
