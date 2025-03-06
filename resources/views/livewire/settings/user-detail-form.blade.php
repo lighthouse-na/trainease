@@ -15,7 +15,7 @@ new class extends Component {
     public ?int $supervisor_id = null;
     public int $salary_ref_number;
     public string $gender;
-    public string $dob;
+    public string $dob = '';
     public string $phone_number;
     public string $address;
 
@@ -67,9 +67,12 @@ new class extends Component {
         ]);
 
         $user = Auth::user();
-        $userDetail = $user->userDetail ?? new UserDetail(['user_id' => $user->id]);
-        $userDetail->fill($validated);
-        $userDetail->save();
+
+        // Find existing or create new user detail
+        $userDetail = UserDetail::updateOrCreate(
+            ['user_id' => $user->id],
+            $validated
+        );
 
         $this->dispatch('user-details-updated');
     }
@@ -87,7 +90,7 @@ new class extends Component {
                 <flux:radio value="male" label="Male" checked />
                 <flux:radio value="female" label="Female" />
             </flux:radio.group>
-            <flux:input wire:model="dob" label="{{ __('Date of Birth') }}" type="date" required/>
+            <flux:input wire:model.live="dob" label="{{ __('Date of Birth') }}" type="date" required/>
             <flux:input mask="(+264) 99 999 9999" wire:model="phone_number" label="{{ __('Phone Number') }}" type="text" required
                 placeholder="(+264) 85 999 9999" />
             <flux:input wire:model="address" label="{{ __('Address') }}" type="text" required
