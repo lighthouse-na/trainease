@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Models\Training\Course;
 use App\Models\Training\CourseMaterial;
 use App\Models\Training\CourseProgress;
 use App\Models\Training\Enrollment;
@@ -132,5 +133,9 @@ class User extends Authenticatable
             ->where('status', 'passed')
             ->exists();
 
+    }
+
+    public function trainerCourses(){
+        return $this->hasMany(Course::class, 'trainer_id');
     }
 }

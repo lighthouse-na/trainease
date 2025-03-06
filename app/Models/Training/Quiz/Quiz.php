@@ -47,4 +47,12 @@ class Quiz extends Model
 
         return $quizResponse ? $quizResponse->score >= $this->passing_score : false;
     }
+
+    public function passRate()
+    {
+        $total = $this->quizResponses()->count();
+        $passed = $this->quizResponses()->where('score', '>=', $this->passing_score)->count();
+
+        return $total > 0 ? ($passed / $total) * 100 : 0;
+    }
 }

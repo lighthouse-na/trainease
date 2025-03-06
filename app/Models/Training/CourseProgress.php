@@ -20,11 +20,15 @@ class CourseProgress extends Model
 
     public function course()
     {
-        return $this->belongsTo(Course::class);
+        return $this->belongsToMany(Course::class);
     }
 
     public function material()
     {
         return $this->belongsTo(CourseMaterial::class);
     }
+
+
+
+
 }
