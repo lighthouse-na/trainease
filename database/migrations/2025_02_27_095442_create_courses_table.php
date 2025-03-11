@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('course_description');
             $table->integer('course_fee');
             $table->string('course_image');
+            $table->date('start_date');
+            $table->date('end_date');
             $table->timestamps();
         });
 

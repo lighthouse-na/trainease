@@ -4,6 +4,8 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Models\Organisation\Department;
+use App\Models\Organisation\Division;
 use App\Models\Training\Course;
 use App\Models\Training\CourseMaterial;
 use App\Models\Training\CourseProgress;
@@ -72,7 +74,21 @@ class User extends Authenticatable
 
     public function user_detail()
     {
-        return $this->hasOne(UserDetail::class);
+        return $this->hasOne(UserDetail::class, 'user_id');
+    }
+
+    public function department()
+    {
+        return $this->user_detail->department();
+    }
+
+    public function division()
+    {
+        return $this->user_detail->division();
+    }
+
+    public function organisation(){
+        return $this->division->organisation();
     }
 
     public function enrollments()
@@ -138,4 +154,6 @@ class User extends Authenticatable
     public function trainerCourses(){
         return $this->hasMany(Course::class, 'trainer_id');
     }
+
+
 }

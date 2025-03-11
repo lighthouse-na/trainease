@@ -25,6 +25,8 @@ return new class extends Migration
             'user_id' => 2,
             'course_fee' => 0,
             'course_image' => 'https://cdn.dribbble.com/userupload/14375213/file/original-fd4b67a6f4e6c8bfeca200725dd400a3.jpg?resize=1600x1333&vertical=center',
+            'start_date' => now(),
+            'end_date' => now()->addMonths(1),
 
         ]);
 

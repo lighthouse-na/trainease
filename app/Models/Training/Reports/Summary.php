@@ -21,6 +21,16 @@ class Summary extends Model
         'total_cost',
     ];
 
+    protected $casts = [
+        'facilitator_cost' => 'decimal:2',
+        'assessment_cost' => 'decimal:2',
+        'certification_cost' => 'decimal:2',
+        'travel_cost' => 'decimal:2',
+        'accommodation_cost' => 'decimal:2',
+        'other_cost' => 'decimal:2',
+        'total_cost' => 'decimal:2',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);

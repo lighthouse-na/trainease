@@ -12,8 +12,8 @@ new class extends Component {
 
     public function mount()
     {
-        $this->myCourses = Course::where('user_id', Auth::id())->get();
 
+        $this->myCourses = Course::where('user_id', Auth::id())->get();
         // Use the trainer KPI functions for the actual calculations
         $totalStudents = 0;
         $avgCompletionRate = 0;
@@ -49,6 +49,7 @@ new class extends Component {
             $averageProgress = $course->avgCourseProgress();
 
             $this->traineeProgress[] = [
+                'id' => $course->id,
                 'course_name' => $course->course_name,
                 'progress' => $averageProgress
             ];
@@ -61,6 +62,15 @@ new class extends Component {
             ['course_name' => 'No active courses', 'progress' => 0]
             ];
         }
+    }
+
+    public function createCourse(){
+        // Redirect to the create course page
+        return redirect()->route('create.course');
+    }
+    public function viewCourseDetails($course_id){
+        // Redirect to the course details page
+        return redirect()->route('course.details', ['course_id' => Hashids::encode($course_id)]);
     }
 };
 ?>
@@ -93,7 +103,7 @@ new class extends Component {
             <div class="max-lg:hidden flex justify-start items-center gap-2">
                 <flux:subheading class="whitespace-nowrap">Filter by:</flux:subheading>
 
-                <flux:badge as="button" variant="pill" color="zinc" icon="plus" size="lg">Amount
+                <flux:badge wire:click="createCourse" as="button" variant="pill" color="zinc" icon="plus" size="lg">Create Course
                 </flux:badge>
                 <flux:badge as="button" variant="pill" color="zinc" icon="plus" size="lg"
                     class="max-md:hidden">Status</flux:badge>
@@ -125,17 +135,7 @@ new class extends Component {
 
 
     <!-- Upcoming Trainings -->
-    <div class="relative h-auto flex-1 overflow-hidden rounded-xl p-4 bg-zinc-50 dark:bg-zinc-700">
-        <flux:heading>📅 Upcoming Training Sessions</flux:heading>
-        <ul class="mt-4">
-            @foreach ($upcomingTrainings as $training)
-                <li class="border-b py-2 flex justify-between">
-                    <span class="font-medium">{{ $training['title'] }}</span>
-                    <span class="text-gray-500">{{ $training['date'] }} at {{ $training['time'] }}</span>
-                </li>
-            @endforeach
-        </ul>
-    </div>
+
 
 
 
@@ -149,26 +149,27 @@ new class extends Component {
                         <flux:subheading>Name</flux:subheading>
                     </th>
                     <th class="text-center">
-                        <flux:subheading>Pass Rate</flux:subheading>
+                        <flux:subheading>Trainee Progress</flux:subheading>
                     </th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-neutral-200">
-                @foreach ($traineeProgress as $trainee)
-                    <tr class="hover:bg-slate-100 dark:hover:bg-neutral-600">
+                @foreach ($traineeProgress as $course)
+                    <tr class="hover:bg-slate-100 dark:hover:bg-neutral-600"
+                        wire:click="viewCourseDetails({{ $course['id'] }})">
                         <td class="px-5 py-4 text-sm font-medium dark:text-accent text-accent-content">
-                            {{ $trainee['course_name'] }}
+                            {{ $course['course_name'] }}
                         </td>
                         <td class="px-5 py-4 text-sm whitespace-nowrap text-center">
                             <div>
                                 <div
                                     class="flex items-center justify-between text-xs font-semibold text-gray-500 dark:text-gray-400">
-                                    <span>Pass Rate:</span>
-                                    <span>{{ $trainee['progress'] }}%</span>
+                                    <span>Course Progress:</span>
+                                    <span>{{ $course['progress'] }}%</span>
                                 </div>
                                 <div class="h-2 bg-gray-200 dark:bg-gray-600 rounded-full">
                                     <div class="h-full bg-accent-content rounded-full transition-all duration-500 ease-in-out"
-                                        style="width: {{ $trainee['progress'] }}%">
+                                        style="width: {{ $course['progress'] }}%">
                                     </div>
                                 </div>
                             </div>

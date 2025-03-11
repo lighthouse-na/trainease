@@ -25,23 +25,25 @@ class UserDetail extends Model
 
     ];
 
+    protected $table = 'user_details';
+
     protected $casts = [
         'dob' => 'date:dd-mm-YYYY',
     ];
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function division()
     {
-        return $this->belongsTo(Division::class);
+        return $this->belongsTo(Division::class, 'division_id');
     }
 
     public function department()
     {
-        return $this->belongsTo(Department::class);
+        return $this->belongsTo(Department::class,'department_id');
     }
 
     public function supervisor()

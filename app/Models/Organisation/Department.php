@@ -22,4 +22,6 @@ class Department extends Model
     {
         return $this->belongsTo(Division::class);
     }
+
+
 }
