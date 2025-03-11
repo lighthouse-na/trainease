@@ -14,7 +14,7 @@
         "hashids/hashids": "^5.0",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
-        "livewire/flux": "^2.0",
+        "livewire/flux": "^2.0.",
         "livewire/volt": "^1.6.7",
         "spatie/laravel-markdown": "^2.7",
         "spatie/laravel-permission": "^6.15",
@@ -79,11 +79,6 @@
         }
     },
     "minimum-stability": "stable",
-    "prefer-stable": true,
-    "repositories": {
-        "flux-pro": {
-            "type": "composer",
-            "url": "https://composer.fluxui.dev"
-        }
-    }
+    "prefer-stable": true
+
 }

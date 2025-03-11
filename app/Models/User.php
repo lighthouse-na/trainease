@@ -121,7 +121,7 @@ class User extends Authenticatable
 
         // Calculate progress percentage
 
-        return $totalMaterials > 0 ? ($completedMaterials / $totalMaterials) * 100 : 0;
+        return $totalMaterials > 0 ? round(($completedMaterials / $totalMaterials) * 100,0) : 0;
     }
 
     public function quizResponses()

@@ -32,6 +32,7 @@ new class extends Component {
     public $averageDepartmentProgress = 0;
     public $averageDivisionProgress = 0;
     public $averageOrganisationProgress = 0;
+    protected $listeners =['updatedSelectedOrganisation', 'updatedSelectedDivision', 'updatedSelectedDepartment','updateTotalCost'];
 
     public function updatedSelectedorganisation()
     {
@@ -61,13 +62,6 @@ new class extends Component {
             $query->whereHas('user_detail.division', fn($q) => $q->where('organisation_id', $this->selectedOrganisation));
         }
 
-        if ($this->selectedDivision) {
-            $query->whereHas('user_detail', fn($q) => $q->where('division_id', $this->selectedDivision));
-        }
-
-        if ($this->selectedDepartment) {
-            $query->whereHas('user_detail', fn($q) => $q->where('department_id', $this->selectedDepartment));
-        }
 
         $filteredUsers = $query->pluck('id');
 
@@ -81,8 +75,6 @@ new class extends Component {
     public function calculateAverageProgress($filteredUsers)
     {
         $userIds = $filteredUsers->toArray();
-        $this->averageDepartmentProgress = $this->course->courseAverages($userIds);
-        $this->averageDivisionProgress = $this->averageDepartmentProgress; // Avoid duplicate function call
         $this->averageOrganisationProgress = $this->course->avgCourseProgress($userIds);
     }
 
@@ -105,7 +97,6 @@ new class extends Component {
     public $accommodation_invoice;
     public $other_invoice;
 
-    protected $listeners = ['updateTotalCost'];
 
     public function updateTotalCost()
     {
@@ -267,7 +258,7 @@ new class extends Component {
                         <!-- Course Content & Instructor Section -->
                         <div class="grid grid-cols-4 gap-6 p-10">
                             <!-- Course Content -->
-                            <div class="col-span-3 dark:bg-gray-800 p-6 rounded-xl  dark:border-gray-700">
+                            <div class="col-span-4 dark:bg-gray-800 p-6 rounded-xl  dark:border-gray-700">
                                 <h2 class="text-2xl font-bold mb-4 text-gray-800 dark:text-gray-200">Course Content</h2>
                                 <div x-data="{ activeAccordion: '' }"
                                     class="relative w-full mx-auto overflow-hidden border border-gray-200 dark:border-gray-700 divide-y divide-gray-200 dark:divide-gray-700 rounded-xl bg-white dark:bg-gray-800">
@@ -318,26 +309,7 @@ new class extends Component {
                                 <p class="text-gray-700 dark:text-gray-300 mt-2">
                                     {{ round($averageOrganisationProgress, 2) }}%</p>
                             </div>
-                            <div class="bg-white dark:bg-gray-800 p-4 rounded-xl border">
-                                <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300">Average Division
-                                    Progress</h3>
-                                <div class="relative w-full bg-gray-200 dark:bg-gray-700 h-3 rounded-full mt-2">
-                                    <div class="bg-accent-content h-3 rounded-full"
-                                        style="width: {{ $averageDivisionProgress }}%;"></div>
-                                </div>
-                                <p class="text-gray-700 dark:text-gray-300 mt-2">
-                                    {{ round($averageDivisionProgress, 2) }}%</p>
-                            </div>
-                            <div class="bg-white dark:bg-gray-800 p-4 rounded-xl border">
-                                <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300">Average Department
-                                    Progress</h3>
-                                <div class="relative w-full bg-gray-200 dark:bg-gray-700 h-3 rounded-full mt-2">
-                                    <div class="bg-accent-content h-3 rounded-full"
-                                        style="width: {{ $averageDepartmentProgress }}%;"></div>
-                                </div>
-                                <p class="text-gray-700 dark:text-gray-300 mt-2">
-                                    {{ number_format($averageDepartmentProgress, 2) }}%</p>
-                            </div>
+
                         </div>
 
                         <div class="mb-8 grid grid-cols-1 md:grid-cols-3 gap-4">

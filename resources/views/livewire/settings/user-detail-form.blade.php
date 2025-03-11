@@ -82,6 +82,19 @@ new class extends Component {
     @include('partials.settings-heading')
 
     <x-settings.layout heading="{{ __('User Details') }}" subheading="{{ __('Update your personal information') }}">
+        @if (!Auth::user()->user_details_filled())
+            <flux:callout icon="exclamation-circle" variant="warning">
+                <flux:callout.heading>Complete your profile</flux:callout.heading>
+                <flux:callout.text>Please fill in all your profile details to complete your account setup. This information is required for your training records and communications.</flux:callout.text>
+
+        @endif
+
+
+
+    <x-slot name="controls">
+        <flux:button icon="x-mark" variant="ghost" x-on:click="$el.closest('[data-flux-callout]').remove()" />
+    </x-slot>
+</flux:callout>
         <form wire:submit="updateUserDetails" class="my-6 w-full space-y-6">
             <flux:input wire:model="salary_ref_number" label="{{ __('Salary Ref Number') }}" type="number" required
                 placeholder="123456" />

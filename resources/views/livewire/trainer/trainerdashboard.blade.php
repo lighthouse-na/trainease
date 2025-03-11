@@ -37,10 +37,6 @@ new class extends Component {
             ['title' => 'Total Cost', 'value' => 'N$' . number_format($totalCost, 2)]
         ];
 
-        $this->upcomingTrainings = [
-            ['title' => 'Cybersecurity Basics', 'date' => 'March 10, 2025', 'time' => '10:00 AM'],
-            ['title' => 'Data Privacy Workshop', 'date' => 'March 15, 2025', 'time' => '2:00 PM']
-        ];
 
         $this->traineeProgress = [];
 
@@ -77,38 +73,15 @@ new class extends Component {
 <div class="space-y-6 p-6">
     <div class="flex justify-between items-center mb-6">
         <div class="flex items-center gap-2">
-            <div class="flex items-center gap-2">
-                <flux:select size="sm" class="">
-                    <option>Last 7 days</option>
-                    <option>Last 14 days</option>
-                    <option selected>Last 30 days</option>
-                    <option>Last 60 days</option>
-                    <option>Last 90 days</option>
-                </flux:select>
 
-                <flux:subheading class="max-md:hidden whitespace-nowrap">compared to</flux:subheading>
 
-                <flux:select size="sm" class="max-md:hidden">
-                    <option selected>Previous period</option>
-                    <option>Same period last year</option>
-                    <option>Last month</option>
-                    <option>Last quarter</option>
-                    <option>Last 6 months</option>
-                    <option>Last 12 months</option>
-                </flux:select>
-            </div>
-
-            <flux:separator vertical class="max-lg:hidden mx-2 my-2" />
 
             <div class="max-lg:hidden flex justify-start items-center gap-2">
-                <flux:subheading class="whitespace-nowrap">Filter by:</flux:subheading>
+                <flux:subheading class="whitespace-nowrap">Quick Actions:</flux:subheading>
 
                 <flux:badge wire:click="createCourse" as="button" variant="pill" color="zinc" icon="plus" size="lg">Create Course
                 </flux:badge>
-                <flux:badge as="button" variant="pill" color="zinc" icon="plus" size="lg"
-                    class="max-md:hidden">Status</flux:badge>
-                <flux:badge as="button" variant="pill" color="zinc" icon="plus" size="lg">More filters...
-                </flux:badge>
+
             </div>
         </div>
 
