@@ -16,8 +16,8 @@ class Course extends Model
     protected $fillable = ['course_name', 'course_description', 'course_fee', 'course_image', 'user_id', 'start_date', 'end_date'];
 
     protected $casts = [
-        'start_date' => 'date',
-        'end_date' => 'date',
+        'start_date' => 'date:dd/mm/yyyy',
+        'end_date' => 'date:dd/mm/yyyy',
     ];
 
     public function trainer()

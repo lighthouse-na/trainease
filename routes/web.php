@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
@@ -27,7 +26,7 @@ Route::middleware(['auth'])->group(function () {
     Route::view('course/{course_id}/{enrollment_id}', 'courses.show-course')
     ->middleware(['check.user.details'])
     ->name('course.show');
-    Route::get('/c/course', [CourseController::class, 'create'])->name('create.course');
+    Volt::route('/c/course/{course?}', 'trainer.create-course')->name('create.course');
     Volt::route('c/course_detail/{course_id}/', 'trainer.coursedetails')->name('course.details');
 
 });

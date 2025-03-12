@@ -211,7 +211,7 @@ new class extends Component {
                     <flux:tooltip position="right" content="{{ $tooltipMessage }}">
                         <flux:button icon="document-text"
                             class="cursor-pointer mt-6 {{ $isDisabled ? 'cursor-not-allowed' : '' }}" variant="primary"
-                            wire:click.prevent="startQuiz({{ $quiz->id }})" :disabled="$isDisabled">
+                            wire:click.prevent="startQuiz({{ $quiz->id }})" disabled="{{$isDisabled}}">
                             {{ $quiz->title }}
                         </flux:button>
                     </flux:tooltip>

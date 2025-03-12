@@ -157,6 +157,10 @@ new class extends Component {
         }
     }
 
+    public function edit(){
+        return redirect()->route('create.course', ['course' => $this->course->id]);
+    }
+
     public function mount($course_id)
     {
         $this->course = Course::find(Hashids::decode($course_id)[0]);
@@ -244,7 +248,7 @@ new class extends Component {
 
                                     <flux:button
                                         class="inline-flex items-center justify-center flex-shrink-0 px-3 py-1 text-xs font-medium transition-colors border rounded-md h-9 hover:bg-gray-50 active:bg-white focus:bg-white focus:outline-none"
-                                        variant="primary" wire:click.prevent="" class="cursor-pointer">
+                                        variant="primary" wire:click.prevent="edit" class="cursor-pointer">
                                         Edit Course
                                     </flux:button>
 
@@ -420,7 +424,7 @@ new class extends Component {
                     </div>
                 </div>
                 <div x-show="activeTab === 'course-summary'" x-transition>
-                                    <div wire:model="total_cost" type="text" class="flex justify-end mx-6 bg-gray-100 dark:bg-gray-700 p-4 rounded-xl text-2xl font-bold text-accent-content "
+                                    <div wire:model="total_cost" type="text" class="flex justify-end mx-6 bg-gray-100 dark:bg-gray-700 p-4 rounded-xl text-2xl font-bold text-accent-content border"
                                     readonly x-data="{ total: @entangle('total_cost') }"
                                     x-text="'N$ ' + total.toLocaleString()" ></div>
                                     <div class="max-w-3xl mx-auto p-6 bg-white rounded-lg">

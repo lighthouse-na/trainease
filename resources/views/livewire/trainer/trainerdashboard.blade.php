@@ -62,7 +62,7 @@ new class extends Component {
 
     public function createCourse(){
         // Redirect to the create course page
-        return redirect()->route('create.course');
+        return redirect()->route('create.course', ['course' => null]);
     }
     public function viewCourseDetails($course_id){
         // Redirect to the course details page
