@@ -44,7 +44,7 @@ new class extends Component {
 
                             {{-- Image with Hover Effect --}}
                             <div class="overflow-hidden">
-                                <img src="{{ asset($course->course_image) }}"
+                                <img src="{{ Storage::url($course->course_image) }}"
                                     class="w-full h-36 object-cover rounded-t-xl group-hover:scale-102 transition-transform duration-300 ease-in-out"
                                     alt="{{ $course->course_name }}">
                             </div>

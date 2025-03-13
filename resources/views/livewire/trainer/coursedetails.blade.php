@@ -235,7 +235,7 @@ new class extends Component {
                 <div x-show="activeTab === 'course-details'" x-transition>
                     <div>
                         <div class="relative rounded-xl w-full h-80 bg-gray-800 dark:bg-gray-700">
-                            <img src="{{ asset($course->course_image) }}"
+                            <img src="{{ Storage::url($course->course_image) }}"
                                 class="rounded-xl w-full h-full object-cover opacity-60 dark:opacity-20"
                                 alt="{{ $course->title }}">
                             <div class="absolute inset-0 flex flex-col justify-center px-10">
