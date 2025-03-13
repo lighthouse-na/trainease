@@ -99,7 +99,10 @@ new class extends Component {
                                             {{ $enrollment->courses->course_name }}
                                         </td>
                                         @php
-                                            $progress = min(100, round(Auth::user()->calculateProgress($enrollment->courses->id)));
+                                            $progress = min(
+                                                100,
+                                                round(Auth::user()->calculateProgress($enrollment->courses->id)),
+                                            );
                                         @endphp
 
                                         <td class="px-5 py-4 text-sm whitespace-nowrap text-center">
@@ -147,3 +150,11 @@ new class extends Component {
 
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="my-6">
+
+        @livewire('custom-components.activity-graph')
+    </div>
+</div>
