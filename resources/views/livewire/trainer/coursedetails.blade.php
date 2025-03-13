@@ -385,13 +385,14 @@ new class extends Component {
                                             </td>
 
                                             <td class="py-4 px-6">
-                                                @if ($progress->is_completed)
-                                                    <span
-                                                        class="px-2 py-1 bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 rounded-full text-xs">Completed</span>
+                                                @if($progress->status === 'completed')
+                                                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100">
+                                                        Completed
+                                                    </span>
                                                 @else
-                                                    <span
-                                                        class="px-2 py-1 bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200 rounded-full text-xs">In
-                                                        Progress</span>
+                                                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-100">
+                                                        In Progress
+                                                    </span>
                                                 @endif
                                             </td>
                                             <td class="py-4 px-6">

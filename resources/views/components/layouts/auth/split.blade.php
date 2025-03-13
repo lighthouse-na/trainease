@@ -5,8 +5,10 @@
     </head>
     <body class="min-h-screen bg-white antialiased dark:bg-linear-to-b dark:from-neutral-950 dark:to-neutral-900">
         <div class="relative grid h-dvh flex-col items-center justify-center px-8 sm:px-0 lg:max-w-none lg:grid-cols-2 lg:px-0">
-            <div class="bg-muted relative hidden h-full flex-col p-10 text-white lg:flex dark:border-r dark:border-neutral-800" >
-                <div class="absolute inset-0 "style="background-image: url('https://cdn.dribbble.com/userupload/31587014/file/original-abf7773196c2e2fe5ecc9fa2fa11545b.png?resize=1504x1128&vertical=center'); background-size: cover"></div>
+            <div class="relative hidden h-full flex-col p-10 text-white lg:flex dark:border-r dark:border-neutral-800">
+                <div class="absolute inset-0" style="background-image: url('https://cdn.dribbble.com/userupload/38980803/file/original-9e3c7932e488805c7bbeefb2712d4dd9.jpg?resize=1024x768&vertical=center'); background-size: cover; filter: blur(1px);"></div>
+                <div class="absolute inset-0 bg-black/30 backdrop-blur-md"></div>
+
                 <a href="{{ route('home') }}" class="relative z-20 flex items-center text-lg font-medium" wire:navigate>
                     <span class="flex h-10 w-10 items-center justify-center rounded-md">
                         <x-app-logo-icon class="mr-2 h-10 fill-current text-white" />
@@ -19,7 +21,7 @@
                 @endphp
 
                 <div class="relative z-20 mt-auto">
-                    <blockquote class="space-y-2">
+                    <blockquote class="space-y-2 p-6 bg-white/10 backdrop-blur-sm rounded-lg shadow-lg border border-white/20">
                         <p class="text-lg">&ldquo;{{ trim($message) }}&rdquo;</p>
                         <footer class="text-sm">{{ trim($author) }}</footer>
                     </blockquote>
