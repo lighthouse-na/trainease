@@ -11,10 +11,24 @@ class ActivityGraph extends Component
 {
     public $userId;
     public $activityData = [];
+    public $currentDate;
 
     public function mount()
     {
         $this->userId = Auth::user()->id;
+        $this->currentDate = Carbon::now();
+        $this->loadActivityData();
+    }
+
+    public function previousMonth()
+    {
+        $this->currentDate->subMonth();
+        $this->loadActivityData();
+    }
+
+    public function nextMonth()
+    {
+        $this->currentDate->addMonth();
         $this->loadActivityData();
     }
 
@@ -25,7 +39,7 @@ class ActivityGraph extends Component
         ->with('courses') // Changed from 'courses' to 'course' assuming singular relationship
         ->get();
 
-    // Create a collection of all active dates
+    // Create a collection of all active dates with course names
     $activeDates = collect();
 
     foreach ($enrollments as $enrollment) {
@@ -33,51 +47,38 @@ class ActivityGraph extends Component
         if ($enrollment->courses && $enrollment->courses->start_date && $enrollment->courses->end_date) {
             $startDate = Carbon::parse($enrollment->courses->start_date->toDateString());
             $endDate = Carbon::parse($enrollment->courses->end_date->toDateString());
+            $courseName = $enrollment->courses->course_name ?? 'Unnamed Course';
 
             // Generate all dates between start and end date
-            $currentDate = clone $startDate;
-            while ($currentDate->lte($endDate)) {
-                $dateString = $currentDate->toDateString();
+            $currentDay = clone $startDate;
+            while ($currentDay->lte($endDate)) {
+                $dateString = $currentDay->toDateString();
 
                 if (!$activeDates->has($dateString)) {
-                    $activeDates->put($dateString, ['date' => $dateString, 'count' => 1]);
+                    $activeDates->put($dateString, [
+                        'date' => $dateString,
+                        'courses' => [$courseName]
+                    ]);
                 } else {
-                    // If the date already exists, increment the count
+                    // If the date already exists, add the course name to the array
                     $currentValue = $activeDates->get($dateString);
-                    $currentValue['count']++;
+                    $currentValue['courses'][] = $courseName;
                     $activeDates->put($dateString, $currentValue);
                 }
 
-                $currentDate->addDay();
+                $currentDay->addDay();
             }
         }
     }
 
-    $data = $activeDates->values()->toArray();
+    // Convert to array format
+    $this->activityData = $activeDates->values()->toArray();
 
     // If no enrollments, prepare empty data array
-    if (empty($data)) {
-        $data = [];
+    if (empty($this->activityData)) {
+        $this->activityData = [];
     }
-
-    // Convert array to associative array indexed by date
-    $dataByDate = collect($data)->keyBy('date')->toArray();
-
-    // Get current year's start date and number of days
-    $yearStart = Carbon::now()->startOfYear();
-    $daysInYear = Carbon::now()->isLeapYear() ? 366 : 365;
-
-    // Format data for the graph (current year only)
-    $this->activityData = collect(range(0, $daysInYear - 1))->map(function ($day) use ($dataByDate, $yearStart) {
-        $date = $yearStart->copy()->addDays($day)->toDateString();
-
-        return [
-            'date' => $date,
-            'count' => isset($dataByDate[$date]) ? $dataByDate[$date]['count'] : 0,
-        ];
-    })->values();
 }
-
 
 
     public function render()
