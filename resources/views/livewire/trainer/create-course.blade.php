@@ -16,7 +16,6 @@ new class extends Component {
     public $courseId;
     public $existingImage;
 
-
     // Course properties
     public $title = '';
     public $description = '';
@@ -24,6 +23,7 @@ new class extends Component {
     public $course_fee = '';
     public $startDate;
     public $endDate;
+    public $course_type;
     public $userId;
 
     // Materials properties
@@ -57,11 +57,15 @@ new class extends Component {
             $this->startDate = $course->start_date->toDateString();
             $this->endDate = $course->end_date->toDateString();
             $this->existingImage = $course->course_image;
+            $this->course_type = $course->course_type;
             $this->userId = $course->user_id;
 
             $this->courseMaterials = $course->materials;
             // Load quizzes with their questions and options
-            $this->quizzes = $course->quizes()->with(['questions.options'])->get();
+            $this->quizzes = $course
+                ->quizes()
+                ->with(['questions.options'])
+                ->get();
 
             // If there are quizzes, set up the first one
             if ($this->quizzes->isNotEmpty()) {
@@ -71,24 +75,26 @@ new class extends Component {
                 $this->passingScore = $this->quiz->passing_score;
 
                 // Setup questions array for the form
-                $this->questions = $this->quiz->questions->map(function ($question) {
-                    $questionData = [
-                        'id' => $question->id,
-                        'text' => $question->question_text,
-                        'question_type' => $question->question_type,
-                        'options' => []
-                    ];
+                $this->questions = $this->quiz->questions
+                    ->map(function ($question) {
+                        $questionData = [
+                            'id' => $question->id,
+                            'text' => $question->question_text,
+                            'question_type' => $question->question_type,
+                            'options' => [],
+                        ];
 
-                    // Setup options for each question
-                    foreach ($question->options as $index => $option) {
-                        $questionData['options'][$index] = $option->option_text;
-                        if ($option->is_correct) {
-                            $questionData['correct_answer'] = $index;
+                        // Setup options for each question
+                        foreach ($question->options as $index => $option) {
+                            $questionData['options'][$index] = $option->option_text;
+                            if ($option->is_correct) {
+                                $questionData['correct_answer'] = $index;
+                            }
                         }
-                    }
 
-                    return $questionData;
-                })->toArray();
+                        return $questionData;
+                    })
+                    ->toArray();
             }
         }
     }
@@ -102,6 +108,7 @@ new class extends Component {
             'startDate' => 'required|date',
             'endDate' => 'required|date|after:startDate',
             'course_fee' => 'required|numeric|min:0',
+            'course_type' => 'required'
         ]);
 
         // Process image if uploaded
@@ -119,6 +126,7 @@ new class extends Component {
             $course->start_date = $this->startDate;
             $course->end_date = $this->endDate;
             $course->course_fee = $this->course_fee;
+            $course->course_type = $this->course_type;
 
             if ($imagePath) {
                 $course->course_image = $imagePath;
@@ -137,6 +145,7 @@ new class extends Component {
                 'course_fee' => $this->course_fee,
                 'course_image' => $imagePath,
                 'user_id' => Auth::user()->id,
+                'course_type' => $this->course_type,
             ]);
 
             $this->courseId = $course->id;
@@ -204,7 +213,8 @@ new class extends Component {
         }
     }
 
-    public function deleteMaterial($materialId){
+    public function deleteMaterial($materialId)
+    {
         if (!$this->courseCreated) {
             return;
         }
@@ -266,7 +276,6 @@ new class extends Component {
         }
     }
 
-
     public function addQuestion()
     {
         if (!$this->courseCreated) {
@@ -276,10 +285,8 @@ new class extends Component {
         $this->questions[] = [
             'text' => '',
             'question_type' => 'multiple_choice',
-            'options' => [
-                '', '', '', ''
-            ],
-            'correct_answer' => null
+            'options' => ['', '', '', ''],
+            'correct_answer' => null,
         ];
     }
 
@@ -311,16 +318,19 @@ new class extends Component {
             return;
         }
 
-        $this->validate([
-            'quizTitle' => 'required|min:3',
-            'quizAttempts' => 'required|numeric|min:1',
-            'questions' => 'required|array|min:1',
-            'questions.*.text' => 'required',
-            'questions.*.correct_answer' => 'required',
-        ], [
-            'questions.*.text.required' => 'Question text is required',
-            'questions.*.correct_answer.required' => 'You must select a correct answer'
-        ]);
+        $this->validate(
+            [
+                'quizTitle' => 'required|min:3',
+                'quizAttempts' => 'required|numeric|min:1',
+                'questions' => 'required|array|min:1',
+                'questions.*.text' => 'required',
+                'questions.*.correct_answer' => 'required',
+            ],
+            [
+                'questions.*.text.required' => 'Question text is required',
+                'questions.*.correct_answer.required' => 'You must select a correct answer',
+            ],
+        );
 
         $course = Course::find($this->courseId);
 
@@ -337,7 +347,7 @@ new class extends Component {
             $quiz = $course->quizes()->create([
                 'title' => $this->quizTitle,
                 'quizAttempts' => $this->quizAttempts,
-                'passingScore' => $this->passingScore
+                'passingScore' => $this->passingScore,
             ]);
         }
 
@@ -353,7 +363,7 @@ new class extends Component {
                     'question_text' => $questionData['text'],
                     'question_type' => $questionData['question_type'] ?? 'multiple_choice',
                     'order' => $index + 1,
-                ]
+                ],
             );
 
             // Delete existing options for this question if it's being updated
@@ -374,7 +384,10 @@ new class extends Component {
         }
 
         // Refresh the data
-        $this->quizzes = $course->quizes()->with(['questions.options'])->get();
+        $this->quizzes = $course
+            ->quizes()
+            ->with(['questions.options'])
+            ->get();
 
         // Update the quiz property to the current quiz
         if ($this->quizzes->isNotEmpty()) {
@@ -437,6 +450,7 @@ new class extends Component {
                         wire:click="setTab('materials')" type="button" role="tab" :disabled="!$wire.courseCreated"
                         :title="!$wire.courseCreated ? 'Save course details first' : ''">Course Materials</button>
                 </li>
+
                 <li class="mr-2" role="presentation">
                     <button class="inline-block p-4 border-b-2 rounded-t-lg"
                         :class="{
@@ -478,7 +492,7 @@ new class extends Component {
                             for="description">Description</label>
                         <x-textarea id="description" wire:model="description" rows="4" class="w-full" />
                     </div>
-                    <div class="mb-4">
+                    <div class="flex grid grid-cols-2 gap-2 mb-4">
                         <flux:field>
                             <flux:label>Course Fee</flux:label>
                             <flux:input.group>
@@ -486,7 +500,17 @@ new class extends Component {
                                 <flux:input wire:model.live="course_fee" type="decimal:2" min="0" required />
                             </flux:input.group>
                         </flux:field>
-                    </div>
+
+                    <flux:field>
+                        <flux:label>Course Type</flux:label>
+
+                        <flux:select wire:model.live="course_type" required>
+                            <flux:select.option value="online">Online</flux:select.option>
+                            <flux:select.option value="face-to-face">Face to Face</flux:select.option>
+                            <flux:select.option value="hybrid">Hybrid</flux:select.option>
+                        </flux:select>
+                    </flux:field>
+                </div>
                     <div class="mb-4">
                         <label class="block text-sm font-medium text-gray-700 mb-2" for="course_image">Course
                             Image</label>
@@ -507,7 +531,8 @@ new class extends Component {
                     </div>
                     <div class="grid grid-cols-2 gap-4 mb-4">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2" for="start_date">Start Date</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-2" for="start_date">Start
+                                Date</label>
                             <x-input type="date" id="start_date" wire:model="startDate" class="w-full" />
                         </div>
                         <div>
@@ -568,14 +593,14 @@ new class extends Component {
                                     <p class="text-gray-500 text-sm mb-3 line-clamp-2">{{ $material->description }}
                                     </p>
                                     <div class="flex justify-start space-x-2 items-center">
-                                            <flux:button wire:click="editMaterial({{ $material->id }})"
-                                                variant="primary" size="xs" outline>
-                                                Edit
-                                            </flux:button>
-                                            <flux:button wire:click="deleteMaterial({{ $material->id }})"
-                                                variant="danger" size="xs" outline>
-                                                Delete
-                                            </flux:button>
+                                        <flux:button wire:click="editMaterial({{ $material->id }})" variant="primary"
+                                            size="xs" outline>
+                                            Edit
+                                        </flux:button>
+                                        <flux:button wire:click="deleteMaterial({{ $material->id }})"
+                                            variant="danger" size="xs" outline>
+                                            Delete
+                                        </flux:button>
                                         <span
                                             class="text-xs text-gray-400 justify-end">{{ $material->created_at->format('M d, Y') }}</span>
                                     </div>

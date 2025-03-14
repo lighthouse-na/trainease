@@ -11,7 +11,7 @@ new class extends Component {
 
     public function mount()
     {
-        $this->courses = Course::all();
+        $this->courses = Course::where('course_type', 'online')->orWhere('course_type', 'hybrid')->get();
         $this->userEnrollments = Enrollment::where('user_id', Auth::id())->pluck('course_id')->toArray();
     }
 
@@ -37,7 +37,7 @@ new class extends Component {
             @endif
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 my-3">
-                @foreach ($courses as $course)
+                @forelse ($courses as $course)
                     <a href="{{route('training.coursepage', ['course' => Hashids::encode($course->id)])}}" class="block group">
                         <div
                             class="bg-white dark:bg-gray-800 border border-neutral-200 dark:border-neutral-700  rounded-xl overflow-hidden transition duration-300 ease-in-out cursor-pointer">
@@ -71,6 +71,10 @@ new class extends Component {
                             </div>
                         </div>
                     </a>
-                @endforeach
+                @empty
+                    <div class="col-span-full text-center py-10">
+                        <p class="text-gray-500 dark:text-gray-400">No courses available at this time.</p>
+                    </div>
+                @endforelse
             </div>
         </div>
