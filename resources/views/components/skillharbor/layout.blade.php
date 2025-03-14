@@ -11,7 +11,7 @@
             </flux:navlist.group>
 
             <flux:navlist.group heading="Directories" expandable>
-                <flux:navlist.item href="#">Assessments</flux:navlist.item>
+                <flux:navlist.item href="#" >Assessments</flux:navlist.item>
                 <flux:navlist.item href="#">Job Competency Profiles</flux:navlist.item>
                 <flux:navlist.item href="#">Skills</flux:navlist.item>
                 <flux:navlist.item href="#">Qualifications</flux:navlist.item>

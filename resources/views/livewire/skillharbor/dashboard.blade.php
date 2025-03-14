@@ -36,7 +36,7 @@ new class extends Component {
     <x-skillharbor.layout heading="{{ __('Dashboard') }}" subheading="{{ __('') }}">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
             <!-- Profile Summary Card -->
-            <div class="bg-white rounded-lg border p-6 col-span-2">
+            <div class="bg-gray-100 rounded-lg border p-4 px-6 col-span-2">
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="text-sm font-medium text-gray-900">Your Qualifications</h3>
                     <flux:modal.trigger name="addQualification">
@@ -46,9 +46,9 @@ new class extends Component {
                 </div>
 
 
-                <div class="space-y-3 max-h-64 overflow-y-auto ">
+                <div class="space-y-3 bg-white rounded-lg max-h-64 overflow-y-auto ">
                     @forelse($qualifications as $qualification)
-                        <div class="flex justify-between items-center p-3 border rounded-lg">
+                        <div class="flex justify-between items-center border rounded-lg">
                             <div>
                                 <h4 class="font-medium text-gray-800">{{ $qualification['name'] ?? 'Qualification' }}
                                 </h4>
