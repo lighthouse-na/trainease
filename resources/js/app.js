@@ -1,3 +1,5 @@
+import Chart from 'chart.js/auto';
+
 window.toast = function(message, options = {}){
     let description = '';
     let type = 'default';

@@ -29,6 +29,18 @@ Route::middleware(['auth'])->group(function () {
     Volt::route('/c/course/{course?}', 'trainer.create-course')->name('create.course');
     Volt::route('c/course_detail/{course_id}/', 'trainer.coursedetails')->name('course.details');
 
+    /**
+     * SkillHarbor Routes
+     * These are the routes for the skill audit compnent
+     *
+     */
+    Route::redirect('skillharbor', 'skillharbor/dashboard')->name('skillharbor');
+    Volt::route('skillharbor/dashboard', 'skillharbor.dashboard')->name('skill-harbor.dashboard');
+    Volt::route('skillharbor/assessments', 'skillharbor.assessments')->name('skill-harbor.assessments');
+    Volt::route('skillharbor/directories}', 'skillharbor.directories')->name('skill-harbor.directories');
+    Volt::route('skillharbor/reports', 'skillharbor.reports')->name('skill-harbor.reports');
+    Volt::route('skillharbor/supervise', 'skillharbor.supervise')->name('skill-harbor.supervise');
+
 });
 
 
