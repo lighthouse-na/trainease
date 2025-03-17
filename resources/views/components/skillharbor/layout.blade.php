@@ -13,7 +13,7 @@
             <flux:navlist.group heading="Directories" expandable>
                 <flux:navlist.item href="#" >Assessments</flux:navlist.item>
                 <flux:navlist.item href="#">Job Competency Profiles</flux:navlist.item>
-                <flux:navlist.item href="#" >Skills</flux:navlist.item>
+                <flux:navlist.item href="{{ route('skill-harbor.skills') }}" >Skills</flux:navlist.item>
                 <flux:navlist.item href="{{ route('skill-harbor.qualifications') }}" wire:navigate>Qualifications</flux:navlist.item>
 
             </flux:navlist.group>

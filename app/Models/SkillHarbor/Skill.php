@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Skill extends Model
 {
     //
+    protected $fillable = ['skill_title', 'skill_description', 'skill_category_id'];
     public function category()
     {
         return $this->belongsTo(SkillCategory::class, 'skill_category_id');
