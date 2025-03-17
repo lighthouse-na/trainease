@@ -24,9 +24,7 @@ new class extends Component {
             <div class="divide-default bg-white  divide-y rounded-lg" data-slot="content">
                 @foreach([
                 ['name' => 'Frontend Development Skills', 'date' => '2023-11-15', 'score' => '85%', 'status' => 'view supervisor result'],
-                ['name' => 'Backend PHP Assessment', 'date' => '2023-10-22', 'score' => '78%', 'status' => 'view supervisor result'],
-                ['name' => 'DevOps Knowledge Check', 'date' => '2023-12-01', 'score' => '92%', 'status' => 'view submission'],
-                ['name' => 'Database Design Skills', 'date' => '2023-12-10', 'score' => 'N/A', 'status' => 'get started'],
+
                 ] as $assessment)
                 <div class="flex w-full justify-between p-6 items-start gap-x-20 gap-y-8" data-slot="field">
                     <div class="space-y-1">

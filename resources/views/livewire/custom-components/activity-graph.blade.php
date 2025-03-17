@@ -34,7 +34,7 @@
             @endphp
             <flux:tooltip content="{{ $date->format('d-M-Y') }}: {{ $courseCount }} {{ $coursesTooltip }}">
                 <div
-                    class="w-8 h-8 rounded flex items-center justify-center text-xs {{ $date->isToday() ? 'ring-2 ring-accent' : '' }} bg-{{ $courseCount > 5 ? 'green-700' : ($courseCount > 2 ? 'green-500' : ($courseCount > 0 ? 'green-300' : 'gray-200')) }} dark:bg-{{ $courseCount > 5 ? 'green-600' : ($courseCount > 2 ? 'green-500' : ($courseCount > 0 ? 'green-700' : 'gray-700')) }} {{ $courseCount > 0 ? 'text-white dark:text-white' : 'text-gray-700 dark:text-gray-300' }}"
+                    class="w-8 h-8 rounded flex items-center justify-center text-xs {{ $date->isToday() ? 'ring-2 ring-accent-content' : '' }} {{ isset($dayData['courses']) && count($dayData['courses']) > 0 ? 'bg-green-400' : '' }} {{ isset($dayData['courses']) && count($dayData['courses']) > 0 ? 'text-white dark:text-white' : 'text-gray-700 dark:text-gray-300' }}"
                 >
                     {{ $day }}
                 </div>

@@ -65,7 +65,7 @@ new class extends Component {
     </div>
 
     <!-- Second row: Trainings table -->
-    <div class="col-span-3 relative overflow-hidden rounded-xl p-4 bg-zinc-50 dark:bg-zinc-700">
+    <div class="col-span-3 relative overflow-hidden rounded-xl p-4 border dark:bg-zinc-700">
         <flux:heading>My Trainings</flux:heading>
 
         <div class="flex flex-col mt-6">
@@ -88,9 +88,9 @@ new class extends Component {
                             </thead>
                             <tbody class="divide-y divide-neutral-200">
                                 @forelse ($enrollments as $enrollment)
-                                    <tr class="text-neutral-800 hover:bg-slate-100 dark:hover:bg-neutral-600 cursor-pointer"
+                                    <tr class="text-neutral-800 hover:bg-slate-100 dark:hover:bg-gray-800 cursor-pointer transition-colors"
                                         onclick="window.location='{{ route('course.show', ['course_id' => Hashids::encode($enrollment->courses->id), 'enrollment_id' => Hashids::encode($enrollment->id)]) }}'">
-                                        <td class="px-5 py-4 text-sm font-medium whitespace-nowrap dark:text-accent text-accent-content">
+                                        <td class="px-5 py-4 text-sm font-medium whitespace-nowrap dark:text-neutral-100 text-neutral-800">
                                             {{ $enrollment->courses->course_name }}
                                         </td>
                                         @php
@@ -101,7 +101,7 @@ new class extends Component {
                                         @endphp
                                         <td class="px-5 py-4 text-sm whitespace-nowrap text-center">
                                             <div>
-                                                <div class="flex items-center justify-between text-xs font-semibold text-gray-500 dark:text-gray-400">
+                                                <div class="flex items-center justify-between text-xs font-semibold text-gray-500 dark:text-gray-100">
                                                     <span>Course Progress:</span>
                                                     <span>{{ $progress }}%</span>
                                                 </div>
