@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Models\Organisation\Department;
 use App\Models\Organisation\Division;
+use App\Models\SkillHarbor\Qualification;
 use App\Models\Training\Course;
 use App\Models\Training\CourseMaterial;
 use App\Models\Training\CourseProgress;
@@ -153,6 +154,10 @@ class User extends Authenticatable
 
     public function trainerCourses(){
         return $this->hasMany(Course::class, 'trainer_id');
+    }
+
+    public function qualifications(){
+        return $this->belongsToMany(Qualification::class, 'qualification_user');
     }
 
 

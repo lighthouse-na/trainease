@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -69,6 +70,8 @@ return new class extends Migration
             $table->timestamps();
         });
 
+        $this->seedQualification();
+
         /**
          * Create user_qualifications table
          */
@@ -122,8 +125,20 @@ return new class extends Migration
     /**
      * Reverse the migrations.
      */
-    public function down(): void
-    {
-        Schema::dropIfExists('skillharbor_tables');
-    }
+
+     public function seedQualification(){
+        $qualifications = [
+            'Bachelor Degree',
+            'Masters Degree',
+            'PhD',
+            'Diploma',
+            'Certificate'
+        ];
+
+        foreach ($qualifications as $qualification) {
+            DB::table('qualifications')->insert([
+                'qualification_title' => $qualification
+            ]);
+        }
+     }
 };

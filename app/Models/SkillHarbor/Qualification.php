@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Qualification extends Model
 {
     //
+    protected $fillable = ['user_id'];
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
     public function jcp()
     {
         return $this->belongsToMany(JobCompetencyProfile::class, 'jcp_qualification');

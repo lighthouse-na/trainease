@@ -1,11 +1,12 @@
 <?php
 
 use Livewire\Volt\Component;
+use App\Models\SkillHarbor\Qualification;
 
 new class extends Component {
     public $user;
     public $qualifications = [];
-    public $dbQual = [];
+    public $myQualifications = [];
     public $skills = [];
     public $jcpRating = 0;
     public $myRating = [];
@@ -14,10 +15,16 @@ new class extends Component {
     public $confirmingAddQualification = false;
     public $qualification_id;
 
+    public function addMyQualification(){
+        $this->user->qualifications()->attach($this->qualification_id);
+        $this->myQualifications = $this->user->qualifications;
+        $this->confirmingAddQualification = false;
+    }
     public function mount()
     {
         $this->user = auth()->user();
-
+        $this->qualifications = Qualification::all();
+        $this->myQualifications = $this->user->qualifications;
         // Set up JCP Rating data (requirements)
         $this->jcpRating = [['category' => 'Programming', 'value' => 4], ['category' => 'Database', 'value' => 3], ['category' => 'Frontend', 'value' => 3], ['category' => 'Backend', 'value' => 4], ['category' => 'DevOps', 'value' => 2], ['category' => 'Testing', 'value' => 3]];
 
@@ -36,7 +43,7 @@ new class extends Component {
     <x-skillharbor.layout heading="{{ __('Dashboard') }}" subheading="{{ __('') }}">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
             <!-- Profile Summary Card -->
-            <div class="bg-gray-100 rounded-lg border p-1 col-span-2">
+            <div class=" rounded-lg border p-1 col-span-2">
                 <div class="flex justify-between items-center  px-6 py-2">
                     <h3 class="text-sm font-medium text-gray-900">Your Qualifications</h3>
                     <flux:modal.trigger name="addQualification">
@@ -47,18 +54,17 @@ new class extends Component {
 
 
                 <div class="space-y-3 bg-white rounded-lg max-h-64 overflow-y-auto ">
-                    @forelse($qualifications as $qualification)
-                        <div class="flex justify-between items-center border rounded-lg">
+                    @forelse($myQualifications as $qualification)
+                        <div class="flex justify-between items-center border rounded-lg p-4 bg-gray-50 shadow-sm">
                             <div>
-                                <h4 class="font-medium text-gray-800">{{ $qualification['name'] ?? 'Qualification' }}
-                                </h4>
+                                <h4 class="font-medium text-gray-800">{{ $qualification['qualification_title'] ?? 'Qualification' }}</h4>
                                 <p class="text-xs text-gray-500">{{ $qualification['date'] ?? 'No date' }}</p>
                             </div>
-                            <span
-                                class="px-2 py-1 text-xs rounded-full {{ $qualification['verified'] ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">
+                            <span class="px-2 py-1 text-xs rounded-full {{ $qualification['verified'] ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">
                                 {{ $qualification['verified'] ? 'Verified' : 'Pending' }}
                             </span>
                         </div>
+
                     @empty
                         <div class="text-center py-4 text-gray-500">
                             <div class="flex flex-col items-center py-6 space-y-2">
@@ -309,18 +315,12 @@ new class extends Component {
                         </div>
 
 
-                        <flux:select wire:model="industry" placeholder="Choose industry...">
-                            <flux:select.option>Bachelor of Science in Computer Science</flux:select.option>
-                            <flux:select.option>Bachelor of Science in Information Technology</flux:select.option>
-                            <flux:select.option>Bachelor of Engineering in Software Engineering</flux:select.option>
-                            <flux:select.option>Bachelor of Science in Data Science</flux:select.option>
-                            <flux:select.option>Master of Science in Computer Science</flux:select.option>
-                            <flux:select.option>Master of Business Administration (MBA)</flux:select.option>
-                            <flux:select.option>Master of Science in Cybersecurity</flux:select.option>
-                            <flux:select.option>Master of Science in Artificial Intelligence</flux:select.option>
-                            <flux:select.option>Master of Science in Information Systems</flux:select.option>
-                            <flux:select.option>PhD in Computer Science</flux:select.option>
-                            <flux:select.option>Other</flux:select.option>
+                        <flux:select wire:model.live="qualification_id" placeholder="Choose qualification...">
+                            @foreach ($this->qualifications as $qualification)
+                            <flux:select.option value="{{ $qualification->id }}">{{ $qualification->qualification_title }}</flux:select.option>
+
+                            @endforeach
+
                         </flux:select>
 
                         <flux:input label="Name" placeholder="Your qualification" />
@@ -329,7 +329,7 @@ new class extends Component {
                         <div class="flex">
                             <flux:spacer />
 
-                            <flux:button type="submit" variant="primary">Save changes</flux:button>
+                            <flux:button wire:click="addMyQualification" variant="primary">Save changes</flux:button>
                         </div>
                     </div>
                 </flux:modal>
