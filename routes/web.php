@@ -41,9 +41,13 @@ Route::middleware(['auth'])->group(function () {
     Volt::route('skillharbor/reports', 'skillharbor.reports')->name('skill-harbor.reports');
     Volt::route('skillharbor/supervise', 'skillharbor.supervise')->name('skill-harbor.supervise');
 
+    /**
+     * Directories Routes
+     */
     Volt::route('skillharbor/directories/skills', 'skillharbor.directories.skills.skillstable')->name('skill-harbor.skills');
     Volt::route('skillharbor/directories/qualifications', 'skillharbor.directories.qualifications.qualificationstable')->name('skill-harbor.qualifications');
     Volt::route('skillharbor/directories/assessments', 'skillharbor.directories.assessments.assessmentstable')->name('skill-harbor.directories.assessments');
+    Volt::route('skillharbor/directories/jcps', 'skillharbor.directories.jcps.jcptable')->name('skill-harbor.directories.jcps');
 
 
 });

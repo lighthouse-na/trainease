@@ -8,8 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Assessment extends Model
 {
     //
-    protected $dates = ['created_at', 'updated_at', 'closing_date'];
+    protected $fillable = ['assessment_title', 'closing_date'];
 
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'closing_date' => 'datetime',
+    ];
 
     public function enrolled()
     {

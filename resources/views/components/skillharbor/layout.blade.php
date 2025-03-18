@@ -12,7 +12,7 @@
 
             <flux:navlist.group heading="Directories" expandable>
                 <flux:navlist.item href="{{ route('skill-harbor.directories.assessments') }}" wire:navigate :current="request()->routeIs('skill-harbor.directories.assessments')" >Assessments</flux:navlist.item>
-                <flux:navlist.item href="#">Job Competency Profiles</flux:navlist.item>
+                <flux:navlist.item href="{{ route('skill-harbor.directories.jcps') }}" wire:navigate :current="request()->routeIs('skill-harbor.directories.jcps')">Job Competency Profiles</flux:navlist.item>
                 <flux:navlist.item href="{{ route('skill-harbor.skills') }}" :current="request()->routeIs('skill-harbor.skills')" >Skills</flux:navlist.item>
                 <flux:navlist.item href="{{ route('skill-harbor.qualifications') }}" wire:navigate :current="request()->routeIs('skill-harbor.qualifications')">Qualifications</flux:navlist.item>
 
