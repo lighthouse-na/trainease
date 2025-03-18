@@ -17,7 +17,6 @@ new class extends Component {
 
     public $skillCategory = '';
 
-
     public function search()
     {
         $this->resetPage();
@@ -25,11 +24,9 @@ new class extends Component {
 
     public function with(): array
     {
-        $query = Skill::with('category')
-            ->where(function($q) {
-                $q->where('skill_title', 'like', '%' . $this->search . '%')
-                  ->orWhere('skill_description', 'like', '%' . $this->search . '%');
-            });
+        $query = Skill::with('category')->where(function ($q) {
+            $q->where('skill_title', 'like', '%' . $this->search . '%')->orWhere('skill_description', 'like', '%' . $this->search . '%');
+        });
 
         if ($this->selectedCategory) {
             $query->where('skill_category_id', $this->selectedCategory);
@@ -41,40 +38,45 @@ new class extends Component {
         ];
     }
 
-    public function addNewCategory(){
+    public function addNewCategory()
+    {
         $this->validate([
             'skillCategory' => 'required|string|max:255',
         ]);
 
         SkillCategory::create([
-            'category_title' => $this->skillCategory
+            'category_title' => $this->skillCategory,
         ]);
 
         $this->resetFields();
         $this->modal('skillCategoryModal')->close();
     }
 
-    public function editCategory($categoryId){
+    public function editCategory($categoryId)
+    {
         $category = SkillCategory::find($categoryId);
         $this->skillCategory = $category->category_title;
+        $this->categoryId = $category->id;
         $this->modal('skillCategoryModal')->show();
     }
 
-    public function updateCategory($categoryId){
+    public function updateCategory()
+    {
         $this->validate([
             'skillCategory' => 'required|string|max:255',
         ]);
 
-        $category = SkillCategory::find($categoryId);
+        $category = SkillCategory::find($this->categoryId);
         $category->update([
-            'category_title' => $this->skillCategory
+            'category_title' => $this->skillCategory,
         ]);
 
         $this->resetFields();
         $this->modal('skillCategoryModal')->close();
     }
 
-    public function deleteCategory($catergoryId){
+    public function deleteCategory($catergoryId)
+    {
         // Check if the category has skills
         $category = SkillCategory::with('skills')->find($catergoryId);
 
@@ -85,11 +87,10 @@ new class extends Component {
             }
         }
         SkillCategory::find($catergoryId)->delete();
-
     }
 
-
-    public function addNewSkill(){
+    public function addNewSkill()
+    {
         $this->validate([
             'skill' => 'required|string|max:255',
             'skillDescription' => 'required|string',
@@ -99,18 +100,20 @@ new class extends Component {
         Skill::create([
             'skill_title' => $this->skill,
             'skill_description' => $this->skillDescription,
-            'skill_category_id' => $this->categoryId
+            'skill_category_id' => $this->categoryId,
         ]);
 
         $this->resetFields();
         $this->modal('skillModal')->close();
     }
 
-    public function deleteSkill($skill_id){
+    public function deleteSkill($skill_id)
+    {
         Skill::find($skill_id)->delete();
     }
 
-    public function editSkill($skill_id){
+    public function editSkill($skill_id)
+    {
         $skill = Skill::find($skill_id);
         $this->skill = $skill->skill_title;
         $this->skillDescription = $skill->skill_description;
@@ -119,7 +122,8 @@ new class extends Component {
         $this->modal('skillModal')->show();
     }
 
-    public function updateSkill(){
+    public function updateSkill()
+    {
         $this->validate([
             'skill' => 'required|string|max:255',
             'skillDescription' => 'required|string',
@@ -130,7 +134,7 @@ new class extends Component {
         $skill->update([
             'skill_title' => $this->skill,
             'skill_description' => $this->skillDescription,
-            'skill_category_id' => $this->categoryId
+            'skill_category_id' => $this->categoryId,
         ]);
 
         $this->resetFields();
@@ -155,81 +159,108 @@ new class extends Component {
 }; ?>
 
 <div>
-    <x-skillharbor.layout heading="{{ __('Skills') }}"
-        subheading="{{ __('View and manage the system skills') }}">
-        <div class="flex flex-col md:flex-row justify-between mb-4">
-            <div class="flex mb-2 md:mb-0">
-                <flux:input wire:model.live.debounce.300ms="search" icon="magnifying-glass" placeholder="Search skills" />
+    <x-skillharbor.layout heading="{{ __('Skills') }}" subheading="{{ __('View and manage the system skills') }}">
+        <div class="mb-6">
+            <!-- Top controls: Create buttons -->
+            <div class="flex justify-between items-center mb-4 border rounded-lg p-2 bg-gray-100">
+
+                <h3 class="text-lg font-medium text-gray-700">Manage Skills</h3>
+                <div class="flex space-x-2">
+                    <flux:modal.trigger name="skillModal">
+                        <flux:button icon="plus" variant="primary" class="m-3">{{ __('Create Skill') }}</flux:button>
+                    </flux:modal.trigger>
+                    <flux:modal.trigger name="skillCategoryModal">
+                        <flux:button icon="plus" color="zinc" class="m-3">{{ __('Create Category') }}</flux:button>
+                    </flux:modal.trigger>
+                </div>
             </div>
 
-            <div class="flex space-x-2">
-                <flux:button color="zinc" wire:click="filterByCategory()" class="{{ !$selectedCategory ? 'bg-primary-500' : '' }}">
-                    All Categories
-                </flux:button>
+            <!-- Search and filter section -->
+            <div class="flex flex-col md:flex-row space-y-3 md:space-y-0 md:items-center md:space-x-4">
+                <!-- Search input -->
+                <div class="w-full md:w-1/3">
+                    <flux:input
+                        wire:model.live.debounce.300ms="search"
+                        icon="magnifying-glass"
+                        placeholder="Search skills"
+                        class="w-full"
+                    />
+                </div>
 
-                @foreach ($categories as $category)
-                    <div x-data="{
-                        contextMenuOpen: false,
-                        categoryId: {{ $category->id }},
-                        contextMenuToggle: function(event) {
-                            this.contextMenuOpen = true;
-                            event.preventDefault();
-                            this.$refs.contextmenu.classList.add('opacity-0');
-                            let that = this;
-                            $nextTick(function(){
-                                that.calculateContextMenuPosition(event);
-                                that.$refs.contextmenu.classList.remove('opacity-0');
-                            });
-                        },
-                        calculateContextMenuPosition (clickEvent) {
-                            if(window.innerHeight < clickEvent.clientY + this.$refs.contextmenu.offsetHeight){
-                                this.$refs.contextmenu.style.top = (window.innerHeight - this.$refs.contextmenu.offsetHeight) + 'px';
-                            } else {
-                                this.$refs.contextmenu.style.top = clickEvent.clientY + 'px';
-                            }
-                            if(window.innerWidth < clickEvent.clientX + this.$refs.contextmenu.offsetWidth){
-                                this.$refs.contextmenu.style.left = (clickEvent.clientX - this.$refs.contextmenu.offsetWidth) + 'px';
-                            } else {
-                                this.$refs.contextmenu.style.left = clickEvent.clientX + 'px';
-                            }
-                        }
-                    }"
-                    x-init="window.addEventListener('resize', function(event) { contextMenuOpen = false; });"
-                    @contextmenu="contextMenuToggle($event)" class="relative">
-                        <flux:button color="zinc" wire:click="filterByCategory({{ $category->id }})"
-                            class="{{ $selectedCategory == $category->id ? 'bg-primary-500' : '' }}">
-                            {{ $category->category_title }}
+                <!-- Categories filter -->
+                <div class="flex-1 overflow-x-auto pb-1">
+                    <div class="flex space-x-2">
+                        <flux:button
+                            size="sm"
+                            color="{{ !$selectedCategory ? 'primary' : 'zinc' }}"
+                            wire:click="filterByCategory()">
+                            All
                         </flux:button>
 
-                        <template x-teleport="body">
-                            <div x-show="contextMenuOpen" @click.away="contextMenuOpen=false" x-ref="contextmenu"
-                                class="z-50 min-w-[8rem] rounded-md border border-neutral-200/70 bg-white text-sm fixed p-1 shadow-md w-48"
-                                x-cloak>
-                                <div @click="$wire.editCategory(categoryId); contextMenuOpen=false"
-                                    class="relative flex cursor-pointer select-none items-center rounded px-2 py-1.5 hover:bg-neutral-100">
-                                    <span class="mr-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path></svg>
-                                    </span>
-                                    <span>Edit Category</span>
-                                </div>
-                                <div @click="$wire.deleteCategory(categoryId); contextMenuOpen=false"
-                                    class="relative flex cursor-pointer select-none items-center rounded px-2 py-1.5 hover:bg-neutral-100 text-red-600">
-                                    <span class="mr-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg>
-                                    </span>
-                                    <span>Delete Category</span>
-                                </div>
-                            </div>
-                        </template>
-                    </div>
-                @endforeach
+                        @foreach ($categories as $category)
+                            <div x-data="{
+                                contextMenuOpen: false,
+                                categoryId: {{ $category->id }},
+                                contextMenuToggle: function(event) {
+                                    this.contextMenuOpen = true;
+                                    event.preventDefault();
+                                    this.$refs.contextmenu.classList.add('opacity-0');
+                                    let that = this;
+                                    $nextTick(function() {
+                                        that.calculateContextMenuPosition(event);
+                                        that.$refs.contextmenu.classList.remove('opacity-0');
+                                    });
+                                },
+                                calculateContextMenuPosition(clickEvent) {
+                                    if (window.innerHeight < clickEvent.clientY + this.$refs.contextmenu.offsetHeight) {
+                                        this.$refs.contextmenu.style.top = (window.innerHeight - this.$refs.contextmenu.offsetHeight) + 'px';
+                                    } else {
+                                        this.$refs.contextmenu.style.top = clickEvent.clientY + 'px';
+                                    }
+                                    if (window.innerWidth < clickEvent.clientX + this.$refs.contextmenu.offsetWidth) {
+                                        this.$refs.contextmenu.style.left = (clickEvent.clientX - this.$refs.contextmenu.offsetWidth) + 'px';
+                                    } else {
+                                        this.$refs.contextmenu.style.left = clickEvent.clientX + 'px';
+                                    }
+                                }
+                            }"
+                            x-init="window.addEventListener('resize', function(event) { contextMenuOpen = false; });"
+                            @contextmenu="contextMenuToggle($event)"
+                            class="relative">
+                                <flux:button
+                                    size="sm"
+                                    color="{{ $selectedCategory == $category->id ? 'primary' : 'zinc' }}"
+                                    wire:click="filterByCategory({{ $category->id }})">
+                                    {{ $category->category_title }}
+                                </flux:button>
 
-                <flux:modal.trigger name="skillModal">
-                    <flux:button icon="plus">{{ __('Create Skill') }}</flux:button>
-                </flux:modal.trigger>
-                <flux:modal.trigger name="skillCategoryModal">
-                    <flux:button icon="plus">{{ __('Create Skill Category') }}</flux:button>
-                </flux:modal.trigger>
+                                <template x-teleport="body">
+                                    <div
+                                        x-show="contextMenuOpen"
+                                        @click.away="contextMenuOpen=false"
+                                        x-ref="contextmenu"
+                                        class="z-50 min-w-[8rem] rounded-md border border-neutral-200/70 bg-white text-sm fixed p-1 shadow-md w-48"
+                                        x-cloak>
+                                        <div
+                                            @click="$wire.editCategory(categoryId); contextMenuOpen=false"
+                                            class="relative flex cursor-pointer select-none items-center rounded px-2 py-1.5 hover:bg-neutral-100">
+                                            <span class="mr-2">
+                                                <flux:icon name="pencil" class="w-4 h-4" />
+                                            </span>
+                                            <span>Edit Category</span>
+                                        </div>
+                                        <div
+                                            @click="$wire.deleteCategory(categoryId); contextMenuOpen=false"
+                                            class="relative flex cursor-pointer select-none items-center rounded px-2 py-1.5 hover:bg-red-100 hover:text-red-600">
+                                            <flux:icon name="trash" class="w-4 h-4" />
+                                            <span class="ml-2">Delete Category</span>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -240,13 +271,16 @@ new class extends Component {
                         <div class="flex justify-between items-center mb-2">
                             <h4 class="font-bold text-strong">{{ $skill->skill_title }}</h4>
                             <div class="flex justify-end items-center gap-2">
-                                <flux:button color="zinc" icon="pencil" size="xs" wire:click="editSkill({{ $skill->id }})"></flux:button>
-                                <flux:button variant="danger" icon="trash" wire:click="deleteSkill({{ $skill->id }})" size="xs"></flux:button>
+                                <flux:button color="zinc" icon="pencil" size="xs"
+                                    wire:click="editSkill({{ $skill->id }})"></flux:button>
+                                <flux:button variant="danger" icon="trash"
+                                    wire:click="deleteSkill({{ $skill->id }})" size="xs"></flux:button>
                             </div>
                         </div>
                         <p class="text-sm text-gray-600">{{ $skill->skill_description }}</p>
                         <div class="mt-2">
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                            <span
+                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                                 {{ $skill->category->category_title ?? 'Uncategorized' }}
                             </span>
                         </div>
@@ -298,7 +332,8 @@ new class extends Component {
     <flux:modal name="skillCategoryModal" class="md:w-96">
         <div class="space-y-6">
             <div>
-                <flux:heading size="lg">{{ $categoryId ? 'Edit Category' : 'Create New Category' }}</flux:heading>
+                <flux:heading size="lg">{{ $skillCategory ? 'Edit Category' : 'Create New Category' }}
+                </flux:heading>
                 <flux:subheading>Enter the skill details below.</flux:subheading>
             </div>
 
@@ -306,8 +341,8 @@ new class extends Component {
 
             <div class="flex">
                 <flux:spacer />
-                <flux:button wire:click="{{ $categoryId ? 'updateCategory' : 'addNewCategory' }}" variant="primary">
-                    {{ $categoryId ? 'Update Category' : 'Create Category' }}
+                <flux:button wire:click="{{ $skillCategory ? 'updateCategory' : 'addNewCategory' }}" variant="primary">
+                    {{ $skillCategory ? 'Update Category' : 'Create Category' }}
                 </flux:button>
             </div>
         </div>
