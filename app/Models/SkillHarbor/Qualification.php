@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Qualification extends Model
 {
     //
-    protected $fillable = ['user_id', 'qualification_title'];
+    protected $fillable = ['user_id', 'qualification_title', 'institution', 'qualification_level'];
     protected $casts = [
         'created_at' => 'datetime',
         'updated_at' => 'datetime',

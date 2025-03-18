@@ -67,6 +67,8 @@ return new class extends Migration
         Schema::create('qualifications', function (Blueprint $table) {
             $table->id();
             $table->string('qualification_title');
+            $table->string('institution')->nullable();
+            $table->enum('qualification_level', ['Bachelor', 'Masters', 'PhD', 'Diploma', 'Certificate'])->nullable();
             $table->timestamps();
         });
 
@@ -126,19 +128,22 @@ return new class extends Migration
      * Reverse the migrations.
      */
 
-     public function seedQualification(){
-        $qualifications = [
-            'Bachelor Degree',
-            'Masters Degree',
-            'PhD',
-            'Diploma',
-            'Certificate'
-        ];
+    public function seedQualification(){
+       $qualifications = [
+          ['qualification_title' => 'Bachelor Degree', 'institution' => 'University of Namibia', 'qualification_level' => 'Bachelor'],
+          ['qualification_title' => 'Bachelor of Science', 'institution' => 'Namibia University of Science and Technology', 'qualification_level' => 'Bachelor'],
+          ['qualification_title' => 'Bachelor of Education', 'institution' => 'University of Namibia', 'qualification_level' => 'Bachelor'],
+          ['qualification_title' => 'Masters in Business Administration', 'institution' => 'Namibia Business School', 'qualification_level' => 'Masters'],
+          ['qualification_title' => 'PhD in Environmental Science', 'institution' => 'University of Namibia', 'qualification_level' => 'PhD'],
+          ['qualification_title' => 'National Diploma in IT', 'institution' => 'Namibia University of Science and Technology', 'qualification_level' => 'Diploma'],
+          ['qualification_title' => 'Certificate in Project Management', 'institution' => 'Namibian Institute of Public Administration and Management', 'qualification_level' => 'Certificate'],
+          ['qualification_title' => 'Higher Technical Certificate', 'institution' => 'Windhoek Vocational Training Centre', 'qualification_level' => 'Certificate'],
+          ['qualification_title' => 'Diploma in Tourism', 'institution' => 'International University of Management', 'qualification_level' => 'Diploma'],
+          ['qualification_title' => 'Masters in Natural Resources Management', 'institution' => 'Namibia University of Science and Technology', 'qualification_level' => 'Masters']
+       ];
 
-        foreach ($qualifications as $qualification) {
-            DB::table('qualifications')->insert([
-                'qualification_title' => $qualification
-            ]);
-        }
-     }
+       foreach ($qualifications as $qualification) {
+          DB::table('qualifications')->insert($qualification);
+       }
+    }
 };

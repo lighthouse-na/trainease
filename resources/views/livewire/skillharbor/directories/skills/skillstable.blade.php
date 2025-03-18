@@ -49,6 +49,7 @@ new class extends Component {
         ]);
 
         $this->resetFields();
+        $this->skillCategory = '';
         $this->modal('skillCategoryModal')->close();
     }
 
@@ -304,21 +305,23 @@ new class extends Component {
             <flux:input wire:model="skill" placeholder="Enter skill title" label="Skill title" />
 
             <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700 mb-1">Skill description</label>
-                <textarea wire:model="skillDescription" rows="3"
+                <flux:textarea
+                label="Skill Description"
+                wire:model="skillDescription" rows="3"
                     class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                    placeholder="Enter skill description"></textarea>
+                    placeholder="Enter skill description"></flux:textarea>
             </div>
 
             <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700 mb-1">Category</label>
-                <select wire:model="categoryId"
+                <flux:select
+                label="Skill Category"
+                wire:model="categoryId"
                     class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                    <option value="">Select a category</option>
+                    <flux:select.option value="">Select a category</flux:select.option>
                     @foreach ($categories as $category)
-                        <option value="{{ $category->id }}">{{ $category->category_title }}</option>
+                        <flux:select.option value="{{ $category->id }}">{{ $category->category_title }}</flux:select.option>
                     @endforeach
-                </select>
+                </flux:select>
             </div>
 
             <div class="flex">
