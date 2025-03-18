@@ -18,8 +18,11 @@ new class extends Component {
     }
     public function with(): array
     {
+        $query = Qualification::where(function ($q){
+            $q->where('qualification_title', 'like', '%' . $this->search . '%')->orWhere('institution', 'like', '%' . $this->search . '%')->orWhere('qualification_level', 'like', '%' . $this->search . '%');
+        });
         return [
-            'qualifications' => Qualification::where('qualification_title', 'like', '%' . $this->search . '%')->cursorPaginate(10),
+            'qualifications' => $query->cursorPaginate(12)
         ];
     }
 
@@ -72,7 +75,12 @@ new class extends Component {
     <x-skillharbor.layout heading="{{ __('Qualifications') }}"
         subheading="{{ __('View and manage the system qualifications') }}">
         <div class="flex justify-end  mb-4">
-            <flux:input icon="magnifying-glass" placeholder="Search qualifications" />
+            <flux:input
+                        wire:model.live.debounce.300ms="search"
+                        icon="magnifying-glass"
+                        placeholder="Search Qualifications"
+                        class="w-full"
+                    />
 
             <div class="ml-2 justify-end">
                 <flux:modal.trigger name="qualificationModal">
