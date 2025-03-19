@@ -62,15 +62,14 @@ new class extends Component {
         $this->reset('newAssessment');
         $this->dispatch('refreshAssessments'); // Refresh the table
         $this->modal('create-assessment')->close();
-
     }
 
     public function editAssessment($id)
     {
         $assessment = Assessment::findOrFail($id);
         $this->editingAssessment = $assessment->toArray();
-        $this->editingAssessment['department_ids'] = $assessment->departments()->pluck('id')->toArray();
-        $this->modal('edit-assessment')->open();
+        $this->editingAssessment['department_ids'] = $assessment->getEnrolledDepartmentIds();
+        $this->modal('edit-assessment')->show();
     }
 
     public function updateAssessment()
@@ -93,20 +92,17 @@ new class extends Component {
 
         $this->reset('editingAssessment');
         $this->dispatch('refreshAssessments'); // Refresh the table
-        $this->modal('create-assessmentl')->close();
+        $this->modal('edit-assessment')->close();
     }
 
     private function enrollDepartments($assessmentId, $departmentIds)
     {
         // Get all users in the selected departments
-        $userIds = [];
-        foreach ($departmentIds as $departmentId) {
-            $departmentUsers = User::whereHas('user_detail', function($query) use ($departmentId) {
-            $query->where('department_id', $departmentId);
-            })->pluck('id')->toArray();
-            $userIds = array_merge($userIds, $departmentUsers);
-        }
-        $users = array_unique($userIds);
+        $users = User::whereHas('user_detail', function ($query) use ($departmentIds) {
+            $query->whereIn('department_id', $departmentIds);
+        })
+            ->pluck('id')
+            ->toArray();
 
         // Get all current enrollments for the assessment
         $existingEnrollments = SkillHarborEnrollment::where('assessment_id', $assessmentId)->pluck('user_id')->toArray();
@@ -181,7 +177,7 @@ new class extends Component {
             return 'completed';
         }
         // If past closing date but not all completed, it's overdue
-        else if ($now->isAfter($closingDate)) {
+        elseif ($now->isAfter($closingDate)) {
             return 'overdue';
         }
         // Otherwise it's pending
@@ -237,7 +233,7 @@ new class extends Component {
 
                     <flux:menu class="w-72 p-4">
                         <div class="space-y-2">
-                            @foreach (range(date('Y')+1, date('Y') - 2) as $year)
+                            @foreach (range(date('Y') + 1, date('Y') - 2) as $year)
                                 <flux:menu.checkbox wire:click="toggleYearFilter({{ $year }})"
                                     :checked="in_array($year, $yearFilters)">
                                     {{ $year }}
@@ -267,12 +263,59 @@ new class extends Component {
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
                     @forelse($this->assessments as $assessment)
-                        <tr class="hover:bg-gray-50">
+                        <tr class="hover:bg-gray-50" x-data="{
+                            contextMenuOpen: false,
+                            contextMenuToggle: function(event) {
+                                this.contextMenuOpen = true;
+                                event.preventDefault();
+                                this.$refs.contextmenu.classList.add('opacity-0');
+                                let that = this;
+                                $nextTick(function() {
+                                    that.calculateContextMenuPosition(event);
+                                    that.calculateSubMenuPosition(event);
+                                    that.$refs.contextmenu.classList.remove('opacity-0');
+                                });
+                            },
+                            calculateContextMenuPosition(clickEvent) {
+                                if (window.innerHeight < clickEvent.clientY + this.$refs.contextmenu.offsetHeight) {
+                                    this.$refs.contextmenu.style.top = (window.innerHeight - this.$refs.contextmenu.offsetHeight) + 'px';
+                                } else {
+                                    this.$refs.contextmenu.style.top = clickEvent.clientY + 'px';
+                                }
+                                if (window.innerWidth < clickEvent.clientX + this.$refs.contextmenu.offsetWidth) {
+                                    this.$refs.contextmenu.style.left = (clickEvent.clientX - this.$refs.contextmenu.offsetWidth) + 'px';
+                                } else {
+                                    this.$refs.contextmenu.style.left = clickEvent.clientX + 'px';
+                                }
+                            },
+                            calculateSubMenuPosition(clickEvent) {
+                                let submenus = document.querySelectorAll('[data-submenu]');
+                                let contextMenuWidth = this.$refs.contextmenu.offsetWidth;
+                                for (let i = 0; i < submenus.length; i++) {
+                                    if (window.innerWidth < (clickEvent.clientX + contextMenuWidth + submenus[i].offsetWidth)) {
+                                        submenus[i].classList.add('left-0', '-translate-x-full');
+                                        submenus[i].classList.remove('right-0', 'translate-x-full');
+                                    } else {
+                                        submenus[i].classList.remove('left-0', '-translate-x-full');
+                                        submenus[i].classList.add('right-0', 'translate-x-full');
+                                    }
+                                    if (window.innerHeight < (submenus[i].previousElementSibling.getBoundingClientRect().top + submenus[i].offsetHeight)) {
+                                        let heightDifference = (window.innerHeight - submenus[i].previousElementSibling.getBoundingClientRect().top) - submenus[i].offsetHeight;
+                                        submenus[i].style.top = heightDifference + 'px';
+                                    } else {
+                                        submenus[i].style.top = '';
+                                    }
+                                }
+                            }
+                        }" x-init="$watch('contextMenuOpen', function(value) {
+                            if (value === true) { document.body.classList.add('overflow-hidden') } else { document.body.classList.remove('overflow-hidden') }
+                        });
+                        window.addEventListener('resize', function(event) { contextMenuOpen = false; });"
+                            @contextmenu="contextMenuToggle(event)">
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="font-medium text-gray-900">{{ $assessment->assessment_title }}</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">{{ $assessment->closing_date->format('Y') }}</td>
-
                             <td class="px-6 py-4 whitespace-nowrap">
                                 {{ $assessment->enrolledCount() }}
                             </td>
@@ -293,6 +336,37 @@ new class extends Component {
                                 </div>
                             </td>
 
+                            <!-- Context menu for each assessment -->
+                            <template x-teleport="body">
+                                <div x-show="contextMenuOpen" @click.away="contextMenuOpen=false" x-ref="contextmenu"
+                                    class="z-50 min-w-[8rem] text-neutral-800 rounded-md border border-neutral-200/70 bg-white text-sm fixed p-1 shadow-md w-64"
+                                    x-cloak>
+                                    <div @click="contextMenuOpen=false; $wire.editAssessment({{ $assessment->id }})"
+                                        class="relative flex cursor-default select-none group items-center rounded px-2 py-1.5 hover:bg-neutral-100 outline-none pl-8">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="absolute left-2 w-4 h-4"
+                                            viewBox="0 0 20 20" fill="currentColor">
+                                            <path
+                                                d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                                        </svg>
+                                        <span>Edit Assessment</span>
+                                    </div>
+                                    <div @click="contextMenuOpen=false; $wire.deleteAssessment({{ $assessment->id }})"
+                                        class="relative flex cursor-default select-none group items-center rounded px-2 py-1.5 hover:bg-neutral-100 outline-none pl-8 text-red-600">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="absolute left-2 w-4 h-4"
+                                            viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd"
+                                                d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                                                clip-rule="evenodd" />
+                                        </svg>
+                                        <span>Delete Assessment</span>
+                                    </div>
+                                    <div class="h-px my-1 -mx-1 bg-neutral-200"></div>
+                                    <div @click="contextMenuOpen=false"
+                                        class="relative flex cursor-default select-none group items-center rounded px-2 py-1.5 hover:bg-neutral-100 outline-none pl-8">
+                                        <span>Cancel</span>
+                                    </div>
+                                </div>
+                            </template>
                         </tr>
                     @empty
                         <tr>
@@ -360,7 +434,8 @@ new class extends Component {
 
                 <flux:checkbox.group wire:model="editingAssessment.department_ids" label="{{ __('Departments') }}">
                     @foreach ($departments as $department)
-                        <flux:checkbox label="{{ $department['department_name'] }}" value="{{ $department['id'] }}" />
+                        <flux:checkbox label="{{ $department['department_name'] }}"
+                            value="{{ $department['id'] }}" />
                     @endforeach
                 </flux:checkbox.group>
 
