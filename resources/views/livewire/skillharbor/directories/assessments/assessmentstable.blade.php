@@ -392,7 +392,7 @@ new class extends Component {
 
         </div>
 
-        <flux:modal name="create-assessment" class="md:w-96">
+        <flux:modal name="create-assessment" class="md:w-96" variant="flyout" position="right">
             <div class="space-y-6">
                 <div>
                     <flux:heading size="lg">{{ __('Create Assessment') }}</flux:heading>
@@ -420,7 +420,7 @@ new class extends Component {
         </flux:modal>
 
         <!-- Edit Assessment Modal -->
-        <flux:modal name="edit-assessment" class="md:w-96">
+        <flux:modal name="edit-assessment" class="md:w-96" variant="flyout" position="right">
             <div class="space-y-6">
                 <div>
                     <flux:heading size="lg">{{ __('Edit Assessment') }}</flux:heading>
