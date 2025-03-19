@@ -21,6 +21,10 @@ class Assessment extends Model
         return $this->belongsToMany(User::class, 'skillharbor_enrollments', 'assessment_id', 'user_id')
             ->withPivot('user_status', 'supervisor_status');
     }
+
+    public function enrolledCount(){
+        return $this->enrolled()->count();
+    }
     public function getEnrolledDepartmentIds()
     {
         // Get the IDs of the departments for users enrolled in this assessment

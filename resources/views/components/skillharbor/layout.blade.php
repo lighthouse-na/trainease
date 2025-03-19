@@ -7,9 +7,7 @@
             <flux:navlist.item href="{{route('skill-harbor.assessments')}}"  :current="request()->routeIs('skill-harbor.assessments')" wire:navigate>{{__('My Assessments')}}</flux:navlist.item>
             <flux:navlist.item href="{{ route('skill-harbor.supervise') }}"  :current="request()->routeIs('skill-harbor.supervise')" wire:navigate>{{ __('Supervise') }}</flux:navlist.item>
 
-
             </flux:navlist.group>
-
             <flux:navlist.group heading="Directories" expandable>
                 <flux:navlist.item href="{{ route('skill-harbor.directories.assessments') }}" wire:navigate :current="request()->routeIs('skill-harbor.directories.assessments')" >Assessments</flux:navlist.item>
                 <flux:navlist.item href="{{ route('skill-harbor.directories.jcps') }}" wire:navigate :current="request()->routeIs('skill-harbor.directories.jcps')">Job Competency Profiles</flux:navlist.item>
