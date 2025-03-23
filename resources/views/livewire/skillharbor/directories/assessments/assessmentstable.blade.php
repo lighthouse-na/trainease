@@ -12,7 +12,8 @@ new class extends Component {
 
     public $search = '';
     public $statusFilters = ['completed', 'pending', 'overdue'];
-    public $yearFilters = [];
+    public $divisions = [];
+
 
     protected $listeners = [
         'refreshAssessments' => '$refresh',
@@ -22,10 +23,17 @@ new class extends Component {
     {
         // Initialize year filters with the current year and past 2 years
         $currentYear = intval(date('Y'));
+
+        // Get divisions with their departments
+        $divisions = \App\Models\Organisation\Division::with('department')->get();
+        $this->divisions = $divisions->toArray();
+
+        // We still need a flat list of departments for other operations
         $this->departments = Department::all()->toArray();
 
-        $this->yearFilters = [$currentYear + 1, $currentYear, $currentYear - 1, $currentYear - 2];
+
     }
+
 
     public $departments = [];
     public $newAssessment = [
@@ -128,38 +136,7 @@ new class extends Component {
     }
     public function getAssessmentsProperty()
     {
-        return Assessment::search($this->search)
-            ->when(count($this->statusFilters) < 3, function ($query) {
-                // Apply status filters if not all statuses are selected
-                // Note: You'll need to adjust this based on your actual status field structure
-                $query->whereIn('status', $this->statusFilters);
-            })
-            ->when(count($this->yearFilters) > 0, function ($query) {
-                // Apply year filters
-                $query->whereYear('closing_date', $this->yearFilters);
-            })
-            ->orderBy('closing_date', 'desc')
-            ->paginate(10);
-    }
-
-    public function toggleStatusFilter($status)
-    {
-        if (in_array($status, $this->statusFilters)) {
-            $this->statusFilters = array_diff($this->statusFilters, [$status]);
-        } else {
-            $this->statusFilters[] = $status;
-        }
-        $this->resetPage();
-    }
-
-    public function toggleYearFilter($year)
-    {
-        if (in_array($year, $this->yearFilters)) {
-            $this->yearFilters = array_diff($this->yearFilters, [$year]);
-        } else {
-            $this->yearFilters[] = $year;
-        }
-        $this->resetPage();
+        return Assessment::paginate(10);
     }
 
     public function getAssessmentStatus($assessment)
@@ -202,47 +179,7 @@ new class extends Component {
                 </flux:modal.trigger>
             </div>
 
-            <div class="flex flex-wrap items-center gap-3">
-                <flux:dropdown>
-                    <flux:button variant="ghost" icon-trailing="chevron-down">
-                        {{ __('Filter by Status') }}
-                    </flux:button>
 
-                    <flux:menu class="w-72 p-4">
-                        <div class="space-y-2">
-                            <flux:menu.checkbox wire:click="toggleStatusFilter('completed')"
-                                :checked="in_array('completed', $statusFilters)">
-                                {{ __('Completed') }}
-                            </flux:menu.checkbox>
-                            <flux:menu.checkbox wire:click="toggleStatusFilter('pending')"
-                                :checked="in_array('pending', $statusFilters)">
-                                {{ __('Pending') }}
-                            </flux:menu.checkbox>
-                            <flux:menu.checkbox wire:click="toggleStatusFilter('overdue')"
-                                :checked="in_array('overdue', $statusFilters)">
-                                {{ __('Overdue') }}
-                            </flux:menu.checkbox>
-                        </div>
-                    </flux:menu>
-                </flux:dropdown>
-
-                <flux:dropdown>
-                    <flux:button variant="ghost" icon-trailing="chevron-down">
-                        {{ __('Filter by Year') }}
-                    </flux:button>
-
-                    <flux:menu class="w-72 p-4">
-                        <div class="space-y-2">
-                            @foreach (range(date('Y') + 1, date('Y') - 2) as $year)
-                                <flux:menu.checkbox wire:click="toggleYearFilter({{ $year }})"
-                                    :checked="in_array($year, $yearFilters)">
-                                    {{ $year }}
-                                </flux:menu.checkbox>
-                            @endforeach
-                        </div>
-                    </flux:menu>
-                </flux:dropdown>
-            </div>
         </div>
 
         <div class="bg-white rounded-lg border overflow-hidden" wire:loading.class="opacity-75">
@@ -404,8 +341,15 @@ new class extends Component {
                 <flux:input wire:model="newAssessment.closing_date" label="{{ __('Closing Date') }}" type="date" />
 
                 <flux:checkbox.group wire:model="newAssessment.department_ids" label="{{ __('Departments') }}">
-                    @foreach ($departments as $department)
-                        <flux:checkbox label="{{ $department['department_name'] }}" value="{{ $department['id'] }}" />
+                    @foreach ($divisions as $division)
+                        <div class="mb-2">
+                            <h3 class="font-medium text-gray-700">{{ $division['division_name'] }}</h3>
+                            <div class="ml-4 mt-1">
+                                @foreach ($division['department'] as $department)
+                                    <flux:checkbox label="{{ $department['department_name'] }}" value="{{ $department['id'] }}" />
+                                @endforeach
+                            </div>
+                        </div>
                     @endforeach
                 </flux:checkbox.group>
 
@@ -433,9 +377,15 @@ new class extends Component {
                     type="date" />
 
                 <flux:checkbox.group wire:model="editingAssessment.department_ids" label="{{ __('Departments') }}">
-                    @foreach ($departments as $department)
-                        <flux:checkbox label="{{ $department['department_name'] }}"
-                            value="{{ $department['id'] }}" />
+                    @foreach ($divisions as $division)
+                        <div class="mb-2">
+                            <h3 class="font-medium text-gray-700">{{ $division['division_name'] }}</h3>
+                            <div class="ml-4 mt-1">
+                                @foreach ($division['department'] as $department)
+                                    <flux:checkbox label="{{ $department['department_name'] }}" value="{{ $department['id'] }}" />
+                                @endforeach
+                            </div>
+                        </div>
                     @endforeach
                 </flux:checkbox.group>
 

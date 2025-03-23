@@ -14,11 +14,17 @@ new class extends Component {
     public $developmentPlans = [];
     public $confirmingAddQualification = false;
     public $qualification_id;
+    public $qualification_status;
+    public $from_date;
+    public $end_date;
 
     public function addMyQualification(){
+
         $this->user->qualifications()->attach($this->qualification_id);
         $this->myQualifications = $this->user->qualifications;
         $this->confirmingAddQualification = false;
+        $this->modal('addQualification')->close();
+
     }
     public function mount()
     {
@@ -54,6 +60,7 @@ new class extends Component {
 
 
                 <div class="space-y-3 bg-white rounded-lg max-h-64 overflow-y-auto ">
+
                     @forelse($myQualifications as $qualification)
                         <div class="flex justify-between items-center border rounded-lg p-4 bg-gray-50 shadow-sm">
                             <div>
@@ -322,6 +329,12 @@ new class extends Component {
                             @endforeach
 
                         </flux:select>
+
+                        <flux:switch label="Status" wire:model.live="qualification_status"></flux:switch>
+                        <flux:input type="date" label="Start Date" wire:model.live="from_date"></flux:input>
+                        <flux:input type="date" label="End Date" wire:model.live="end_date"></flux:input>
+
+
 
                         <flux:input label="Name" placeholder="Your qualification" />
 

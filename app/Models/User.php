@@ -17,6 +17,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class User extends Authenticatable
 {
@@ -78,14 +79,14 @@ class User extends Authenticatable
         return $this->hasOne(UserDetail::class, 'user_id');
     }
 
-    public function department()
+    public function department():HasOneThrough
     {
-        return $this->user_detail->department();
+        return $this->hasOneThrough(UserDetail::class, Department::class);
     }
 
-    public function division()
+    public function division():HasOneThrough
     {
-        return $this->user_detail->division();
+        return $this->hasOneThrough(UserDetail::class, Division::class);
     }
 
     public function organisation(){
@@ -157,7 +158,7 @@ class User extends Authenticatable
     }
 
     public function qualifications(){
-        return $this->belongsToMany(Qualification::class, 'qualification_user');
+        return $this->belongsToMany(Qualification::class, 'user_qualification')->withPivot('from_date','end_date','status');
     }
 
 

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class JobCompetencyProfile extends Model
 {
     //
-
+    protected $table = 'jcps';
     public function employee()
     {
         return $this->belongsTo(User::class, 'user_id');

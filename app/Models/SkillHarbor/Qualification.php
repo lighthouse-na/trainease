@@ -20,7 +20,7 @@ class Qualification extends Model
 
     public function user()
     {
-        return $this->belongsToMany(User::class, 'qualification_user');
+        return $this->belongsToMany(User::class, 'user_qualification')->withPivot('from_date','end_date','status');
     }
 
     public function scopeSearch($query, $val)

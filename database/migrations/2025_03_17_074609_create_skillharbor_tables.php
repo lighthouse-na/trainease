@@ -77,10 +77,13 @@ return new class extends Migration
         /**
          * Create user_qualifications table
          */
-        Schema::create('qualification_user', function (Blueprint $table) {
+        Schema::create('user_qualification', function (Blueprint $table) {
             $table->id();
             $table->foreignId('qualification_id')->constrained()->cascadeOnDelete();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->string('status')->default('pending');
+            $table->date('from_date')->nullable();
+            $table->date('end_date')->nullable();
             $table->timestamps();
         });
 
