@@ -5,6 +5,7 @@ namespace App\Models\Training\Quiz;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class QuizResponse extends Model
 {
@@ -13,7 +14,10 @@ class QuizResponse extends Model
 
     protected $table = 'quiz_responses';
 
-    public function user()
+    /**
+     * @return BelongsTo<User, $this>
+     */
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
@@ -28,13 +32,19 @@ class QuizResponse extends Model
     }
 
     // Relationship: A quiz response has many user answers
-    public function userAnswers()
+    /**
+     * @return HasMany<UserAnswer, $this>
+     */
+    public function userAnswers(): HasMany
     {
         return $this->hasMany(UserAnswer::class);
     }
 
     // Calculate and update the user's quiz score
-    public function calculateScore()
+    /**
+     * @return float
+     */
+    public function calculateScore(): float
     {
         $totalQuestions = $this->quiz->questions()->count();
         $correctAnswers = $this->userAnswers()

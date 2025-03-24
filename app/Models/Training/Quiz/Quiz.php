@@ -4,51 +4,79 @@ namespace App\Models\Training\Quiz;
 
 use App\Models\Training\Course;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Quiz extends Model
 {
     //
     protected $fillable = ['course_id', 'title', 'description','passing_score'];
 
-    public function course()
+    /**
+     * @return BelongsTo<Course, $this>
+     */
+    public function course(): BelongsTo
     {
         return $this->belongsTo(Course::class);
     }
 
     // Relationship: A quiz has many questions
-    public function questions()
+    /**
+     * @return HasMany<Question, $this>
+     */
+    public function questions(): HasMany
     {
         return $this->hasMany(Question::class);
     }
 
     // Relationship: A quiz has many responses (user attempts)
-    public function quizResponses()
+    /**
+     * @return HasMany<QuizResponse, $this>
+     */
+    public function quizResponses(): HasMany
     {
         return $this->hasMany(QuizResponse::class);
     }
 
     // Check if a user has completed this quiz
-    public function userHasCompleted($userId)
+    /**
+     * @param int $userId
+     * @return bool
+     */
+    public function userHasCompleted(int $userId): bool
     {
         return $this->quizResponses()->where('user_id', $userId)->exists();
     }
 
     // Get a user's score on this quiz
-    public function userScore($userId)
+    /**
+     * @param int $userId
+     * @return int
+     */
+    public function userScore(int $userId): int
     {
         $quizResponse = $this->quizResponses()->where('user_id', $userId)->first();
 
         return $quizResponse ? $quizResponse->score : 0;
     }
 
-    public function userHasPassed($userId)
+    /**
+     * Check if a user has passed this quiz
+     * @param int $userId
+     * @return bool
+     */
+    public function userHasPassed(int $userId): bool
     {
         $quizResponse = $this->quizResponses()->where('user_id', $userId)->orderBy('score', 'desc')->first();
 
         return $quizResponse ? $quizResponse->score >= $this->passing_score : false;
     }
 
-    public function passRate()
+    /**
+     * Calculate the pass rate for this quiz
+     * @return float
+     */
+    public function passRate(): float
     {
         $total = $this->quizResponses()->count();
         $passed = $this->quizResponses()->where('score', '>=', $this->passing_score)->count();

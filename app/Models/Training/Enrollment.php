@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Enrollment extends Model
 {
@@ -14,7 +15,10 @@ class Enrollment extends Model
 
     protected $fillable = ['user_id', 'course_id', 'status', 'enrolled_at'];
 
-    public function user()
+    /**
+     * @return BelongsTo<User, $this>
+     */
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
     }
@@ -27,7 +31,10 @@ class Enrollment extends Model
         return $this->belongsTo(Course::class, 'course_id');
     }
 
-    public function feedback()
+    /**
+     * @return HasMany<CourseFeedback, $this>
+     */
+    public function feedback(): HasMany
     {
         return $this->hasMany(CourseFeedback::class);
     }

@@ -5,6 +5,7 @@ namespace App\Models\Training\Reports;
 use App\Models\Training\Course;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Summary extends Model
 {
@@ -31,12 +32,18 @@ class Summary extends Model
         'total_cost' => 'decimal:2',
     ];
 
-    public function user()
+    /**
+     * @return BelongsTo<User, $this>
+     */
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function course()
+    /**
+     * @return BelongsTo<Course, $this>
+     */
+    public function course(): BelongsTo
     {
         return $this->belongsTo(Course::class);
     }

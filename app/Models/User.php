@@ -15,6 +15,8 @@ use App\Models\Training\Enrollment;
 use App\Models\Training\Quiz\QuizResponse;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -72,42 +74,68 @@ class User extends Authenticatable
             ->implode('');
     }
 
+    /**
+     * @return bool
+     */
     public function user_details_filled(): bool
     {
         return $this->user_detail()->exists();
     }
 
+    /**
+     * @return HasOne<UserDetail, $this>
+     */
     public function user_detail(): HasOne
     {
         return $this->hasOne(UserDetail::class, 'user_id');
     }
 
+    /**
+     * @return HasOneThrough<UserDetail, Department, $this>
+     */
     public function department():HasOneThrough
     {
         return $this->hasOneThrough(UserDetail::class, Department::class);
     }
 
+    /**
+     * @return HasOneThrough<UserDetail, Division, $this>
+     */
     public function division():HasOneThrough
     {
         return $this->hasOneThrough(UserDetail::class, Division::class);
     }
 
-    public function organisation(): BelongsTo
+    /**
+     * @return HasOneThrough<UserDetail,Organisation, $this>
+     */
+    public function organisation(): HasOneThrough
     {
-        return $this->belongsTo(Organisation::class, 'organisation_id', 'id');
+        return $this->hasOneThrough(UserDetail::class, Organisation::class);
     }
 
-    public function enrollments()
+
+    /**
+     * @return HasMany<Enrollment, $this>
+     */
+    public function enrollments(): HasMany
     {
         return $this->hasMany(Enrollment::class);
     }
 
-    public function courseProgress()
+    /**
+     * @return HasMany<CourseProgress, $this>
+     */
+    public function courseProgress(): HasMany
     {
         return $this->hasMany(CourseProgress::class);
     }
 
-    public function calculateProgress($courseId)
+    /**
+     * @return int
+     * @param $courseId<int>
+     */
+    public function calculateProgress(int $courseId): int
     {
 
         // Get all course materials for the training
@@ -130,25 +158,40 @@ class User extends Authenticatable
         return $totalMaterials > 0 ? round(($completedMaterials / $totalMaterials) * 100,0) : 0;
     }
 
-    public function quizResponses()
+    /**
+     * @return HasMany<QuizResponse, $this>
+     */
+    public function quizResponses(): HasMany
     {
         return $this->hasMany(QuizResponse::class, 'user_id');
     }
 
-    public function getQuizAttempts($quiz_id)
+    /**
+     * @return int
+     * @param $quiz_id<int>
+     */
+    public function getQuizAttempts(int $quiz_id): int
     {
         return $this->quizResponses()
             ->where('quiz_id', $quiz_id)
             ->sum('attempts');
     }
 
-    public function hasCompletedQuiz(){
+    /**
+     * @return bool
+     */
+    public function hasCompletedQuiz(): bool
+    {
         return $this->quizResponses()
             ->where('status', 'passed')
             ->exists();
     }
 
-    public function userHasPassed($quiz_id)
+    /**
+     * @return bool
+     * @param $quiz_id<int>
+     */
+    public function userHasPassed(int $quiz_id): bool
     {
         return $this->quizResponses()
             ->where('quiz_id', $quiz_id)
@@ -157,11 +200,19 @@ class User extends Authenticatable
 
     }
 
-    public function trainerCourses(){
+    /**
+     * @return HasMany<Course, $this>
+     */
+    public function trainerCourses(): HasMany
+    {
         return $this->hasMany(Course::class, 'trainer_id');
     }
 
-    public function qualifications(){
+    /**
+     * @return BelongsToMany<Qualification, $this>
+     */
+    public function qualifications(): BelongsToMany
+    {
         return $this->belongsToMany(Qualification::class, 'user_qualification')->withPivot('from_date','end_date','status');
     }
 

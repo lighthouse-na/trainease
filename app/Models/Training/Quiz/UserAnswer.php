@@ -10,13 +10,19 @@ class UserAnswer extends Model
     //
     protected $fillable = ['question_id', 'answer_text', 'quiz_response_id', 'option_id', 'is_correct'];
 
-    public function quizResponse()
+    /**
+     * @return BelongsTo<QuizResponse, $this>
+     */
+    public function quizResponse(): BelongsTo
     {
         return $this->belongsTo(QuizResponse::class);
     }
 
     // Relationship: A user answer belongs to a question
-    public function question()
+    /**
+     * @return BelongsTo<Question, $this>
+     */
+    public function question(): BelongsTo
     {
         return $this->belongsTo(Question::class);
     }
@@ -31,7 +37,10 @@ class UserAnswer extends Model
     }
 
     // Check if this answer is correct
-    public function isCorrect()
+    /**
+     * @return bool
+     */
+    public function isCorrect(): bool
     {
         return $this->selectedOption && $this->selectedOption->is_correct;
     }
