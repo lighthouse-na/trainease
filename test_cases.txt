@@ -1,0 +1,20 @@
+[AUTH-01] Login with Valid Credentials
+### Test Case ID: AUTH-01
+**Feature:** Authentication
+**Preconditions:** User account exists in the database.
+**Steps to Reproduce:**
+1. Open the login page.
+2. Enter a valid email and password.
+3. Click the “Login” button.
+**Expected Result:** User is redirected to the dashboard.
+
+[AUTH-02] Login with Incorrect Password
+### Test Case ID: AUTH-02
+**Feature:** Authentication
+**Preconditions:** User exists but enters an incorrect password.
+**Steps to Reproduce:**
+1. Open the login page.
+2. Enter a valid email but an incorrect password.
+3. Click the “Login” button.
+**Expected Result:** Error message: *“Incorrect password”* is displayed.
+

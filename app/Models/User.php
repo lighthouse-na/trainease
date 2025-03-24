@@ -13,6 +13,8 @@ use App\Models\Training\CourseProgress;
 use App\Models\Training\Enrollment;
 use App\Models\Training\Quiz\QuizResponse;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
@@ -74,7 +76,7 @@ class User extends Authenticatable
         return $this->user_detail()->exists();
     }
 
-    public function user_detail()
+    public function user_detail(): HasOne
     {
         return $this->hasOne(UserDetail::class, 'user_id');
     }
@@ -89,8 +91,10 @@ class User extends Authenticatable
         return $this->hasOneThrough(UserDetail::class, Division::class);
     }
 
-    public function organisation(){
-        return $this->division->organisation();
+    public function organisation(): ?BelongsTo
+    {
+        $division = $this->division()->first();
+        return $division ? $division->organisation() : null;
     }
 
     public function enrollments()

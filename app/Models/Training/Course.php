@@ -42,7 +42,7 @@ class Course extends Model
 
     public function progress()
     {
-        return $this->hasMany(CourseProgress::class, 'course_id', 'user_id', 'course_material_id', 'status');
+        return $this->hasMany(CourseProgress::class, 'course_id', 'user_id');
     }
 
     public function summary(){
@@ -99,7 +99,7 @@ class Course extends Model
         }
 
         $totalPassRate = 0;
-        foreach ($this->quizes as $quiz) {
+        foreach ($this->quizes() as $quiz) {
             $totalPassRate += $quiz->passRate();
         }
 
@@ -126,7 +126,7 @@ class Course extends Model
 
         $totalProgress = 0;
         foreach ($userProgressData as $userProgress) {
-            $userPercentage = ($userProgress->completed_count / $totalMaterials) * 100;
+            $userPercentage = ($userProgress['completed_count'] / $totalMaterials) * 100;
             $totalProgress += $userPercentage;
         }
 
@@ -155,7 +155,7 @@ class Course extends Model
 
         $totalProgress = 0;
         foreach ($userProgressData as $userProgress) {
-            $userPercentage = ($userProgress->completed_count / $totalMaterials) * 100;
+            $userPercentage = ($userProgress['completed_count'] / $totalMaterials) * 100;
             $totalProgress += $userPercentage;
         }
 
