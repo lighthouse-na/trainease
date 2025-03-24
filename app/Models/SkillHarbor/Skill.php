@@ -4,6 +4,7 @@ namespace App\Models\SkillHarbor;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Skill extends Model
 {
@@ -17,7 +18,10 @@ class Skill extends Model
         return $this->belongsTo(SkillCategory::class, 'skill_category_id');
     }
 
-    public function jcps()
+    /**
+     * @return BelongsToMany<JobCompetencyProfile, Skill>
+     */
+    public function jcps(): BelongsToMany
     {
         return $this->belongsToMany(JobCompetencyProfile::class)->withPivot('user_rating', 'supervisor_rating', 'required_level');
     }

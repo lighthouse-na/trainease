@@ -3,13 +3,18 @@
 namespace App\Models\SkillHarbor;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class SkillCategory extends Model
 {
     //
     protected $fillable = ['category_title'];
     protected $table = 'skill_categories';
-    public function skills()
+
+    /**
+     * @return HasMany<Skill, SkillCategory>
+     */
+    public function skills(): HasMany
     {
         return $this->hasMany(Skill::class, 'skill_category_id');
     }

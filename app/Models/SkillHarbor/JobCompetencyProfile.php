@@ -35,9 +35,12 @@ class JobCompetencyProfile extends Model
     }
 
 
-    public function skill_category()
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    public function skill_category(): \Illuminate\Support\Collection
     {
-        return $this->skills()->with('category')->get()->pluck('category')->flatten()->pluck('category_title')->unique()->values()->toArray();
+        return SkillCategory::whereIn('id', $this->skills()->pluck('category_id')->unique())->pluck('category_title');
     }
 
     public function sumRequiredLevelsByCategory()
@@ -52,8 +55,8 @@ class JobCompetencyProfile extends Model
                 foreach ($category->skills as $skill) {
                     // Check if the skill belongs to the jcp
                     if ($this->skills->contains($skill)) {
-                        $pivot = $this->skills()->where('skill_id', $skill->id)->first()->pivot;
-                        $sum += $pivot->required_level;
+                        $pivot = $this->skills()->where('skill_id', $skill->id)->first();
+                        $sum += $pivot->$this->jcp()->required_level;
                     }
                 }
                 $sums[] = ['category' => $categoryTitle, 'value' => $sum];
@@ -75,8 +78,8 @@ class JobCompetencyProfile extends Model
                 foreach ($category->skills as $skill) {
                     // Check if the skill belongs to the jcp
                     if ($this->skills->contains($skill)) {
-                        $pivot = $this->skills()->where('skill_id', $skill->id)->first()->pivot;
-                        $sum += $pivot->user_rating;
+                        $pivot = $this->skills()->where('skill_id', $skill->id)->first();
+                        $sum += $pivot->$this->jcp()->user_rating;
                     }
                 }
                 $sums[] = ['category' => $categoryTitle, 'value' => $sum];
@@ -98,8 +101,8 @@ class JobCompetencyProfile extends Model
                 foreach ($category->skills as $skill) {
                     // Check if the skill belongs to the jcp
                     if ($this->skills->contains($skill)) {
-                        $pivot = $this->skills()->where('skill_id', $skill->id)->first()->pivot;
-                        $sum += $pivot->supervisor_rating;
+                        $pivot = $this->skills()->where('skill_id', $skill->id)->first();
+                        $sum += $pivot->$this->jcp()->supervisor_rating;
                     }
                 }
                 $sums[] = ['category' => $categoryTitle, 'value' => $sum];

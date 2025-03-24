@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Models\Organisation\Department;
 use App\Models\Organisation\Division;
+use App\Models\Organisation\Organisation;
 use App\Models\SkillHarbor\Qualification;
 use App\Models\Training\Course;
 use App\Models\Training\CourseMaterial;
@@ -91,10 +92,9 @@ class User extends Authenticatable
         return $this->hasOneThrough(UserDetail::class, Division::class);
     }
 
-    public function organisation(): ?BelongsTo
+    public function organisation(): BelongsTo
     {
-        $division = $this->division()->first();
-        return $division ? $division->organisation() : null;
+        return $this->belongsTo(Organisation::class, 'organisation_id', 'id');
     }
 
     public function enrollments()
