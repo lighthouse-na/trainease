@@ -3,6 +3,7 @@
 namespace App\Models\Training\Quiz;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class UserAnswer extends Model
 {
@@ -21,7 +22,10 @@ class UserAnswer extends Model
     }
 
     // Relationship: A user answer belongs to a selected option
-    public function selectedOption()
+    /**
+     * @return BelongsTo<Option, UserAnswer>
+     */
+    public function selectedOption(): BelongsTo
     {
         return $this->belongsTo(Option::class, 'option_id');
     }

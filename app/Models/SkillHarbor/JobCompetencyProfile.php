@@ -4,6 +4,7 @@ namespace App\Models\SkillHarbor;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class JobCompetencyProfile extends Model
 {
@@ -14,15 +15,17 @@ class JobCompetencyProfile extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-
-    public function skills()
+    /**
+     * @return BelongsToMany<Skill, JobCompetencyProfile>
+     */
+    public function skills(): BelongsToMany
     {
-        return $this->belongsToMany(skill::class)->withPivot('user_rating', 'supervisor_rating', 'required_level');
+        return $this->belongsToMany(Skill::class)->withPivot('user_rating', 'supervisor_rating', 'required_level');
     }
 
     public function qualifications()
     {
-        return $this->belongsToMany(qualification::class, 'jcp_qualification');
+        return $this->belongsToMany(Qualification::class, 'jcp_qualification');
     }
 
     public function scopeSearch($query, $val)
@@ -57,7 +60,7 @@ class JobCompetencyProfile extends Model
             }
         }
 
-        return $sums ?? [];
+        return $sums ;
     }
 
     public function sumMyLevels()
@@ -80,7 +83,7 @@ class JobCompetencyProfile extends Model
             }
         }
 
-        return $sums ?? [];
+        return $sums ;
     }
 
     public function sumSupervisorLevels()
@@ -103,6 +106,6 @@ class JobCompetencyProfile extends Model
             }
         }
 
-        return $sums ?? [];
+        return $sums ;
     }
 }

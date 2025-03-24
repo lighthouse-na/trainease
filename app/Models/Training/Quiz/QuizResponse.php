@@ -4,6 +4,7 @@ namespace App\Models\Training\Quiz;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class QuizResponse extends Model
 {
@@ -18,7 +19,10 @@ class QuizResponse extends Model
     }
 
     // Relationship: A quiz response belongs to a quiz
-    public function quiz()
+    /**
+     * @return BelongsTo<Quiz, QuizResponse>
+     */
+    public function quiz(): BelongsTo
     {
         return $this->belongsTo(Quiz::class);
     }
