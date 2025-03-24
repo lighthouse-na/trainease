@@ -44,10 +44,10 @@ class ActivityGraph extends Component
 
     foreach ($enrollments as $enrollment) {
         // Check if course exists and has valid dates
-        if ($enrollment->courses && $enrollment->courses->start_date && $enrollment->courses->end_date) {
+        if ($enrollment->courses) {
             $startDate = Carbon::parse($enrollment->courses->start_date->toDateString());
             $endDate = Carbon::parse($enrollment->courses->end_date->toDateString());
-            $courseName = $enrollment->courses->course_name ?? 'Unnamed Course';
+            $courseName = $enrollment->courses->course_name;
 
             // Generate all dates between start and end date
             $currentDay = clone $startDate;
