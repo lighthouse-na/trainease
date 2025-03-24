@@ -12,7 +12,7 @@ class SkillCategory extends Model
     protected $table = 'skill_categories';
 
     /**
-     * @return HasMany<Skill, SkillCategory>
+     * @return HasMany<Skill, $this>
      */
     public function skills(): HasMany
     {

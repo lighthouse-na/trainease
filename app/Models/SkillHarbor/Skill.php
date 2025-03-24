@@ -11,7 +11,7 @@ class Skill extends Model
     //
     protected $fillable = ['skill_title', 'skill_description', 'skill_category_id'];
     /**
-     * @return BelongsTo<SkillCategory, Skill>
+     * @return BelongsTo<SkillCategory, $this>
      */
     public function category(): BelongsTo
     {
@@ -19,7 +19,7 @@ class Skill extends Model
     }
 
     /**
-     * @return BelongsToMany<JobCompetencyProfile, Skill>
+     * @return BelongsToMany<JobCompetencyProfile, $this>
      */
     public function jcps(): BelongsToMany
     {

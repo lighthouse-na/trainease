@@ -20,7 +20,7 @@ class QuizResponse extends Model
 
     // Relationship: A quiz response belongs to a quiz
     /**
-     * @return BelongsTo<Quiz, QuizResponse>
+     * @return BelongsTo<Quiz, $this>
      */
     public function quiz(): BelongsTo
     {

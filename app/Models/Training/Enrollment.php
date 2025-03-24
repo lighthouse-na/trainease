@@ -20,7 +20,7 @@ class Enrollment extends Model
     }
 
     /**
-     * @return BelongsTo<Course, Enrollment>
+     * @return BelongsTo<Course, $this>
      */
     public function courses(): BelongsTo
     {

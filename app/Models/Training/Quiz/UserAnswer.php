@@ -23,7 +23,7 @@ class UserAnswer extends Model
 
     // Relationship: A user answer belongs to a selected option
     /**
-     * @return BelongsTo<Option, UserAnswer>
+     * @return BelongsTo<Option, $this>
      */
     public function selectedOption(): BelongsTo
     {

@@ -20,28 +20,28 @@ class UserDetail extends Model
         'dob' => 'date:dd-mm-YYYY',
     ];
     /**
-     * @return BelongsTo<User, UserDetail>
+     * @return BelongsTo<User, $this>
      */
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
     /**
-     * @return BelongsTo<Division, UserDetail>
+     * @return BelongsTo<Division, $this>
      */
     public function division()
     {
         return $this->belongsTo(Division::class, 'division_id');
     }
     /**
-     * @return BelongsTo<Department, UserDetail>
+     * @return BelongsTo<Department, $this>
      */
     public function department()
     {
         return $this->belongsTo(Department::class, 'department_id');
     }
     /**
-     * @return BelongsTo<User, UserDetail>
+     * @return BelongsTo<User, $this>
      */
     public function supervisor()
     {

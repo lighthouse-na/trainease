@@ -16,7 +16,7 @@ class JobCompetencyProfile extends Model
     }
 
     /**
-     * @return BelongsToMany<Skill, JobCompetencyProfile>
+     * @return BelongsToMany<Skill, $this>
      */
     public function skills(): BelongsToMany
     {
