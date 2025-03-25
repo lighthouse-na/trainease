@@ -42,11 +42,11 @@ class JobCompetencyProfile extends Model
     }
 
     /**
-     * @param mixed $query
+     * @param JobCompetencyProfile $query
      * @param string $val
      * @return void
      */
-    public function scopeSearch(mixed $query, string $val): void
+    public function scopeSearch(JobCompetencyProfile $query, string $val): void
     {
         $query->where('position_title', 'like', '%'.$val.'%')
             ->orWhere('job_grade', 'like', '%'.$val.'%');
@@ -54,7 +54,7 @@ class JobCompetencyProfile extends Model
 
 
     /**
-     * @return \Illuminate\Support\Collection<int, string>
+     * @return \Illuminate\Support\Collection<int, mixed>
      */
     public function skill_category(): \Illuminate\Support\Collection
     {

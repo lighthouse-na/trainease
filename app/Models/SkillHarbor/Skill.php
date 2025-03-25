@@ -27,12 +27,12 @@ class Skill extends Model
     }
 
     /**
-     * @param mixed $query
+     * @param Skill $query
      * @param string $val
      * @param string $category
      * @return void
      */
-    public function scopeSearch(mixed $query, string $val, string $category): void
+    public function scopeSearch(Skill $query, string $val, string $category): void
     {
         $query->where(function ($query) use ($val) {
             $query->where('skill_title', 'like', '%'.$val.'%')

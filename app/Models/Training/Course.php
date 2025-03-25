@@ -129,7 +129,7 @@ class Course extends Model
      */
     public function passingRate(): float
     {
-        $quizes = $this->quizes()->count();
+        $quizes = (int)($this->quizes()->count());
         $passed = $this->quizes->sum(function ($quiz) {
             return $quiz->passRate();
         });
@@ -150,9 +150,9 @@ class Course extends Model
             return 0;
         }
 
-        $totalPassRate = 0;
+        (int)$totalPassRate = 0;
         foreach ($this->quizes()->get() as $quiz) {
-            $totalPassRate += $quiz->passRate();
+            $totalPassRate += (int)(int)($quiz->passRate());
         }
 
         return $totalPassRate / $totalQuizzes;
@@ -192,9 +192,9 @@ class Course extends Model
     /**
      * Trainer KPI Functions
      * @param array<int, int> $userIds
-     * @return float
+     * @return int
      */
-    public function courseAverages(array $userIds): float {
+    public function courseAverages(array $userIds): int {
         $totalStudents = $userIds ? count($userIds) : $this->totalStudents();
         $totalMaterials = $this->materials()->count();
 
@@ -220,7 +220,7 @@ class Course extends Model
             $totalProgress += $userPercentage;
         }
 
-        return $totalStudents > 0 ? round($totalProgress / $totalStudents, 2) : 0;
+        return $totalStudents > 0 ? (int)(round($totalProgress / $totalStudents, 0)) : 0;
     }
 
 

@@ -12,11 +12,11 @@ class ActivityGraph extends Component
     /**
      * @var int|null $userId
      * @var array<int, mixed> $activityData
-     * @var mixed $currentDate
+     * @var Carbon $currentDate
      */
     public int|null $userId;
     public mixed $activityData = [];
-    public mixed $currentDate;
+    public Carbon $currentDate;
 
     /**
      * @return void

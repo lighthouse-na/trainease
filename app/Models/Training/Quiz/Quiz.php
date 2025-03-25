@@ -74,13 +74,13 @@ class Quiz extends Model
 
     /**
      * Calculate the pass rate for this quiz
-     * @return float
+     * @return int
      */
-    public function passRate(): float
+    public function passRate(): int
     {
         $total = $this->quizResponses()->count();
         $passed = $this->quizResponses()->where('score', '>=', $this->passing_score)->count();
 
-        return $total > 0 ? ($passed / $total) * 100 : 0;
+        return $total > 0 ? (int)(($passed / $total) * 100) : 0;
     }
 }

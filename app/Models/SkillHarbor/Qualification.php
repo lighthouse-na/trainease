@@ -31,11 +31,11 @@ class Qualification extends Model
     }
 
     /**
-     * @param mixed $query
+     * @param Qualification $query
      * @param string $val
      * @return void
      */
-    public function scopeSearch(mixed $query, string $val): void
+    public function scopeSearch(Qualification $query, string $val): void
     {
         $query->where('qualification_title', 'like', '%'.$val.'%');
     }

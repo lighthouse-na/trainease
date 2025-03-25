@@ -3,6 +3,7 @@
 namespace App\Models\SkillHarbor;
 
 use App\Models\User;
+use GuzzleHttp\Psr7\Query;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -34,7 +35,7 @@ class Assessment extends Model
         return $this->enrolled()->count();
     }
     /**
-     * @return array<int, $this>
+     * @return array<mixed>
      */
     public function getEnrolledDepartmentIds():array
     {
@@ -50,11 +51,11 @@ class Assessment extends Model
     }
     /**
      *
-     * @param mixed $query
+     * @param Assessment $query
      * @param string $search
      * @return void
      */
-    public function scopeSearch(mixed $query, string $search): void
+    public function scopeSearch(Assessment $query, string $search): void
     {
         $query->where('assessment_title', 'like', '%'.$search.'%');
     }
