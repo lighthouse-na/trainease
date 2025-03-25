@@ -14,7 +14,7 @@ class RoleMiddleware
      */
     public function handle(Request $request, Closure $next,mixed $role): mixed
     {
-        if (! Auth::check() || ! $request->user()->hasRole($role)) {
+        if (! Auth::check() || ! $request->user()?->hasRole($role)) {
             abort(403, 'Unauthorized action.');
         }
 

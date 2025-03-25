@@ -46,7 +46,7 @@ class QuizResponse extends Model
      */
     public function calculateScore(): int
     {
-        $totalQuestions = $this->quiz->questions()->count();
+        $totalQuestions = $this->quiz?->questions()->count();
         $correctAnswers = $this->userAnswers()
             ->whereHas('selectedOption', function ($query) {
                 $query->where('is_correct', true);

@@ -18,7 +18,7 @@ class CheckUserDetails
     {
 
         // Check if the user is authenticated and has incomplete details
-        if (Auth::check() && !Auth::user()->user_details_filled()) {
+        if (Auth::check() && !Auth::user()?->user_details_filled()) {
             return redirect()->route('settings.user-details');
         }
 

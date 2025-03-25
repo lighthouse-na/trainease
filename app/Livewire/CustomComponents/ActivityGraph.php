@@ -10,11 +10,11 @@ use Livewire\Component;
 class ActivityGraph extends Component
 {
     /**
-     * @var int $userId
+     * @var int|null $userId
      * @var array<int, mixed> $activityData
      * @var mixed $currentDate
      */
-    public int $userId;
+    public int|null $userId;
     public mixed $activityData = [];
     public mixed $currentDate;
 
@@ -23,7 +23,7 @@ class ActivityGraph extends Component
      */
     public function mount(): void
     {
-        $this->userId = Auth::user()->id;
+        $this->userId = Auth::user()?->id;
         $this->currentDate = Carbon::now();
         $this->loadActivityData();
     }
