@@ -42,9 +42,9 @@ class QuizResponse extends Model
 
     // Calculate and update the user's quiz score
     /**
-     * @return float
+     * @return int
      */
-    public function calculateScore(): float
+    public function calculateScore(): int
     {
         $totalQuestions = $this->quiz->questions()->count();
         $correctAnswers = $this->userAnswers()
@@ -53,7 +53,7 @@ class QuizResponse extends Model
             })
             ->count();
 
-        $this->score = $totalQuestions > 0 ? round(($correctAnswers / $totalQuestions) * 100, 2) : 0;
+        $this->score = $totalQuestions > 0 ? (int)(round(($correctAnswers / $totalQuestions) * 100, 0)) : 0;
         $this->save();
 
         return $this->score;

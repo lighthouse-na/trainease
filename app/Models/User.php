@@ -155,7 +155,7 @@ class User extends Authenticatable
 
         // Calculate progress percentage
 
-        return $totalMaterials > 0 ? round(($completedMaterials / $totalMaterials) * 100,0) : 0;
+        return $totalMaterials > 0 ? (int)(round(($completedMaterials / $totalMaterials) * 100,0)) : 0;
     }
 
     /**
@@ -172,7 +172,7 @@ class User extends Authenticatable
      */
     public function getQuizAttempts(int $quiz_id): int
     {
-        return $this->quizResponses()
+        return (int) $this->quizResponses()
             ->where('quiz_id', $quiz_id)
             ->sum('attempts');
     }
