@@ -4,6 +4,8 @@ namespace App\Models\Training;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class CourseMaterial extends Model
 {
@@ -21,17 +23,27 @@ class CourseMaterial extends Model
         'quiz_data' => 'array', // Automatically decode JSON quizzes
     ];
 
-    public function course()
+    /**
+     * @return BelongsTo<Course, $this>
+     */
+    public function course(): BelongsTo
     {
         return $this->belongsTo(Course::class, 'course_id');
     }
 
-    public function isCompletedByUser($userId)
+    /**
+     * @param int $userId
+     * @return bool
+     */
+    public function isCompletedByUser($userId): bool
     {
         return $this->progress()->where('user_id', $userId)->where('status', 'completed')->exists();
     }
 
-    public function progress()
+    /**
+     * @return HasMany<CourseProgress, $this>
+     */
+    public function progress(): HasMany
     {
         return $this->hasMany(CourseProgress::class);
     }

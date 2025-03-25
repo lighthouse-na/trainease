@@ -4,14 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Training\Enrollment;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\View\View;
 
 class DashboardController extends Controller
 {
     /**
-     * @return View<string, array<string, mixed>>
+     *@return \Illuminate\Contracts\View\View
      */
-    public function index(): View
+    public function index(): \Illuminate\Contracts\View\View
     {
         return view('dashboard');
     }

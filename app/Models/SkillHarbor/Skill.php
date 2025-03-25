@@ -26,13 +26,18 @@ class Skill extends Model
         return $this->belongsToMany(JobCompetencyProfile::class)->withPivot('user_rating', 'supervisor_rating', 'required_level');
     }
 
-    public function scopeSearch($query, $val, $category = null)
+    /**
+     * @param mixed $query
+     * @param string $val
+     * @param string $category
+     * @return void
+     */
+    public function scopeSearch(mixed $query, string $val, string $category): void
     {
         $query->where(function ($query) use ($val) {
             $query->where('skill_title', 'like', '%'.$val.'%')
                 ->orWhere('skill_description', 'like', '%'.$val.'%');
         });
-
         if ($category) {
             $query->where('skill_category', '=', $category);
         }

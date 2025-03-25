@@ -5,6 +5,7 @@ namespace App\Models\Training;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class CourseProgress extends Model
 {
@@ -13,17 +14,26 @@ class CourseProgress extends Model
 
     protected $fillable = ['user_id', 'course_id', 'course_material_id', 'status'];
 
-    public function user()
+    /**
+     * @return BelongsTo<User, $this>
+     */
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function course()
+    /**
+     *@return BelongsTo<Course, $this>
+     */
+    public function course(): BelongsTo
     {
-        return $this->belongsToMany(Course::class);
+        return $this->belongsTo(Course::class);
     }
 
-    public function material()
+    /**
+     * @return BelongsTo<CourseMaterial, $this>
+     */
+    public function material(): BelongsTo
     {
         return $this->belongsTo(CourseMaterial::class);
     }

@@ -4,6 +4,7 @@ namespace App\Models\SkillHarbor;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Qualification extends Model
 {
@@ -13,17 +14,28 @@ class Qualification extends Model
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
-    public function jcp()
+    /**
+     * @return BelongsToMany<JobCompetencyProfile, $this>
+     */
+    public function jcp(): BelongsToMany
     {
         return $this->belongsToMany(JobCompetencyProfile::class, 'jcp_qualification');
     }
 
-    public function user()
+    /**
+     * @return BelongsToMany<User, $this>
+     */
+    public function user(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'user_qualification')->withPivot('from_date','end_date','status');
     }
 
-    public function scopeSearch($query, $val)
+    /**
+     * @param mixed $query
+     * @param string $val
+     * @return void
+     */
+    public function scopeSearch(mixed $query, string $val): void
     {
         $query->where('qualification_title', 'like', '%'.$val.'%');
     }

@@ -4,6 +4,7 @@ namespace App\Models\Training;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class CourseFeedback extends Model
 {
@@ -12,7 +13,10 @@ class CourseFeedback extends Model
 
     protected $fillable = ['enrollment_id', 'feedback', 'rating', 'is_anonymous'];
 
-    public function enrollment()
+    /**
+     * @return BelongsTo<Enrollment, $this>
+     */
+    public function enrollment(): BelongsTo
     {
         return $this->belongsTo(Enrollment::class);
     }

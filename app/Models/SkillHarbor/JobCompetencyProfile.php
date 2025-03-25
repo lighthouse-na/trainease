@@ -4,13 +4,23 @@ namespace App\Models\SkillHarbor;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class JobCompetencyProfile extends Model
 {
     //
     protected $table = 'jcps';
-    public function employee()
+    protected $fillable = ['position_title', 'job_grade', 'user_id'];
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
+
+    /**
+     * @return BelongsTo<User, $this>
+     */
+    public function employee(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
     }
@@ -23,29 +33,43 @@ class JobCompetencyProfile extends Model
         return $this->belongsToMany(Skill::class)->withPivot('user_rating', 'supervisor_rating', 'required_level');
     }
 
-    public function qualifications()
+    /**
+     * @return BelongsToMany<Qualification, $this>
+     */
+    public function qualifications(): BelongsToMany
     {
         return $this->belongsToMany(Qualification::class, 'jcp_qualification');
     }
 
-    public function scopeSearch($query, $val)
+    /**
+     * @param mixed $query
+     * @param string $val
+     * @return void
+     */
+    public function scopeSearch(mixed $query, string $val): void
     {
-        return $query->where('position_title', 'like', '%'.$val.'%')
+        $query->where('position_title', 'like', '%'.$val.'%')
             ->orWhere('job_grade', 'like', '%'.$val.'%');
     }
 
 
     /**
-     * @return \Illuminate\Support\Collection
+     * @return \Illuminate\Support\Collection<int, string>
      */
     public function skill_category(): \Illuminate\Support\Collection
     {
         return SkillCategory::whereIn('id', $this->skills()->pluck('category_id')->unique())->pluck('category_title');
     }
 
-    public function sumRequiredLevelsByCategory()
+    /**
+     * @return array<int, mixed>
+     */
+    public function sumRequiredLevelsByCategory(): array
     {
         $categoryTitles = $this->skill_category();
+        /**
+         * @var array<int, mixed> $sums
+         */
         $sums = [];
 
         foreach ($categoryTitles as $categoryTitle) {
@@ -66,10 +90,15 @@ class JobCompetencyProfile extends Model
         return $sums ;
     }
 
-    public function sumMyLevels()
+    /**
+     * @return array<int, mixed>
+     */
+    public function sumMyLevels(): array
     {
         $categoryTitles = $this->skill_category();
-
+        /**
+         * @var array<int, mixed> $sums
+         */
         $sums = [];
         foreach ($categoryTitles as $categoryTitle) {
             $category = SkillCategory::where('category_title', $categoryTitle)->first();
@@ -89,10 +118,15 @@ class JobCompetencyProfile extends Model
         return $sums ;
     }
 
-    public function sumSupervisorLevels()
+    /**
+     * @return array<int, mixed>
+     */
+    public function sumSupervisorLevels(): array
     {
         $categoryTitles = $this->skill_category();
-
+        /**
+         * @var array<int, mixed> $sums
+         */
         $sums = [];
         foreach ($categoryTitles as $categoryTitle) {
             $category = SkillCategory::where('category_title', $categoryTitle)->first();

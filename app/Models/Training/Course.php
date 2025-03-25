@@ -7,6 +7,9 @@ use App\Models\Training\Reports\Summary;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Course extends Model
 {
@@ -20,78 +23,127 @@ class Course extends Model
         'end_date' => 'date:dd/mm/yyyy',
     ];
 
-    public function trainer()
+    /**
+     * @return BelongsTo<User, $this>
+     */
+    public function trainer(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function enrollment()
+    /**
+     * @return BelongsToMany<Enrollment, $this>
+     */
+    public function enrollment(): BelongsToMany
     {
         return $this->belongsToMany(Enrollment::class, 'enrollments', 'course_id', 'user_id');
     }
 
-    public function materials()
+    /**
+     * @return HasMany<CourseMaterial, $this>
+     */
+    public function materials(): HasMany
     {
         return $this->hasMany(CourseMaterial::class, 'course_id');
     }
 
-    public function quizes()
+    /**
+     * @return HasMany<Quiz, $this>
+     */
+    public function quizes(): HasMany
     {
         return $this->hasMany(Quiz::class, 'course_id');
     }
 
-    public function progress()
+    /**
+     * @return HasMany<CourseProgress, $this>
+     */
+    public function progress(): HasMany
     {
         return $this->hasMany(CourseProgress::class, 'course_id', 'user_id');
     }
 
-    public function summary(){
+    /**
+     * @return HasMany<Summary, $this>
+     */
+    public function summary(): HasMany
+    {
         return $this->hasMany(Summary::class);
     }
 
 
 
-    public function enrolledUsers()
+    /**
+     * @return BelongsToMany<User, $this>
+     */
+    public function enrolledUsers(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'enrollments', 'course_id', 'user_id');
     }
 
-    public function feedback()
+    /**
+     * @return HasMany<CourseFeedback, $this>
+     */
+    public function feedback(): HasMany
     {
         return $this->hasMany(CourseFeedback::class);
     }
 
     /**
      * Trainer KPI Functions
+     * @return int
      */
-    public function totalStudents()
+    public function totalStudents(): int
     {
         return $this->enrolledUsers()->count();
     }
 
 
-    public function mostPopularCourse(){
-        return $this->enrollment()
+    /**
+     * Trainer KPI Functions
+     * @return ?Course
+     */
+    public function mostPopularCourse(): ?Course
+    {
+        $mostPopular = $this->enrollment()
             ->selectRaw('count(*) as total, course_id')
             ->groupBy('course_id')
             ->orderBy('total', 'desc')
             ->first();
+
+        return $mostPopular ? self::find($mostPopular->course_id) : null;
     }
 
-    public function totalCost(){
+    /**
+     * Trainer KPI Functions
+     * @return int
+     */
+    public function totalCost(): int
+    {
         return $this->course_fee;
     }
 
-    public function passingRate(){
+    /**
+     * Trainer KPI Functions
+     * @return float
+     */
+    public function passingRate(): float
+    {
         $quizes = $this->quizes()->count();
-        $passed = $this->quizes()->passRate();
+        $passed = $this->quizes->sum(function ($quiz) {
+            return $quiz->passRate();
+        });
         if($quizes == 0){
             return 0;
         }
         return ($passed / $quizes) * 100;
     }
 
-    public function passRate()
+    /**
+     * Trainer KPI Functions
+     * @return float
+     */
+    public function passRate(): float
     {
         $totalQuizzes = $this->quizes()->count();
         if ($totalQuizzes == 0) {
@@ -99,14 +151,18 @@ class Course extends Model
         }
 
         $totalPassRate = 0;
-        foreach ($this->quizes() as $quiz) {
+        foreach ($this->quizes()->get() as $quiz) {
             $totalPassRate += $quiz->passRate();
         }
 
         return $totalPassRate / $totalQuizzes;
     }
 
-    public function avgCourseProgress()
+    /**
+     * Trainer KPI Functions
+     * @return float
+     */
+    public function avgCourseProgress(): float
     {
         $totalStudents = $this->totalStudents();
         $totalMaterials = $this->materials()->count();
@@ -133,7 +189,12 @@ class Course extends Model
         return round($totalProgress / $totalStudents, 2);
     }
     //to be used in course details KPIs
-    public function courseAverages($userIds = null){
+    /**
+     * Trainer KPI Functions
+     * @param array<int, int> $userIds
+     * @return float
+     */
+    public function courseAverages(array $userIds): float {
         $totalStudents = $userIds ? count($userIds) : $this->totalStudents();
         $totalMaterials = $this->materials()->count();
 
