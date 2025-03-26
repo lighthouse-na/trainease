@@ -55,9 +55,9 @@ new class extends Component {
     public function updateUserDetails(): void
     {
         $validated = $this->validate([
-            'division_id' => ['nullable', 'exists:divisions,id'],
-            'department_id' => ['nullable', 'exists:departments,id'],
-            'supervisor_id' => ['nullable', 'exists:users,id'],
+            'division_id' => ['nullable', 'exists:divisions,id', 'integer'],
+            'department_id' => ['nullable', 'exists:departments,id', 'integer'],
+            'supervisor_id' => ['nullable', 'exists:users,id', 'integer'],
             'salary_ref_number' => ['required', 'integer'],
             'gender' => ['required', 'string', Rule::in(['male', 'female'])],
             'dob' => ['required', 'date'],
