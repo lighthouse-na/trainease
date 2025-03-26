@@ -172,9 +172,9 @@ class User extends Authenticatable
      */
     public function getQuizAttempts(int $quiz_id): int
     {
-        return (int) $this->quizResponses()
+        return (int) ($this->quizResponses()
             ->where('quiz_id', $quiz_id)
-            ->sum('attempts');
+            ->sum('attempts'));
     }
 
     /**

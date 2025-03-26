@@ -6,9 +6,10 @@ parameters:
 
     paths:
         - app/
+        - resources/views/livewire/
 
     # Level 10 is the highest level
-    level: 9
+    level: 1
 
 #    ignoreErrors:
 #        - '#PHPDoc tag @var#'

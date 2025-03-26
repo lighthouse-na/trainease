@@ -145,17 +145,20 @@ class Course extends Model
      */
     public function passRate(): float
     {
-        $totalQuizzes = $this->quizes()->count();
+        $totalQuizzes = (int)($this->quizes()->count());
         if ($totalQuizzes == 0) {
             return 0;
         }
 
-        (int)$totalPassRate = 0;
+        /**
+         * @var int $totalPassRate
+         */
+        $totalPassRate = 0;
         foreach ($this->quizes()->get() as $quiz) {
-            $totalPassRate += (int)(int)($quiz->passRate());
+            $totalPassRate += $quiz->passingScore();
         }
 
-        return $totalPassRate / $totalQuizzes;
+        return intdiv($totalPassRate, $totalQuizzes);
     }
 
     /**

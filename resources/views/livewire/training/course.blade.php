@@ -95,7 +95,6 @@ new class extends Component {
 
         // Mark course as completed
         $enrollment->update(['status' => 'completed']);
-
     }
 
     public function startQuiz($quizId)
@@ -113,7 +112,7 @@ new class extends Component {
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">{{ $course->course_name }}</h3>
 
                 @php
-                    $progress = min(100, round(Auth::user()->calculateProgress($course->id)));
+                    $progress = min(100, Auth::user()->calculateProgress($course->id));
                 @endphp
 
                 <div class="mt-4">
@@ -129,10 +128,15 @@ new class extends Component {
                         </div>
                     </div>
                 </div>
-                @if ($progress == 100 && $quizes->count() > 0 && $quizes->every(function($quiz) { return Auth::user()->hasCompletedQuiz($quiz->id); }))
+                @if (
+                    $progress == 100 &&
+                        $quizes->count() > 0 &&
+                        $quizes->every(function ($quiz) {
+                            return Auth::user()->hasCompletedQuiz($quiz->id);
+                        }))
                     <div class="flex justify-between items-center mt-4">
                         <flux:button wire:click="completeCourse" icon-trailing="document-check" dark:variant="primary">
-                            {{$enrollment->status === 'completed' ? 'Course Completed!' : 'Complete Course'}}
+                            {{ $enrollment->status === 'completed' ? 'Course Completed!' : 'Complete Course' }}
                         </flux:button>
                     </div>
                 @elseif ($enrollment->status === 'completed')
@@ -199,19 +203,18 @@ new class extends Component {
                     @php
                         $attemptsUsed = Auth::user()->getQuizAttempts($quiz->id) ?? 0;
                         $remainingAttempts = $quiz->max_attempts - $attemptsUsed;
-                        $progress = min(100, round(Auth::user()->calculateProgress($course->id)));
-                        $isDisabled = $remainingAttempts <= 0 || $progress < 100;
-                        $tooltipMessage =
-                            $remainingAttempts <= 0
-                                ? 'You have exhausted all attempts for this quiz.'
-                                : ($progress < 100
-                                    ? 'Complete the course to unlock this quiz.'
-                                    : 'You have ' . $remainingAttempts . ' attempts remaining.');
+                        $progress = min(100, Auth::user()->calculateProgress($course->id));
+                        $isDisabled = $remainingAttempts === 0 || $progress < 100;
+                        if($remainingAttempts === 0){
+                            $tooltipMessage = 'You have exhausted all attempts for this quiz.';
+                        }elseif ($progress < 100){
+                            $tooltipMessage = 'Complete the course to unlock this quiz.';
+                        }else{
+                            $tooltipMessage = 'You have ' .  $remainingAttempts . ' attempts remaining.';
+                        }
                     @endphp
                     <flux:tooltip position="right" content="{{ $tooltipMessage }}">
-                        <flux:button icon="document-text"
-                            class="cursor-pointer mt-6 {{ $isDisabled ? 'cursor-not-allowed' : '' }}" variant="primary"
-                            wire:click.prevent="startQuiz({{ $quiz->id }})" disabled="{{$isDisabled}}">
+                        <flux:button wire:click="{{ $isDisabled ? 'null' : 'startQuiz(' . $quiz->id . ')' }}" variant="primary">
                             {{ $quiz->title }}
                         </flux:button>
                     </flux:tooltip>
@@ -220,7 +223,7 @@ new class extends Component {
                     <p class="text-gray-700 dark:text-gray-300">No quizzes available.</p>
                 @endforelse
 
-        </div>
+            </div>
 
 
     </aside>

@@ -20,6 +20,13 @@ class Quiz extends Model
         return $this->belongsTo(Course::class);
     }
 
+    /**
+     * return int
+     */
+    public function passingScore(): int
+    {
+        return $this->passing_score;
+    }
     // Relationship: A quiz has many questions
     /**
      * @return HasMany<Question, $this>
