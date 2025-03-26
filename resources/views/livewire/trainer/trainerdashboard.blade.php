@@ -6,7 +6,10 @@ new class extends Component {
     public $kpis;
     public $upcomingTrainings;
     public $pendingQuizzes;
-    public $traineeProgress;
+    /**
+     *@var array<int, string, string> $traineeProgress
+     */
+    public array $traineeProgress ;
 
     public $myCourses;
 
@@ -55,7 +58,6 @@ new class extends Component {
         // Fallback if no courses have enrollments
         if (empty($this->traineeProgress)) {
             $this->traineeProgress = [
-            ['course_name' => 'No active courses', 'progress' => 0]
             ];
         }
     }
@@ -127,7 +129,7 @@ new class extends Component {
                 </tr>
             </thead>
             <tbody class="divide-y divide-neutral-200">
-                @foreach ($traineeProgress as $course)
+                @forelse ($traineeProgress as $course)
                     <tr class="hover:bg-slate-100 dark:hover:bg-neutral-600"
                         wire:click="viewCourseDetails({{ $course['id'] }})">
                         <td class="px-5 py-4 text-sm font-medium dark:text-accent text-accent-content">
@@ -148,7 +150,16 @@ new class extends Component {
                             </div>
                         </td>
                     </tr>
-                @endforeach
+                    @empty
+                    <tr>
+                        <td colspan="2" class="px-5 py-4 text-center text-sm text-gray-500 dark:text-gray-400">
+                            <div class="flex flex-col items-center justify-center space-y-2">
+                                <flux:icon name="information-circle" class="w-8 h-8 text-gray-400 dark:text-gray-500" />
+                                <span>No courses available. Start by creating a new course!</span>
+                            </div>
+                        </td>
+                    </tr>
+                @endforelse
             </tbody>
         </table>
     </div>

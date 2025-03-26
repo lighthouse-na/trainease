@@ -22,7 +22,7 @@ return new class extends Migration
         $course = Course::create([
             'course_name' => 'Cyber Security Awareness',
             'course_description' => 'A fundamental cybersecurity awareness course for Telecom Namibia employees.',
-            'user_id' => 2,
+            'user_id' => 1,
             'course_fee' => 0,
             'course_image' => 'https://cdn.dribbble.com/userupload/14375213/file/original-fd4b67a6f4e6c8bfeca200725dd400a3.jpg?resize=1600x1333&vertical=center',
             'course_type' => 'online',

@@ -18,7 +18,7 @@ class UserDetailFactory extends Factory
     {
         return [
             //
-        'user_id' => \App\Models\User::factory(),
+        'user_id' => $this->faker->unique()->numberBetween(1, 50),
         'division_id' => \App\Models\Organisation\Division::factory(),
         'department_id' => \App\Models\Organisation\Department::factory(),
         'supervisor_id' => \App\Models\User::factory(),
