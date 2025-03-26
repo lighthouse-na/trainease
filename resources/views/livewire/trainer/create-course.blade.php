@@ -108,7 +108,8 @@ new class extends Component {
             'startDate' => 'required|date',
             'endDate' => 'required|date|after:startDate',
             'course_fee' => 'required|numeric|min:0',
-            'course_type' => 'required'
+            'course_type' => 'required',
+            'courseImage' => 'required'
         ]);
 
         // Process image if uploaded
@@ -516,18 +517,12 @@ new class extends Component {
                             Image</label>
                         <x-input type="file" id="course_image" wire:model="courseImage" class="w-full"
                             accept="image/*" />
-                        @if ($courseImage)
-                            <div class="mt-2">
-                                <img src="{{ $courseImage->temporaryUrl() }}" class="h-24 w-auto object-cover rounded"
-                                    alt="Course preview">
-                            </div>
-                        @elseif ($existingImage)
+
                             <div class="mt-2">
                                 <img src="{{ url('storage/' . $existingImage) }}"
                                     class="h-24 w-auto object-cover rounded" alt="{{ $existingImage }}">
                                 <p class="text-xs text-gray-500 mt-1">Current image</p>
                             </div>
-                        @endif
                     </div>
                     <div class="grid grid-cols-2 gap-4 mb-4">
                         <div>

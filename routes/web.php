@@ -26,7 +26,8 @@ Route::middleware(['auth'])->group(function () {
     Route::view('course/{course_id}/{enrollment_id}', 'courses.show-course')
     ->middleware(['check.user.details'])
     ->name('course.show');
-    Volt::route('/c/course/{course?}', 'trainer.create-course')->name('create.course');
+
+    Volt::route('/c/course/{course?}', 'trainer.create-course')->name('create.course')->middleware(['role:trainer']);
     Volt::route('c/course_detail/{course_id}/', 'trainer.coursedetails')->name('course.details');
 
     /**
