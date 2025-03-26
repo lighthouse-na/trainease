@@ -112,7 +112,7 @@ new class extends Component {
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">{{ $course->course_name }}</h3>
 
                 @php
-                    $progress = min(100, Auth::user()->calculateProgress($course->id));
+                    $progress = min(100, Auth::user()?->calculateProgress($course->id));
                 @endphp
 
                 <div class="mt-4">
@@ -214,7 +214,7 @@ new class extends Component {
                         }
                     @endphp
                     <flux:tooltip position="right" content="{{ $tooltipMessage }}">
-                        <flux:button wire:click="{{ $isDisabled ? 'null' : 'startQuiz(' . $quiz->id . ')' }}" variant="primary">
+                        <flux:button wire:click="{{ $isDisabled ? '' : 'startQuiz(' . $quiz->id . ')' }}" variant="primary">
                             {{ $quiz->title }}
                         </flux:button>
                     </flux:tooltip>

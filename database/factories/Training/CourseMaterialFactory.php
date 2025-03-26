@@ -18,6 +18,11 @@ class CourseMaterialFactory extends Factory
     {
         return [
             //
+            'course_id' => 1,
+            'material_name' => $this->faker->sentence(3),
+            'description' => $this->faker->paragraph(3),
+            'material_content' => $this->faker->text(),
+
         ];
     }
 }

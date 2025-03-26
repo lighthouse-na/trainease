@@ -18,6 +18,10 @@ class CourseProgressFactory extends Factory
     {
         return [
             //
+            'course_id' => 1,
+            'user_id' => 1,
+            'status' => $this->faker->randomElement(['in-progress', 'completed']),
+            'course_material_id' => 1,
         ];
     }
 }

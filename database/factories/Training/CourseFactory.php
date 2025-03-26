@@ -18,6 +18,17 @@ class CourseFactory extends Factory
     {
         return [
             //
+            'course_name' => $this->faker->sentence(3),
+            'course_description' => $this->faker->paragraph(3),
+            'course_type' => $this->faker->randomElement(['online', 'hybrid', 'face-to-face']),
+            'start_date' => $this->faker->dateTimeBetween('now', '+1 month'),
+            'end_date' => $this->faker->dateTimeBetween('+1 month', '+2 months'),
+            'course_fee' => $this->faker->randomFloat(2, 0, 1000),
+            'course_image' => $this->faker->imageUrl(),
+            'user_id' => 1,
+
+
+
         ];
     }
 }

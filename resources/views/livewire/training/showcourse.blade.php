@@ -24,6 +24,7 @@ new class extends Component {
             return;
         }
 
+
         // Create the enrollment
         Enrollment::create([
             'user_id' => $userId,

@@ -18,6 +18,11 @@ class EnrollmentFactory extends Factory
     {
         return [
             //
+            'course_id' => 1,
+            'user_id' => 1,
+            'status' => $this->faker->randomElement(['pending', 'approved', 'rejected']),
+            'enrolled_at' => $this->faker->dateTimeBetween('-1 month', 'now'),
+
         ];
     }
 }
