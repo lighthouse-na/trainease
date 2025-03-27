@@ -65,8 +65,8 @@ new class extends Component {
     </div>
 
     <!-- Second row: Trainings table -->
-    <div class="col-span-3 relative overflow-hidden rounded-xl p-4 border dark:bg-zinc-700">
-        <flux:heading>My Trainings</flux:heading>
+    <div class="col-span-3 relative overflow-hidden rounded-xl p-4  dark:bg-zinc-700">
+        <flux:subheading>My Trainings</flux:heading>
 
         <div class="flex flex-col mt-6">
             <div class="overflow-x-auto">
