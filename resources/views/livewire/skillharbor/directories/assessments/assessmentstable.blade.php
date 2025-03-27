@@ -171,36 +171,32 @@ new class extends Component {
         <div class="mb-6 space-y-4">
             <div class="flex flex-row items-center justify-between gap-4">
                 <flux:input type="search" wire:model.live.debounce.300ms="search" placeholder="Search assessments..."
-                    class="w-64" />
+                    class="w-64 dark:bg-gray-800 dark:text-white" />
                 <flux:modal.trigger name="create-assessment">
                     <flux:button variant="primary" icon="plus" class="whitespace-nowrap">
                         {{ __('Create Assessment') }}
                     </flux:button>
                 </flux:modal.trigger>
             </div>
-
-
         </div>
 
-        <div class="bg-white rounded-lg border overflow-hidden" wire:loading.class="opacity-75">
-            <table class="min-w-full divide-y divide-gray-200">
+        <div class="bg-white dark:bg-gray-800 rounded-lg border dark:border-gray-700 overflow-hidden" wire:loading.class="opacity-75">
+            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                 <thead>
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                             {{ __('Title') }}</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                             {{ __('Year') }}</th>
-
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                             {{ __('Enrolled Users') }}</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                             {{ __('Completion') }}</th>
-
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
+                <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                     @forelse($this->assessments as $assessment)
-                        <tr class="hover:bg-gray-50" x-data="{
+                        <tr class="hover:bg-gray-50 dark:hover:bg-gray-700" x-data="{
                             contextMenuOpen: false,
                             contextMenuToggle: function(event) {
                                 this.contextMenuOpen = true;
@@ -250,10 +246,10 @@ new class extends Component {
                         window.addEventListener('resize', function(event) { contextMenuOpen = false; });"
                             @contextmenu="contextMenuToggle(event)">
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="font-medium text-gray-900">{{ $assessment->assessment_title }}</div>
+                                <div class="font-medium text-gray-900 dark:text-gray-100">{{ $assessment->assessment_title }}</div>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap">{{ $assessment->closing_date->format('Y') }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
+                            <td class="px-6 py-4 whitespace-nowrap dark:text-gray-300">{{ $assessment->closing_date->format('Y') }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap dark:text-gray-300">
                                 {{ $assessment->enrolledCount() }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
@@ -264,22 +260,22 @@ new class extends Component {
                                         $enrolledCount > 0 ? round(($submittedCount / $enrolledCount) * 100) : 0;
                                 @endphp
                                 <div class="relative pt-1">
-                                    <div class="overflow-hidden h-2 mb-1 text-xs flex rounded bg-gray-200">
+                                    <div class="overflow-hidden h-2 mb-1 text-xs flex rounded bg-gray-200 dark:bg-gray-700">
                                         <div style="width: {{ $percentage }}%"
-                                            class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500">
+                                            class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500 dark:bg-blue-600">
                                         </div>
                                     </div>
-                                    <span class="text-sm font-medium">{{ $percentage }}%</span>
+                                    <span class="text-sm font-medium dark:text-gray-300">{{ $percentage }}%</span>
                                 </div>
                             </td>
 
                             <!-- Context menu for each assessment -->
                             <template x-teleport="body">
                                 <div x-show="contextMenuOpen" @click.away="contextMenuOpen=false" x-ref="contextmenu"
-                                    class="z-50 min-w-[8rem] text-neutral-800 rounded-md border border-neutral-200/70 bg-white text-sm fixed p-1 shadow-md w-64"
+                                    class="z-50 min-w-[8rem] text-neutral-800 dark:text-neutral-200 rounded-md border border-neutral-200/70 dark:border-neutral-700 bg-white dark:bg-gray-800 text-sm fixed p-1 shadow-md w-64"
                                     x-cloak>
                                     <div @click="contextMenuOpen=false; $wire.editAssessment({{ $assessment->id }})"
-                                        class="relative flex cursor-default select-none group items-center rounded px-2 py-1.5 hover:bg-neutral-100 outline-none pl-8">
+                                        class="relative flex cursor-default select-none group items-center rounded px-2 py-1.5 hover:bg-neutral-100 dark:hover:bg-neutral-700 outline-none pl-8">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="absolute left-2 w-4 h-4"
                                             viewBox="0 0 20 20" fill="currentColor">
                                             <path
@@ -288,7 +284,7 @@ new class extends Component {
                                         <span>Edit Assessment</span>
                                     </div>
                                     <div @click="contextMenuOpen=false; $wire.deleteAssessment({{ $assessment->id }})"
-                                        class="relative flex cursor-default select-none group items-center rounded px-2 py-1.5 hover:bg-neutral-100 outline-none pl-8 text-red-600">
+                                        class="relative flex cursor-default select-none group items-center rounded px-2 py-1.5 hover:bg-neutral-100 dark:hover:bg-neutral-700 outline-none pl-8 text-red-600 dark:text-red-400">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="absolute left-2 w-4 h-4"
                                             viewBox="0 0 20 20" fill="currentColor">
                                             <path fill-rule="evenodd"
@@ -297,9 +293,9 @@ new class extends Component {
                                         </svg>
                                         <span>Delete Assessment</span>
                                     </div>
-                                    <div class="h-px my-1 -mx-1 bg-neutral-200"></div>
+                                    <div class="h-px my-1 -mx-1 bg-neutral-200 dark:bg-neutral-700"></div>
                                     <div @click="contextMenuOpen=false"
-                                        class="relative flex cursor-default select-none group items-center rounded px-2 py-1.5 hover:bg-neutral-100 outline-none pl-8">
+                                        class="relative flex cursor-default select-none group items-center rounded px-2 py-1.5 hover:bg-neutral-100 dark:hover:bg-neutral-700 outline-none pl-8">
                                         <span>Cancel</span>
                                     </div>
                                 </div>
@@ -307,15 +303,14 @@ new class extends Component {
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="px-6 py-4 text-center text-sm text-gray-500">
+                            <td colspan="6" class="px-6 py-4 text-center text-sm text-gray-500 dark:text-gray-400">
                                 <div class="text-center">
                                     <flux:icon.bolt
-                                        class="mx-auto h-16 w-16 text-red-600 bg-red-100 p-3 rounded-full mb-4" />
-                                    <h3 class="text-lg font-medium text-gray-900 mb-1">{{ __('No assessments found') }}
+                                        class="mx-auto h-16 w-16 text-red-600 bg-red-100 dark:bg-red-900/30 dark:text-red-400 p-3 rounded-full mb-4" />
+                                    <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-1">{{ __('No assessments found') }}
                                     </h3>
-                                    <p class="text-gray-500 mb-6">
+                                    <p class="text-gray-500 dark:text-gray-400 mb-6">
                                         {{ __('Get started by creating your first skill assessment') }}</p>
-
                                 </div>
                             </td>
                         </tr>
@@ -323,30 +318,29 @@ new class extends Component {
                 </tbody>
             </table>
 
-            <div class="px-6 py-4 bg-gray-50 border-t border-gray-200">
+            <div class="px-6 py-4 bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700">
                 {{ $this->assessments->links() }}
             </div>
-
         </div>
 
-        <flux:modal name="create-assessment" class="md:w-96" variant="flyout" position="right">
+        <flux:modal name="create-assessment" class="md:w-96 dark:bg-gray-800" variant="flyout" position="right">
             <div class="space-y-6">
                 <div>
-                    <flux:heading size="lg">{{ __('Create Assessment') }}</flux:heading>
-                    <flux:subheading>{{ __('Fill in the details to create a new assessment.') }}</flux:subheading>
+                    <flux:heading size="lg" class="dark:text-white">{{ __('Create Assessment') }}</flux:heading>
+                    <flux:subheading class="dark:text-gray-400">{{ __('Fill in the details to create a new assessment.') }}</flux:subheading>
                 </div>
 
                 <flux:input wire:model="newAssessment.assessment_title" label="{{ __('Title') }}"
-                    placeholder="{{ __('Assessment Title') }}" />
-                <flux:input wire:model="newAssessment.closing_date" label="{{ __('Closing Date') }}" type="date" />
+                    placeholder="{{ __('Assessment Title') }}" class="dark:bg-gray-700 dark:text-white" />
+                <flux:input wire:model="newAssessment.closing_date" label="{{ __('Closing Date') }}" type="date" class="dark:bg-gray-700 dark:text-white" />
 
-                <flux:checkbox.group wire:model="newAssessment.department_ids" label="{{ __('Departments') }}">
+                <flux:checkbox.group wire:model="newAssessment.department_ids" label="{{ __('Departments') }}" class="dark:text-gray-200">
                     @foreach ($divisions as $division)
                         <div class="mb-2">
-                            <h3 class="font-medium text-gray-700">{{ $division['division_name'] }}</h3>
+                            <h3 class="font-medium text-gray-700 dark:text-gray-300">{{ $division['division_name'] }}</h3>
                             <div class="ml-4 mt-1">
                                 @foreach ($division['department'] as $department)
-                                    <flux:checkbox label="{{ $department['department_name'] }}" value="{{ $department['id'] }}" />
+                                    <flux:checkbox label="{{ $department['department_name'] }}" value="{{ $department['id'] }}" class="dark:text-gray-300" />
                                 @endforeach
                             </div>
                         </div>
@@ -355,7 +349,6 @@ new class extends Component {
 
                 <div class="flex">
                     <flux:spacer />
-
                     <flux:button type="submit" variant="primary" wire:click="createAssessment">
                         {{ __('Create') }}
                     </flux:button>
@@ -364,25 +357,25 @@ new class extends Component {
         </flux:modal>
 
         <!-- Edit Assessment Modal -->
-        <flux:modal name="edit-assessment" class="md:w-96" variant="flyout" position="right">
+        <flux:modal name="edit-assessment" class="md:w-96 dark:bg-gray-800" variant="flyout" position="right">
             <div class="space-y-6">
                 <div>
-                    <flux:heading size="lg">{{ __('Edit Assessment') }}</flux:heading>
-                    <flux:subheading>{{ __('Update the details of the assessment.') }}</flux:subheading>
+                    <flux:heading size="lg" class="dark:text-white">{{ __('Edit Assessment') }}</flux:heading>
+                    <flux:subheading class="dark:text-gray-400">{{ __('Update the details of the assessment.') }}</flux:subheading>
                 </div>
 
                 <flux:input wire:model="editingAssessment.assessment_title" label="{{ __('Title') }}"
-                    placeholder="{{ __('Assessment Title') }}" />
+                    placeholder="{{ __('Assessment Title') }}" class="dark:bg-gray-700 dark:text-white" />
                 <flux:input wire:model="editingAssessment.closing_date" label="{{ __('Closing Date') }}"
-                    type="date" />
+                    type="date" class="dark:bg-gray-700 dark:text-white" />
 
-                <flux:checkbox.group wire:model="editingAssessment.department_ids" label="{{ __('Departments') }}">
+                <flux:checkbox.group wire:model="editingAssessment.department_ids" label="{{ __('Departments') }}" class="dark:text-gray-200">
                     @foreach ($divisions as $division)
                         <div class="mb-2">
-                            <h3 class="font-medium text-gray-700">{{ $division['division_name'] }}</h3>
+                            <h3 class="font-medium text-gray-700 dark:text-gray-300">{{ $division['division_name'] }}</h3>
                             <div class="ml-4 mt-1">
                                 @foreach ($division['department'] as $department)
-                                    <flux:checkbox label="{{ $department['department_name'] }}" value="{{ $department['id'] }}" />
+                                    <flux:checkbox label="{{ $department['department_name'] }}" value="{{ $department['id'] }}" class="dark:text-gray-300" />
                                 @endforeach
                             </div>
                         </div>
@@ -391,7 +384,6 @@ new class extends Component {
 
                 <div class="flex">
                     <flux:spacer />
-
                     <flux:button type="submit" variant="primary" wire:click="updateAssessment">
                         {{ __('Save Changes') }}
                     </flux:button>

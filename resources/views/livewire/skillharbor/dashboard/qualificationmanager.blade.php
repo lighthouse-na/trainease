@@ -68,7 +68,7 @@ new class extends Component {
 <div>
     <div class="">
         <div class="flex justify-between items-center  px-6 py-2">
-            <h3 class="text-sm font-medium text-gray-900">Your Qualifications</h3>
+            <h3 class="text-sm font-medium text-gray-900 dark:text-white">Your Qualifications</h3>
             <flux:modal.trigger name="addQualification">
                 <flux:button icon="plus">Add</flux:button>
             </flux:modal.trigger>
@@ -76,19 +76,19 @@ new class extends Component {
         </div>
 
 
-        <div class="space-y-3 bg-white rounded-lg max-h-64 overflow-y-auto ">
+        <div class="space-y-3 bg-white dark:bg-gray-700 rounded-lg max-h-64 overflow-y-auto p-2">
 
             @forelse($myQualifications as $qualification)
-                <div class="flex justify-between items-center border rounded-lg p-4 bg-gray-50 shadow-sm">
-                    <div>
-                        <h4 class="font-medium text-gray-800">
+                <div class="flex justify-between items-center border dark:border-gray-700 rounded-lg p-4 bg-gray-50 dark:bg-gray-700 shadow-sm hover:shadow-md dark:shadow-gray-900/30 transition-all duration-200">
+                    <div class="flex-grow">
+                        <h4 class="font-medium text-gray-800 dark:text-gray-200">
                             {{ $qualification->qualification_title ?? 'Qualification' }}</h4>
-                        <p class="text-xs text-gray-500">
+                        <p class="text-xs text-gray-500 dark:text-gray-400">
                             From: {{ $qualification->pivot->from_date ?? 'N/A' }} - To: {{ $qualification->pivot->end_date ?? 'N/A' }}
                         </p>
                     </div>
                     <span
-                        class="px-2 py-1 text-xs rounded-full {{ $qualification->pivot->status ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">
+                        class="px-2.5 py-1 text-xs rounded-full font-medium mx-2 whitespace-nowrap {{ $qualification->pivot->status ? 'bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300' : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-300' }}">
                         {{ $qualification->pivot->status }}
                     </span>
                     <div class="flex space-x-2">

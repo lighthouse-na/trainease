@@ -163,9 +163,8 @@ new class extends Component {
     <x-skillharbor.layout heading="{{ __('Skills') }}" subheading="{{ __('View and manage the system skills') }}">
         <div class="mb-6">
             <!-- Top controls: Create buttons -->
-            <div class="flex justify-between items-center mb-4 border rounded-lg p-2 bg-gray-100">
-
-                <h3 class="text-lg font-medium text-gray-700">Manage Skills</h3>
+            <div class="flex justify-between items-center mb-4 border rounded-lg p-2 bg-gray-100 dark:bg-gray-800 dark:border-gray-700">
+                <h3 class="text-lg font-medium text-gray-700 dark:text-gray-200">Manage Skills</h3>
                 <div class="flex space-x-2">
                     <flux:modal.trigger name="skillModal">
                         <flux:button icon="plus" variant="primary" class="m-3">{{ __('Create Skill') }}</flux:button>
@@ -240,11 +239,11 @@ new class extends Component {
                                         x-show="contextMenuOpen"
                                         @click.away="contextMenuOpen=false"
                                         x-ref="contextmenu"
-                                        class="z-50 min-w-[8rem] rounded-md border border-neutral-200/70 bg-white text-sm fixed p-1 shadow-md w-48"
+                                        class="z-50 min-w-[8rem] rounded-md border border-neutral-200/70 bg-white dark:bg-gray-800 dark:border-gray-700 text-sm fixed p-1 shadow-md w-48"
                                         x-cloak>
                                         <div
                                             @click="$wire.editCategory(categoryId); contextMenuOpen=false"
-                                            class="relative flex cursor-pointer select-none items-center rounded px-2 py-1.5 hover:bg-neutral-100">
+                                            class="relative flex cursor-pointer select-none items-center rounded px-2 py-1.5 hover:bg-neutral-100 dark:hover:bg-gray-700">
                                             <span class="mr-2">
                                                 <flux:icon name="pencil" class="w-4 h-4" />
                                             </span>
@@ -252,7 +251,7 @@ new class extends Component {
                                         </div>
                                         <div
                                             @click="$wire.deleteCategory(categoryId); contextMenuOpen=false"
-                                            class="relative flex cursor-pointer select-none items-center rounded px-2 py-1.5 hover:bg-red-100 hover:text-red-600">
+                                            class="relative flex cursor-pointer select-none items-center rounded px-2 py-1.5 hover:bg-red-100 hover:text-red-600 dark:hover:bg-red-900 dark:hover:text-red-400">
                                             <flux:icon name="trash" class="w-4 h-4" />
                                             <span class="ml-2">Delete Category</span>
                                         </div>
@@ -267,10 +266,10 @@ new class extends Component {
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             @foreach ($skills as $skill)
-                <div class="flex flex-col items-start justify-between gap-y-3 border rounded-lg p-4" data-slot="field">
+                <div class="flex flex-col items-start justify-between gap-y-3 border rounded-lg p-4 dark:bg-gray-800 dark:border-gray-700" data-slot="field">
                     <div class="w-full">
                         <div class="flex justify-between items-center mb-2">
-                            <h4 class="font-bold text-strong">{{ $skill->skill_title }}</h4>
+                            <h4 class="font-bold text-strong dark:text-white">{{ $skill->skill_title }}</h4>
                             <div class="flex justify-end items-center gap-2">
                                 <flux:button color="zinc" icon="pencil" size="xs"
                                     wire:click="editSkill({{ $skill->id }})"></flux:button>
@@ -278,10 +277,10 @@ new class extends Component {
                                     wire:click="deleteSkill({{ $skill->id }})" size="xs"></flux:button>
                             </div>
                         </div>
-                        <p class="text-sm text-gray-600">{{ $skill->skill_description }}</p>
+                        <p class="text-sm text-gray-600 dark:text-gray-300">{{ $skill->skill_description }}</p>
                         <div class="mt-2">
                             <span
-                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300">
                                 {{ $skill->category->category_title ?? 'Uncategorized' }}
                             </span>
                         </div>
@@ -308,7 +307,7 @@ new class extends Component {
                 <flux:textarea
                 label="Skill Description"
                 wire:model="skillDescription" rows="3"
-                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                     placeholder="Enter skill description"></flux:textarea>
             </div>
 
@@ -316,7 +315,7 @@ new class extends Component {
                 <flux:select
                 label="Skill Category"
                 wire:model="categoryId"
-                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                     <flux:select.option value="">Select a category</flux:select.option>
                     @foreach ($categories as $category)
                         <flux:select.option value="{{ $category->id }}">{{ $category->category_title }}</flux:select.option>

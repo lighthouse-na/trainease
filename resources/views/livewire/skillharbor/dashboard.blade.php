@@ -41,10 +41,10 @@ new class extends Component {
             <!-- Top Skills Section -->
             <div class="rounded-lg border p-1 col-span-1">
                 <div class="flex justify-between items-center  px-6 py-2">
-                    <h3 class="text-sm font-medium text-gray-900  py-2">Top Skills</h3>
+                    <h3 class="text-sm font-medium text-gray-900  py-2 dark:text-white">Top Skills</h3>
 
                 </div>
-                <div class="bg-white rounded-lg p-4 ">
+                <div class="bg-white dark:bg-gray-700 rounded-lg p-4 ">
                     <div class="flex items-center justify-center space-y-2  ">
 
                         <div class="text-center p-4">
@@ -106,8 +106,8 @@ new class extends Component {
 
             </div>
             <!-- Skills Comparison Chart -->
-            <div class="bg-white rounded-lg border p-6 col-span-3 ">
-                <h3 class="text-sm font-medium text-gray-900 mb-4">Skills Assessment Overview</h3>
+            <div class="bg-white dark:bg-gray-700 dark:border-gray-800 rounded-lg border p-6 col-span-3 ">
+                <h3 class="text-sm font-medium text-gray-900 mb-4 dark:text-white">Skills Assessment Overview</h3>
                 <div class="flex justify-center items-center mb-4">
                     <svg width="156" height="132" viewBox="0 0 156 132" fill="none"
                         xmlns="http://www.w3.org/2000/svg">

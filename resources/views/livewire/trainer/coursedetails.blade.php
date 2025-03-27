@@ -425,117 +425,117 @@ new class extends Component {
                     </div>
                 </div>
                 <div x-show="activeTab === 'course-summary'" x-transition>
-                                    <div wire:model="total_cost" type="text" class="flex justify-end mx-6 bg-gray-100 dark:bg-gray-700 p-4 rounded-xl text-2xl font-bold text-accent-content border"
-                                    readonly x-data="{ total: @entangle('total_cost') }"
-                                    x-text="'N$ ' + total.toLocaleString()" ></div>
-                                    <div class="max-w-3xl mx-auto p-6 bg-white rounded-lg">
+                    <div wire:model="total_cost" type="text" class="flex justify-end mx-6 bg-gray-100 dark:bg-gray-700 p-4 rounded-xl text-2xl font-bold text-accent-content border dark:border-gray-600 shadow-sm"
+                        readonly x-data="{ total: @entangle('total_cost') }"
+                        x-text="'N$ ' + total.toLocaleString()"></div>
+                    <div class="max-w-3xl mx-auto p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md dark:shadow-gray-900/30 my-4 border border-gray-100 dark:border-gray-700">
 
-                                        <h2 class="text-xl font-semibold mb-4">Training Cost Form</h2>
+                        <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Training Cost Form</h2>
 
-                                        <form wire:submit.prevent="storeSummary" class="space-y-4">
-                                            @csrf
+                        <form wire:submit.prevent="storeSummary" class="space-y-4">
+                            @csrf
 
-                                            <!-- Facilitator Cost -->
-                                            <flux:field>
-                                                <flux:label>Facilitator Cost</flux:label>
-                                                <flux:description>Cost for the facilitator.</flux:description>
-                                                <flux:input.group>
-                                                    <flux:input.group.prefix>N$</flux:input.group.prefix>
-                                                    <flux:input wire:model.live="facilitator_cost" type="decimal:2"
-                                                        min="0" required />
-                                                </flux:input.group>
-                                                <flux:error name="facilitator_cost" />
-                                                    <flux:input type="file" wire:model="facilitator_invoice"
-                                                        label="Invoice for Facilitator Cost" />
-                                            </flux:field>
+                            <!-- Facilitator Cost -->
+                            <flux:field>
+                                <flux:label class="text-gray-800 dark:text-gray-200">Facilitator Cost</flux:label>
+                                <flux:description class="text-gray-600 dark:text-gray-400">Cost for the facilitator.</flux:description>
+                                <flux:input.group>
+                                    <flux:input.group.prefix class="dark:bg-gray-700 dark:text-gray-300">N$</flux:input.group.prefix>
+                                    <flux:input wire:model.live="facilitator_cost" type="decimal:2"
+                                        min="0" required class="dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+                                </flux:input.group>
+                                <flux:error name="facilitator_cost" class="text-red-500 dark:text-red-400" />
+                                    <flux:input type="file" wire:model="facilitator_invoice"
+                                        label="Invoice for Facilitator Cost" class="dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600" />
+                            </flux:field>
 
-                                            <!-- Assessment Cost -->
-                                            <flux:field>
-                                                <flux:label>Assessment Cost</flux:label>
-                                                <flux:description>Cost for assessments.</flux:description>
-                                                <flux:input.group>
-                                                    <flux:input.group.prefix>N$</flux:input.group.prefix>
-                                                    <flux:input wire:model.live="assessment_cost" type="decimal:2"
-                                                        min="0" required />
-                                                </flux:input.group>
-                                                <flux:error name="assessment_cost" />
+                            <!-- Assessment Cost -->
+                            <flux:field>
+                                <flux:label class="text-gray-800 dark:text-gray-200">Assessment Cost</flux:label>
+                                <flux:description class="text-gray-600 dark:text-gray-400">Cost for assessments.</flux:description>
+                                <flux:input.group>
+                                    <flux:input.group.prefix class="dark:bg-gray-700 dark:text-gray-300">N$</flux:input.group.prefix>
+                                    <flux:input wire:model.live="assessment_cost" type="decimal:2"
+                                        min="0" required class="dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+                                </flux:input.group>
+                                <flux:error name="assessment_cost" class="text-red-500 dark:text-red-400" />
 
-                                                    <flux:input type="file" wire:model="assessment_invoice"
-                                                        label="Invoice for Assessment Cost" />
-                                            </flux:field>
+                                    <flux:input type="file" wire:model="assessment_invoice"
+                                        label="Invoice for Assessment Cost" class="dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600" />
+                            </flux:field>
 
-                                            <!-- Certification Cost -->
-                                            <flux:field>
-                                                <flux:label>Certification Cost</flux:label>
-                                                <flux:description>Cost for certification.</flux:description>
-                                                <flux:input.group>
-                                                    <flux:input.group.prefix>N$</flux:input.group.prefix>
-                                                    <flux:input wire:model.live="certification_cost" type="decimal:2"
-                                                        min="0" required />
-                                                </flux:input.group>
-                                                <flux:error name="certification_cost" />
-                                                    <flux:input type="file" wire:model="certification_invoice"
-                                                        label="Invoice for Certification Cost" />
-                                            </flux:field>
+                            <!-- Certification Cost -->
+                            <flux:field>
+                                <flux:label class="text-gray-800 dark:text-gray-200">Certification Cost</flux:label>
+                                <flux:description class="text-gray-600 dark:text-gray-400">Cost for certification.</flux:description>
+                                <flux:input.group>
+                                    <flux:input.group.prefix class="dark:bg-gray-700 dark:text-gray-300">N$</flux:input.group.prefix>
+                                    <flux:input wire:model.live="certification_cost" type="decimal:2"
+                                        min="0" required class="dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+                                </flux:input.group>
+                                <flux:error name="certification_cost" class="text-red-500 dark:text-red-400" />
+                                    <flux:input type="file" wire:model="certification_invoice"
+                                        label="Invoice for Certification Cost" class="dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600" />
+                            </flux:field>
 
-                                            <!-- Travel Cost -->
-                                            <flux:field>
-                                                <flux:label>Travel Cost</flux:label>
-                                                <flux:description>Travel expenses.</flux:description>
-                                                <flux:input.group>
-                                                    <flux:input.group.prefix>N$</flux:input.group.prefix>
-                                                    <flux:input wire:model.live="travel_cost" type="decimal:2"
-                                                        min="0" required />
-                                                </flux:input.group>
-                                                <flux:error name="travel_cost" />
-                                                    <flux:input type="file" wire:model="travel_invoice"
-                                                        label="Invoice for Travel Cost" />
-                                            </flux:field>
+                            <!-- Travel Cost -->
+                            <flux:field>
+                                <flux:label class="text-gray-800 dark:text-gray-200">Travel Cost</flux:label>
+                                <flux:description class="text-gray-600 dark:text-gray-400">Travel expenses.</flux:description>
+                                <flux:input.group>
+                                    <flux:input.group.prefix class="dark:bg-gray-700 dark:text-gray-300">N$</flux:input.group.prefix>
+                                    <flux:input wire:model.live="travel_cost" type="decimal:2"
+                                        min="0" required class="dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+                                </flux:input.group>
+                                <flux:error name="travel_cost" class="text-red-500 dark:text-red-400" />
+                                    <flux:input type="file" wire:model="travel_invoice"
+                                        label="Invoice for Travel Cost" class="dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600" />
+                            </flux:field>
 
-                                            <!-- Accommodation Cost -->
-                                            <flux:field>
-                                                <flux:label>Accommodation Cost</flux:label>
-                                                <flux:description>Lodging costs.</flux:description>
-                                                <flux:input.group>
-                                                    <flux:input.group.prefix>N$</flux:input.group.prefix>
-                                                    <flux:input wire:model.live="accommodation_cost" type="decimal:2"
-                                                        min="0" required />
-                                                </flux:input.group>
-                                                <flux:error name="accommodation_cost" />
-                                                    <flux:input type="file" wire:model="accommodation_invoice"
-                                                        label="Invoice for Accommodation Cost" />
-                                            </flux:field>
+                            <!-- Accommodation Cost -->
+                            <flux:field>
+                                <flux:label class="text-gray-800 dark:text-gray-200">Accommodation Cost</flux:label>
+                                <flux:description class="text-gray-600 dark:text-gray-400">Lodging costs.</flux:description>
+                                <flux:input.group>
+                                    <flux:input.group.prefix class="dark:bg-gray-700 dark:text-gray-300">N$</flux:input.group.prefix>
+                                    <flux:input wire:model.live="accommodation_cost" type="decimal:2"
+                                        min="0" required class="dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+                                </flux:input.group>
+                                <flux:error name="accommodation_cost" class="text-red-500 dark:text-red-400" />
+                                    <flux:input type="file" wire:model="accommodation_invoice"
+                                        label="Invoice for Accommodation Cost" class="dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600" />
+                            </flux:field>
 
-                                            <!-- Other Cost -->
-                                            <flux:field>
-                                                <flux:label>Other Cost</flux:label>
-                                                <flux:description>Any additional costs.</flux:description>
-                                                <flux:input.group>
-                                                    <flux:input.group.prefix>N$</flux:input.group.prefix>
-                                                    <flux:input wire:model.live="other_cost" type="decimal:2"
-                                                        min="0" required />
-                                                </flux:input.group>
-                                                <flux:error name="other_cost" />
-                                                    <flux:input type="file" wire:model="other_invoice"
-                                                        label="Invoice for Other Cost" />
-                                            </flux:field>
+                            <!-- Other Cost -->
+                            <flux:field>
+                                <flux:label class="text-gray-800 dark:text-gray-200">Other Cost</flux:label>
+                                <flux:description class="text-gray-600 dark:text-gray-400">Any additional costs.</flux:description>
+                                <flux:input.group>
+                                    <flux:input.group.prefix class="dark:bg-gray-700 dark:text-gray-300">N$</flux:input.group.prefix>
+                                    <flux:input wire:model.live="other_cost" type="decimal:2"
+                                        min="0" required class="dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+                                </flux:input.group>
+                                <flux:error name="other_cost" class="text-red-500 dark:text-red-400" />
+                                    <flux:input type="file" wire:model="other_invoice"
+                                        label="Invoice for Other Cost" class="dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600" />
+                            </flux:field>
 
 
 
-                                            <div class="flex items-center gap-4">
-                                                <div class="flex items-center justify-end">
-                                                    <flux:button variant="primary" type="submit" class="w-full">
-                                                        {{ __('Save') }}</flux:button>
-                                                </div>
-                                                <x-action-message class="me-3" on="user-details-updated">
-                                                    {{ __('Saved.') }}
-                                                </x-action-message>
-                                            </div>
-                                        </form>
-                                    </div>
+                            <div class="flex items-center gap-4">
+                                <div class="flex items-center justify-end">
+                                    <flux:button variant="primary" type="submit" class="w-full hover:opacity-90 dark:bg-accent-content dark:hover:bg-accent-content/90">
+                                        {{ __('Save') }}</flux:button>
                                 </div>
-
+                                <x-action-message class="me-3 text-green-600 dark:text-green-400" on="user-details-updated">
+                                    {{ __('Saved.') }}
+                                </x-action-message>
                             </div>
+                        </form>
+                    </div>
+                </div>
+
+                </div>
 
 
 
