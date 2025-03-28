@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
 use function Laravel\Folio\name;
 use App\Models\Training\Quiz\Question;
-use Illuminate\Support\Facades\Storage;
+
 new class extends Component {
     use WithFileUploads;
 
@@ -100,7 +100,6 @@ new class extends Component {
     }
 
 
-
     public function saveCourse()
     {
         // Validate course data
@@ -111,42 +110,49 @@ new class extends Component {
             'endDate' => 'required|date|after:startDate',
             'course_fee' => 'required|numeric|min:0',
             'course_type' => 'required',
-            'courseImage' => $this->courseId ? 'nullable|image|max:2048' : 'required|image|max:2048',
+            'courseImage' => 'required'
         ]);
 
-        // Handle image upload if new image is provided
+        // Process image if uploaded
+        $imagePath = $this->existingImage;
         if ($this->courseImage && !is_string($this->courseImage)) {
-            // Delete old image if updating
-            if ($this->existingImage) {
-                Storage::disk('public')->delete($this->existingImage);
-            }
             $imagePath = $this->courseImage->store('course-images', 'public');
-        } else {
-            $imagePath = $this->existingImage;
         }
 
-        // Course data array
-        $courseData = [
-            'course_name' => $this->title,
-            'course_description' => $this->description,
-            'start_date' => $this->startDate,
-            'end_date' => $this->endDate,
-            'course_fee' => $this->course_fee,
-            'course_type' => $this->course_type,
-            'course_image' => $imagePath,
-        ];
-
+        // Check if we're updating or creating
         if ($this->courseId) {
             // Update existing course
-            Course::where('id', $this->courseId)->update($courseData);
+            $course = Course::find($this->courseId);
+            $course->course_name = $this->title;
+            $course->course_description = $this->description;
+            $course->start_date = $this->startDate;
+            $course->end_date = $this->endDate;
+            $course->course_fee = $this->course_fee;
+            $course->course_type = $this->course_type;
+
+            if ($imagePath) {
+                $course->course_image = $imagePath;
+            }
+
+            $course->save();
+
             session()->flash('message', 'Course updated successfully!');
         } else {
             // Create new course
-            $courseData['user_id'] = Auth::id();
-            $course = Course::create($courseData);
+            $course = Course::create([
+                'course_name' => $this->title,
+                'course_description' => $this->description,
+                'start_date' => $this->startDate,
+                'end_date' => $this->endDate,
+                'course_fee' => $this->course_fee,
+                'course_image' => $imagePath,
+                'user_id' => Auth::user()->id,
+                'course_type' => $this->course_type,
+            ]);
+
             $this->courseId = $course->id;
-            $this->existingImage = $imagePath;
             $this->courseCreated = true;
+            $this->existingImage = $imagePath;
 
             session()->flash('message', 'Course created successfully!');
         }
@@ -539,38 +545,7 @@ new class extends Component {
         <div x-show="$wire.activeTab === 'materials' && $wire.courseCreated" class="p-4 rounded-lg bg-white dark:bg-gray-800"
             x-transition>
             <h3 class="text-lg font-semibold mb-4 dark:text-white">Course Materials</h3>
-            <form wire:submit.prevent="{{ isset($editingMaterialId) ? 'updateMaterial' : 'saveMaterial' }}">
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" for="materialTitle">Material
-                        Title</label>
-                    <x-input id="materialTitle" wire:model="materialTitle" class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
-                </div>
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" for="materialDescription">Material
-                        Description</label>
-                    <x-textarea id="materialDescription" wire:model="materialDescription" rows="3"
-                        class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
-                </div>
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" for="materialContent">Content</label>
-                    <x-textarea id="materialContent" wire:model="materialContent" rows="6" class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
-                </div>
-                <div class="flex justify-between items-center">
-                    <x-button type="submit" class="bg-accent-content hover:bg-accent-content">
-                        {{ isset($editingMaterialId) ? 'Update Material' : 'Add Material' }}
-                    </x-button>
-
-                    @if (isset($editingMaterialId))
-                        <button type="button" wire:click="$set('editingMaterialId', null)"
-                            class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300">
-                            Cancel Edit
-                        </button>
-                    @endif
-                </div>
-            </form>
-
-            <div class="mt-6">
-                <h4 class="font-medium mb-2 dark:text-white">Course Materials</h4>
+            <div class="my-6">
                 <div class="border rounded-md divide-y dark:border-gray-700 dark:divide-gray-700">
                     <div class="p-4 flex items-center justify-between">
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 w-full">
@@ -583,11 +558,11 @@ new class extends Component {
                                     </p>
                                     <div class="flex justify-start space-x-2 items-center">
                                         <flux:button wire:click="editMaterial({{ $material->id }})" variant="primary"
-                                            size="xs" outline>
+                                                     size="xs" outline>
                                             Edit
                                         </flux:button>
                                         <flux:button wire:click="deleteMaterial({{ $material->id }})"
-                                            variant="danger" size="xs" outline>
+                                                     variant="danger" size="xs" outline>
                                             Delete
                                         </flux:button>
                                         <span
@@ -606,6 +581,50 @@ new class extends Component {
                     </div>
                 </div>
             </div>
+            <flux:modal name="materialModal" variant="default" dismissible="true" wire:model="isModalOpen" class="">
+                <div class="p-6">
+                    <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                        {{ isset($editingMaterialId) ? 'Edit Material' : 'Add Material' }}
+                    </h2>
+
+                    <form wire:submit.prevent="{{ isset($editingMaterialId) ? 'updateMaterial' : 'saveMaterial' }}">
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" for="materialTitle">Material Title</label>
+                            <x-input id="materialTitle" wire:model="materialTitle" class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" for="materialDescription">Material Description</label>
+                            <x-textarea id="materialDescription" wire:model="materialDescription" rows="3" class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" for="materialContent">Content</label>
+                            <x-textarea id="materialContent" wire:model="materialContent" rows="6" class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+                            <livewire:custom-components.markdown-me wire:model="content" />
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <x-button type="submit" class="bg-accent-content hover:bg-accent-content">
+                                {{ isset($editingMaterialId) ? 'Update Material' : 'Add Material' }}
+                            </x-button>
+
+                            @if (isset($editingMaterialId))
+                                <button type="button" wire:click="$set('editingMaterialId', null)" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300">
+                                    Cancel Edit
+                                </button>
+                            @endif
+                        </div>
+                    </form>
+                </div>
+            </flux:modal>
+
+            <flux:modal.trigger name="materialModal">
+                <x-button class="bg-primary hover:bg-primary-dark">Open Modal</x-button>
+            </flux:modal.trigger>
+
+
+
         </div>
 
         <div x-show="$wire.activeTab === 'quiz' && $wire.courseCreated" class="p-4 rounded-lg bg-white dark:bg-gray-800" x-transition>
