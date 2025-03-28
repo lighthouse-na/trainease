@@ -99,7 +99,10 @@ new class extends Component {
         }
     }
 
-    public function saveCourse()
+    /**
+     * @return void
+     */
+    public function saveCourse(): void
     {
         // Validate course data
         $this->validate([
@@ -145,7 +148,7 @@ new class extends Component {
                 'end_date' => $this->endDate,
                 'course_fee' => $this->course_fee,
                 'course_image' => $imagePath,
-                'user_id' => Auth::user()->id,
+                'user_id' => Auth::user()?->id,
                 'course_type' => $this->course_type,
             ]);
 
@@ -154,6 +157,7 @@ new class extends Component {
             $this->existingImage = $imagePath;
 
             session()->flash('message', 'Course created successfully!');
+            dd($course);
         }
     }
 
