@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
 use function Laravel\Folio\name;
 use App\Models\Training\Quiz\Question;
-
+use Illuminate\Support\Facades\Storage;
 new class extends Component {
     use WithFileUploads;
 
@@ -99,10 +99,9 @@ new class extends Component {
         }
     }
 
-    /**
-     * @return void
-     */
-    public function saveCourse(): void
+
+
+    public function saveCourse()
     {
         // Validate course data
         $this->validate([
@@ -112,52 +111,44 @@ new class extends Component {
             'endDate' => 'required|date|after:startDate',
             'course_fee' => 'required|numeric|min:0',
             'course_type' => 'required',
-            'courseImage' => 'required'
+            'courseImage' => $this->courseId ? 'nullable|image|max:2048' : 'required|image|max:2048',
         ]);
 
-        // Process image if uploaded
-        $imagePath = $this->existingImage;
+        // Handle image upload if new image is provided
         if ($this->courseImage && !is_string($this->courseImage)) {
+            // Delete old image if updating
+            if ($this->existingImage) {
+                Storage::disk('public')->delete($this->existingImage);
+            }
             $imagePath = $this->courseImage->store('course-images', 'public');
+        } else {
+            $imagePath = $this->existingImage;
         }
 
-        // Check if we're updating or creating
+        // Course data array
+        $courseData = [
+            'course_name' => $this->title,
+            'course_description' => $this->description,
+            'start_date' => $this->startDate,
+            'end_date' => $this->endDate,
+            'course_fee' => $this->course_fee,
+            'course_type' => $this->course_type,
+            'course_image' => $imagePath,
+        ];
+
         if ($this->courseId) {
             // Update existing course
-            $course = Course::find($this->courseId);
-            $course->course_name = $this->title;
-            $course->course_description = $this->description;
-            $course->start_date = $this->startDate;
-            $course->end_date = $this->endDate;
-            $course->course_fee = $this->course_fee;
-            $course->course_type = $this->course_type;
-
-            if ($imagePath) {
-                $course->course_image = $imagePath;
-            }
-
-            $course->save();
-
+            Course::where('id', $this->courseId)->update($courseData);
             session()->flash('message', 'Course updated successfully!');
         } else {
             // Create new course
-            $course = Course::create([
-                'course_name' => $this->title,
-                'course_description' => $this->description,
-                'start_date' => $this->startDate,
-                'end_date' => $this->endDate,
-                'course_fee' => $this->course_fee,
-                'course_image' => $imagePath,
-                'user_id' => Auth::user()?->id,
-                'course_type' => $this->course_type,
-            ]);
-
+            $courseData['user_id'] = Auth::id();
+            $course = Course::create($courseData);
             $this->courseId = $course->id;
-            $this->courseCreated = true;
             $this->existingImage = $imagePath;
+            $this->courseCreated = true;
 
             session()->flash('message', 'Course created successfully!');
-            dd($course);
         }
     }
 
@@ -316,7 +307,6 @@ new class extends Component {
             array_splice($this->questions, $index, 1);
         }
     }
-
     public function saveQuiz()
     {
         if (!$this->courseCreated) {
@@ -487,7 +477,7 @@ new class extends Component {
         <div class="tab-content">
             <div x-show="$wire.activeTab === 'course'" class="p-4 rounded-lg bg-white dark:bg-gray-800" x-transition>
                 <h3 class="text-lg font-semibold mb-4 dark:text-white">Course Information</h3>
-                <form wire:click="saveCourse">
+                <form wire:click.prevent="saveCourse">
                     <div class="mb-4">
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" for="title">Course Title</label>
                         <x-input id="title" wire:model="title" class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
@@ -541,7 +531,7 @@ new class extends Component {
                     </div>
                     <flux:button variant="primary" type="submit">
                         {{ $courseId ? 'Update Course' : 'Create Course' }}</flux:button>
-            </div>
+
 
             </form>
         </div>
