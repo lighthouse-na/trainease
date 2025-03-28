@@ -42,7 +42,7 @@ document.addEventListener('alpine:init', () => {
                     content: this.content,
                     editorProps: {
                         attributes: {
-                            class: 'h-screen prose prose-sm sm:prose-base lg:prose-lg xl:prose-2xl m-5 p-3 border rounded-lg shadow-md focus:outline-none',
+                            class: 'h-screen prose prose-sm sm:prose-base lg:prose-lg xl:prose-2xl m-5 p-3 border rounded-lg shadow-md focus:outline-none overflow-y-auto',
                         },
                     },
                     onUpdate: ({ editor }) => {

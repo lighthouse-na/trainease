@@ -189,6 +189,7 @@ new class extends Component {
 
         // Refresh the materials list
         $this->courseMaterials = $course->materials;
+        $this->modal('materialModal')->close();
     }
 
     public function editMaterial($materialId)
@@ -197,7 +198,7 @@ new class extends Component {
             return;
         }
         $this->isEditingMaterial = true;
-
+        $this->modal('materialModal')->show();
         // Find the material from the course materials collection
         $material = $this->courseMaterials->find($materialId);
 
@@ -272,6 +273,7 @@ new class extends Component {
             $this->isEditingMaterial = false;
 
             // Refresh the materials list
+            $this->modal('materialModal')->close();
             $this->courseMaterials = $course->materials;
 
             session()->flash('message', 'Course material updated successfully!');
@@ -581,7 +583,8 @@ new class extends Component {
                     </div>
                 </div>
             </div>
-            <flux:modal name="materialModal" variant="default" dismissible="true" wire:model="isModalOpen" class="">
+
+            <flux:modal name="materialModal" variant="flyout" position="right" dismissible="true" wire:model="isModalOpen" class="">
                 <div class="p-6">
                     <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
                         {{ isset($editingMaterialId) ? 'Edit Material' : 'Add Material' }}
@@ -620,7 +623,7 @@ new class extends Component {
             </flux:modal>
 
             <flux:modal.trigger name="materialModal">
-                <x-button class="bg-primary hover:bg-primary-dark">Open Modal</x-button>
+                <x-button class="bg-primary hover:bg-primary-dark">Create Course Material</x-button>
             </flux:modal.trigger>
 
 
