@@ -681,7 +681,7 @@ new class extends Component {
                                 @foreach (['A', 'B', 'C', 'D'] as $optionIndex => $optionLabel)
                                     <div class="flex items-center mb-2">
                                         <div class="mr-2 dark:text-white">{{ $optionLabel }}.</div>
-                                        <x-input
+                                        <input
                                             wire:model="questions.{{ $index }}.options.{{ $optionIndex }}"
                                             class="w-full dark:bg-gray-800 dark:border-gray-600 dark:text-white" placeholder="Option {{ $optionLabel }}" />
                                         <label class="inline-flex items-center ml-2">
