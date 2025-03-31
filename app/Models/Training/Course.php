@@ -11,6 +11,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @method static findOrFail(int $courseId)
+ * @method static create(array $array)
+ */
 class Course extends Model
 {
     /** @use HasFactory<\Database\Factories\Training\CourseFactory> */

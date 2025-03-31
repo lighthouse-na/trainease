@@ -5,50 +5,58 @@ use Livewire\WithFileUploads;
 use App\Models\Training\Course;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
-use function Laravel\Folio\name;
 use App\Models\Training\Quiz\Question;
 
 new class extends Component {
     use WithFileUploads;
 
-    public $activeTab = 'course';
-    public $courseCreated = false;
-    public $courseId;
-    public $existingImage;
+    public string $activeTab = 'course';
+    public bool $courseCreated = false;
+    public int $courseId;
+    public string $existingImage;
 
     // Course properties
-    public $title = '';
-    public $description = '';
-    public $courseImage = null;
-    public $course_fee = '';
-    public $startDate;
-    public $endDate;
-    public $course_type;
-    public $userId;
+    public string $title = '';
+    public string $description = '';
+    public string $courseImage;
+    public int $course_fee;
+    public Carbon $startDate;
+    public Carbon $endDate;
+    public string $course_type;
+    public int $userId;
 
     // Materials properties
-    public $courseMaterials = [];
-    public $materialTitle = '';
-    public $materialDescription = '';
-    public $materialContent = '';
-    public $materialFile;
-    public $editingMaterialId = null;
-    public $isEditingMaterial = false;
+    /**
+     * @var array<int, \App\Models\Training\CourseMaterial> $courseMaterials
+     * @var array<int, \App\Models\Training\Quiz\Quiz> $quizes
+     * @var array<int, Question> $questions
+     * @var array<int, \App\Models\User> $selectedStudents
+     */
+    public array $courseMaterials = [];
+    public string $materialTitle = '';
+    public string $materialDescription = '';
+    public string $materialContent = '';
+    public string $materialFile;
+    public int $editingMaterialId;
+    public bool $isEditingMaterial = false;
 
     // Quiz properties
-    public $quizzes;
-    public $quizTitle = '';
-    public $questions = [];
-    public $quizAttempts;
-    public $passingScore;
+    public array $quizzes;
+    public string $quizTitle = '';
+    public array $questions = [];
+    public int $quizAttempts;
+    public int $passingScore;
 
     // Enrollment properties
-    public $studentSearch = '';
-    public $selectedStudents = [];
+    public string $studentSearch = '';
+    public array $selectedStudents = [];
 
-    public function mount(Course $course)
+    /**
+     * @param Course $course
+     * @return void
+     */
+    public function mount(Course $course): void
     {
-        if ($course && $course->id) {
             $this->courseId = $course->id;
             $this->courseCreated = true;
             $this->title = $course->course_name;
@@ -95,12 +103,15 @@ new class extends Component {
                         return $questionData;
                     })
                     ->toArray();
-            }
+
         }
     }
 
 
-    public function saveCourse()
+    /**
+     * @return void
+     */
+    public function saveCourse(): void
     {
         // Validate course data
         $this->validate([
@@ -115,14 +126,14 @@ new class extends Component {
 
         // Process image if uploaded
         $imagePath = $this->existingImage;
-        if ($this->courseImage && !is_string($this->courseImage)) {
+        if ($this->courseImage)) {
             $imagePath = $this->courseImage->store('course-images', 'public');
         }
 
         // Check if we're updating or creating
         if ($this->courseId) {
             // Update existing course
-            $course = Course::find($this->courseId);
+            $course = Course::findOrFail($this->courseId);
             $course->course_name = $this->title;
             $course->course_description = $this->description;
             $course->start_date = $this->startDate;
@@ -488,12 +499,12 @@ new class extends Component {
                 <form wire:click.prevent="saveCourse">
                     <div class="mb-4">
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" for="title">Course Title</label>
-                        <x-input id="title" wire:model="title" class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+                        <input id="title" wire:model="title" class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
                     </div>
                     <div class="mb-4">
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
                             for="description">Description</label>
-                        <x-textarea id="description" wire:model="description" rows="4" class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+                        <textarea id="description" wire:model="description" rows="4" class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
                     </div>
                     <div class="flex grid grid-cols-2 gap-2 mb-4">
                         <flux:field>
@@ -507,7 +518,7 @@ new class extends Component {
                     <flux:field>
                         <flux:label class="dark:text-gray-300">Course Type</flux:label>
 
-                        <flux:select wire:model.live="course_type" required class="dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                        <flux:select wire:model.live="course_type" class="dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                             <flux:select.option value="online">Online</flux:select.option>
                             <flux:select.option value="face-to-face">Face to Face</flux:select.option>
                             <flux:select.option value="hybrid">Hybrid</flux:select.option>
@@ -517,7 +528,7 @@ new class extends Component {
                     <div class="mb-4">
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" for="course_image">Course
                             Image</label>
-                        <x-input type="file" id="course_image" wire:model="courseImage" class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                        <input type="file" id="course_image" wire:model="courseImage" class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                             accept="image/*" />
 
                             <div class="mt-2">
@@ -530,11 +541,11 @@ new class extends Component {
                         <div>
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" for="start_date">Start
                                 Date</label>
-                            <x-input type="date" id="start_date" wire:model="startDate" class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+                            <input type="date" id="start_date" wire:model="startDate" class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" for="end_date">End Date</label>
-                            <x-input type="date" id="end_date" wire:model="endDate" class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+                            <input type="date" id="end_date" wire:model="endDate" class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
                         </div>
                     </div>
                     <flux:button variant="primary" type="submit">

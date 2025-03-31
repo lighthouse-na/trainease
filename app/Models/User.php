@@ -24,6 +24,9 @@ use Illuminate\Support\Str;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
+/**
+ * @property int $id
+ */
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -167,8 +170,8 @@ class User extends Authenticatable
     }
 
     /**
+     * @param int $quiz_id <int>
      * @return int
-     * @param $quiz_id<int>
      */
     public function getQuizAttempts(int $quiz_id): int
     {
@@ -188,8 +191,8 @@ class User extends Authenticatable
     }
 
     /**
+     * @param int $quiz_id <int>
      * @return bool
-     * @param $quiz_id<int>
      */
     public function userHasPassed(int $quiz_id): bool
     {
