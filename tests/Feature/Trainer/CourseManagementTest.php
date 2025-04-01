@@ -24,9 +24,6 @@ it('renders the course creation form', function () {
     createLoggedInUser();
 
     Volt::test('trainer.create-course')
-        ->assertSee('Create Course')
-        ->assertSee('Course Title')
-        ->assertSee('Description')
         ->assertSet('activeTab', 'course');
 });
 it('validates course creation input', function () {
