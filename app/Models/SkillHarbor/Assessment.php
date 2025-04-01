@@ -3,7 +3,6 @@
 namespace App\Models\SkillHarbor;
 
 use App\Models\User;
-use GuzzleHttp\Psr7\Query;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -27,17 +26,15 @@ class Assessment extends Model
             ->withPivot('user_status', 'supervisor_status');
     }
 
-    /**
-     * @return int
-     */
     public function enrolledCount(): int
     {
         return $this->enrolled()->count();
     }
+
     /**
      * @return array<mixed>
      */
-    public function getEnrolledDepartmentIds():array
+    public function getEnrolledDepartmentIds(): array
     {
         // Get the IDs of the departments for users enrolled in this assessment
         return $this->enrolled()
@@ -49,21 +46,12 @@ class Assessment extends Model
             ->values() // Reset array keys
             ->toArray(); // Convert to array
     }
-    /**
-     *
-     * @param Assessment $query
-     * @param string $search
-     * @return void
-     */
+
     public function scopeSearch(Assessment $query, string $search): void
     {
         $query->where('assessment_title', 'like', '%'.$search.'%');
     }
 
-    /**
-     * @return int
-     * @param int $userStatus
-     */
     public function countSubmittedForReview(int $userStatus = 1): int
     {
         // Count the number of users who have submitted assessments for review

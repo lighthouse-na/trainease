@@ -9,7 +9,7 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('dashboard', [DashboardController::class, 'index'])
-    ->middleware(['auth','check.user.details'])
+    ->middleware(['auth', 'check.user.details'])
     ->name('dashboard');
 
 Route::middleware(['auth'])->group(function () {
@@ -24,8 +24,8 @@ Route::middleware(['auth'])->group(function () {
     Volt::route('courses/{course}', 'training.showcourse')->name('training.coursepage')->middleware(['check.user.details']);
     Volt::route('quiz/{quiz}', 'training.quiz.quiz')->name('training.quiz')->middleware(['check.user.details']);
     Route::view('course/{course_id}/{enrollment_id}', 'courses.show-course')
-    ->middleware(['check.user.details'])
-    ->name('course.show');
+        ->middleware(['check.user.details'])
+        ->name('course.show');
 
     Volt::route('/c/course/{course?}', 'trainer.create-course')->name('create.course')->middleware(['role:trainer']);
     Volt::route('c/course_detail/{course_id}/', 'trainer.coursedetails')->name('course.details');
@@ -33,7 +33,6 @@ Route::middleware(['auth'])->group(function () {
     /**
      * SkillHarbor Routes
      * These are the routes for the skill audit compnent
-     *
      */
     Route::redirect('skillharbor', 'skillharbor/dashboard')->name('skill-harbor');
     Volt::route('skillharbor/dashboard', 'skillharbor.dashboard')->name('skill-harbor.dashboard');
@@ -50,8 +49,6 @@ Route::middleware(['auth'])->group(function () {
     Volt::route('skillharbor/directories/assessments', 'skillharbor.directories.assessments.assessmentstable')->name('skill-harbor.directories.assessments');
     Volt::route('skillharbor/directories/jcps', 'skillharbor.directories.jcps.jcptable')->name('skill-harbor.directories.jcps');
 
-
 });
-
 
 require __DIR__.'/auth.php';

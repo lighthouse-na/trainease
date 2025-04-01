@@ -8,7 +8,9 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Volt\Volt;
 use Vinkla\Hashids\Facades\Hashids;
-use function Pest\Laravel\{actingAs, assertDatabaseHas, assertDatabaseMissing};
+
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\assertDatabaseHas;
 
 uses(RefreshDatabase::class);
 /**
@@ -20,14 +22,13 @@ test('it displays available online and hybrid courses', function () {
 
     $course1 = Course::factory()->create(['course_type' => 'online']);
     $course2 = Course::factory()->create(['course_type' => 'hybrid']);
-    $course3 = Course::factory()->create(['course_name'=> 'in-person', 'course_type' => 'face-to-face']); // Should not be displayed
+    $course3 = Course::factory()->create(['course_name' => 'in-person', 'course_type' => 'face-to-face']); // Should not be displayed
 
     Volt::test('training.coursespage')
         ->assertSee($course1->course_name)
         ->assertSee($course2->course_name)
         ->assertDontSee($course3->course_name);
 });
-
 
 test('it shows message when no courses are available', function () {
     $user = User::factory()->create();
@@ -38,10 +39,8 @@ test('it shows message when no courses are available', function () {
 });
 
 /**
- *
  * Course Details Page Tests
  */
-
 test('it displays course details', function () {
     $user = User::factory()->create();
     Auth::login($user);
@@ -63,24 +62,22 @@ test('users can enroll in course', function () {
     Volt::test('training.showcourse', ['course' => Hashids::encode($course->id)])
         ->call('enroll', courseId: $course->id);
 
-        assertDatabaseHas('enrollments', ['user_id' => $user->id, 'course_id' => $course->id]);
+    assertDatabaseHas('enrollments', ['user_id' => $user->id, 'course_id' => $course->id]);
 });
 
-
- /**
-  * Course Completion Tests
-  */
-
-  it('mounts the component and loads course data', function () {
+/**
+ * Course Completion Tests
+ */
+it('mounts the component and loads course data', function () {
     $course = Course::factory()->create();
     $enrollment = Enrollment::factory()->create(['course_id' => $course->id]);
     $courseMaterials = CourseMaterial::factory(3)->create();
 
-   Volt::test('training.course', [
+    Volt::test('training.course', [
         'course_id' => Hashids::encode($course->id),
         'enrollment_id' => Hashids::encode($enrollment->id),
     ])
-       ->assertOk();
+        ->assertOk();
 });
 
 it('sets active content and marks it as completed', function () {
@@ -110,7 +107,7 @@ it('marks the course as completed', function () {
         'course_id' => Hashids::encode($course->id),
         'enrollment_id' => Hashids::encode($enrollment->id),
     ])
-    ->call('completeCourse');
+        ->call('completeCourse');
     assertDatabaseHas('enrollments', [
         'id' => $enrollment->id,
         'user_id' => $user->id,

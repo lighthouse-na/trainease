@@ -9,7 +9,6 @@ class Logout
 {
     /**
      * Log the current user out of the application.
-     * @return mixed
      */
     public function __invoke(): mixed
     {

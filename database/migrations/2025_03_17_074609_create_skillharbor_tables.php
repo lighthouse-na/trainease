@@ -14,7 +14,6 @@ return new class extends Migration
     {
         /**
          * Create assessments table
-         *
          */
         Schema::create('assessments', function (Blueprint $table) {
             $table->id();
@@ -62,7 +61,6 @@ return new class extends Migration
 
         /**
          *Create Qualifications Table
-         *
          */
         Schema::create('qualifications', function (Blueprint $table) {
             $table->id();
@@ -88,9 +86,7 @@ return new class extends Migration
         });
 
         /**
-         *
          * Create JCP Qualifications Table
-         *
          */
         Schema::create('jcp_qualification', function (Blueprint $table) {
             $table->id();
@@ -101,8 +97,7 @@ return new class extends Migration
         /**
          * Create Skillharbor enrollments table
          */
-
-         Schema::create('skillharbor_enrollments', function (Blueprint $table) {
+        Schema::create('skillharbor_enrollments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('assessment_id')->constrained()->cascadeOnDelete();
@@ -124,31 +119,30 @@ return new class extends Migration
 
         });
 
-
     }
 
     /**
      * Reverse the migrations.
      */
+    public function seedQualification()
+    {
+        $qualifications = [
+            ['qualification_title' => 'Bachelor Degree', 'institution' => 'University of Namibia', 'qualification_level' => 'Bachelor'],
+            ['qualification_title' => 'Bachelor of Science', 'institution' => 'Namibia University of Science and Technology', 'qualification_level' => 'Bachelor'],
+            ['qualification_title' => 'Bachelor of Education', 'institution' => 'University of Namibia', 'qualification_level' => 'Bachelor'],
+            ['qualification_title' => 'Masters in Business Administration', 'institution' => 'Namibia Business School', 'qualification_level' => 'Master'],
+            ['qualification_title' => 'PhD in Environmental Science', 'institution' => 'University of Namibia', 'qualification_level' => 'PhD'],
+            ['qualification_title' => 'National Diploma in IT', 'institution' => 'Namibia University of Science and Technology', 'qualification_level' => 'Diploma'],
+            ['qualification_title' => 'Certificate in Project Management', 'institution' => 'Namibian Institute of Public Administration and Management', 'qualification_level' => 'Certificate'],
+            ['qualification_title' => 'Higher Technical Certificate', 'institution' => 'Windhoek Vocational Training Centre', 'qualification_level' => 'Certificate'],
+            ['qualification_title' => 'Diploma in Tourism', 'institution' => 'International University of Management', 'qualification_level' => 'Diploma'],
+            ['qualification_title' => 'Masters in Natural Resources Management', 'institution' => 'Namibia University of Science and Technology', 'qualification_level' => 'Master'],
+            ['qualification_title' => 'Postgraduate Diploma in Finance', 'institution' => 'University of Cape Town', 'qualification_level' => 'Postgraduate Diploma'],
+            ['qualification_title' => 'Honours in Economics', 'institution' => 'University of Namibia', 'qualification_level' => 'Honours'],
+        ];
 
-    public function seedQualification(){
-    $qualifications = [
-       ['qualification_title' => 'Bachelor Degree', 'institution' => 'University of Namibia', 'qualification_level' => 'Bachelor'],
-       ['qualification_title' => 'Bachelor of Science', 'institution' => 'Namibia University of Science and Technology', 'qualification_level' => 'Bachelor'],
-       ['qualification_title' => 'Bachelor of Education', 'institution' => 'University of Namibia', 'qualification_level' => 'Bachelor'],
-       ['qualification_title' => 'Masters in Business Administration', 'institution' => 'Namibia Business School', 'qualification_level' => 'Master'],
-       ['qualification_title' => 'PhD in Environmental Science', 'institution' => 'University of Namibia', 'qualification_level' => 'PhD'],
-       ['qualification_title' => 'National Diploma in IT', 'institution' => 'Namibia University of Science and Technology', 'qualification_level' => 'Diploma'],
-       ['qualification_title' => 'Certificate in Project Management', 'institution' => 'Namibian Institute of Public Administration and Management', 'qualification_level' => 'Certificate'],
-       ['qualification_title' => 'Higher Technical Certificate', 'institution' => 'Windhoek Vocational Training Centre', 'qualification_level' => 'Certificate'],
-       ['qualification_title' => 'Diploma in Tourism', 'institution' => 'International University of Management', 'qualification_level' => 'Diploma'],
-       ['qualification_title' => 'Masters in Natural Resources Management', 'institution' => 'Namibia University of Science and Technology', 'qualification_level' => 'Master'],
-       ['qualification_title' => 'Postgraduate Diploma in Finance', 'institution' => 'University of Cape Town', 'qualification_level' => 'Postgraduate Diploma'],
-       ['qualification_title' => 'Honours in Economics', 'institution' => 'University of Namibia', 'qualification_level' => 'Honours']
-    ];
-
-       foreach ($qualifications as $qualification) {
-          DB::table('qualifications')->insert($qualification);
-       }
+        foreach ($qualifications as $qualification) {
+            DB::table('qualifications')->insert($qualification);
+        }
     }
 };

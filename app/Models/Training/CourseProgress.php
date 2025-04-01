@@ -23,7 +23,7 @@ class CourseProgress extends Model
     }
 
     /**
-     *@return BelongsTo<Course, $this>
+     * @return BelongsTo<Course, $this>
      */
     public function course(): BelongsTo
     {
@@ -37,8 +37,4 @@ class CourseProgress extends Model
     {
         return $this->belongsTo(CourseMaterial::class);
     }
-
-
-
-
 }

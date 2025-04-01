@@ -37,9 +37,6 @@ class UserAnswer extends Model
     }
 
     // Check if this answer is correct
-    /**
-     * @return bool
-     */
     public function isCorrect(): bool
     {
         return $this->selectedOption && $this->selectedOption->is_correct;

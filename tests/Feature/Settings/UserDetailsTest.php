@@ -1,19 +1,16 @@
 <?php
 
-
 use App\Models\User;
 use App\Models\UserDetail;
 use Livewire\Volt\Volt;
 
 uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 
-
 test('user cannot access user details page without authentication', function () {
     $response = $this->get('/settings/user-details');
 
     $response->assertRedirect('/login');
 });
-
 
 it('has settings/userdetails page', function () {
     $this->actingAs(User::factory()->create());
@@ -29,14 +26,14 @@ test('user can see user details fields', function () {
     $response = $this->get('/settings/user-details');
 
     $response->assertSee('Salary Ref Number')
-    ->assertSee('Gender')
-    ->assertSee('Date of Birth')
-    ->assertSee('Phone Number')
-    ->assertSee('Address')
-    ->assertSee('Division')
-    ->assertSee('Department')
-    ->assertSee('Supervisor')
-    ->assertSee('Save');
+        ->assertSee('Gender')
+        ->assertSee('Date of Birth')
+        ->assertSee('Phone Number')
+        ->assertSee('Address')
+        ->assertSee('Division')
+        ->assertSee('Department')
+        ->assertSee('Supervisor')
+        ->assertSee('Save');
 });
 
 test('user can complete user details form', function () {
@@ -106,7 +103,7 @@ test('user cannot delete user details', function () {
 
     $this->actingAs($user);
 
-    $response = $this->delete('/settings/user-details/' . $userDetail->id);
+    $response = $this->delete('/settings/user-details/'.$userDetail->id);
 
     $response->assertStatus(404);
     $this->assertDatabaseHas('user_details', ['id' => $userDetail->id, 'user_id' => $user->id]);

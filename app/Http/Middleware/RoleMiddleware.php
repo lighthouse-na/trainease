@@ -9,10 +9,6 @@ use Spatie\Permission\Contracts\Role;
 
 class RoleMiddleware
 {
-    /**
-     * @param  Role|string $role
-     * @return mixed
-     */
     public function handle(Request $request, Closure $next, Role|string $role): mixed
     {
         if (! Auth::check() || ! $request->user()?->hasRole($role)) {

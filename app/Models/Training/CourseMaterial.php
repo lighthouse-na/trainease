@@ -32,8 +32,7 @@ class CourseMaterial extends Model
     }
 
     /**
-     * @param int $userId
-     * @return bool
+     * @param  int  $userId
      */
     public function isCompletedByUser($userId): bool
     {

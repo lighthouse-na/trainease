@@ -10,7 +10,9 @@ class SkillHarborEnrollment extends Model
 {
     //
     protected $table = 'skillharbor_enrollments';
+
     protected $fillable = ['user_id', 'assessment_id', 'user_status', 'supervisor_status'];
+
     /**
      * @return BelongsTo<User, $this>
      */

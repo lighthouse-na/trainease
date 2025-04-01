@@ -27,8 +27,6 @@ class CourseFactory extends Factory
             'course_image' => $this->faker->imageUrl(),
             'user_id' => 1,
 
-
-
         ];
     }
 }

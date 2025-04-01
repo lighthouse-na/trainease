@@ -45,7 +45,7 @@ test('users can not login with invalid password', function () {
     $this->assertGuest();
 });
 
-test('users can not login with invalid email address', function(){
+test('users can not login with invalid email address', function () {
     $this->post('/login', [
         'email' => 'wrongemail',
         'password' => 'password',

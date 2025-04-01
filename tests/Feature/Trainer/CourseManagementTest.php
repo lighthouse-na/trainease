@@ -6,16 +6,18 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Volt\Volt;
 
-use function Pest\Laravel\{actingAs, assertDatabaseHas, assertDatabaseMissing};
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\assertDatabaseHas;
+
 // Setup function to create a logged-in user
 function createLoggedInUser()
 {
     $user = User::factory()->create();
     $user->assignRole('trainer');
     actingAs($user);
+
     return $user;
 }
-
 
 // Basic course creation tests
 it('renders the course creation form', function () {
@@ -76,7 +78,7 @@ it('creates a course successfully', function () {
         'course_fee' => 199.99,
         'course_type' => 'online',
         'user_id' => $user->id,
-        'course_image' => 'course-images/' . $courseImage->hashName(),
+        'course_image' => 'course-images/'.$courseImage->hashName(),
     ]);
 });
 
@@ -123,7 +125,7 @@ it('adds course materials after course creation', function () {
     // Verify material was added
     assertDatabaseHas('course_materials', [
         'course_id' => $course->id,
-        'material_name' => 'Test Learning Material'
+        'material_name' => 'Test Learning Material',
     ]);
 });
 
@@ -131,7 +133,7 @@ it('adds a quiz to a course', function () {
     $user = createLoggedInUser();
 
     // Create course first
-   Volt::test('trainer.create-course')
+    Volt::test('trainer.create-course')
         ->set('title', 'Quiz Test Course')
         ->set('description', 'Course for testing quizzes')
         ->set('startDate', now()->addDays(7)->toDateString())
@@ -154,8 +156,8 @@ it('adds a quiz to a course', function () {
                 'text' => 'What is the capital of France?',
                 'question_type' => 'multiple_choice',
                 'options' => ['London', 'Berlin', 'Paris', 'Madrid'],
-                'correct_answer' => 2
-            ]
+                'correct_answer' => 2,
+            ],
         ])
         ->call('saveQuiz');
 
@@ -163,7 +165,7 @@ it('adds a quiz to a course', function () {
     // Verify quiz was added
     assertDatabaseHas('quizzes', [
         'course_id' => $course->id,
-        'title' => 'Comprehensive Quiz'
+        'title' => 'Comprehensive Quiz',
     ]);
 });
 
@@ -195,6 +197,5 @@ it('handles tab switching correctly', function () {
 
     $component->call('setTab', 'enrollments')
         ->assertSet('activeTab', 'enrollments');
-
 
 });

@@ -9,6 +9,7 @@ class SkillCategory extends Model
 {
     //
     protected $fillable = ['category_title'];
+
     protected $table = 'skill_categories';
 
     /**

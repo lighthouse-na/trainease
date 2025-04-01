@@ -1,11 +1,10 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
@@ -47,17 +46,17 @@ return new class extends Migration {
             'DEPI',
             'Business Information & Technology',
             'Field Service',
-            'Network Operations'
+            'Network Operations',
         ];
 
         // Insert departments
         // Insert departments for Technical Operations & Projects division
         foreach ($departments as $departmentName) {
             DB::table('departments')->insert([
-            'division_id' => $technicalDivisionId,
-            'department_name' => $departmentName,
-            'created_at' => now(),
-            'updated_at' => now(),
+                'division_id' => $technicalDivisionId,
+                'department_name' => $departmentName,
+                'created_at' => now(),
+                'updated_at' => now(),
             ]);
         }
 
@@ -71,16 +70,16 @@ return new class extends Migration {
             'Office of the CMO',
             'Intelligence',
             'Product Research and Development',
-            'Strategy'
+            'Strategy',
         ];
 
         // Insert Marketing departments
         foreach ($marketingDepartments as $departmentName) {
             DB::table('departments')->insert([
-            'division_id' => $marketingDivisionId,
-            'department_name' => $departmentName,
-            'created_at' => now(),
-            'updated_at' => now(),
+                'division_id' => $marketingDivisionId,
+                'department_name' => $departmentName,
+                'created_at' => now(),
+                'updated_at' => now(),
             ]);
         }
 
@@ -93,16 +92,16 @@ return new class extends Migration {
         $hrDepartments = [
             'Development and Organisational Effectiveness',
             'Employee Relations & Wellness',
-            'Partnering and Administration'
+            'Partnering and Administration',
         ];
 
         // Insert HR departments
         foreach ($hrDepartments as $departmentName) {
             DB::table('departments')->insert([
-            'division_id' => $hrDivisionId,
-            'department_name' => $departmentName,
-            'created_at' => now(),
-            'updated_at' => now(),
+                'division_id' => $hrDivisionId,
+                'department_name' => $departmentName,
+                'created_at' => now(),
+                'updated_at' => now(),
             ]);
         }
 
@@ -117,16 +116,16 @@ return new class extends Migration {
             'Credit Control',
             'Management Accounting & Financial Planning',
             'Supply Chain',
-            'Revenue Assurance & Network Fraud'
+            'Revenue Assurance & Network Fraud',
         ];
 
         // Insert Finance departments
         foreach ($financeDepartments as $departmentName) {
             DB::table('departments')->insert([
-            'division_id' => $financeDivisionId,
-            'department_name' => $departmentName,
-            'created_at' => now(),
-            'updated_at' => now(),
+                'division_id' => $financeDivisionId,
+                'department_name' => $departmentName,
+                'created_at' => now(),
+                'updated_at' => now(),
             ]);
         }
 
@@ -148,16 +147,16 @@ return new class extends Migration {
             'Commercial Central',
             'Commercial Erongo',
             'Commercial North',
-            'Commercial South'
+            'Commercial South',
         ];
 
         // Insert Commercial departments
         foreach ($commercialDepartments as $departmentName) {
             DB::table('departments')->insert([
-            'division_id' => $commercialDivisionId,
-            'department_name' => $departmentName,
-            'created_at' => now(),
-            'updated_at' => now(),
+                'division_id' => $commercialDivisionId,
+                'department_name' => $departmentName,
+                'created_at' => now(),
+                'updated_at' => now(),
             ]);
         }
     }

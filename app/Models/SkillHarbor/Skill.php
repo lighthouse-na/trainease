@@ -10,6 +10,7 @@ class Skill extends Model
 {
     //
     protected $fillable = ['skill_title', 'skill_description', 'skill_category_id'];
+
     /**
      * @return BelongsTo<SkillCategory, $this>
      */
@@ -26,12 +27,6 @@ class Skill extends Model
         return $this->belongsToMany(JobCompetencyProfile::class)->withPivot('user_rating', 'supervisor_rating', 'required_level');
     }
 
-    /**
-     * @param Skill $query
-     * @param string $val
-     * @param string $category
-     * @return void
-     */
     public function scopeSearch(Skill $query, string $val, string $category): void
     {
         $query->where(function ($query) use ($val) {

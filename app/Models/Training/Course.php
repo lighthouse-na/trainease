@@ -75,8 +75,6 @@ class Course extends Model
         return $this->hasMany(Summary::class);
     }
 
-
-
     /**
      * @return BelongsToMany<User, $this>
      */
@@ -95,17 +93,14 @@ class Course extends Model
 
     /**
      * Trainer KPI Functions
-     * @return int
      */
     public function totalStudents(): int
     {
         return $this->enrolledUsers()->count();
     }
 
-
     /**
      * Trainer KPI Functions
-     * @return ?Course
      */
     public function mostPopularCourse(): ?Course
     {
@@ -120,7 +115,6 @@ class Course extends Model
 
     /**
      * Trainer KPI Functions
-     * @return int
      */
     public function totalCost(): int
     {
@@ -129,27 +123,26 @@ class Course extends Model
 
     /**
      * Trainer KPI Functions
-     * @return float
      */
     public function passingRate(): float
     {
-        $quizes = (int)($this->quizes()->count());
+        $quizes = (int) ($this->quizes()->count());
         $passed = $this->quizes->sum(function ($quiz) {
             return $quiz->passRate();
         });
-        if($quizes == 0){
+        if ($quizes == 0) {
             return 0;
         }
+
         return ($passed / $quizes) * 100;
     }
 
     /**
      * Trainer KPI Functions
-     * @return float
      */
     public function passRate(): float
     {
-        $totalQuizzes = (int)($this->quizes()->count());
+        $totalQuizzes = (int) ($this->quizes()->count());
         if ($totalQuizzes == 0) {
             return 0;
         }
@@ -167,7 +160,6 @@ class Course extends Model
 
     /**
      * Trainer KPI Functions
-     * @return float
      */
     public function avgCourseProgress(): float
     {
@@ -195,13 +187,15 @@ class Course extends Model
 
         return round($totalProgress / $totalStudents, 2);
     }
-    //to be used in course details KPIs
+
+    // to be used in course details KPIs
     /**
      * Trainer KPI Functions
-     * @param array<int, int> $userIds
-     * @return int
+     *
+     * @param  array<int, int>  $userIds
      */
-    public function courseAverages(array $userIds): int {
+    public function courseAverages(array $userIds): int
+    {
         $totalStudents = $userIds ? count($userIds) : $this->totalStudents();
         $totalMaterials = $this->materials()->count();
 
@@ -227,9 +221,6 @@ class Course extends Model
             $totalProgress += $userPercentage;
         }
 
-        return $totalStudents > 0 ? (int)(round($totalProgress / $totalStudents, 0)) : 0;
+        return $totalStudents > 0 ? (int) (round($totalProgress / $totalStudents, 0)) : 0;
     }
-
-
-
 }

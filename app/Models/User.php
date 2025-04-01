@@ -14,15 +14,14 @@ use App\Models\Training\CourseProgress;
 use App\Models\Training\Enrollment;
 use App\Models\Training\Quiz\QuizResponse;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 use Spatie\Permission\Traits\HasRoles;
-use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 /**
  * @property int $id
@@ -77,9 +76,6 @@ class User extends Authenticatable
             ->implode('');
     }
 
-    /**
-     * @return bool
-     */
     public function user_details_filled(): bool
     {
         return $this->user_detail()->exists();
@@ -96,7 +92,7 @@ class User extends Authenticatable
     /**
      * @return HasOneThrough<UserDetail, Department, $this>
      */
-    public function department():HasOneThrough
+    public function department(): HasOneThrough
     {
         return $this->hasOneThrough(UserDetail::class, Department::class);
     }
@@ -104,7 +100,7 @@ class User extends Authenticatable
     /**
      * @return HasOneThrough<UserDetail, Division, $this>
      */
-    public function division():HasOneThrough
+    public function division(): HasOneThrough
     {
         return $this->hasOneThrough(UserDetail::class, Division::class);
     }
@@ -116,7 +112,6 @@ class User extends Authenticatable
     {
         return $this->hasOneThrough(UserDetail::class, Organisation::class);
     }
-
 
     /**
      * @return HasMany<Enrollment, $this>
@@ -134,10 +129,6 @@ class User extends Authenticatable
         return $this->hasMany(CourseProgress::class);
     }
 
-    /**
-     * @return int
-     * @param $courseId<int>
-     */
     public function calculateProgress(int $courseId): int
     {
 
@@ -158,7 +149,7 @@ class User extends Authenticatable
 
         // Calculate progress percentage
 
-        return $totalMaterials > 0 ? (int)(round(($completedMaterials / $totalMaterials) * 100,0)) : 0;
+        return $totalMaterials > 0 ? (int) (round(($completedMaterials / $totalMaterials) * 100, 0)) : 0;
     }
 
     /**
@@ -170,8 +161,7 @@ class User extends Authenticatable
     }
 
     /**
-     * @param int $quiz_id <int>
-     * @return int
+     * @param  int  $quiz_id  <int>
      */
     public function getQuizAttempts(int $quiz_id): int
     {
@@ -180,9 +170,6 @@ class User extends Authenticatable
             ->sum('attempts'));
     }
 
-    /**
-     * @return bool
-     */
     public function hasCompletedQuiz(): bool
     {
         return $this->quizResponses()
@@ -191,8 +178,7 @@ class User extends Authenticatable
     }
 
     /**
-     * @param int $quiz_id <int>
-     * @return bool
+     * @param  int  $quiz_id  <int>
      */
     public function userHasPassed(int $quiz_id): bool
     {
@@ -216,8 +202,6 @@ class User extends Authenticatable
      */
     public function qualifications(): BelongsToMany
     {
-        return $this->belongsToMany(Qualification::class, 'user_qualification')->withPivot('from_date','end_date','status');
+        return $this->belongsToMany(Qualification::class, 'user_qualification')->withPivot('from_date', 'end_date', 'status');
     }
-
-
 }

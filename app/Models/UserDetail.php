@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use App\Models\Organisation\Department;
@@ -19,6 +20,7 @@ class UserDetail extends Model
     protected $casts = [
         'dob' => 'date:dd-mm-YYYY',
     ];
+
     /**
      * @return BelongsTo<User, $this>
      */
@@ -26,6 +28,7 @@ class UserDetail extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
     /**
      * @return BelongsTo<Division, $this>
      */
@@ -33,6 +36,7 @@ class UserDetail extends Model
     {
         return $this->belongsTo(Division::class, 'division_id');
     }
+
     /**
      * @return BelongsTo<Department, $this>
      */
@@ -40,6 +44,7 @@ class UserDetail extends Model
     {
         return $this->belongsTo(Department::class, 'department_id');
     }
+
     /**
      * @return BelongsTo<User, $this>
      */

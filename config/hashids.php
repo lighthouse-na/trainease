@@ -31,7 +31,7 @@ return [
         'main' => [
             'salt' => 'trainease',
             'length' => 10,
-            'alphabet' => 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
+            'alphabet' => 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890',
         ],
 
         'alternative' => [

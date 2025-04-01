@@ -10,17 +10,15 @@ use Livewire\Component;
 class ActivityGraph extends Component
 {
     /**
-     * @var int|null $userId
-     * @var array<int, mixed> $activityData
-     * @var Carbon $currentDate
+     * @var array<int, mixed>
+     * @var Carbon
      */
-    public int|null $userId;
+    public ?int $userId;
+
     public mixed $activityData = [];
+
     public Carbon $currentDate;
 
-    /**
-     * @return void
-     */
     public function mount(): void
     {
         $this->userId = Auth::user()?->id;
@@ -28,27 +26,18 @@ class ActivityGraph extends Component
         $this->loadActivityData();
     }
 
-    /**
-     * @return void
-     */
     public function previousMonth(): void
     {
         $this->currentDate->subMonth();
         $this->loadActivityData();
     }
 
-    /**
-     * @return void
-     */
     public function nextMonth(): void
     {
         $this->currentDate->addMonth();
         $this->loadActivityData();
     }
 
-    /**
-     * @return void
-     */
     public function loadActivityData(): void
     {
         /**
@@ -73,7 +62,7 @@ class ActivityGraph extends Component
                 while ($currentDay->lte($endDate)) {
                     $dateString = $currentDay->toDateString();
 
-                    if (!$activeDates->has($dateString)) {
+                    if (! $activeDates->has($dateString)) {
                         $activeDates->put($dateString, [
                             'date' => $dateString,
                             'courses' => [$courseName],
@@ -96,13 +85,10 @@ class ActivityGraph extends Component
 
         // If no enrollments, prepare empty data array
         if (empty($this->activityData)) {
-             $this->activityData = [];
+            $this->activityData = [];
         }
     }
 
-    /**
-     * @return \Illuminate\Contracts\View\View
-     */
     public function render(): \Illuminate\Contracts\View\View
     {
         return view('livewire.custom-components.activity-graph');

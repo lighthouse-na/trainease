@@ -11,7 +11,9 @@ class JobCompetencyProfile extends Model
 {
     //
     protected $table = 'jcps';
+
     protected $fillable = ['position_title', 'job_grade', 'user_id'];
+
     protected $casts = [
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
@@ -41,17 +43,11 @@ class JobCompetencyProfile extends Model
         return $this->belongsToMany(Qualification::class, 'jcp_qualification');
     }
 
-    /**
-     * @param JobCompetencyProfile $query
-     * @param string $val
-     * @return void
-     */
     public function scopeSearch(JobCompetencyProfile $query, string $val): void
     {
         $query->where('position_title', 'like', '%'.$val.'%')
             ->orWhere('job_grade', 'like', '%'.$val.'%');
     }
-
 
     /**
      * @return \Illuminate\Support\Collection<int, mixed>
@@ -87,7 +83,7 @@ class JobCompetencyProfile extends Model
             }
         }
 
-        return $sums ;
+        return $sums;
     }
 
     /**
@@ -115,7 +111,7 @@ class JobCompetencyProfile extends Model
             }
         }
 
-        return $sums ;
+        return $sums;
     }
 
     /**
@@ -143,6 +139,6 @@ class JobCompetencyProfile extends Model
             }
         }
 
-        return $sums ;
+        return $sums;
     }
 }
