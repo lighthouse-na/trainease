@@ -37,6 +37,10 @@ new class extends Component {
     public int $editingMaterialId;
     public bool $isEditingMaterial = false;
 
+    //imported course properties
+    public int $importedCourseId;
+    public $importedMaterials = [];
+
     // Quiz properties
     public $quizzes = [];
     public string $quizTitle = '';
@@ -290,6 +294,113 @@ new class extends Component {
         }
     }
 
+    /**
+     * Import course materials from the selected course to the current course
+     *
+     * @return void
+     */
+    public function importMaterial(): void
+    {
+        // Validate that a course is selected
+        if (empty($this->importedCourseId)) {
+            $this->addError('importedCourseId', 'Please select a course to import materials from.');
+            return;
+        }
+
+        // Get the current course ID
+        $currentCourseId = $this->courseId;
+
+        // Get materials from the selected course
+        $materialsToImport = CourseMaterial::where('course_id', $this->importedCourseId)->get();
+
+        // Count for success message
+        $importCount = 0;
+
+        // Begin transaction to ensure data integrity
+        DB::beginTransaction();
+
+        try {
+            // First, delete all existing materials for the current course
+            CourseMaterial::where('course_id', $currentCourseId)->delete();
+
+            // Then import new materials
+            foreach ($materialsToImport as $material) {
+                // Create a new material record for the current course
+                $newMaterial = new CourseMaterial();
+                $newMaterial->course_id = $currentCourseId;
+                $newMaterial->material_name = $material->material_name;
+                $newMaterial->description = $material->description;
+                $newMaterial->material_content = $material->material_content;
+
+                // Save the new material
+                $newMaterial->save();
+
+                $importCount++;
+            }
+
+            // Commit the transaction if all goes well
+            DB::commit();
+
+            // Success notification
+
+            session()->flash('message', "Existing materials removed and {$importCount} new materials imported successfully!"
+            );
+
+            // Close the modal
+            $this->isModalOpen = false;
+
+            // Refresh the materials list for the current course
+            $this->refreshCourseMaterials();
+
+        } catch (Exception $e) {
+            // Rollback in case of error
+            DB::rollBack();
+
+            // Log the error for debugging
+            Log::error('Course material import failed: ' . $e->getMessage(), [
+                'exception' => $e,
+                'from_course_id' => $this->importedCourseId,
+                'to_course_id' => $currentCourseId
+            ]);
+
+            // Error notification
+            $this->dispatch('notify', [
+                'type' => 'error',
+                'message' => "Failed to import materials: " . $e->getMessage()
+            ]);
+        }
+        $this->modal('importModal')->close();
+    }
+
+    /**
+     * This method is triggered when a course is selected in the dropdown
+     * It loads the materials for preview before import
+     *
+     * @param mixed $value The selected course ID
+     * @return void
+     */
+    public function updatedImportedCourseId(mixed $value): void
+    {
+        if (!empty($value)) {
+            // Load materials for the selected course
+            $this->importedMaterials = CourseMaterial::where('course_id', $value)->get();
+        } else {
+            $this->importedMaterials = [];
+        }
+    }
+
+    /**
+     * Refresh the course materials after import
+     *
+     * @return void
+     */
+    protected function refreshCourseMaterials(): void
+    {
+        // Update the materials property with fresh data
+        $this->materials = CourseMaterial::where('course_id', $this->courseId)->get();
+    }
+
+
     public function addQuestion()
     {
         if (!$this->courseCreated) {
@@ -334,15 +445,15 @@ new class extends Component {
 
         $this->validate(
             [
-                'quizTitle' => 'required|min:3',
-                'quizAttempts' => 'required|numeric|min:1',
-                'questions' => 'required|array|min:1',
-                'questions.*.text' => 'required',
-                'questions.*.correct_answer' => 'required',
+                'quizTitle' => 'required | min:3',
+                'quizAttempts' => 'required | numeric | min:1',
+                'questions' => 'required | array|min:1',
+                'questions .*.text' => 'required',
+                'questions .*.correct_answer' => 'required',
             ],
             [
-                'questions.*.text.required' => 'Question text is required',
-                'questions.*.correct_answer.required' => 'You must select a correct answer',
+                'questions .*.text . required' => 'Question text is required',
+                'questions .*.correct_answer . required' => 'You must select a correct answer',
             ],
         );
 
@@ -502,16 +613,13 @@ new class extends Component {
                 <h3 class="text-lg font-semibold mb-4 dark:text-white">Course Information</h3>
                 <form wire:click.prevent="saveCourse">
                     <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" for="title">Course
-                            Title</label>
-                        <input id="title" wire:model="title"
-                               class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
+                        <flux:input id="title" label="Course Title" wire:model="title"
+                                    class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
                     </div>
                     <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
-                               for="description">Description</label>
-                        <textarea id="description" wire:model="description" rows="4"
-                                  class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
+
+                        <flux:textarea id="description" label="Course Description" wire:model="description" rows="4"
+                                       class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
                     </div>
                     <div class="flex grid grid-cols-2 gap-2 mb-4">
                         <flux:field>
@@ -537,12 +645,10 @@ new class extends Component {
                         </flux:field>
                     </div>
                     <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
-                               for="course_image">Course
-                            Image</label>
-                        <input type="file" id="course_image" wire:model="courseImage"
-                               class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                               accept="image/*"/>
+
+                        <flux:input type="file" id="course_image" label="Course Image" wire:model="courseImage"
+                                    class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                                    accept="image/*"/>
 
                         <div class="mt-2">
                             <img src="{{ url('storage/' . $existingImage) }}"
@@ -552,17 +658,14 @@ new class extends Component {
                     </div>
                     <div class="grid grid-cols-2 gap-4 mb-4">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
-                                   for="start_date">Start
-                                Date</label>
-                            <input type="date" id="start_date" wire:model="startDate"
-                                   class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
+
+                            <flux:input label="Start Date" type="date" id="start_date" wire:model="startDate"
+                                        class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
-                                   for="end_date">End Date</label>
-                            <input type="date" id="end_date" wire:model="endDate"
-                                   class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
+
+                            <flux:input label="End Date" type="date" id="end_date" wire:model="endDate"
+                                        class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
                         </div>
                     </div>
                     <flux:button variant="primary" type="submit">
@@ -575,7 +678,18 @@ new class extends Component {
             <div x-show="$wire.activeTab === 'materials' && $wire.courseCreated"
                  class="p-4 rounded-lg bg-white dark:bg-gray-800"
                  x-transition>
-                <h3 class="text-lg font-semibold mb-4 dark:text-white">Course Materials</h3>
+                <div class="flex inline justify-end items-center">
+                    <h3 class="text-lg font-semibold mb-4 dark:text-white">Course Materials</h3>
+
+                    <flux:modal.trigger name="importModal">
+                        <flux:button>Import Course Material</flux:button>
+
+                    </flux:modal.trigger>
+                    <flux:modal.trigger name="materialModal">
+                        <flux:button variant="primary">Create Course Material</flux:button>
+                    </flux:modal.trigger>
+                </div>
+
                 <div class="my-6">
                     <div class="border rounded-md divide-y dark:border-gray-700 dark:divide-gray-700">
                         <div class="p-4 flex items-center justify-between">
@@ -614,6 +728,36 @@ new class extends Component {
                     </div>
                 </div>
 
+                <flux:modal name="importModal" dismissible="true" wire:model="isModalOpen">
+                    <div>
+                        <flux:select label="Course to Import Course Materials From" wire:model.live="importedCourseId">
+                            <flux:select.option value="">Select a course...
+                            </flux:select.option>
+                            @foreach(Course::lazy() as $course)
+                                <flux:select.option
+                                    value="{{ $course->id }}">{{ $course->course_name }}</flux:select.option>
+                            @endforeach
+                        </flux:select>
+
+                        @if($importedCourseId)
+                            <div class="mt-4">
+                                <h3 class="text-lg font-medium mb-2">Available Materials</h3>
+                                <div class="flex flex-wrap gap-1">
+                                    @foreach($importedMaterials as $mat)
+                                        <flux:badge color="lime">{{$mat->material_name}}</flux:badge>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
+
+                        <div class="mt-8">
+                            <flux:button variant="primary" wire:click="importMaterial">
+                                Import
+                            </flux:button>
+                        </div>
+                    </div>
+                </flux:modal>
+
                 <flux:modal name="materialModal" variant="flyout" position="right" dismissible="true"
                             wire:model="isModalOpen" class="">
                     <div class="p-6">
@@ -625,29 +769,29 @@ new class extends Component {
                             <div class="mb-4">
                                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
                                        for="materialTitle">Material Title</label>
-                                <x-input id="materialTitle" wire:model="materialTitle"
-                                         class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
+                                <flux:input id="materialTitle" wire:model="materialTitle"
+                                            class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
                             </div>
 
                             <div class="mb-4">
                                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
                                        for="materialDescription">Material Description</label>
-                                <x-textarea id="materialDescription" wire:model="materialDescription" rows="3"
-                                            class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
+                                <flux:textarea id="materialDescription" wire:model="materialDescription" rows="3"
+                                               class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
                             </div>
 
                             <div class="mb-4">
                                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
                                        for="materialContent">Content</label>
-                                <x-textarea id="materialContent" wire:model="materialContent" rows="6"
-                                            class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
-                                <livewire:custom-components.markdown-me wire:model="content"/>
+                                <flux:textarea id="materialContent" wire:model="materialContent" rows="6"
+                                               class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
+                                {{--                                <livewire:custom-components.markdown-me wire:model="content"/>--}}
                             </div>
 
                             <div class="flex justify-between items-center">
-                                <x-button type="submit" class="bg-accent-content hover:bg-accent-content">
+                                <flux:button type="submit" class="bg-accent-content hover:bg-accent-content">
                                     {{ isset($editingMaterialId) ? 'Update Material' : 'Add Material' }}
-                                </x-button>
+                                </flux:button>
 
                                 @if (isset($editingMaterialId))
                                     <button type="button" wire:click="$set('editingMaterialId', null)"
@@ -659,10 +803,6 @@ new class extends Component {
                         </form>
                     </div>
                 </flux:modal>
-
-                <flux:modal.trigger name="materialModal">
-                    <x-button class="bg-primary hover:bg-primary-dark">Create Course Material</x-button>
-                </flux:modal.trigger>
 
 
             </div>

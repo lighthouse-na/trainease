@@ -1,19 +1,29 @@
 <?php
 
+use App\Models\SkillHarbor\Skill;
 use Livewire\Volt\Component;
+use App\Models\User;
 
 new class extends Component {
-    public $user;
+    /**
+     * @return void mount
+     * @var array<int, Skill> $skills
+     * @var array<int, mixed> $jcpRating
+     * @var array<int, mixed> $myRating
+     * @var array<int, mixed> $supervisorRating
+     * @var array<int, mixed> $developmentPlans
+     * @var User $user
+     */
+    public User $user;
 
-    public $skills = [];
-    public $jcpRating = 0;
-    public $myRating = [];
-    public $supervisorRating = [];
-    public $developmentPlans = [];
+    public array $skills = [];
+    public array $jcpRating = [];
+    public array $myRating = [];
+    public array $supervisorRating = [];
+    public array $developmentPlans = [];
 
 
-
-    public function mount()
+    public function mount(): void
     {
 
         // Set up JCP Rating data (requirements)
@@ -49,8 +59,8 @@ new class extends Component {
 
                         <div class="text-center p-4">
                             <svg width="120" height="100" viewBox="0 0 156 132" fill="none"
-                                xmlns="http://www.w3.org/2000/svg" class="mx-auto">
-                                <path <path
+                                 xmlns="http://www.w3.org/2000/svg" class="mx-auto">
+                                <path
                                     d="M5.00125 80.0312L48.2259 49.1733C66.9076 38.2756 90.0086 38.2756 108.69 49.1733L151.916 80.2229C151.916 80.2229 151.914 78.3984 151.916 84.0312C151.918 89.6685 149.14 95.3066 143.581 98.5493L108.69 118.902C90.0086 129.8 66.9076 129.8 48.2259 118.902L13.335 98.5493C7.77618 95.3066 4.99785 89.6685 5 84.0312C5.00215 78.3984 5.00125 80.0312 5.00125 80.0312Z"
                                     fill="#E6E8EB" stroke="#889096"></path>
                                 <path
@@ -72,7 +82,7 @@ new class extends Component {
                                     d="M116 26.7846L80 6L44 26.7846V40.641V68.3538L56 75.282L80 89.1385L104 75.282L116 68.3538V26.7846Z"
                                     fill="white"></path>
                                 <path d="M116 68.3534V26.7842L104 33.7124L80 47.5688L80 89.138L104 75.2816L116 68.3534Z"
-                                    fill="#F8F9FA"></path>
+                                      fill="#F8F9FA"></path>
                                 <path
                                     d="M80 89.138L80 47.5688L56 33.7124L44 26.7842V40.6406V68.3534L56 75.2816L80 89.138Z"
                                     fill="#ECEEF0"></path>
@@ -110,7 +120,7 @@ new class extends Component {
                 <h3 class="text-sm font-medium text-gray-900 mb-4 dark:text-white">Skills Assessment Overview</h3>
                 <div class="flex justify-center items-center mb-4">
                     <svg width="156" height="132" viewBox="0 0 156 132" fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
+                         xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M5.00125 80.0312L48.2259 49.1733C66.9076 38.2756 90.0086 38.2756 108.69 49.1733L151.916 80.2229C151.916 80.2229 151.914 78.3984 151.916 84.0312C151.918 89.6685 149.14 95.3066 143.581 98.5493L108.69 118.902C90.0086 129.8 66.9076 129.8 48.2259 118.902L13.335 98.5493C7.77618 95.3066 4.99785 89.6685 5 84.0312C5.00215 78.3984 5.00125 80.0312 5.00125 80.0312Z"
                             fill="#E6E8EB" stroke="#889096"></path>
@@ -227,12 +237,8 @@ new class extends Component {
                 </div>
 
 
-
-
             </div>
 
-
-
-
+        </div>
     </x-skillharbor.layout>
 </div>
