@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Training\CourseMaterial;
+use App\Models\Training\Enrollment;
 use App\Models\Training\Quiz\Quiz;
 use App\Models\User;
 use Livewire\Volt\Component;
@@ -51,6 +52,7 @@ new class extends Component {
     // Enrollment properties
     public string $studentSearch = '';
     public $selectedStudents = [];
+    public $enrolledStudents = [];
 
     /**
      * @param Course $course
@@ -69,6 +71,7 @@ new class extends Component {
             $this->existingImage = $course->course_image;
             $this->course_type = $course->course_type;
             $this->userId = $course->user_id;
+            $this->enrolledStudents = Enrollment::where('user_id', Auth::id())->pluck('course_id')->toArray();
 
             $this->courseMaterials = $course->materials;
             // Load quizzes with their questions and options
@@ -105,6 +108,7 @@ new class extends Component {
                         return $questionData;
                     })
                     ->toArray();
+
             }
         }
     }
@@ -448,8 +452,8 @@ new class extends Component {
                 'quizTitle' => 'required | min:3',
                 'quizAttempts' => 'required | numeric | min:1',
                 'questions' => 'required | array|min:1',
-                'questions .*.text' => 'required',
-                'questions .*.correct_answer' => 'required',
+                'questions.*.text' => 'required',
+                'questions.*.correct_answer' => 'required',
             ],
             [
                 'questions .*.text . required' => 'Question text is required',
@@ -521,6 +525,7 @@ new class extends Component {
 
         session()->flash('message', 'Quiz saved successfully!');
     }
+
 
     public function enrollStudents()
     {
@@ -896,7 +901,8 @@ new class extends Component {
             <div x-show="$wire.activeTab === 'enrollments' && $wire.courseCreated"
                  class="p-4 rounded-lg bg-white dark:bg-gray-800"
                  x-transition>
-                <h3 class="text-lg font-semibold mb-4 dark:text-white">Student Enrollments</h3>
+                <h3 class="text-lg font-semibold mb-4 dark:text-white">Student
+                    Enrollments {{$course->enrolledStudents->count()}}</h3>
 
                 <div class="mb-6">
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" for="studentSearch">Search
@@ -912,14 +918,17 @@ new class extends Component {
                 </div>
 
                 <div class="mb-6">
-                    <h4 class="font-medium mb-2 dark:text-white">Available Students</h4>
+                    <h4 class="font-medium mb-2 dark:text-white">Enrolled Students</h4>
                     <div
                         class="border rounded-md divide-y max-h-60 overflow-y-auto dark:border-gray-700 dark:divide-gray-700">
                         <!-- This would be replaced with search results -->
-                        <div class="p-4 flex items-center justify-between">
-                            <div>
-                                <p class="font-medium dark:text-gray-300">Search for students to enroll</p>
-                            </div>
+                        <div class="flex grid grid-cols-12 gap-4 justify-between">
+                            @foreach($enrolledStudents as $student)
+                                <div>
+                                    <p class="font-medium dark:text-gray-300">{{$course->student->name}}</p>
+                                </div>
+                            @endforeach
+
                         </div>
                     </div>
                 </div>

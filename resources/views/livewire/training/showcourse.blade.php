@@ -9,11 +9,13 @@ new class extends Component {
     //
     public $course;
     public $userEnrollments = [];
+
     public function mount($course)
     {
         $this->course = Course::find(Hashids::decode($course)[0]);
         $this->userEnrollments = Enrollment::where('user_id', Auth::id())->pluck('course_id')->toArray();
     }
+
     public function enroll($courseId)
     {
         $userId = Auth::id();
@@ -57,7 +59,7 @@ new class extends Component {
 }">
     <div class="relative rounded-xl w-full h-80 bg-gray-800 dark:bg-gray-700">
         <img src="{{ Storage::url($course->course_image) }}"
-            class="rounded-xl w-full h-full object-cover opacity-60 dark:opacity-20" alt="{{ $course->title }}">
+             class="rounded-xl w-full h-full object-cover opacity-60 dark:opacity-20" alt="{{ $course->title }}">
         <div class="absolute inset-0 flex flex-col justify-center px-10">
             <a href="{{ route('training.coursespage') }}" class="text-gray-200 text-sm mb-3 hover:underline">← Back to
                 Courses</a>
@@ -73,8 +75,8 @@ new class extends Component {
                         </flux:button>
                     @else
                         <flux:button
-                        class="inline-flex items-center justify-center flex-shrink-0 px-3 py-1 text-xs font-medium transition-colors border rounded-md h-9 hover:bg-gray-50 active:bg-white focus:bg-white focus:outline-none" variant="primary"  wire:click.prevent="enroll({{ $course->id }})"
-                            class="cursor-pointer">
+                            class="inline-flex items-center justify-center flex-shrink-0 px-3 py-1 text-xs font-medium transition-colors border rounded-md h-9 hover:bg-accent-content active:bg-accent-content focus:bg-white focus:outline-none cursor-pointer"
+                            variant="primary" wire:click.prevent="enroll({{ $course->id }})">
                             Enroll
                         </flux:button>
                     @endif
@@ -92,17 +94,17 @@ new class extends Component {
         <div class="col-span-3 dark:bg-gray-800 p-6 rounded-xl  dark:border-gray-700">
             <h2 class="text-2xl font-bold mb-4 text-gray-800 dark:text-gray-200">Course Content</h2>
             <div x-data="{ activeAccordion: '' }"
-                class="relative w-full mx-auto overflow-hidden border border-gray-200 dark:border-gray-700 divide-y divide-gray-200 dark:divide-gray-700 rounded-xl bg-white dark:bg-gray-800">
+                 class="relative w-full mx-auto overflow-hidden border border-gray-200 dark:border-gray-700 divide-y divide-gray-200 dark:divide-gray-700 rounded-xl bg-white dark:bg-gray-800">
                 @foreach ($course->materials as $index => $chapter)
                     <div x-data="{ id: 'accordion-{{ $index }}' }" class="cursor-pointer group">
                         <button @click="activeAccordion = (activeAccordion == id) ? '' : id"
-                            class="flex items-center justify-between w-full p-4 text-left select-none">
+                                class="flex items-center justify-between w-full p-4 text-left select-none">
                             <span class="font-semibold text-gray-900 dark:text-white">
                                 {{ $chapter->material_name }}
                             </span>
                             <svg class="w-4 h-4 text-gray-600 dark:text-gray-300 duration-200"
-                                :class="{ 'rotate-180': activeAccordion == id }" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                 :class="{ 'rotate-180': activeAccordion == id }" viewBox="0 0 24 24" fill="none"
+                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <polyline points="6 9 12 15 18 9"></polyline>
                             </svg>
                         </button>
