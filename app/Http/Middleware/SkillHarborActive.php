@@ -12,11 +12,11 @@ class SkillHarborActive
     /**
      * Handle an incoming request.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param  Closure(Request): (Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $skillharbor = false;
+        $skillharbor = true;
         // Check if the user is authenticated and has incomplete details
         if (Auth::check() && $skillharbor = true) {
             return redirect()->route('dashboard');
