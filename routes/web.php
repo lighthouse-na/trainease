@@ -34,20 +34,22 @@ Route::middleware(['auth'])->group(function () {
      * SkillHarbor Routes
      * These are the routes for the skill audit compnent
      */
-    Route::redirect('skillharbor', 'skillharbor/dashboard')->name('skill-harbor');
-    Volt::route('skillharbor/dashboard', 'skillharbor.dashboard')->name('skill-harbor.dashboard');
-    Volt::route('skillharbor/assessments', 'skillharbor.assessments')->name('skill-harbor.assessments');
-    Volt::route('skillharbor/directories}', 'skillharbor.directories')->name('skill-harbor.directories');
-    Volt::route('skillharbor/reports', 'skillharbor.reports')->name('skill-harbor.reports');
-    Volt::route('skillharbor/supervise', 'skillharbor.supervise')->name('skill-harbor.supervise');
+    Route::middleware(['skillharbor.active'])->group(function () {
+        Route::redirect('skillharbor', 'skillharbor/dashboard')->name('skill-harbor');
+        Volt::route('skillharbor/dashboard', 'skillharbor.dashboard')->name('skill-harbor.dashboard');
+        Volt::route('skillharbor/assessments', 'skillharbor.assessments')->name('skill-harbor.assessments');
+        Volt::route('skillharbor/directories}', 'skillharbor.directories')->name('skill-harbor.directories');
+        Volt::route('skillharbor/reports', 'skillharbor.reports')->name('skill-harbor.reports');
+        Volt::route('skillharbor/supervise', 'skillharbor.supervise')->name('skill-harbor.supervise');
 
-    /**
-     * Directories Routes
-     */
-    Volt::route('skillharbor/directories/skills', 'skillharbor.directories.skills.skillstable')->name('skill-harbor.skills');
-    Volt::route('skillharbor/directories/qualifications', 'skillharbor.directories.qualifications.qualificationstable')->name('skill-harbor.qualifications');
-    Volt::route('skillharbor/directories/assessments', 'skillharbor.directories.assessments.assessmentstable')->name('skill-harbor.directories.assessments');
-    Volt::route('skillharbor/directories/jcps', 'skillharbor.directories.jcps.jcptable')->name('skill-harbor.directories.jcps');
+        /**
+         * Directories Routes
+         */
+        Volt::route('skillharbor/directories/skills', 'skillharbor.directories.skills.skillstable')->name('skill-harbor.skills');
+        Volt::route('skillharbor/directories/qualifications', 'skillharbor.directories.qualifications.qualificationstable')->name('skill-harbor.qualifications');
+        Volt::route('skillharbor/directories/assessments', 'skillharbor.directories.assessments.assessmentstable')->name('skill-harbor.directories.assessments');
+        Volt::route('skillharbor/directories/jcps', 'skillharbor.directories.jcps.jcptable')->name('skill-harbor.directories.jcps');
+    });
 
 });
 

@@ -14,6 +14,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'role' => \App\Http\Middleware\RoleMiddleware::class,
             'check.user.details' => \App\Http\Middleware\CheckUserDetails::class,
+            'skillharbor.active' => \App\Http\Middleware\SkillHarborActive::class,
             // Other middleware aliases...
         ]);
     })

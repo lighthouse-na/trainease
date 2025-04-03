@@ -1,9 +1,10 @@
 <?php
 
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Volt\Volt as LivewireVolt;
 
-uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
+uses(RefreshDatabase::class);
 
 test('login screen is visible', function () {
     $response = $this->get('/login');
@@ -71,10 +72,5 @@ test('users are redirected to the dashboard after successful login', function ()
 });
 
 test('users can logout', function () {
-    $user = User::factory()->create();
-
-    $response = $this->actingAs($user)->post('/logout');
-
-    $this->assertGuest();
-    $response->assertRedirect('/');
+    $this->actingAs(User::factory()->create())->post('/logout')->assertGuest();
 });

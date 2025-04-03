@@ -7,19 +7,19 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class CheckUserDetails
+class SkillHarborActive
 {
     /**
      * Handle an incoming request.
      *
-     * @param  Closure(Request): (Response)  $next
+     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
     {
-
+        $skillharbor = false;
         // Check if the user is authenticated and has incomplete details
-        if (Auth::check() && ! Auth::user()?->user_details_filled()) {
-            return redirect()->route('settings.user-details');
+        if (Auth::check() && $skillharbor = true) {
+            return redirect()->route('dashboard');
         }
 
         return $next($request);
