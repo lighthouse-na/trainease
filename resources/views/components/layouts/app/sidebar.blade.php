@@ -21,7 +21,7 @@
                                wire:navigate>{{ __('Online Courses') }}</flux:navlist.item>
             <flux:navlist.item icon="clipboard-document-check" :href="route('skill-harbor')"
                                :current="request()->routeIs('skill-harbor.*')" wire:navigate
-                               badge="Coming Soon" badge-color="lime">{{ __('SkillHarbor') }} </flux:navlist.item>
+                               badge="Coming Soon" badge-color="sky">{{ __('SkillHarbor') }} </flux:navlist.item>
         </flux:navlist.group>
     </flux:navlist>
 
