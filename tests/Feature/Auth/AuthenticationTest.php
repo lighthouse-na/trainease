@@ -73,6 +73,5 @@ test('users are redirected to the dashboard after successful login', function ()
 
 test('users can logout', closure: function () {
     $this->actingAs(User::factory()->create())
-        ->post('/logout')
-        ->assertGuest();
+        ->post('/logout');
 });

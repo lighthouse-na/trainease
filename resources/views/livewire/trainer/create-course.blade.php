@@ -71,7 +71,6 @@ new class extends Component {
             $this->existingImage = $course->course_image;
             $this->course_type = $course->course_type;
             $this->userId = $course->user_id;
-            $this->enrolledStudents = Enrollment::where('user_id', Auth::id())->pluck('course_id')->toArray();
 
             $this->courseMaterials = $course->materials;
             // Load quizzes with their questions and options
@@ -902,7 +901,7 @@ new class extends Component {
                  class="p-4 rounded-lg bg-white dark:bg-gray-800"
                  x-transition>
                 <h3 class="text-lg font-semibold mb-4 dark:text-white">Student
-                    Enrollments {{$course->enrolledStudents->count()}}</h3>
+                    Enrollments </h3>
 
                 <div class="mb-6">
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" for="studentSearch">Search
@@ -923,11 +922,7 @@ new class extends Component {
                         class="border rounded-md divide-y max-h-60 overflow-y-auto dark:border-gray-700 dark:divide-gray-700">
                         <!-- This would be replaced with search results -->
                         <div class="flex grid grid-cols-12 gap-4 justify-between">
-                            @foreach($enrolledStudents as $student)
-                                <div>
-                                    <p class="font-medium dark:text-gray-300">{{$course->student->name}}</p>
-                                </div>
-                            @endforeach
+
 
                         </div>
                     </div>
@@ -937,7 +932,7 @@ new class extends Component {
                     <h4 class="font-medium mb-2 dark:text-white">Selected Students</h4>
                     @if (count($selectedStudents) > 0)
                         <div class="border rounded-md divide-y dark:border-gray-700 dark:divide-gray-700">
-                            @foreach ($selectedStudents as $index => $student)
+                            @foreach (User::lazy() as $student)
                                 <div class="p-3 flex items-center justify-between">
                                     <div>
                                         <p class="font-medium dark:text-white">{{ $student['name'] }}</p>
