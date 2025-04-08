@@ -18,7 +18,7 @@ class SkillHarborActive
     {
         $skillharbor = true;
         // Check if the user is authenticated and has incomplete details
-        if (Auth::check() && $skillharbor = true) {
+        if (Auth::check() && $skillharbor = false) {
             return redirect()->route('dashboard');
         }
 
