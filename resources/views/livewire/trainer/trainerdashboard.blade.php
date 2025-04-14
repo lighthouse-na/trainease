@@ -2,14 +2,15 @@
 
 use Livewire\Volt\Component;
 use App\Models\Training\Course;
+
 new class extends Component {
     public $kpis;
     public $upcomingTrainings;
     public $pendingQuizzes;
     /**
-     *@var array<int, string, string> $traineeProgress
+     * @var array<int, string, string> $traineeProgress
      */
-    public array $traineeProgress ;
+    public array $traineeProgress;
 
     public $myCourses;
 
@@ -25,7 +26,7 @@ new class extends Component {
 
         foreach ($this->myCourses as $course) {
             $totalStudents += $course->totalStudents();
-            $passingRate += $course->passRate();
+            $passingRate += $course->passingRate();
         }
 
         $totalCost = 0;
@@ -35,8 +36,8 @@ new class extends Component {
 
         $this->kpis = [
             ['title' => 'My courses', 'value' => $this->myCourses->count()],
-            ['title' => 'Staff Enrolled', 'value' => $totalStudents ],
-            ['title' => 'Passing Rate', 'value' => number_format($passingRate, 1) . '%', ],
+            ['title' => 'Staff Enrolled', 'value' => $totalStudents],
+            ['title' => 'Passing Rate', 'value' => number_format($passingRate, 1) . '%',],
             ['title' => 'Total Cost', 'value' => 'N$' . number_format($totalCost, 2)]
         ];
 
@@ -52,7 +53,7 @@ new class extends Component {
                 'course_name' => $course->course_name,
                 'progress' => $averageProgress
             ];
-            }
+        }
 
 
         // Fallback if no courses have enrollments
@@ -62,11 +63,14 @@ new class extends Component {
         }
     }
 
-    public function createCourse(){
+    public function createCourse()
+    {
         // Redirect to the create course page
         return redirect()->route('create.course', ['course' => null]);
     }
-    public function viewCourseDetails($course_id){
+
+    public function viewCourseDetails($course_id)
+    {
         // Redirect to the course details page
         return redirect()->route('course.details', ['course_id' => Hashids::encode($course_id)]);
     }
@@ -77,11 +81,11 @@ new class extends Component {
         <div class="flex items-center gap-2">
 
 
-
             <div class="max-lg:hidden flex justify-start items-center gap-2">
                 <flux:subheading class="whitespace-nowrap">Quick Actions:</flux:subheading>
 
-                <flux:badge wire:click="createCourse" as="button" variant="pill" color="zinc" icon="plus" size="lg">Create Course
+                <flux:badge wire:click="createCourse" as="button" variant="pill" color="zinc" icon="plus" size="lg">
+                    Create Course
                 </flux:badge>
 
             </div>
@@ -102,7 +106,7 @@ new class extends Component {
                 </div>
 
                 <div class="absolute top-0 right-0 pr-2 pt-2">
-                    <flux:button icon="ellipsis-horizontal" variant="subtle" size="sm" />
+                    <flux:button icon="ellipsis-horizontal" variant="subtle" size="sm"/>
                 </div>
             </div>
         @endforeach
@@ -112,60 +116,58 @@ new class extends Component {
     <!-- Upcoming Trainings -->
 
 
-
-
     <!-- Trainee Progress -->
     <div class="relative h-auto flex-1 overflow-hidden rounded-xl p-4 bg-zinc-50 dark:bg-zinc-700">
         <flux:heading>Course Progress</flux:heading>
         <table class="min-w-full mt-4 divide-y divide-neutral-200">
             <thead>
-                <tr class="text-neutral-500">
-                    <th class="text-left">
-                        <flux:subheading>Name</flux:subheading>
-                    </th>
-                    <th class="text-center">
-                        <flux:subheading>Trainee Progress</flux:subheading>
-                    </th>
-                </tr>
+            <tr class="text-neutral-500">
+                <th class="text-left">
+                    <flux:subheading>Name</flux:subheading>
+                </th>
+                <th class="text-center">
+                    <flux:subheading>Trainee Progress</flux:subheading>
+                </th>
+            </tr>
             </thead>
             <tbody class="divide-y divide-neutral-200">
-                @forelse ($traineeProgress as $course)
-                    <tr class="hover:bg-slate-100 dark:hover:bg-neutral-600"
-                        wire:click="viewCourseDetails({{ $course['id'] }})">
-                        <td class="px-5 py-4 text-sm font-medium dark:text-accent text-accent-content">
-                            {{ $course['course_name'] }}
-                        </td>
-                        <td class="px-5 py-4 text-sm whitespace-nowrap text-center">
-                            <div>
+            @forelse ($traineeProgress as $course)
+                <tr class="hover:bg-slate-100 dark:hover:bg-neutral-600"
+                    wire:click="viewCourseDetails({{ $course['id'] }})">
+                    <td class="px-5 py-4 text-sm font-medium dark:text-accent text-accent-content">
+                        {{ $course['course_name'] }}
+                    </td>
+                    <td class="px-5 py-4 text-sm whitespace-nowrap text-center">
+                        <div>
+                            <div
+                                class="flex items-center justify-between text-xs font-semibold text-gray-500 dark:text-gray-400">
+                                <span>Course Progress:</span>
+                                <span>{{ $course['progress'] }}%</span>
+                            </div>
+                            <div class="h-2 bg-gray-200 dark:bg-gray-600 rounded-full">
                                 <div
-                                    class="flex items-center justify-between text-xs font-semibold text-gray-500 dark:text-gray-400">
-                                    <span>Course Progress:</span>
-                                    <span>{{ $course['progress'] }}%</span>
-                                </div>
-                                <div class="h-2 bg-gray-200 dark:bg-gray-600 rounded-full">
-                                    <div class="h-full bg-accent-content rounded-full transition-all duration-500 ease-in-out"
-                                        style="width: {{ $course['progress'] }}%">
-                                    </div>
+                                    class="h-full bg-accent-content rounded-full transition-all duration-500 ease-in-out"
+                                    style="width: {{ $course['progress'] }}%">
                                 </div>
                             </div>
-                        </td>
-                    </tr>
-                    @empty
-                    <tr>
-                        <td colspan="2" class="px-5 py-4 text-center text-sm text-gray-500 dark:text-gray-400">
-                            <div class="flex flex-col items-center justify-center space-y-2">
-                                <flux:icon name="information-circle" class="w-8 h-8 text-gray-400 dark:text-gray-500" />
-                                <span>No courses available. Start by creating a new course!</span>
-                            </div>
-                        </td>
-                    </tr>
-                @endforelse
+                        </div>
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="2" class="px-5 py-4 text-center text-sm text-gray-500 dark:text-gray-400">
+                        <div class="flex flex-col items-center justify-center space-y-2">
+                            <flux:icon name="information-circle" class="w-8 h-8 text-gray-400 dark:text-gray-500"/>
+                            <span>No courses available. Start by creating a new course!</span>
+                        </div>
+                    </td>
+                </tr>
+            @endforelse
             </tbody>
         </table>
     </div>
 
     <!-- Quick Actions -->
-
 
 
 </div>
