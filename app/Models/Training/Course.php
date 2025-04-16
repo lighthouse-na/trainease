@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * @method static findOrFail(int $courseId)
@@ -20,7 +21,7 @@ class Course extends Model
     /** @use HasFactory<\Database\Factories\Training\CourseFactory> */
     use HasFactory;
 
-    protected $fillable = ['course_name', 'course_description', 'course_fee', 'course_image', 'user_id', 'start_date', 'end_date', 'course_type'];
+    protected $fillable = ['course_name', 'course_description', 'course_fee', 'course_image', 'user_id','sme_id', 'start_date', 'end_date', 'course_type'];
 
     protected $casts = [
         'start_date' => 'date:dd/mm/yyyy',
@@ -68,11 +69,11 @@ class Course extends Model
     }
 
     /**
-     * @return HasMany<Summary, $this>
+     * @return HasOne<Summary, $this>
      */
-    public function summary(): HasMany
+    public function summary(): HasOne
     {
-        return $this->hasMany(Summary::class);
+        return $this->hasOne(Summary::class);
     }
 
     /**

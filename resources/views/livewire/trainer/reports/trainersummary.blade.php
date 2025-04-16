@@ -3,13 +3,19 @@
 use Livewire\Volt\Component;
 use App\Models\Training\Reports\Summary;
 use App\Exports\NTAClaimExport;
+use Livewire\WithPagination;
 new class extends Component {
     //
+    use WithPagination;
 
-    public $summary;
+    public function with(): array
+    {
+        return [
+            'summary' => Summary::where('user_id', Auth::user()->id)->with('course', 'user')->cursorPaginate(20),
+            ];
+    }
 
     public function mount(){
-        $this->summary = Summary::where('user_id', Auth::user()->id)->with('course', 'user')->get();
 
     }
 
@@ -107,15 +113,6 @@ new class extends Component {
 
         // Handle export based on format
         switch ($this->exportFormat) {
-            case 'pdf':
-                return response()->streamDownload(function () use ($rawData) {
-                    $pdf = \PDF::loadView('exports.trainer-summary', [
-                        'summary' => $rawData,
-                        'user' => Auth::user()
-                    ]);
-                    echo $pdf->output();
-                }, 'training-summary-' . now()->format('Y-m-d') . '.pdf');
-
             case 'excel':
             case 'csv':
                 $extension = $this->exportFormat === 'excel' ? 'xlsx' : 'csv';
@@ -131,10 +128,10 @@ new class extends Component {
     }
 }; ?>
 
-<div>
-    <div class="bg-white rounded-lg  p-6">
+<div class="dark:bg-gray-900">
+    <div class="bg-white dark:bg-gray-800 rounded-lg p-6">
         <div class="flex justify-between items-center mb-6">
-            <h2 class="text-xl font-bold text-gray-800">{{Auth::user()->name}}'s Training Summary Report</h2>
+            <h2 class="text-xl font-bold text-gray-800 dark:text-white">{{Auth::user()->name}}'s Training Summary Report</h2>
 
             <div x-data="{ showFilters: false }" class="relative">
             <flux:button @click="showFilters = !showFilters" class="btn btn-sm btn-primary flex items-center gap-2">
@@ -144,41 +141,46 @@ new class extends Component {
                 Export Report
             </flux:button>
 
-            <div x-show="showFilters" @click.away="showFilters = false" class="absolute right-0 mt-2 bg-white   rounded-lg p-4 z-10 w-64" style="display: none;">
+            <div x-show="showFilters" @click.away="showFilters = false" class="absolute border right-0 mt-2 bg-white dark:bg-gray-800 dark:border-gray-700 rounded-lg p-4 z-10 w-94" style="display: none;">
                 <form wire:submit.prevent="exportReport">
                 <div class="mb-3">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Date Range</label>
-                    <select wire:model="period" class="select select-sm w-full border-gray-300 rounded-md">
-                    <option value="">Select period</option>
-                    <option value="this_month">This Month</option>
-                    <option value="last_month">Last Month</option>
-                    <option value="this_year">This Year</option>
-                    <option value="custom">Custom Range</option>
-                    </select>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Date Range</label>
+                    <flux:select wire:model="period" class="select select-sm w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md">
+                    <flux:select.option value="">Select period</flux:select.option>
+                    <flux:select.option value="this_month">This Month</flux:select.option>
+                    <flux:select.option value="last_month">Last Month</flux:select.option>
+                    <flux:select.option value="this_year">This Year</flux:select.option>
+                    <flux:select.option value="custom">Custom Range</flux:select.option>
+                    </flux:select>
                 </div>
 
-                <div class="mb-3" x-data="{ customRange: @entangle('period').defer === 'custom' }">
-                    <div x-show="customRange">
-                    <div class="grid grid-cols-2 gap-2">
-                        <div>
-                        <label class="block text-xs font-medium text-gray-700 mb-1">Start Date</label>
-                        <input type="date" wire:model="startDate" class="input input-sm w-full border-gray-300 rounded-md">
+                <div class="mb-4" x-data="{ customRange: false }">
+                    <div x-effect="customRange = $wire.period === 'custom'"></div>
+
+                    <div x-show="customRange" x-transition:enter="transition ease-out duration-200"
+                         x-transition:enter-start="opacity-0 transform scale-95"
+                         x-transition:enter-end="opacity-100 transform scale-100" class="mt-3">
+                        <div class="p-3 bg-gray-50 dark:bg-gray-700 rounded-md border border-gray-200 dark:border-gray-600">
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mb-2">Please select date range</p>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <flux:input type="date" wire:model="startDate" label="Start Date" max="2999-12-31" class="input-xs dark:bg-gray-700 dark:text-gray-300" />
+                                </div>
+                                <div>
+                                    <flux:input type="date" wire:model="endDate" label="End Date" max="2999-12-31" class="input-xs dark:bg-gray-700 dark:text-gray-300" />
+                                </div>
+                            </div>
                         </div>
-                        <div>
-                        <label class="block text-xs font-medium text-gray-700 mb-1">End Date</label>
-                        <input type="date" wire:model="endDate" class="input input-sm w-full border-gray-300 rounded-md">
-                        </div>
-                    </div>
                     </div>
                 </div>
 
                 <div class="mb-3">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Format</label>
-                    <select wire:model="exportFormat" class="select select-sm w-full border-gray-300 rounded-md">
-                    <option value="pdf">PDF</option>
-                    <option value="excel">Excel</option>
-                    <option value="csv">CSV</option>
-                    </select>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Format</label>
+                    <flux:select. wire:model="exportFormat" class="select select-sm w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md">
+                    <flux:select.option value=" ">Select your export format</flux:select.option>
+                    <flux:select.option value="excel">Excel</flux:select.option>
+                    <flux:select.option value="csv">CSV</flux:select.option>
+                    </flux:select.>
                 </div>
 
                 <flux:button icon="document-arrow-down" type="submit" variant="primary" class="w-full">Export</flux:button>
@@ -187,7 +189,7 @@ new class extends Component {
             </div>
         </div>
 
-        <div class="overflow-x-auto bg-white rounded-lg border">
+        <div class="overflow-x-auto bg-white dark:bg-gray-800 rounded-lg border dark:border-gray-700">
             <table class="w-full whitespace-nowrap text-sm">
                 <thead>
                     <tr class="bg-gradient-to-r from-accent to-accent-content text-white">
@@ -203,21 +205,21 @@ new class extends Component {
                 </thead>
                 <tbody>
                     @foreach ($summary as $row)
-                    <tr class="hover:bg-gray-50 border-b border-gray-100">
-                        <td class="px-4 py-3">{{ $loop->iteration }}</td>
-                        <td class="px-4 py-3 font-medium">{{ $row->course->course_name }}</td>
-                        <td class="px-4 py-3">{{ $row->course->course_type }}</td>
-                        <td class="px-4 py-3">Dummy Institution</td>
+                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 border-b border-gray-100 dark:border-gray-700">
+                        <td class="px-4 py-3 dark:text-gray-300">{{ $loop->iteration }}</td>
+                        <td class="px-4 py-3 font-medium dark:text-gray-300">{{ $row->course->course_name }}</td>
+                        <td class="px-4 py-3 dark:text-gray-300">{{ $row->course->course_type }}</td>
+                        <td class="px-4 py-3 dark:text-gray-300">Dummy Institution</td>
                         <td class="px-4 py-3">
-                            <div class="text-sm">{{ $row->user->email }}</div>
-                            <div class="text-xs text-gray-500">{{ $row->user->user_detail->phone_number }}</div>
+                            <div class="text-sm dark:text-gray-300">{{ $row->user->email }}</div>
+                            <div class="text-xs text-gray-500 dark:text-gray-400">{{ $row->user->user_detail->phone_number }}</div>
                         </td>
                         <td class="px-4 py-3">
-                            <div class="text-sm">{{ $row->course->start_date->format('M d, Y') }}</div>
-                            <div class="text-xs text-gray-500">to {{ $row->course->end_date->format('M d, Y') }}</div>
+                            <div class="text-sm dark:text-gray-300">{{ $row->course->start_date->format('M d, Y') }}</div>
+                            <div class="text-xs text-gray-500 dark:text-gray-400">to {{ $row->course->end_date->format('M d, Y') }}</div>
                         </td>
                         <td class="px-4 py-3 text-right">
-                            <button type="button" class="text-blue-600 hover:text-blue-800"
+                            <button type="button" class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
                                     x-data="{}"
                                     x-on:click="$dispatch('open-modal', 'cost-details-{{ $loop->iteration }}')">
                                 View Details
@@ -232,40 +234,85 @@ new class extends Component {
                                 x-transition.opacity
                                 class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90"
                                 style="display: none;">
-                                <div class="bg-white rounded-lg   p-6 w-full max-w-md">
+                                <div class="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md">
                                     <div class="flex justify-between items-center mb-4">
-                                        <h3 class="text-lg font-medium">Cost Breakdown</h3>
-                                        <button x-on:click="open = false" class="text-gray-500 hover:text-gray-700">
+                                        <h3 class="text-lg font-medium dark:text-white">Cost Breakdown</h3>
+                                        <button x-on:click="open = false" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
                                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                                         </button>
                                     </div>
-                                    <div class="space-y-2">
+                                    <div class="space-y-2 dark:text-gray-300">
                                         <div class="flex justify-between"><span>Facilitator:</span> <span>N${{ $row->facilitator_cost }}</span></div>
                                         <div class="flex justify-between"><span>Assessment:</span> <span>N${{ $row->assessment_cost }}</span></div>
                                         <div class="flex justify-between"><span>Certification:</span> <span>N${{ $row->certification_cost }}</span></div>
                                         <div class="flex justify-between"><span>Travel:</span> <span>N${{ $row->travel_cost }}</span></div>
                                         <div class="flex justify-between"><span>Accommodation:</span> <span>N${{ $row->accommodation_cost }}</span></div>
                                         <div class="flex justify-between"><span>Other:</span> <span>N${{ $row->other_cost }}</span></div>
-                                        <div class="border-t pt-2 font-bold flex justify-between"><span>Total:</span> <span>N${{ $row->total_cost }}</span></div>
+                                        <div class="border-t dark:border-gray-600 pt-2 font-bold flex justify-between"><span>Total:</span> <span>N${{ $row->total_cost }}</span></div>
                                     </div>
                                 </div>
                             </div>
                         </td>
-                        <td class="px-4 py-3 text-right font-bold">N${{ $row->total_cost }}</td>
+                        <td class="px-4 py-3 text-right font-bold dark:text-gray-300">N${{ $row->total_cost }}</td>
                     </tr>
                     @endforeach
+                    <!-- Grand Total Row -->
+                    @if(!$summary->isEmpty())
+                    <tr class="bg-gray-100 dark:bg-gray-700 font-bold">
+                        <td class="px-4 py-3 dark:text-gray-300" colspan="6">Grand Total</td>
+                        <td class="px-4 py-3 text-right">
+                            <button type="button" class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+                                    x-data="{}"
+                                    x-on:click="$dispatch('open-modal', 'total-cost-details')">
+                                View Details
+                            </button>
+
+                            <!-- Total Modal -->
+                            <div x-data="{ open: false }"
+                                x-show="open"
+                                x-on:open-modal.window="$event.detail == 'total-cost-details' ? open = true : null"
+                                x-on:close-modal.window="open = false"
+                                x-on:keydown.escape.window="open = false"
+                                x-transition.opacity
+                                class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90"
+                                style="display: none;">
+                                <div class="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md">
+                                    <div class="flex justify-between items-center mb-4">
+                                        <h3 class="text-lg font-medium dark:text-white">Total Cost Breakdown</h3>
+                                        <button x-on:click="open = false" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                        </button>
+                                    </div>
+                                    <div class="space-y-2 dark:text-gray-300">
+                                        <div class="flex justify-between"><span>Facilitator:</span> <span>N${{ $summary->sum('facilitator_cost') }}</span></div>
+                                        <div class="flex justify-between"><span>Assessment:</span> <span>N${{ $summary->sum('assessment_cost') }}</span></div>
+                                        <div class="flex justify-between"><span>Certification:</span> <span>N${{ $summary->sum('certification_cost') }}</span></div>
+                                        <div class="flex justify-between"><span>Travel:</span> <span>N${{ $summary->sum('travel_cost') }}</span></div>
+                                        <div class="flex justify-between"><span>Accommodation:</span> <span>N${{ $summary->sum('accommodation_cost') }}</span></div>
+                                        <div class="flex justify-between"><span>Other:</span> <span>N${{ $summary->sum('other_cost') }}</span></div>
+                                        <div class="border-t dark:border-gray-600 pt-2 font-bold flex justify-between"><span>Total:</span> <span>N${{ $summary->sum('total_cost') }}</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-4 py-3 text-right dark:text-gray-300">N${{ $summary->sum('total_cost') }}</td>
+                    </tr>
+                    @endif
                 </tbody>
             </table>
         </div>
 
         @if($summary->isEmpty())
         <div class="text-center py-8">
-            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg class="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
             </svg>
-            <h3 class="mt-2 text-sm font-medium text-gray-900">No records found</h3>
-            <p class="mt-1 text-sm text-gray-500">No training summary data is available at this time.</p>
+            <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-gray-100">No records found</h3>
+            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">No training summary data is available at this time.</p>
         </div>
         @endif
+        <div class="my-4">
+            {{ $summary->links() }}
+        </div>
     </div>
 </div>

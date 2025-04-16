@@ -13,15 +13,18 @@ return new class extends Migration
     {
         Schema::create('user_details', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->onDelete('cascade');
-            $table->foreignId('division_id')->onDelete('cascade')->nullable();
-            $table->foreignId('department_id')->onDelete('cascade')->nullable();
-            $table->foreignId('supervisor_id')->onDelete('cascade')->nullable();
+            $table->foreignId('user_id');
+            $table->foreignId('division_id')->nullable();
+            $table->foreignId('department_id')->nullable();
+            $table->foreignId('supervisor_id')->nullable();
             $table->integer('salary_ref_number');
             $table->string('gender');
             $table->date('dob');
             $table->string('phone_number');
             $table->string('address');
+            $table->string('job_grade');
+            $table->string('aa_title');
+            $table->string('consultant_domain')->nullable();
             $table->timestamps();
         });
     }

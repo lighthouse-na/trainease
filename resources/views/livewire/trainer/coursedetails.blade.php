@@ -32,7 +32,7 @@ new class extends Component {
     public $averageDepartmentProgress = 0;
     public $averageDivisionProgress = 0;
     public $averageOrganisationProgress = 0;
-    protected $listeners =['updatedSelectedOrganisation', 'updatedSelectedDivision', 'updatedSelectedDepartment','updateTotalCost'];
+    protected $listeners = ['updatedSelectedOrganisation', 'updatedSelectedDivision', 'updatedSelectedDepartment', 'updateTotalCost'];
 
     public function updatedSelectedorganisation()
     {
@@ -62,7 +62,6 @@ new class extends Component {
             $query->whereHas('user_detail.division', fn($q) => $q->where('organisation_id', $this->selectedOrganisation));
         }
 
-
         $filteredUsers = $query->pluck('id');
 
         $this->userProgress = CourseProgress::whereIn('user_id', $filteredUsers)->where('course_id', $this->course->id)->with('user.user_detail.department')->get()->unique('user_id');
@@ -84,31 +83,36 @@ new class extends Component {
      */
 
     public $facilitator_cost = 0.00;
-    public $assessment_cost = 0.00;
-    public $certification_cost = 0.00;
-    public $travel_cost = 0.00;
-    public $accommodation_cost = 0.00;
-    public $other_cost = 0.00;
-    public $total_cost = 0.00;
+    public $assessment_cost = 0.0;
+    public $course_material_cost = 0.0;
+    public $subsistence_cost = 0.0;
+    public $certification_cost = 0.0;
+    public $travel_cost = 0.0;
+    public $accommodation_cost = 0.0;
+    public $other_cost = 0.0;
+    public $total_cost;
     public $facilitator_invoice;
+    public $course_material_invoice;
+    public $subsistence_invoice;
     public $assessment_invoice;
     public $certification_invoice;
     public $travel_invoice;
     public $accommodation_invoice;
     public $other_invoice;
 
-
     public function updateTotalCost()
     {
-    $this->total_cost =  $this->facilitator_cost +  $this->assessment_cost +  $this->certification_cost + $this->travel_cost +  $this->accommodation_cost +  $this->other_cost;
+        $this->total_cost = $this->facilitator_cost + $this->assessment_cost + $this->certification_cost + $this->travel_cost + $this->accommodation_cost + $this->other_cost + $this->course_material_cost + $this->subsistence_cost;
     }
 
     public function storeSummary()
     {
         // Validate the inputs
         $this->validate([
-            'facilitator_cost' => 'required|decimal:2|min:0',
+            'facilitator_cost' => 'required|decimal:2|min:0.00',
+            'course_material_cost' => 'required|decimal:2|min:0',
             'assessment_cost' => 'required|decimal:2|min:0',
+            'subsistence_cost' => 'required|decimal:2|min:0',
             'certification_cost' => 'required|decimal:2|min:0',
             'travel_cost' => 'required|decimal:2|min:0',
             'accommodation_cost' => 'required|decimal:2|min:0',
@@ -118,11 +122,12 @@ new class extends Component {
             'certification_invoice' => 'nullable|file|mimes:pdf,jpg,png|max:10240',
             'travel_invoice' => 'nullable|file|mimes:pdf,jpg,png|max:10240',
             'accommodation_invoice' => 'nullable|file|mimes:pdf,jpg,png|max:10240',
+            'course_material_invoice' => 'nullable|file|mimes:pdf,jpg,png|max:10240',
+            'subsistence_invoice' => 'nullable|file|mimes:pdf,jpg,png|max:10240',
             'other_invoice' => 'nullable|file|mimes:pdf,jpg,png|max:10240',
         ]);
-
-        // Calculate total cost
-        $this->total_cost = $this->facilitator_cost + $this->assessment_cost + $this->certification_cost + $this->travel_cost + $this->accommodation_cost + $this->other_cost;
+        // Calculate total cost - include all costs in the calculation
+        $this->updateTotalCost();
 
         try {
             // Create or update Summary record
@@ -133,9 +138,11 @@ new class extends Component {
                 ],
                 [
                     'facilitator_cost' => $this->facilitator_cost,
+                    'course_material_cost' => $this->course_material_cost,
                     'assessment_cost' => $this->assessment_cost,
                     'certification_cost' => $this->certification_cost,
                     'travel_cost' => $this->travel_cost,
+                    'subsistence_cost' => $this->subsistence_cost,
                     'accommodation_cost' => $this->accommodation_cost,
                     'other_cost' => $this->other_cost,
                     'total_cost' => $this->total_cost,
@@ -146,18 +153,20 @@ new class extends Component {
                     'travel_invoice' => $this->travel_invoice ? $this->travel_invoice->store('invoices', 'public') : null,
                     'accommodation_invoice' => $this->accommodation_invoice ? $this->accommodation_invoice->store('invoices', 'public') : null,
                     'other_invoice' => $this->other_invoice ? $this->other_invoice->store('invoices', 'public') : null,
-
+                    'course_material_invoice' => $this->course_material_invoice ? $this->course_material_invoice->store('invoices', 'public') : null,
+                    'subsistence_invoice' => $this->subsistence_invoice ? $this->subsistence_invoice->store('invoices', 'public') : null,
                 ],
             );
 
-
+            $this->dispatch('message');
             session()->flash('message', 'Training summary costs saved successfully!');
         } catch (\Exception $e) {
             session()->flash('error', 'Failed to save training summary costs: ' . $e->getMessage());
         }
     }
 
-    public function edit(){
+    public function edit()
+    {
         return redirect()->route('create.course', ['course' => $this->course->id]);
     }
 
@@ -169,22 +178,26 @@ new class extends Component {
         $this->departments = Department::all();
         $this->filter_users();
         if ($course_id) {
-            $costs = $this->course->summary->first();
+            $costs = $this->course->summary()->first();
 
             if ($costs) {
                 $this->facilitator_cost = $costs->facilitator_cost;
+                $this->course_material_cost = $costs->course_material_cost;
                 $this->assessment_cost = $costs->assessment_cost;
                 $this->certification_cost = $costs->certification_cost;
                 $this->travel_cost = $costs->travel_cost;
+                $this->subsistence_cost = $costs->subsistence_cost;
                 $this->accommodation_cost = $costs->accommodation_cost;
                 $this->other_cost = $costs->other_cost;
-                $this->faciliator_invoice = $costs->facilitator_invoice;
+                $this->total_cost = $costs->total_cost;
+                $this->facilitator_invoice = $costs->facilitator_invoice;
                 $this->assessment_invoice = $costs->assessment_invoice;
                 $this->certification_invoice = $costs->certification_invoice;
                 $this->travel_invoice = $costs->travel_invoice;
                 $this->accommodation_invoice = $costs->accommodation_invoice;
                 $this->other_invoice = $costs->other_invoice;
-
+                $this->course_material_invoice = $costs->course_material_invoice;
+                $this->subsistence_invoice = $costs->subsistence_invoice;
             }
         }
         $this->updateTotalCost();
@@ -385,12 +398,14 @@ new class extends Component {
                                             </td>
 
                                             <td class="py-4 px-6">
-                                                @if($progress->status === 'completed')
-                                                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100">
+                                                @if ($progress->status === 'completed')
+                                                    <span
+                                                        class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100">
                                                         Completed
                                                     </span>
                                                 @else
-                                                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-100">
+                                                    <span
+                                                        class="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-100">
                                                         In Progress
                                                     </span>
                                                 @endif
@@ -425,129 +440,400 @@ new class extends Component {
                     </div>
                 </div>
                 <div x-show="activeTab === 'course-summary'" x-transition>
-                    <div wire:model="total_cost" type="text" class="flex justify-end mx-6 bg-gray-100 dark:bg-gray-700 p-4 rounded-xl text-2xl font-bold text-accent-content border dark:border-gray-600 shadow-sm"
-                        readonly x-data="{ total: @entangle('total_cost') }"
-                        x-text="'N$ ' + total.toLocaleString()"></div>
-                    <div class="max-w-3xl mx-auto p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md dark:shadow-gray-900/30 my-4 border border-gray-100 dark:border-gray-700">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-4">
+                        <!-- Left side - Form -->
+                        <div
+                            class="md:col-span-2 p-6 bg-white dark:bg-gray-800 rounded-lg border border-gray-100 dark:border-gray-700">
+                            <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Training Cost Form
+                            </h2>
+                            <form wire:submit.prevent="storeSummary" class="space-y-6">
+                                @csrf
 
-                        <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Training Cost Form</h2>
+                                <!-- Cost fields in a 2-column grid -->
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <!-- Facilitator Cost -->
+                                    <flux:field>
+                                        <flux:label class="text-gray-800 dark:text-gray-200">Facilitator Cost
+                                        </flux:label>
+                                        <flux:input.group>
+                                            <flux:input.group.prefix class="dark:bg-gray-700 dark:text-gray-300">N$
+                                            </flux:input.group.prefix>
+                                            <flux:input wire:model.live="facilitator_cost" type="decimal:2"
+                                                min="0.00" required
+                                                class="dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+                                        </flux:input.group>
+                                        <flux:error name="facilitator_cost" class="text-red-500 dark:text-red-400" />
+                                        <flux:input type="file" wire:model="facilitator_invoice"
+                                            label="Invoice for Facilitator Cost"
+                                            class="mt-2 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600" />
+                                    </flux:field>
 
-                        <form wire:submit.prevent="storeSummary" class="space-y-4">
-                            @csrf
+                                    <!-- Course Material Cost -->
+                                    <flux:field>
+                                        <flux:label class="text-gray-800 dark:text-gray-200">Course Material Cost
+                                        </flux:label>
+                                        <flux:input.group>
+                                            <flux:input.group.prefix class="dark:bg-gray-700 dark:text-gray-300">N$
+                                            </flux:input.group.prefix>
+                                            <flux:input wire:model.live="course_material_cost" type="decimal:2"
+                                                min="0" required
+                                                class="dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+                                        </flux:input.group>
+                                        <flux:error name="course_material_cost"
+                                            class="text-red-500 dark:text-red-400" />
+                                        <flux:input type="file" wire:model="course_material_invoice"
+                                            label="Invoice for Course Material"
+                                            class="mt-2 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600" />
+                                    </flux:field>
 
-                            <!-- Facilitator Cost -->
-                            <flux:field>
-                                <flux:label class="text-gray-800 dark:text-gray-200">Facilitator Cost</flux:label>
-                                <flux:description class="text-gray-600 dark:text-gray-400">Cost for the facilitator.</flux:description>
-                                <flux:input.group>
-                                    <flux:input.group.prefix class="dark:bg-gray-700 dark:text-gray-300">N$</flux:input.group.prefix>
-                                    <flux:input wire:model.live="facilitator_cost" type="decimal:2"
-                                        min="0" required class="dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
-                                </flux:input.group>
-                                <flux:error name="facilitator_cost" class="text-red-500 dark:text-red-400" />
-                                    <flux:input type="file" wire:model="facilitator_invoice"
-                                        label="Invoice for Facilitator Cost" class="dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600" />
-                            </flux:field>
+                                    <!-- Assessment Cost -->
+                                    <flux:field>
+                                        <flux:label class="text-gray-800 dark:text-gray-200">Assessment Cost
+                                        </flux:label>
+                                        <flux:input.group>
+                                            <flux:input.group.prefix class="dark:bg-gray-700 dark:text-gray-300">N$
+                                            </flux:input.group.prefix>
+                                            <flux:input wire:model.live="assessment_cost" type="decimal:2"
+                                                min="0" required
+                                                class="dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+                                        </flux:input.group>
+                                        <flux:error name="assessment_cost" class="text-red-500 dark:text-red-400" />
+                                        <flux:input type="file" wire:model="assessment_invoice"
+                                            label="Invoice for Assessment"
+                                            class="mt-2 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600" />
+                                    </flux:field>
 
-                            <!-- Assessment Cost -->
-                            <flux:field>
-                                <flux:label class="text-gray-800 dark:text-gray-200">Assessment Cost</flux:label>
-                                <flux:description class="text-gray-600 dark:text-gray-400">Cost for assessments.</flux:description>
-                                <flux:input.group>
-                                    <flux:input.group.prefix class="dark:bg-gray-700 dark:text-gray-300">N$</flux:input.group.prefix>
-                                    <flux:input wire:model.live="assessment_cost" type="decimal:2"
-                                        min="0" required class="dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
-                                </flux:input.group>
-                                <flux:error name="assessment_cost" class="text-red-500 dark:text-red-400" />
+                                    <!-- Certification Cost -->
+                                    <flux:field>
+                                        <flux:label class="text-gray-800 dark:text-gray-200">Certification Cost
+                                        </flux:label>
+                                        <flux:input.group>
+                                            <flux:input.group.prefix class="dark:bg-gray-700 dark:text-gray-300">N$
+                                            </flux:input.group.prefix>
+                                            <flux:input wire:model.live="certification_cost" type="decimal:2"
+                                                min="0" required
+                                                class="dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+                                        </flux:input.group>
+                                        <flux:error name="certification_cost"
+                                            class="text-red-500 dark:text-red-400" />
+                                        <flux:input type="file" wire:model="certification_invoice"
+                                            label="Invoice for Certification"
+                                            class="mt-2 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600" />
+                                    </flux:field>
 
-                                    <flux:input type="file" wire:model="assessment_invoice"
-                                        label="Invoice for Assessment Cost" class="dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600" />
-                            </flux:field>
+                                    <!-- Travel Cost -->
+                                    <flux:field>
+                                        <flux:label class="text-gray-800 dark:text-gray-200">Travel Cost</flux:label>
+                                        <flux:input.group>
+                                            <flux:input.group.prefix class="dark:bg-gray-700 dark:text-gray-300">N$
+                                            </flux:input.group.prefix>
+                                            <flux:input wire:model.live="travel_cost" type="decimal:2" min="0"
+                                                required
+                                                class="dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+                                        </flux:input.group>
+                                        <flux:error name="travel_cost" class="text-red-500 dark:text-red-400" />
+                                        <flux:input type="file" wire:model="travel_invoice"
+                                            label="Invoice for Travel"
+                                            class="mt-2 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600" />
+                                    </flux:field>
 
-                            <!-- Certification Cost -->
-                            <flux:field>
-                                <flux:label class="text-gray-800 dark:text-gray-200">Certification Cost</flux:label>
-                                <flux:description class="text-gray-600 dark:text-gray-400">Cost for certification.</flux:description>
-                                <flux:input.group>
-                                    <flux:input.group.prefix class="dark:bg-gray-700 dark:text-gray-300">N$</flux:input.group.prefix>
-                                    <flux:input wire:model.live="certification_cost" type="decimal:2"
-                                        min="0" required class="dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
-                                </flux:input.group>
-                                <flux:error name="certification_cost" class="text-red-500 dark:text-red-400" />
-                                    <flux:input type="file" wire:model="certification_invoice"
-                                        label="Invoice for Certification Cost" class="dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600" />
-                            </flux:field>
+                                    <!-- Subsistence Cost -->
+                                    <flux:field>
+                                        <flux:label class="text-gray-800 dark:text-gray-200">Subsistence Cost
+                                        </flux:label>
+                                        <flux:input.group>
+                                            <flux:input.group.prefix class="dark:bg-gray-700 dark:text-gray-300">N$
+                                            </flux:input.group.prefix>
+                                            <flux:input wire:model.live="subsistence_cost" type="decimal:2"
+                                                min="0" required
+                                                class="dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+                                        </flux:input.group>
+                                        <flux:error name="subsistence_cost" class="text-red-500 dark:text-red-400" />
+                                        <flux:input type="file" wire:model="subsistence_invoice"
+                                            label="Invoice for Subsistence"
+                                            class="mt-2 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600" />
+                                    </flux:field>
 
-                            <!-- Travel Cost -->
-                            <flux:field>
-                                <flux:label class="text-gray-800 dark:text-gray-200">Travel Cost</flux:label>
-                                <flux:description class="text-gray-600 dark:text-gray-400">Travel expenses.</flux:description>
-                                <flux:input.group>
-                                    <flux:input.group.prefix class="dark:bg-gray-700 dark:text-gray-300">N$</flux:input.group.prefix>
-                                    <flux:input wire:model.live="travel_cost" type="decimal:2"
-                                        min="0" required class="dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
-                                </flux:input.group>
-                                <flux:error name="travel_cost" class="text-red-500 dark:text-red-400" />
-                                    <flux:input type="file" wire:model="travel_invoice"
-                                        label="Invoice for Travel Cost" class="dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600" />
-                            </flux:field>
+                                    <!-- Accommodation Cost -->
+                                    <flux:field>
+                                        <flux:label class="text-gray-800 dark:text-gray-200">Accommodation Cost
+                                        </flux:label>
+                                        <flux:input.group>
+                                            <flux:input.group.prefix class="dark:bg-gray-700 dark:text-gray-300">N$
+                                            </flux:input.group.prefix>
+                                            <flux:input wire:model.live="accommodation_cost" type="decimal:2"
+                                                min="0" required
+                                                class="dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+                                        </flux:input.group>
+                                        <flux:error name="accommodation_cost"
+                                            class="text-red-500 dark:text-red-400" />
+                                        <flux:input type="file" wire:model="accommodation_invoice"
+                                            label="Invoice for Accommodation"
+                                            class="mt-2 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600" />
+                                    </flux:field>
 
-                            <!-- Accommodation Cost -->
-                            <flux:field>
-                                <flux:label class="text-gray-800 dark:text-gray-200">Accommodation Cost</flux:label>
-                                <flux:description class="text-gray-600 dark:text-gray-400">Lodging costs.</flux:description>
-                                <flux:input.group>
-                                    <flux:input.group.prefix class="dark:bg-gray-700 dark:text-gray-300">N$</flux:input.group.prefix>
-                                    <flux:input wire:model.live="accommodation_cost" type="decimal:2"
-                                        min="0" required class="dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
-                                </flux:input.group>
-                                <flux:error name="accommodation_cost" class="text-red-500 dark:text-red-400" />
-                                    <flux:input type="file" wire:model="accommodation_invoice"
-                                        label="Invoice for Accommodation Cost" class="dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600" />
-                            </flux:field>
-
-                            <!-- Other Cost -->
-                            <flux:field>
-                                <flux:label class="text-gray-800 dark:text-gray-200">Other Cost</flux:label>
-                                <flux:description class="text-gray-600 dark:text-gray-400">Any additional costs.</flux:description>
-                                <flux:input.group>
-                                    <flux:input.group.prefix class="dark:bg-gray-700 dark:text-gray-300">N$</flux:input.group.prefix>
-                                    <flux:input wire:model.live="other_cost" type="decimal:2"
-                                        min="0" required class="dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
-                                </flux:input.group>
-                                <flux:error name="other_cost" class="text-red-500 dark:text-red-400" />
-                                    <flux:input type="file" wire:model="other_invoice"
-                                        label="Invoice for Other Cost" class="dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600" />
-                            </flux:field>
-
-
-
-                            <div class="flex items-center gap-4">
-                                <div class="flex items-center justify-end">
-                                    <flux:button variant="primary" type="submit" class="w-full hover:opacity-90 dark:bg-accent-content dark:hover:bg-accent-content/90">
-                                        {{ __('Save') }}</flux:button>
+                                    <!-- Other Cost -->
+                                    <flux:field>
+                                        <flux:label class="text-gray-800 dark:text-gray-200">Other Cost</flux:label>
+                                        <flux:input.group>
+                                            <flux:input.group.prefix class="dark:bg-gray-700 dark:text-gray-300">N$
+                                            </flux:input.group.prefix>
+                                            <flux:input wire:model.live="other_cost" type="decimal:2" min="0"
+                                                required
+                                                class="dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+                                        </flux:input.group>
+                                        <flux:error name="other_cost" class="text-red-500 dark:text-red-400" />
+                                        <flux:input type="file" wire:model="other_invoice"
+                                            label="Invoice for Other Expenses"
+                                            class="mt-2 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600" />
+                                    </flux:field>
                                 </div>
-                                <x-action-message class="me-3 text-green-600 dark:text-green-400" on="user-details-updated">
-                                    {{ __('Saved.') }}
-                                </x-action-message>
-                            </div>
-                        </form>
-                    </div>
-                </div>
 
-                </div>
+                                <!-- Hidden fields for course_id and user_id -->
+                                <input type="hidden" wire:model="course_id" value="{{ $course->id }}" />
+                                <input type="hidden" wire:model="user_id" value="{{ $course->trainer->id }}" />
 
+                                <!-- Total cost display -->
+                                <div class="mt-6 p-4 bg-gradient-to-r from-accent to-accent-content text-white rounded-lg">
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-lg font-semibold ">Total
+                                            Cost:</span>
+                                        <span class="text-xl font-bold ">N$
+                                            {{ number_format($total_cost, 2) }}</span>
+                                    </div>
+                                </div>
 
-
+                                <!-- Submit button -->
+                                <!-- Submit button -->
+                                <div class="flex items-center gap-4 justify-end mt-6">
+                                    <flux:button  type="submit">
+                                        Save Summary
+                                    </flux:button>
+                                    <x-action-message class="me-3 text-green-600 dark:text-green-400" on="message">
+                                        {{ session('message') }}
+                                    </x-action-message>
+                                </div>
+                            </form>
                         </div>
 
+                        <!-- Right side - Checklist -->
+                        <div
+                            class="bg-white dark:bg-gray-800 rounded-lg border border-gray-100 dark:border-gray-700 p-6">
+                            <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Required Documentation
+                            </h2>
+                            <div class="space-y-3">
+                                <div class="text-sm text-gray-600 dark:text-gray-300 mb-4">
+                                    Track your submission status for each cost category:
+                                </div>
 
-                    </div>
+                                <div x-data="{}" class="space-y-3">
+                                    <div class="flex items-center">
+                                        <div class="w-6 h-6 flex items-center justify-center">
+                                            <div class="rounded-full w-5 h-5 flex items-center justify-center"
+                                                :class="{
+                                                    'bg-emerald-500': $wire.facilitator_cost > 0 && $wire.facilitator_invoice,
+                                                    'bg-amber-500': $wire.facilitator_cost > 0 && !$wire.facilitator_invoice,
+                                                    'border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700': $wire.facilitator_cost == 0
+                                                }">
+                                                <flux:icon x-show="$wire.facilitator_cost > 0 && $wire.facilitator_invoice" icon="check" class="w-3 h-3 text-white" />
+                                                <flux:icon x-show="$wire.facilitator_cost > 0 && !$wire.facilitator_invoice" icon="exclamation-triangle" class="w-3 h-3 text-white" />
+                                            </div>
+                                        </div>
+                                        <span class="ml-2 text-gray-700 dark:text-gray-300">Facilitator Cost</span>
+                                        <span x-show="$wire.facilitator_cost > 0 && !$wire.facilitator_invoice"
+                                            class="ml-2 text-xs text-amber-500 dark:text-amber-400">
+                                            Missing invoice
+                                        </span>
+                                    </div>
 
+                                    <div class="flex items-center">
+                                        <div class="w-6 h-6 flex items-center justify-center">
+                                            <div class="rounded-full w-5 h-5 flex items-center justify-center"
+                                                :class="{
+                                                    'bg-emerald-500': $wire.course_material_cost > 0 && $wire.course_material_invoice,
+                                                    'bg-amber-500': $wire.course_material_cost > 0 && !$wire.course_material_invoice,
+                                                    'border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700': $wire.course_material_cost == 0
+                                                }">
+                                                <flux:icon x-show="$wire.course_material_cost > 0 && $wire.course_material_invoice" icon="check" class="w-3 h-3 text-white" />
+                                                <flux:icon x-show="$wire.course_material_cost > 0 && !$wire.course_material_invoice" icon="exclamation-triangle" class="w-3 h-3 text-white" />
+                                            </div>
+                                        </div>
+                                        <span class="ml-2 text-gray-700 dark:text-gray-300">Course Material</span>
+                                        <span x-show="$wire.course_material_cost > 0 && !$wire.course_material_invoice"
+                                            class="ml-2 text-xs text-amber-500 dark:text-amber-400">
+                                            Missing invoice
+                                        </span>
+                                    </div>
 
+                                    <div class="flex items-center">
+                                        <div class="w-6 h-6 flex items-center justify-center">
+                                            <div class="rounded-full w-5 h-5 flex items-center justify-center"
+                                                :class="{
+                                                    'bg-emerald-500': $wire.assessment_cost > 0 && $wire.assessment_invoice,
+                                                    'bg-amber-500': $wire.assessment_cost > 0 && !$wire.assessment_invoice,
+                                                    'border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700': $wire.assessment_cost == 0
+                                                }">
+                                                <flux:icon x-show="$wire.assessment_cost > 0 && $wire.assessment_invoice" icon="check" class="w-3 h-3 text-white" />
+                                                <flux:icon x-show="$wire.assessment_cost > 0 && !$wire.assessment_invoice" icon="exclamation-triangle" class="w-3 h-3 text-white" />
+                                            </div>
+                                        </div>
+                                        <span class="ml-2 text-gray-700 dark:text-gray-300">Assessment</span>
+                                        <span x-show="$wire.assessment_cost > 0 && !$wire.assessment_invoice"
+                                            class="ml-2 text-xs text-amber-500 dark:text-amber-400">
+                                            Missing invoice
+                                        </span>
+                                    </div>
 
-                </div>
+                                    <div class="flex items-center">
+                                        <div class="w-6 h-6 flex items-center justify-center">
+                                            <div class="rounded-full w-5 h-5 flex items-center justify-center"
+                                                :class="{
+                                                    'bg-emerald-500': $wire.certification_cost > 0 && $wire.certification_invoice,
+                                                    'bg-amber-500': $wire.certification_cost > 0 && !$wire.certification_invoice,
+                                                    'border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700': $wire.certification_cost == 0
+                                                }">
+                                                <flux:icon x-show="$wire.certification_cost > 0 && $wire.certification_invoice" icon="check" class="w-3 h-3 text-white" />
+                                                <flux:icon x-show="$wire.certification_cost > 0 && !$wire.certification_invoice" icon="exclamation-triangle" class="w-3 h-3 text-white" />
+                                            </div>
+                                        </div>
+                                        <span class="ml-2 text-gray-700 dark:text-gray-300">Certification</span>
+                                        <span x-show="$wire.certification_cost > 0 && !$wire.certification_invoice"
+                                            class="ml-2 text-xs text-amber-500 dark:text-amber-400">
+                                            Missing invoice
+                                        </span>
+                                    </div>
+
+                                    <div class="flex items-center">
+                                        <div class="w-6 h-6 flex items-center justify-center">
+                                            <div class="rounded-full w-5 h-5 flex items-center justify-center"
+                                                :class="{
+                                                    'bg-emerald-500': $wire.travel_cost > 0 && $wire.travel_invoice,
+                                                    'bg-amber-500': $wire.travel_cost > 0 && !$wire.travel_invoice,
+                                                    'border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700': $wire.travel_cost == 0
+                                                }">
+                                                <flux:icon x-show="$wire.travel_cost > 0 && $wire.travel_invoice" icon="check" class="w-3 h-3 text-white" />
+                                                <flux:icon x-show="$wire.travel_cost > 0 && !$wire.travel_invoice" icon="exclamation-triangle" class="w-3 h-3 text-white" />
+                                            </div>
+                                        </div>
+                                        <span class="ml-2 text-gray-700 dark:text-gray-300">Travel</span>
+                                        <span x-show="$wire.travel_cost > 0 && !$wire.travel_invoice"
+                                            class="ml-2 text-xs text-amber-500 dark:text-amber-400">
+                                            Missing invoice
+                                        </span>
+                                    </div>
+
+                                    <div class="flex items-center">
+                                        <div class="w-6 h-6 flex items-center justify-center">
+                                            <div class="rounded-full w-5 h-5 flex items-center justify-center"
+                                                :class="{
+                                                    'bg-emerald-500': $wire.subsistence_cost > 0 && $wire.subsistence_invoice,
+                                                    'bg-amber-500': $wire.subsistence_cost > 0 && !$wire.subsistence_invoice,
+                                                    'border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700': $wire.subsistence_cost == 0
+                                                }">
+                                                <flux:icon x-show="$wire.subsistence_cost > 0 && $wire.subsistence_invoice" icon="check" class="w-3 h-3 text-white" />
+                                                <flux:icon x-show="$wire.subsistence_cost > 0 && !$wire.subsistence_invoice" icon="exclamation-triangle" class="w-3 h-3 text-white" />
+                                            </div>
+                                        </div>
+                                        <span class="ml-2 text-gray-700 dark:text-gray-300">Subsistence</span>
+                                        <span x-show="$wire.subsistence_cost > 0 && !$wire.subsistence_invoice"
+                                            class="ml-2 text-xs text-amber-500 dark:text-amber-400">
+                                            Missing invoice
+                                        </span>
+                                    </div>
+
+                                    <div class="flex items-center">
+                                        <div class="w-6 h-6 flex items-center justify-center">
+                                            <div class="rounded-full w-5 h-5 flex items-center justify-center"
+                                                :class="{
+                                                    'bg-emerald-500': $wire.accommodation_cost > 0 && $wire.accommodation_invoice,
+                                                    'bg-amber-500': $wire.accommodation_cost > 0 && !$wire.accommodation_invoice,
+                                                    'border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700': $wire.accommodation_cost == 0
+                                                }">
+                                                <flux:icon x-show="$wire.accommodation_cost > 0 && $wire.accommodation_invoice" icon="check" class="w-3 h-3 text-white" />
+                                                <flux:icon x-show="$wire.accommodation_cost > 0 && !$wire.accommodation_invoice" icon="exclamation-triangle" class="w-3 h-3 text-white" />
+                                            </div>
+                                        </div>
+                                        <span class="ml-2 text-gray-700 dark:text-gray-300">Accommodation</span>
+                                        <span x-show="$wire.accommodation_cost > 0 && !$wire.accommodation_invoice"
+                                            class="ml-2 text-xs text-amber-500 dark:text-amber-400">
+                                            Missing invoice
+                                        </span>
+                                    </div>
+
+                                    <div class="flex items-center">
+                                        <div class="w-6 h-6 flex items-center justify-center">
+                                            <div class="rounded-full w-5 h-5 flex items-center justify-center"
+                                                :class="{
+                                                    'bg-emerald-500': $wire.other_cost > 0 && $wire.other_invoice,
+                                                    'bg-amber-500': $wire.other_cost > 0 && !$wire.other_invoice,
+                                                    'border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700': $wire.other_cost == 0
+                                                }">
+                                                <flux:icon x-show="$wire.other_cost > 0 && $wire.other_invoice" icon="check" class="w-3 h-3 text-white" />
+                                                <flux:icon x-show="$wire.other_cost > 0 && !$wire.other_invoice" icon="exclamation-triangle" class="w-3 h-3 text-white" />
+                                            </div>
+                                        </div>
+                                        <span class="ml-2 text-gray-700 dark:text-gray-300">Other Expenses</span>
+                                        <span x-show="$wire.other_cost > 0 && !$wire.other_invoice"
+                                            class="ml-2 text-xs text-amber-500 dark:text-amber-400">
+                                            Missing invoice
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
+                                    <div class="text-sm text-gray-700 dark:text-gray-300">
+                                        <span class="font-medium">Note:</span> For each cost category, you need to:
+                                    </div>
+                                    <ul class="list-disc pl-5 mt-2 text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                                        <li>Enter the amount spent</li>
+                                        <li>Upload the corresponding invoice</li>
+                                    </ul>
+                                </div>
+
+                                <div
+                                    class="mt-4 p-3 bg-blue-50 dark:bg-blue-900/30 rounded text-sm text-blue-800 dark:text-blue-200">
+                                    <div class="flex">
+                                        <flux:icon icon="information-circle" class="w-5 h-5 mr-2" />
+                                        <div>
+                                            <p>All documented costs are required for NTA claims submission.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-4 flex flex-col gap-2 text-sm">
+                                    <div class="flex items-center">
+                                        <div class="w-5 h-5 rounded-full bg-emerald-500 flex items-center justify-center mr-2">
+                                            <flux:icon icon="check" class="w-3 h-3 text-white" />
+                                        </div>
+                                        <span class="text-gray-700 dark:text-gray-300">Cost entered with invoice</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <div class="w-5 h-5 rounded-full bg-amber-500 flex items-center justify-center mr-2">
+                                            <flux:icon icon="exclamation-triangle" class="w-3 h-3 text-white" />
+                                        </div>
+                                        <span class="text-gray-700 dark:text-gray-300">Cost entered without invoice</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <div
+                                            class="w-5 h-5 rounded-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 mr-2">
+                                        </div>
+                                        <span class="text-gray-700 dark:text-gray-300">No cost entered</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        </div>
+
             </div>
+
+
+
         </div>
+
+
     </div>
+
+
+
 </div>

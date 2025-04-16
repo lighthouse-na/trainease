@@ -22,16 +22,18 @@ new class extends Component {
         $totalStudents = 0;
         $avgCompletionRate = 0;
         $passingRate = 0;
-        $totalCost = 0;
 
         foreach ($this->myCourses as $course) {
             $totalStudents += $course->totalStudents();
             $passingRate += $course->passingRate();
         }
 
-        $totalCost = 0;
+
+        $totalCost = 0.00;
         foreach ($this->myCourses as $course) {
-            $totalCost += $course->totalCost();
+            if ($course->summary !== null) {
+            $totalCost += $course->summary->total_cost ?? 0.00;
+            }
         }
 
         $this->kpis = [
@@ -118,54 +120,49 @@ new class extends Component {
 
 
     <!-- Trainee Progress -->
-    <div class="relative h-auto flex-1 overflow-hidden rounded-xl p-4 bg-zinc-50 dark:bg-zinc-700">
-        <flux:heading>Course Progress</flux:heading>
-        <table class="min-w-full mt-4 divide-y divide-neutral-200">
-            <thead>
-            <tr class="text-neutral-500">
-                <th class="text-left">
-                    <flux:subheading>Name</flux:subheading>
-                </th>
-                <th class="text-center">
-                    <flux:subheading>Trainee Progress</flux:subheading>
-                </th>
-            </tr>
-            </thead>
-            <tbody class="divide-y divide-neutral-200">
-            @forelse ($traineeProgress as $course)
-                <tr class="hover:bg-slate-100 dark:hover:bg-neutral-600"
-                    wire:click="viewCourseDetails({{ $course['id'] }})">
-                    <td class="px-5 py-4 text-sm font-medium dark:text-accent text-accent-content">
-                        {{ $course['course_name'] }}
-                    </td>
-                    <td class="px-5 py-4 text-sm whitespace-nowrap text-center">
-                        <div>
-                            <div
-                                class="flex items-center justify-between text-xs font-semibold text-gray-500 dark:text-gray-400">
-                                <span>Course Progress:</span>
-                                <span>{{ $course['progress'] }}%</span>
-                            </div>
-                            <div class="h-2 bg-gray-200 dark:bg-gray-600 rounded-full">
-                                <div
-                                    class="h-full bg-accent-content rounded-full transition-all duration-500 ease-in-out"
-                                    style="width: {{ $course['progress'] }}%">
+    <div class="relative h-auto flex-1 overflow-hidden rounded-lg ">
+        <flux:heading>Course I Manage</flux:heading>
+        <div class="overflow-x-auto bg-white dark:bg-gray-800 rounded-lg border dark:border-gray-700 mt-4">
+            <table class="w-full whitespace-nowrap text-sm">
+                <thead>
+                    <tr class="bg-gradient-to-r from-accent to-accent-content text-white">
+                        <th class="px-4 py-3 text-left font-medium rounded-tl-lg">Course Name</th>
+                        <th class="px-4 py-3 text-left font-medium rounded-tr-lg">Staff Progress</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($traineeProgress as $course)
+                        <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 border-b border-gray-100 dark:border-gray-700"
+                            wire:click="viewCourseDetails({{ $course['id'] }})">
+                            <td class="px-4 py-3 font-medium dark:text-gray-300">{{ $course['course_name'] }}</td>
+                            <td class="px-4 py-3 dark:text-gray-300">
+                                <div>
+                                    <div class="flex items-center justify-between text-xs font-semibold text-gray-500 dark:text-gray-400">
+                                        <span>Course Progress:</span>
+                                        <span>{{ $course['progress'] }}%</span>
+                                    </div>
+                                    <div class="h-2 bg-gray-200 dark:bg-gray-600 rounded-full">
+                                        <div class="h-full bg-accent-content rounded-full transition-all duration-500 ease-in-out"
+                                            style="width: {{ $course['progress'] }}%">
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-            @empty
-                <tr>
-                    <td colspan="2" class="px-5 py-4 text-center text-sm text-gray-500 dark:text-gray-400">
-                        <div class="flex flex-col items-center justify-center space-y-2">
-                            <flux:icon name="information-circle" class="w-8 h-8 text-gray-400 dark:text-gray-500"/>
-                            <span>No courses available. Start by creating a new course!</span>
-                        </div>
-                    </td>
-                </tr>
-            @endforelse
-            </tbody>
-        </table>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="2" class="px-4 py-8 text-center">
+                                <svg class="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                                <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-gray-100">No courses available</h3>
+                                <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Start by creating a new course!</p>
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <!-- Quick Actions -->

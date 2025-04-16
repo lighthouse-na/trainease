@@ -14,21 +14,25 @@ class Summary extends Model
         'course_id',
         'user_id',
         'facilitator_cost',
+        'course_material_cost',
         'assessment_cost',
         'certification_cost',
         'travel_cost',
         'accommodation_cost',
         'other_cost',
+        'subsistence_cost',
         'total_cost',
     ];
 
     protected $casts = [
         'facilitator_cost' => 'decimal:2',
+        'course_material_cost' => 'decimal:2',
         'assessment_cost' => 'decimal:2',
         'certification_cost' => 'decimal:2',
         'travel_cost' => 'decimal:2',
         'accommodation_cost' => 'decimal:2',
         'other_cost' => 'decimal:2',
+        'subsistence_cost' => 'decimal:2',
         'total_cost' => 'decimal:2',
     ];
 

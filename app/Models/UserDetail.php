@@ -13,7 +13,7 @@ class UserDetail extends Model
     /** @use HasFactory<\Database\Factories\UserDetailFactory> */
     use HasFactory;
 
-    protected $fillable = ['user_id', 'division_id', 'department_id', 'supervisor_id', 'salary_ref_number', 'gender', 'dob', 'phone_number', 'address'];
+    protected $fillable = ['user_id', 'division_id', 'department_id', 'supervisor_id', 'salary_ref_number', 'gender', 'dob', 'phone_number', 'address', 'consultant_domain', 'job_grade', 'aa_title'];
 
     protected $table = 'user_details';
 
