@@ -2,7 +2,7 @@
 
 use Livewire\Volt\Component;
 use App\Models\Training\Reports\Summary;
-
+use App\Exports\NTAClaimExport;
 new class extends Component {
     //
 
@@ -56,62 +56,78 @@ new class extends Component {
                 break;
         }
 
-        $data = $query->get();
+        $rawData = $query->get();
 
-        // Format data for CSV export
-        $csvData = [];
-        foreach ($data as $row) {
-            $csvData[] = [
-                'App No' => $row->id,
-                'Course Name' => $row->course->course_name,
-                'Type' => $row->course->course_type,
-                'Institution' => 'Dummy Institution',
-                'Email' => $row->user->email,
-                'Phone' => $row->user->user_detail->phone_number,
-                'Start Date' => $row->course->start_date->format('Y-m-d'),
-                'End Date' => $row->course->end_date->format('Y-m-d'),
-                'Facilitator Cost' => $row->facilitator_cost,
-                'Assessment Cost' => $row->assessment_cost,
-                'Certification Cost' => $row->certification_cost,
-                'Travel Cost' => $row->travel_cost,
-                'Accommodation Cost' => $row->accommodation_cost,
-                'Other Cost' => $row->other_cost,
-                'Total Cost' => $row->total_cost
+        // Preprocess data for Excel/CSV format
+        $processedData = [];
+        $headers = [
+            'Application Number',
+            'Training or Course Name',
+            'Delivery Type (Internal or External Training)',
+            'Training Institution (Facilitator) Name',
+            'Training Institution (Facilitator) Email',
+            'Training Institution (Facilitator) Telephone',
+            'Training Start Date (dd/mm/yyyy)',
+            'Training End Date (dd/mm/yyyy)',
+            'Training Facilitator Cost',
+            'Training Material Cost',
+            'Assessment Cost',
+            'Certification Cost',
+            'Travel Cost',
+            'Accommodation Cost',
+            'Subsistence and Travel Allowance',
+            'Other Cost',
+            'Total Cost',
+        ];
+
+        // Add headers as first row
+        $processedData[] = $headers;
+
+        foreach ($rawData as $index => $row) {
+            $processedData[] = [
+                $index + 1,
+                $row->course->course_name,
+                $row->course->course_type,
+                'Dummy Institution', // Replace with actual data
+                $row->user->email,
+                $row->user->user_detail->phone_number,
+                $row->course->start_date->format('d/m/Y'),
+                $row->course->end_date->format('d/m/Y'),
+                number_format($row->facilitator_cost, 2),
+                number_format(0, 2),
+                number_format($row->assessment_cost, 2),
+                number_format($row->certification_cost, 2),
+                number_format($row->travel_cost, 2),
+                number_format($row->accommodation_cost, 2),
+                number_format(0, 2),
+                number_format($row->other_cost, 2),
+                number_format($row->total_cost, 2),
             ];
         }
 
-        return $this->downloadArrayToCsv($csvData, 'training-summary-' . now()->format('Y-m-d'));
-    }
+        // Handle export based on format
+        switch ($this->exportFormat) {
+            case 'pdf':
+                return response()->streamDownload(function () use ($rawData) {
+                    $pdf = \PDF::loadView('exports.trainer-summary', [
+                        'summary' => $rawData,
+                        'user' => Auth::user()
+                    ]);
+                    echo $pdf->output();
+                }, 'training-summary-' . now()->format('Y-m-d') . '.pdf');
 
-    public function downloadArrayToCsv($array, $filename) {
-        if (empty($array)) {
-            session()->flash('error', 'No data to export');
-            return null;
+            case 'excel':
+            case 'csv':
+                $extension = $this->exportFormat === 'excel' ? 'xlsx' : 'csv';
+                return Excel::download(
+                    new NTAClaimExport($processedData),
+                    'training-summary-' . now()->format('Y-m-d') . '.' . $extension
+                );
+
+            default:
+                session()->flash('error', 'Invalid export format');
+                return null;
         }
-
-        $output = '';
-
-        // Add headers
-        $output .= implode(",", array_keys($array[0])) . "\n";
-
-        // Add data rows
-        foreach ($array as $row) {
-            // Escape values that might contain commas
-            $escapedRow = array_map(function($value) {
-                return '"' . str_replace('"', '""', $value) . '"';
-            }, $row);
-
-            $output .= implode(",", $escapedRow) . "\n";
-        }
-
-        // Set headers for download
-        $headers = [
-            'Content-type' => 'text/csv',
-            'Content-Disposition' => 'attachment; filename="' . $filename . '.csv"',
-        ];
-
-        // Return the response with the CSV data
-        return response($output, 200, $headers);
     }
 }; ?>
 
@@ -128,7 +144,7 @@ new class extends Component {
                 Export Report
             </flux:button>
 
-            <div x-show="showFilters" @click.away="showFilters = false" class="absolute right-0 mt-2 bg-white rounded-lg p-4 z-10 w-64" style="display: none;">
+            <div x-show="showFilters" @click.away="showFilters = false" class="absolute right-0 mt-2 bg-white   rounded-lg p-4 z-10 w-64" style="display: none;">
                 <form wire:submit.prevent="exportReport">
                 <div class="mb-3">
                     <label class="block text-sm font-medium text-gray-700 mb-1">Date Range</label>
@@ -159,16 +175,13 @@ new class extends Component {
                 <div class="mb-3">
                     <label class="block text-sm font-medium text-gray-700 mb-1">Format</label>
                     <select wire:model="exportFormat" class="select select-sm w-full border-gray-300 rounded-md">
+                    <option value="pdf">PDF</option>
+                    <option value="excel">Excel</option>
                     <option value="csv">CSV</option>
                     </select>
                 </div>
 
-                <div class="flex flex-col gap-2">
-                    <flux:button icon="document-arrow-down" type="submit" variant="primary" class="w-full">Export</flux:button>
-                    @if (session()->has('error'))
-                        <div class="text-sm text-red-600">{{ session('error') }}</div>
-                    @endif
-                </div>
+                <flux:button icon="document-arrow-down" type="submit" variant="primary" class="w-full">Export</flux:button>
                 </form>
             </div>
             </div>
