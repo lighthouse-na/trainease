@@ -49,6 +49,13 @@ Route::middleware(['auth'])->group(function () {
         Volt::route('skillharbor/directories/qualifications', 'skillharbor.directories.qualifications.qualificationstable')->name('skill-harbor.qualifications');
         Volt::route('skillharbor/directories/assessments', 'skillharbor.directories.assessments.assessmentstable')->name('skill-harbor.directories.assessments');
         Volt::route('skillharbor/directories/jcps', 'skillharbor.directories.jcps.jcptable')->name('skill-harbor.directories.jcps');
+
+        /**
+         *
+         * Summary Routes
+         */
+
+         Volt::route('/summary', 'trainer.reports.trainersummary')->name('summary');
     });
 
 });

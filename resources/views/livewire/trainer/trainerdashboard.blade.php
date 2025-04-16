@@ -35,10 +35,10 @@ new class extends Component {
         }
 
         $this->kpis = [
-            ['title' => 'My courses', 'value' => $this->myCourses->count()],
-            ['title' => 'Staff Enrolled', 'value' => $totalStudents],
-            ['title' => 'Passing Rate', 'value' => number_format($passingRate, 1) . '%',],
-            ['title' => 'Total Cost', 'value' => 'N$' . number_format($totalCost, 2)]
+            ['title' => 'My courses', 'value' => $this->myCourses->count(), 'route' =>'#'],
+            ['title' => 'Staff Enrolled', 'value' => $totalStudents, 'route' => '#'],
+            ['title' => 'Passing Rate', 'value' => number_format($passingRate, 1) . '%', 'route' => '#'],
+            ['title' => 'Total Cost', 'value' => 'N$' . number_format($totalCost, 2), 'route' => 'summary']
         ];
 
 
@@ -106,8 +106,9 @@ new class extends Component {
                 </div>
 
                 <div class="absolute top-0 right-0 pr-2 pt-2">
-                    <flux:button icon="ellipsis-horizontal" variant="subtle" size="sm"/>
+                    <flux:button icon="ellipsis-horizontal" href="{{ $kpi['route'] }}" variant="subtle" size="sm"/>
                 </div>
+
             </div>
         @endforeach
     </div>
