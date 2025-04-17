@@ -17,6 +17,8 @@ class SME extends Model
         'consultant_id'
     ];
 
+    protected $table = 'smes';
+
     public function courses()
     {
         return $this->hasMany(Course::class, 'sme_id');

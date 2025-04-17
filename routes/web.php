@@ -29,6 +29,7 @@ Route::middleware(['auth'])->group(function () {
 
     Volt::route('/c/course/{course?}', 'trainer.create-course')->name('create.course')->middleware(['role:trainer']);
     Volt::route('c/course_detail/{course_id}/', 'trainer.coursedetails')->name('course.details');
+    Volt::route('sme','trainer.sme.index')->name('sme.index');
 
     /**
      * SkillHarbor Routes

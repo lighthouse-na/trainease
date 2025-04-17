@@ -19,6 +19,10 @@
             <flux:navlist.item icon="book-open-text" :href="route('training.coursespage')"
                                :current="request()->routeIs('training.coursespage')"
                                wire:navigate>{{ __('Online Courses') }}</flux:navlist.item>
+                               <flux:navlist.item icon="user-group" :href="route('sme.index')"
+                               :current="request()->routeIs('sme.index')" wire:navigate
+                              >{{ __('SME') }} </flux:navlist.item>
+
             <flux:navlist.item icon="clipboard-document-check" :href="route('skill-harbor')"
                                :current="request()->routeIs('skill-harbor.*')" wire:navigate
                                badge="development" badge-color="purple">{{ __('SkillHarbor') }} </flux:navlist.item>
