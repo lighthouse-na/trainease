@@ -106,64 +106,85 @@ new class extends Component {
     }
 
     public function storeSummary()
-    {
-        // Validate the inputs
-        $this->validate([
-            'facilitator_cost' => 'required|decimal:2|min:0.00',
-            'course_material_cost' => 'required|decimal:2|min:0',
-            'assessment_cost' => 'required|decimal:2|min:0',
-            'subsistence_cost' => 'required|decimal:2|min:0',
-            'certification_cost' => 'required|decimal:2|min:0',
-            'travel_cost' => 'required|decimal:2|min:0',
-            'accommodation_cost' => 'required|decimal:2|min:0',
-            'other_cost' => 'required|decimal:2|min:0',
-            'facilitator_invoice' => 'nullable|file|mimes:pdf,jpg,png|max:10240', // Validation for file
-            'assessment_invoice' => 'nullable|file|mimes:pdf,jpg,png|max:10240',
-            'certification_invoice' => 'nullable|file|mimes:pdf,jpg,png|max:10240',
-            'travel_invoice' => 'nullable|file|mimes:pdf,jpg,png|max:10240',
-            'accommodation_invoice' => 'nullable|file|mimes:pdf,jpg,png|max:10240',
-            'course_material_invoice' => 'nullable|file|mimes:pdf,jpg,png|max:10240',
-            'subsistence_invoice' => 'nullable|file|mimes:pdf,jpg,png|max:10240',
-            'other_invoice' => 'nullable|file|mimes:pdf,jpg,png|max:10240',
-        ]);
-        // Calculate total cost - include all costs in the calculation
-        $this->updateTotalCost();
+{
+    // Validate the inputs
+    $this->validate([
+        'facilitator_cost' => 'required|decimal:2|min:0.00',
+        'course_material_cost' => 'required|decimal:2|min:0',
+        'assessment_cost' => 'required|decimal:2|min:0',
+        'subsistence_cost' => 'required|decimal:2|min:0',
+        'certification_cost' => 'required|decimal:2|min:0',
+        'travel_cost' => 'required|decimal:2|min:0',
+        'accommodation_cost' => 'required|decimal:2|min:0',
+        'other_cost' => 'required|decimal:2|min:0',
+        'facilitator_invoice' => 'nullable|file|mimes:pdf,jpg,png|max:10240', // Validation for file
+        'assessment_invoice' => 'nullable|file|mimes:pdf,jpg,png|max:10240',
+        'certification_invoice' => 'nullable|file|mimes:pdf,jpg,png|max:10240',
+        'travel_invoice' => 'nullable|file|mimes:pdf,jpg,png|max:10240',
+        'accommodation_invoice' => 'nullable|file|mimes:pdf,jpg,png|max:10240',
+        'course_material_invoice' => 'nullable|file|mimes:pdf,jpg,png|max:10240',
+        'subsistence_invoice' => 'nullable|file|mimes:pdf,jpg,png|max:10240',
+        'other_invoice' => 'nullable|file|mimes:pdf,jpg,png|max:10240',
+    ]);
 
-        try {
-            // Create or update Summary record
-            Summary::updateOrCreate(
-                [
-                    'course_id' => $this->course->id,
-                    'user_id' => $this->course->trainer->id, // Current user (trainer) ID
-                ],
-                [
-                    'facilitator_cost' => $this->facilitator_cost,
-                    'course_material_cost' => $this->course_material_cost,
-                    'assessment_cost' => $this->assessment_cost,
-                    'certification_cost' => $this->certification_cost,
-                    'travel_cost' => $this->travel_cost,
-                    'subsistence_cost' => $this->subsistence_cost,
-                    'accommodation_cost' => $this->accommodation_cost,
-                    'other_cost' => $this->other_cost,
-                    'total_cost' => $this->total_cost,
-                    // Only store files if they were uploaded
-                    'facilitator_invoice' => $this->facilitator_invoice ? $this->facilitator_invoice->store('invoices', 'public') : null,
-                    'assessment_invoice' => $this->assessment_invoice ? $this->assessment_invoice->store('invoices', 'public') : null,
-                    'certification_invoice' => $this->certification_invoice ? $this->certification_invoice->store('invoices', 'public') : null,
-                    'travel_invoice' => $this->travel_invoice ? $this->travel_invoice->store('invoices', 'public') : null,
-                    'accommodation_invoice' => $this->accommodation_invoice ? $this->accommodation_invoice->store('invoices', 'public') : null,
-                    'other_invoice' => $this->other_invoice ? $this->other_invoice->store('invoices', 'public') : null,
-                    'course_material_invoice' => $this->course_material_invoice ? $this->course_material_invoice->store('invoices', 'public') : null,
-                    'subsistence_invoice' => $this->subsistence_invoice ? $this->subsistence_invoice->store('invoices', 'public') : null,
-                ],
-            );
+    // Calculate total cost - include all costs in the calculation
+    $this->updateTotalCost();
 
-            $this->dispatch('message');
-            session()->flash('message', 'Training summary costs saved successfully!');
-        } catch (\Exception $e) {
-            session()->flash('error', 'Failed to save training summary costs: ' . $e->getMessage());
+    try {
+        // Get existing record if it exists
+        $existingRecord = Summary::where('course_id', $this->course->id)
+            ->where('user_id', $this->course->trainer->id)
+            ->first();
+
+        // Prepare data for update or create
+        $updateData = [
+            'facilitator_cost' => $this->facilitator_cost,
+            'course_material_cost' => $this->course_material_cost,
+            'assessment_cost' => $this->assessment_cost,
+            'certification_cost' => $this->certification_cost,
+            'travel_cost' => $this->travel_cost,
+            'subsistence_cost' => $this->subsistence_cost,
+            'accommodation_cost' => $this->accommodation_cost,
+            'other_cost' => $this->other_cost,
+            'total_cost' => $this->total_cost,
+        ];
+
+        // Save invoices if they exist or keep the existing ones
+        $invoiceFields = [
+            'facilitator_invoice', 'assessment_invoice', 'certification_invoice',
+            'travel_invoice', 'accommodation_invoice', 'course_material_invoice',
+            'subsistence_invoice', 'other_invoice'
+        ];
+
+        foreach ($invoiceFields as $field) {
+            if ($this->$field instanceof \Illuminate\Http\UploadedFile) {
+                // Create a sanitized course name for the directory
+                $courseDirName = \Illuminate\Support\Str::slug($this->course->course_name);
+                // Store the invoice in a course-specific subdirectory
+                $updateData[$field] = $this->$field->store("invoices/{$courseDirName}/{$field}", 'public');
+            } elseif ($existingRecord && $existingRecord->$field) {
+                // Keep the existing invoice path
+                $updateData[$field] = $existingRecord->$field;
+            }
         }
+
+        // Create or update Summary record
+        Summary::updateOrCreate(
+            [
+                'course_id' => $this->course->id,
+                'user_id' => $this->course->trainer->id, // Current user (trainer) ID
+            ],
+            $updateData
+        );
+
+        $this->dispatch('message');
+        session()->flash('message', 'Training summary costs saved successfully!');
+    } catch (\Exception $e) {
+        session()->flash('error', 'Failed to save training summary costs: ' . $e->getMessage());
     }
+}
+
+
 
     public function edit()
     {
@@ -181,6 +202,7 @@ new class extends Component {
             $costs = $this->course->summary()->first();
 
             if ($costs) {
+                // Set cost values
                 $this->facilitator_cost = $costs->facilitator_cost;
                 $this->course_material_cost = $costs->course_material_cost;
                 $this->assessment_cost = $costs->assessment_cost;
@@ -190,14 +212,32 @@ new class extends Component {
                 $this->accommodation_cost = $costs->accommodation_cost;
                 $this->other_cost = $costs->other_cost;
                 $this->total_cost = $costs->total_cost;
-                $this->facilitator_invoice = $costs->facilitator_invoice;
-                $this->assessment_invoice = $costs->assessment_invoice;
-                $this->certification_invoice = $costs->certification_invoice;
-                $this->travel_invoice = $costs->travel_invoice;
-                $this->accommodation_invoice = $costs->accommodation_invoice;
-                $this->other_invoice = $costs->other_invoice;
-                $this->course_material_invoice = $costs->course_material_invoice;
-                $this->subsistence_invoice = $costs->subsistence_invoice;
+
+                // Store the existing invoice file paths to track what's already uploaded
+                if ($costs->facilitator_invoice) {
+                    $this->facilitator_invoice = $costs->facilitator_invoice;
+                }
+                if ($costs->assessment_invoice) {
+                    $this->assessment_invoice = $costs->assessment_invoice;
+                }
+                if ($costs->certification_invoice) {
+                    $this->certification_invoice = $costs->certification_invoice;
+                }
+                if ($costs->travel_invoice) {
+                    $this->travel_invoice = $costs->travel_invoice;
+                }
+                if ($costs->accommodation_invoice) {
+                    $this->accommodation_invoice = $costs->accommodation_invoice;
+                }
+                if ($costs->course_material_invoice) {
+                    $this->course_material_invoice = $costs->course_material_invoice;
+                }
+                if ($costs->subsistence_invoice) {
+                    $this->subsistence_invoice = $costs->subsistence_invoice;
+                }
+                if ($costs->other_invoice) {
+                    $this->other_invoice = $costs->other_invoice;
+                }
             }
         }
         $this->updateTotalCost();
