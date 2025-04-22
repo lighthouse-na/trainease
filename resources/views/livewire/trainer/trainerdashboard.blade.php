@@ -23,6 +23,11 @@ new class extends Component {
         $avgCompletionRate = 0;
         $passingRate = 0;
 
+        // women intech stuff
+        $womenInTechPercentage = 0.00;
+        $totalEnrolled = 0;
+        $totalWomen = 0;
+
         foreach ($this->myCourses as $course) {
             $totalStudents += $course->totalStudents();
             $passingRate += $course->passingRate();
@@ -36,11 +41,25 @@ new class extends Component {
             }
         }
 
+        foreach ($this->myCourses as $course) {
+            if ($course->enrolledUsers()->exists()) {
+                $totalEnrolled += $course->enrolledUsers()->count();
+                $totalWomen += $course->enrolledUsers()->whereHas('user_detail', function ($query) {
+                    $query->where('gender', 'female');
+                })->count();
+            }
+        }
+
+        if ($totalEnrolled > 0) {
+            $womenInTechPercentage = ($totalWomen / $totalEnrolled) * 100;
+        }
+
         $this->kpis = [
             ['title' => 'My courses', 'value' => $this->myCourses->count(), 'route' =>'#'],
             ['title' => 'Staff Enrolled', 'value' => $totalStudents, 'route' => '#'],
             ['title' => 'Passing Rate', 'value' => number_format($passingRate, 1) . '%', 'route' => '#'],
-            ['title' => 'Total Cost', 'value' => 'N$' . number_format($totalCost, 2), 'route' => 'summary']
+            ['title' => 'Total Cost', 'value' => 'N$' . number_format($totalCost, 2), 'route' => 'summary'],
+            ['title' => 'Women in STEM', 'value' => number_format($womenInTechPercentage, 2) . '%', 'route' => 'women-in-tech-summary'],//           // add the women in stem shandie here aswell
         ];
 
 
