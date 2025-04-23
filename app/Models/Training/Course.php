@@ -31,6 +31,14 @@ class Course extends Model
     /**
      * @return BelongsTo<User, $this>
      */
+    public function sme(): BelongsTo
+    {
+        return $this->belongsTo(SME::class, 'sme_id');
+    }
+
+    /**
+     * @return BelongsTo<User, $this>
+     */
     public function trainer(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');

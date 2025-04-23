@@ -694,21 +694,21 @@ new class extends Component {
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <flux:input wire:model="sme_name" label="Name" placeholder="Vendor name" required />
-                            <flux:input wire:model="sme_email" label="Email" type="email"
+                            <flux:input wire:model="sme_name" icon="user" label="Name" placeholder="Vendor name" required />
+                            <flux:input wire:model="sme_email" icon="envelope" label="Email" type="email"
                                 placeholder="vendor@example.com" required />
-                            <flux:input wire:model="sme_phone" label="Phone" placeholder="Phone number" />
-                            <flux:select wire:model="sme_type" label="Type" required>
+                            <flux:input mask="(+264) 99 999 9999" icon="phone" wire:model="sme_phone" label="Phone"  placeholder="(+264) 85 999 9999"  />
+                            <flux:select wire:model="sme_type" icon="user-group" label="Type" required>
                                 <flux:select.option value="" disabled>Select type</flux:select.option>
                                 <flux:select.option value="internal">Internal</flux:select.option>
                                 <flux:select.option value="external">External</flux:select.option>
                             </flux:select>
-                            <flux:input wire:model="sme_institution" label="Company/Institution"
+                            <flux:input wire:model="sme_institution" icon="building-office" label="Company/Institution"
                                 placeholder="Company name" />
                         </div>
 
-                        <flux:textarea wire:model="sme_description" label="Description"
-                            placeholder="Vendor description" rows="3" />
+                        <flux:textarea wire:model="sme_description" icon="document-text" label="Description"
+                            placeholder="Enter details about vendor expertise and background" rows="3" />
 
                         <div class="flex justify-end space-x-3 pt-4">
                             <flux:button x-on:click="$dispatch('close-modal', { id: 'add-sme-vendor' })">Cancel

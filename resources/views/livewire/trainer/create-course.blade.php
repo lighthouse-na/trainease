@@ -9,48 +9,50 @@ use App\Models\Training\Course;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
 use App\Models\Training\Quiz\Question;
+use App\Models\Training\SME;
 
 new class extends Component {
     use WithFileUploads;
 
-    public string $activeTab = 'course';
-    public bool $courseCreated = false;
-    public ?int $courseId = null;
-    public string $existingImage = '';
+    public string $activeTab= 'course';
+    public bool $courseCreated= false;
+    public ?int $courseId= null;
+    public string $existingImage= '';
 
     // Course properties
-    public string $title = '';
-    public string $description = '';
-    public $courseImage = null;
+    public string $title= '';
+    public string $description= '';
+    public $courseImage= null;
     public float $course_fee;
     public string $startDate;
     public string $endDate;
     public string $course_type;
     public int $userId;
+    public int $sme_id;
 
     // Materials properties
 
-    public $courseMaterials = [];
-    public string $materialTitle = '';
-    public string $materialDescription = '';
-    public string $materialContent = '';
+    public $courseMaterials= [];
+    public string $materialTitle= '';
+    public string $materialDescription= '';
+    public string $materialContent= '';
     public int $editingMaterialId;
-    public bool $isEditingMaterial = false;
+    public bool $isEditingMaterial= false;
 
     //imported course properties
     public int $importedCourseId;
-    public $importedMaterials = [];
+    public $importedMaterials= [];
 
     // Quiz properties
-    public $quizzes = [];
-    public string $quizTitle = '';
-    public $questions = [];
+    public $quizzes= [];
+    public string $quizTitle= '';
+    public $questions= [];
     public int $quizAttempts;
     public int $passingScore;
 
     // Enrollment properties
-    public string $studentSearch = '';
-    public $selectedStudents = [];
+    public string $studentSearch= '';
+    public $selectedStudents= [];
 
     /**
      * @param Course $course
@@ -59,46 +61,46 @@ new class extends Component {
     public function mount(Course $course): void
     {
         if ($course->id) {
-            $this->courseId = $course->id;
-            $this->courseCreated = true;
-            $this->title = $course->course_name;
-            $this->description = $course->course_description;
-            $this->course_fee = $course->course_fee;
-            $this->startDate = $course->start_date->toDateString();
-            $this->endDate = $course->end_date->toDateString();
-            $this->existingImage = $course->course_image;
-            $this->course_type = $course->course_type;
-            $this->userId = $course->user_id;
+            $this->courseId= $course->id;
+            $this->courseCreated= true;
+            $this->title= $course->course_name;
+            $this->description= $course->course_description;
+            $this->course_fee= $course->course_fee;
+            $this->startDate= $course->start_date->toDateString();
+            $this->endDate= $course->end_date->toDateString();
+            $this->existingImage= $course->course_image;
+            $this->course_type= $course->course_type;
+            $this->userId= $course->user_id;
 
-            $this->courseMaterials = $course->materials;
+            $this->courseMaterials= $course->materials;
             // Load quizzes with their questions and options
-            $this->quizzes = $course
+            $this->quizzes= $course
                 ->quizes()
                 ->with(['questions.options'])
                 ->get();
 
             // If there are quizzes, set up the first one
             if ($this->quizzes->isNotEmpty()) {
-                $this->quiz = $this->quizzes->first();
-                $this->quizTitle = $this->quiz->title;
-                $this->quizAttempts = $this->quiz->max_attempts;
-                $this->passingScore = $this->quiz->passing_score;
+                $this->quiz= $this->quizzes->first();
+                $this->quizTitle= $this->quiz->title;
+                $this->quizAttempts= $this->quiz->max_attempts;
+                $this->passingScore= $this->quiz->passing_score;
 
                 // Setup questions array for the form
-                $this->questions = $this->quiz->questions
+                $this->questions= $this->quiz->questions
                     ->map(function ($question) {
-                        $questionData = [
-                            'id' => $question->id,
-                            'text' => $question->question_text,
-                            'question_type' => $question->question_type,
-                            'options' => [],
+                        $questionData= [
+                            'id'=> $question->id,
+                            'text'=> $question->question_text,
+                            'question_type'=> $question->question_type,
+                            'options'=> [],
                         ];
 
                         // Setup options for each question
-                        foreach ($question->options as $index => $option) {
-                            $questionData['options'][$index] = $option->option_text;
+                        foreach ($question->options as $index=> $option) {
+                            $questionData['options'][$index]= $option->option_text;
                             if ($option->is_correct) {
-                                $questionData['correct_answer'] = $index;
+                                $questionData['correct_answer']= $index;
                             }
                         }
 
@@ -116,35 +118,39 @@ new class extends Component {
     {
         // Validate course data
         $this->validate([
-            'title' => 'required|min:3',
-            'description' => 'required',
-            'startDate' => 'required|date',
-            'endDate' => 'required|date|after:startDate',
-            'course_fee' => 'required|numeric|min:0',
-            'course_type' => 'required',
-            'courseImage' => 'required'
+            'title'=> 'required|min:3',
+            'description'=> 'required',
+            'startDate'=> 'required|date',
+            'endDate'=> 'required|date|after:startDate',
+            'course_fee'=> 'required|numeric|min:0',
+            'course_type'=> 'required',
+            'courseImage'=> 'required',
+            'sme_id' => 'nullable|exists:smes,id',
         ]);
 
         // Process image if uploaded
-        $imagePath = $this->existingImage;
+        $imagePath= $this->existingImage;
 
         if ($this->courseImage) {
-            $imagePath = $this->courseImage->store('course-images', 'public');
+            $imagePath= $this->courseImage->store('course-images', 'public');
         }
 
         // Check if we're updating or creating
         if ($this->courseId) {
             // Update existing course
-            $course = Course::findOrFail($this->courseId);
-            $course->course_name = $this->title;
-            $course->course_description = $this->description;
-            $course->start_date = $this->startDate;
-            $course->end_date = $this->endDate;
-            $course->course_fee = $this->course_fee;
-            $course->course_type = $this->course_type;
+            $course= Course::findOrFail($this->courseId);
+            $course->course_name= $this->title;
+            $course->course_description= $this->description;
+            $course->start_date= $this->startDate;
+            $course->end_date= $this->endDate;
+            $course->course_fee= $this->course_fee;
+            $course->course_type= $this->course_type;
+            if($this->sme_id) {
+                $course->sme_id= $this->sme_id;
+            }
 
             if ($imagePath) {
-                $course->course_image = $imagePath;
+                $course->course_image= $imagePath;
             }
 
             $course->save();
@@ -152,20 +158,21 @@ new class extends Component {
             session()->flash('message', 'Course updated successfully!');
         } else {
             // Create new course
-            $course = Course::create([
-                'course_name' => $this->title,
-                'course_description' => $this->description,
-                'start_date' => $this->startDate,
-                'end_date' => $this->endDate,
-                'course_fee' => $this->course_fee,
-                'course_image' => $imagePath,
-                'user_id' => Auth::user()->id,
-                'course_type' => $this->course_type,
+            $course= Course::create([
+                'course_name'=> $this->title,
+                'course_description'=> $this->description,
+                'start_date'=> $this->startDate,
+                'end_date'=> $this->endDate,
+                'course_fee'=> $this->course_fee,
+                'course_image'=> $imagePath,
+                'user_id'=> Auth::user()->id,
+                'course_type'=> $this->course_type,
+                'sme_id'=> $this->sme_id,
             ]);
 
-            $this->courseId = $course->id;
-            $this->courseCreated = true;
-            $this->existingImage = $imagePath;
+            $this->courseId= $course->id;
+            $this->courseCreated= true;
+            $this->existingImage= $imagePath;
 
             session()->flash('message', 'Course created successfully!');
 
@@ -180,29 +187,29 @@ new class extends Component {
 
         // Validate material data
         $this->validate([
-            'materialTitle' => 'required|min:3',
-            'materialDescription' => 'required',
-            'materialContent' => 'required',
+            'materialTitle'=> 'required|min:3',
+            'materialDescription'=> 'required',
+            'materialContent'=> 'required',
         ]);
 
         // Get the course
-        $course = Course::find($this->courseId);
+        $course= Course::find($this->courseId);
 
         // Create the material
         $course->materials()->create([
-            'material_name' => $this->materialTitle,
-            'description' => $this->materialDescription,
-            'material_content' => $this->materialContent,
+            'material_name'=> $this->materialTitle,
+            'description'=> $this->materialDescription,
+            'material_content'=> $this->materialContent,
         ]);
 
         // Reset the form fields
-        $this->materialTitle = '';
-        $this->materialDescription = '';
-        $this->materialContent = '';
-        $this->materialFile = null;
+        $this->materialTitle= '';
+        $this->materialDescription= '';
+        $this->materialContent= '';
+        $this->materialFile= null;
 
         // Refresh the materials list
-        $this->courseMaterials = $course->materials;
+        $this->courseMaterials= $course->materials;
         $this->modal('materialModal')->close();
     }
 
@@ -211,22 +218,22 @@ new class extends Component {
         if (!$this->courseCreated) {
             return;
         }
-        $this->isEditingMaterial = true;
+        $this->isEditingMaterial= true;
         $this->modal('materialModal')->show();
         // Find the material from the course materials collection
-        $material = $this->courseMaterials->find($materialId);
+        $material= $this->courseMaterials->find($materialId);
 
         if ($material) {
             // Populate the form fields with the material data
-            $this->materialTitle = $material->material_name;
-            $this->materialDescription = $material->description;
-            $this->materialContent = $material->material_content;
+            $this->materialTitle= $material->material_name;
+            $this->materialDescription= $material->description;
+            $this->materialContent= $material->material_content;
 
             // Set active tab to materials to display the edit form
-            $this->activeTab = 'materials';
+            $this->activeTab= 'materials';
 
             // Store the material ID for update
-            $this->editingMaterialId = $materialId;
+            $this->editingMaterialId= $materialId;
         }
     }
 
@@ -237,16 +244,16 @@ new class extends Component {
         }
 
         // Find the course
-        $course = Course::find($this->courseId);
+        $course= Course::find($this->courseId);
 
         // Find the material and delete it
-        $material = $course->materials()->find($materialId);
+        $material= $course->materials()->find($materialId);
 
         if ($material) {
             $material->delete();
 
             // Refresh the materials list
-            $this->courseMaterials = $course->materials;
+            $this->courseMaterials= $course->materials;
 
             session()->flash('message', 'Course material deleted successfully!');
         }
@@ -260,35 +267,35 @@ new class extends Component {
 
         // Validate material data
         $this->validate([
-            'materialTitle' => 'required|min:3',
-            'materialDescription' => 'required',
-            'materialContent' => 'required',
+            'materialTitle'=> 'required|min:3',
+            'materialDescription'=> 'required',
+            'materialContent'=> 'required',
         ]);
 
         // Get the course
-        $course = Course::find($this->courseId);
+        $course= Course::find($this->courseId);
 
         // Find the material and update it
-        $material = $course->materials()->find($this->editingMaterialId);
+        $material= $course->materials()->find($this->editingMaterialId);
 
         if ($material) {
             $material->update([
-                'material_name' => $this->materialTitle,
-                'description' => $this->materialDescription,
-                'material_content' => $this->materialContent,
+                'material_name'=> $this->materialTitle,
+                'description'=> $this->materialDescription,
+                'material_content'=> $this->materialContent,
             ]);
 
             // Reset form fields
-            $this->materialTitle = '';
-            $this->materialDescription = '';
-            $this->materialContent = '';
-            $this->materialFile = null;
+            $this->materialTitle= '';
+            $this->materialDescription= '';
+            $this->materialContent= '';
+            $this->materialFile= null;
             $this->editingMaterialId;
-            $this->isEditingMaterial = false;
+            $this->isEditingMaterial= false;
 
             // Refresh the materials list
             $this->modal('materialModal')->close();
-            $this->courseMaterials = $course->materials;
+            $this->courseMaterials= $course->materials;
 
             session()->flash('message', 'Course material updated successfully!');
         }
@@ -308,13 +315,13 @@ new class extends Component {
         }
 
         // Get the current course ID
-        $currentCourseId = $this->courseId;
+        $currentCourseId= $this->courseId;
 
         // Get materials from the selected course
-        $materialsToImport = CourseMaterial::where('course_id', $this->importedCourseId)->get();
+        $materialsToImport= CourseMaterial::where('course_id', $this->importedCourseId)->get();
 
         // Count for success message
-        $importCount = 0;
+        $importCount= 0;
 
         // Begin transaction to ensure data integrity
         DB::beginTransaction();
@@ -326,11 +333,11 @@ new class extends Component {
             // Then import new materials
             foreach ($materialsToImport as $material) {
                 // Create a new material record for the current course
-                $newMaterial = new CourseMaterial();
-                $newMaterial->course_id = $currentCourseId;
-                $newMaterial->material_name = $material->material_name;
-                $newMaterial->description = $material->description;
-                $newMaterial->material_content = $material->material_content;
+                $newMaterial= new CourseMaterial();
+                $newMaterial->course_id= $currentCourseId;
+                $newMaterial->material_name= $material->material_name;
+                $newMaterial->description= $material->description;
+                $newMaterial->material_content= $material->material_content;
 
                 // Save the new material
                 $newMaterial->save();
@@ -347,7 +354,7 @@ new class extends Component {
             );
 
             // Close the modal
-            $this->isModalOpen = false;
+            $this->isModalOpen= false;
 
             // Refresh the materials list for the current course
             $this->refreshCourseMaterials();
@@ -358,15 +365,15 @@ new class extends Component {
 
             // Log the error for debugging
             Log::error('Course material import failed: ' . $e->getMessage(), [
-                'exception' => $e,
-                'from_course_id' => $this->importedCourseId,
-                'to_course_id' => $currentCourseId
+                'exception'=> $e,
+                'from_course_id'=> $this->importedCourseId,
+                'to_course_id'=> $currentCourseId
             ]);
 
             // Error notification
             $this->dispatch('notify', [
-                'type' => 'error',
-                'message' => "Failed to import materials: " . $e->getMessage()
+                'type'=> 'error',
+                'message'=> "Failed to import materials: " . $e->getMessage()
             ]);
         }
         $this->modal('importModal')->close();
@@ -383,9 +390,9 @@ new class extends Component {
     {
         if (!empty($value)) {
             // Load materials for the selected course
-            $this->importedMaterials = CourseMaterial::where('course_id', $value)->get();
+            $this->importedMaterials= CourseMaterial::where('course_id', $value)->get();
         } else {
-            $this->importedMaterials = [];
+            $this->importedMaterials= [];
         }
     }
 
@@ -397,7 +404,7 @@ new class extends Component {
     protected function refreshCourseMaterials(): void
     {
         // Update the materials property with fresh data
-        $this->materials = CourseMaterial::where('course_id', $this->courseId)->get();
+        $this->materials= CourseMaterial::where('course_id', $this->courseId)->get();
     }
 
 
@@ -407,11 +414,11 @@ new class extends Component {
             return;
         }
 
-        $this->questions[] = [
-            'text' => '',
-            'question_type' => 'multiple_choice',
-            'options' => ['', '', '', ''],
-            'correct_answer' => null,
+        $this->questions[]= [
+            'text'=> '',
+            'question_type'=> 'multiple_choice',
+            'options'=> ['', '', '', ''],
+            'correct_answer'=> null,
         ];
     }
 
@@ -420,10 +427,10 @@ new class extends Component {
         if (isset($this->questions[$index])) {
             // Check if this question exists in database (has an ID)
             if (isset($this->questions[$index]['id'])) {
-                $questionId = $this->questions[$index]['id'];
+                $questionId= $this->questions[$index]['id'];
 
                 // Find and delete the question from database
-                $question = Question::find($questionId);
+                $question= Question::find($questionId);
                 if ($question) {
                     // Delete all associated options first
                     $question->options()->delete();
@@ -445,49 +452,49 @@ new class extends Component {
 
         $this->validate(
             [
-                'quizTitle' => 'required | min:3',
-                'quizAttempts' => 'required | numeric | min:1',
-                'questions' => 'required | array|min:1',
-                'questions .*.text' => 'required',
-                'questions .*.correct_answer' => 'required',
+                'quizTitle'=> 'required | min:3',
+                'quizAttempts'=> 'required | numeric | min:1',
+                'questions'=> 'required | array|min:1',
+                'questions .*.text'=> 'required',
+                'questions .*.correct_answer'=> 'required',
             ],
             [
-                'questions .*.text . required' => 'Question text is required',
-                'questions .*.correct_answer . required' => 'You must select a correct answer',
+                'questions .*.text . required'=> 'Question text is required',
+                'questions .*.correct_answer . required'=> 'You must select a correct answer',
             ],
         );
 
-        $course = Course::find($this->courseId);
+        $course= Course::find($this->courseId);
 
         // Check if we already have quizzes for this course
         if ($this->quizzes && $this->quizzes->isNotEmpty()) {
             // Update the existing quiz
-            $quiz = $this->quizzes->first();
-            $quiz->title = $this->quizTitle;
-            $quiz->max_attempts = $this->quizAttempts;
-            $quiz->passing_score = $this->passingScore;
+            $quiz= $this->quizzes->first();
+            $quiz->title= $this->quizTitle;
+            $quiz->max_attempts= $this->quizAttempts;
+            $quiz->passing_score= $this->passingScore;
             $quiz->save();
         } else {
             // Create a new quiz
-            $quiz = $course->quizes()->create([
-                'title' => $this->quizTitle,
-                'quizAttempts' => $this->quizAttempts,
-                'passingScore' => $this->passingScore,
+            $quiz= $course->quizes()->create([
+                'title'=> $this->quizTitle,
+                'quizAttempts'=> $this->quizAttempts,
+                'passingScore'=> $this->passingScore,
             ]);
         }
 
         // Process each question
-        foreach ($this->questions as $index => $questionData) {
+        foreach ($this->questions as $index=> $questionData) {
             // Check if we're updating an existing question or creating a new one
-            $questionId = $questionData['id'] ?? null;
+            $questionId= $questionData['id'] ?? null;
 
             // Create or update the question
-            $question = $quiz->questions()->updateOrCreate(
-                ['id' => $questionId],
+            $question= $quiz->questions()->updateOrCreate(
+                ['id'=> $questionId],
                 [
-                    'question_text' => $questionData['text'],
-                    'question_type' => $questionData['question_type'] ?? 'multiple_choice',
-                    'order' => $index + 1,
+                    'question_text'=> $questionData['text'],
+                    'question_type'=> $questionData['question_type'] ?? 'multiple_choice',
+                    'order'=> $index + 1,
                 ],
             );
 
@@ -497,26 +504,26 @@ new class extends Component {
             }
 
             // Add options
-            foreach ($questionData['options'] as $optionIndex => $optionText) {
+            foreach ($questionData['options'] as $optionIndex=> $optionText) {
                 if (!empty($optionText)) {
                     $question->options()->create([
-                        'option_text' => $optionText,
-                        'is_correct' => $questionData['correct_answer'] == $optionIndex,
-                        'order' => $optionIndex + 1,
+                        'option_text'=> $optionText,
+                        'is_correct'=> $questionData['correct_answer']== $optionIndex,
+                        'order'=> $optionIndex + 1,
                     ]);
                 }
             }
         }
 
         // Refresh the data
-        $this->quizzes = $course
+        $this->quizzes= $course
             ->quizes()
             ->with(['questions.options'])
             ->get();
 
         // Update the quiz property to the current quiz
         if ($this->quizzes->isNotEmpty()) {
-            $this->quiz = $this->quizzes->first();
+            $this->quiz= $this->quizzes->first();
         }
 
         session()->flash('message', 'Quiz saved successfully!');
@@ -537,7 +544,7 @@ new class extends Component {
             return;
         }
 
-        $this->activeTab = $tab;
+        $this->activeTab= $tab;
     }
 } ?>
 
@@ -557,7 +564,7 @@ new class extends Component {
                     <button class="inline-block p-4 border-b-2 rounded-t-lg"
                             :class="{
                             'border-accent-content text-accent-content dark:text-accent-content': $wire
-                                .activeTab === 'course',
+                                .activeTab=== 'course',
                             'border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 dark:hover:border-gray-500': $wire
                                 .activeTab !== 'course'
                         }"
@@ -567,7 +574,7 @@ new class extends Component {
                 <li class="mr-2" role="presentation">
                     <button class="inline-block p-4 border-b-2 rounded-t-lg"
                             :class="{
-                            'border-accent-content text-accent-content dark:text-accent-content': $wire.activeTab === 'materials' && $wire
+                            'border-accent-content text-accent-content dark:text-accent-content': $wire.activeTab=== 'materials' && $wire
                                 .courseCreated,
                             'border-transparent text-gray-400 dark:text-gray-500 cursor-not-allowed': !$wire.courseCreated,
                             'border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 dark:hover:border-gray-500': $wire
@@ -581,7 +588,7 @@ new class extends Component {
                 <li class="mr-2" role="presentation">
                     <button class="inline-block p-4 border-b-2 rounded-t-lg"
                             :class="{
-                            'border-accent-content text-accent-content dark:text-accent-content': $wire.activeTab === 'quiz' && $wire
+                            'border-accent-content text-accent-content dark:text-accent-content': $wire.activeTab=== 'quiz' && $wire
                                 .courseCreated,
                             'border-transparent text-gray-400 dark:text-gray-500 cursor-not-allowed': !$wire.courseCreated,
                             'border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 dark:hover:border-gray-500': $wire
@@ -594,7 +601,7 @@ new class extends Component {
                 <li role="presentation">
                     <button class="inline-block p-4 border-b-2 rounded-t-lg"
                             :class="{
-                            'border-accent-content text-accent-content dark:text-accent-content': $wire.activeTab === 'enrollments' && $wire
+                            'border-accent-content text-accent-content dark:text-accent-content': $wire.activeTab=== 'enrollments' && $wire
                                 .courseCreated,
                             'border-transparent text-gray-400 dark:text-gray-500 cursor-not-allowed': !$wire.courseCreated,
                             'border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 dark:hover:border-gray-500': $wire
@@ -609,73 +616,89 @@ new class extends Component {
         </div>
 
         <div class="tab-content">
-            <div x-show="$wire.activeTab === 'course'" class="p-4 rounded-lg bg-white dark:bg-gray-800" x-transition>
-                <h3 class="text-lg font-semibold mb-4 dark:text-white">Course Information</h3>
-                <form wire:click.prevent="saveCourse">
-                    <div class="mb-4">
-                        <flux:input id="title" label="Course Title" wire:model="title"
-                                    class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
-                    </div>
-                    <div class="mb-4">
+            <div x-show="$wire.activeTab=== 'course'" class="p-4 rounded-lg bg-white dark:bg-gray-800" x-transition>
+            <h3 class="text-lg font-semibold mb-4 dark:text-white">Course Information</h3>
+            <form wire:submit.prevent="saveCourse">
+                <div class="mb-4">
+                <flux:input id="title" label="Course Title" wire:model="title"
+                       icon="academic-cap" placeholder="Enter course title"
+                       class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
+                </div>
+                <div class="mb-4">
+                <flux:textarea id="description" label="Course Description" wire:model="description" rows="4"
+                          icon="document-text" placeholder="Provide a detailed course description"
+                          class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
+                </div>
+                <div class="flex grid grid-cols-2 gap-2 mb-4">
+                <flux:field>
+                    <flux:label class="dark:text-gray-300">Course Fee</flux:label>
+                    <flux:input.group>
+                    <flux:input.group.prefix class="dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                        N$
+                    </flux:input.group.prefix>
+                    <flux:input wire:model="course_fee" type="decimal:2" min="0.00" required
+                          icon="currency-dollar" placeholder="0.00"
+                          class="dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
+                    </flux:input.group>
+                </flux:field>
 
-                        <flux:textarea id="description" label="Course Description" wire:model="description" rows="4"
-                                       class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
-                    </div>
-                    <div class="flex grid grid-cols-2 gap-2 mb-4">
-                        <flux:field>
-                            <flux:label class="dark:text-gray-300">Course Fee</flux:label>
-                            <flux:input.group>
-                                <flux:input.group.prefix class="dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                                    N$
-                                </flux:input.group.prefix>
-                                <flux:input wire:model.live="course_fee" type="decimal:2" min="0" required
-                                            class="dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
-                            </flux:input.group>
-                        </flux:field>
+                <flux:field>
+                    <flux:label class="dark:text-gray-300">Course Coordinator</flux:label>
+                    <flux:select wire:model="sme_id" icon="user-circle"
+                        placeholder="Select course coordinator"
+                        class="dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                    <flux:select.option value="">Select a coordinator</flux:select.option>
+                    <flux:select.option value="">Me ({{ Auth::user()->name }})</flux:select.option>
+                    <optgroup label="Subject Matter Experts">
+                        @foreach(SME::all() as $sme)
+                        <flux:select.option value="{{ $sme->id }}">{{ $sme->sme_name }}</flux:select.option>
+                        @endforeach
+                    </optgroup>
+                    </flux:select>
+                </flux:field>
 
-                        <flux:field>
-                            <flux:label class="dark:text-gray-300">Course Type</flux:label>
+                <flux:field>
+                    <flux:label class="dark:text-gray-300">Course Type</flux:label>
 
-                            <flux:select wire:model.live="course_type"
-                                         class="dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                                <flux:select.option value="online">Online</flux:select.option>
-                                <flux:select.option value="face-to-face">Face to Face</flux:select.option>
-                                <flux:select.option value="hybrid">Hybrid</flux:select.option>
-                            </flux:select>
-                        </flux:field>
-                    </div>
-                    <div class="mb-4">
+                    <flux:select wire:model="course_type" icon="device-tablet"
+                        placeholder="Choose course delivery format"
+                        class="dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                    <flux:select.option value="online">Online</flux:select.option>
+                    <flux:select.option value="face-to-face">Face to Face</flux:select.option>
+                    <flux:select.option value="hybrid">Hybrid</flux:select.option>
+                    </flux:select>
+                </flux:field>
+                </div>
+                <div class="mb-4">
+                <flux:input type="file" id="course_image" label="Course Image" wire:model="courseImage"
+                      icon="photo" placeholder="Upload course thumbnail"
+                      class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                      accept="image/*"/>
 
-                        <flux:input type="file" id="course_image" label="Course Image" wire:model="courseImage"
-                                    class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                                    accept="image/*"/>
-
-                        <div class="mt-2">
-                            <img src="{{ url('storage/' . $existingImage) }}"
-                                 class="h-24 w-auto object-cover rounded" alt="{{ $existingImage }}">
-                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Current image</p>
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-2 gap-4 mb-4">
-                        <div>
-
-                            <flux:input label="Start Date" type="date" id="start_date" wire:model="startDate"
-                                        class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
-                        </div>
-                        <div>
-
-                            <flux:input label="End Date" type="date" id="end_date" wire:model="endDate"
-                                        class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
-                        </div>
-                    </div>
-                    <flux:button variant="primary" type="submit">
-                        {{ $courseId ? 'Update Course' : 'Create Course' }}</flux:button>
-
-
-                </form>
+                <div class="mt-2">
+                    <img src="{{ url('storage/' . $existingImage) }}"
+                     class="h-24 w-auto object-cover rounded" alt="{{ $existingImage }}">
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Current image</p>
+                </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                <div>
+                    <flux:input label="Start Date" type="date" id="start_date" wire:model="startDate"
+                          icon="calendar" placeholder="YYYY-MM-DD"
+                          class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
+                </div>
+                <div>
+                    <flux:input label="End Date" type="date" id="end_date" wire:model="endDate"
+                          icon="calendar" placeholder="YYYY-MM-DD"
+                          class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
+                </div>
+                </div>
+                <flux:button variant="primary" type="submit">
+                {{ $courseId ? 'Update Course' : 'Create Course' }}</flux:button>
+            </form>
             </div>
 
-            <div x-show="$wire.activeTab === 'materials' && $wire.courseCreated"
+            <div x-show="$wire.activeTab=== 'materials' && $wire.courseCreated"
                  class="p-4 rounded-lg bg-white dark:bg-gray-800"
                  x-transition>
                 <div class="flex inline justify-end items-center">
@@ -730,7 +753,7 @@ new class extends Component {
 
                 <flux:modal name="importModal" dismissible="true" wire:model="isModalOpen">
                     <div>
-                        <flux:select label="Course to Import Course Materials From" wire:model.live="importedCourseId">
+                        <flux:select label="Course to Import Course Materials From" wire:model="importedCourseId">
                             <flux:select.option value="">Select a course...
                             </flux:select.option>
                             @foreach(Course::lazy() as $course)
@@ -807,7 +830,7 @@ new class extends Component {
 
             </div>
 
-            <div x-show="$wire.activeTab === 'quiz' && $wire.courseCreated"
+            <div x-show="$wire.activeTab=== 'quiz' && $wire.courseCreated"
                  class="p-4 rounded-lg bg-white dark:bg-gray-800" x-transition>
                 <h3 class="text-lg font-semibold mb-4 dark:text-white">Course Quiz</h3>
                 <form wire:submit.prevent="saveQuiz">
@@ -838,7 +861,7 @@ new class extends Component {
                     <div class="mb-4">
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Questions</label>
 
-                        @foreach ($questions as $index => $question)
+                        @foreach ($questions as $index=> $question)
                             <div class="p-4 border rounded-md mb-3 bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
                                 <div class="mb-3">
                                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Question
@@ -850,7 +873,7 @@ new class extends Component {
 
                                 <div class="mb-2">
                                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Options</label>
-                                    @foreach (['A', 'B', 'C', 'D'] as $optionIndex => $optionLabel)
+                                    @foreach (['A', 'B', 'C', 'D'] as $optionIndex=> $optionLabel)
                                         <div class="flex items-center mb-2">
                                             <div class="mr-2 dark:text-white">{{ $optionLabel }}.</div>
                                             <input
@@ -893,7 +916,7 @@ new class extends Component {
                 </form>
             </div>
 
-            <div x-show="$wire.activeTab === 'enrollments' && $wire.courseCreated"
+            <div x-show="$wire.activeTab=== 'enrollments' && $wire.courseCreated"
                  class="p-4 rounded-lg bg-white dark:bg-gray-800"
                  x-transition>
                 <h3 class="text-lg font-semibold mb-4 dark:text-white">Student Enrollments</h3>
@@ -902,7 +925,7 @@ new class extends Component {
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" for="studentSearch">Search
                         Students</label>
                     <div class="flex">
-                        <x-input id="studentSearch" wire:model.live="studentSearch"
+                        <x-input id="studentSearch" wire:model="studentSearch"
                                  class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                                  placeholder="Search by name or email"/>
                         <x-button type="button" class="ml-2 bg-accent-content hover:bg-accent-content">
@@ -928,7 +951,7 @@ new class extends Component {
                     <h4 class="font-medium mb-2 dark:text-white">Selected Students</h4>
                     @if (count($selectedStudents) > 0)
                         <div class="border rounded-md divide-y dark:border-gray-700 dark:divide-gray-700">
-                            @foreach ($selectedStudents as $index => $student)
+                            @foreach ($selectedStudents as $index=> $student)
                                 <div class="p-3 flex items-center justify-between">
                                     <div>
                                         <p class="font-medium dark:text-white">{{ $student['name'] }}</p>
@@ -951,7 +974,7 @@ new class extends Component {
                 </div>
 
                 <x-button type="button" wire:click="enrollStudents" class="bg-accent-content hover:bg-accent-content"
-                          :disabled="count($selectedStudents) === 0">
+                          :disabled="count($selectedStudents)=== 0">
                     Enroll Selected Students
                 </x-button>
             </div>

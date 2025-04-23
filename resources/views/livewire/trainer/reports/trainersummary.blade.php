@@ -16,7 +16,6 @@ new class extends Component {
     }
 
     public function mount(){
-
     }
 
     public $period = '';
@@ -122,9 +121,9 @@ new class extends Component {
                 $index + 1,
                 $row->course->course_name,
                 $row->course->course_type,
-                'Dummy Institution', // Replace with actual data
-                $row->user->email,
-                $row->user->user_detail->phone_number,
+                $row->course->sme->sme_institution ?? __('Telecom Namibia'),
+                $row->course->sme->sme_email ?? $row->user->email,
+                $row->course->sme->sme_phone ?? $row->user->user_detail->phone_number,
                 $row->course->start_date->format('d/m/Y'),
                 $row->course->end_date->format('d/m/Y'),
                 number_format($row->facilitator_cost, 2),
@@ -241,10 +240,45 @@ new class extends Component {
                         <td class="px-4 py-3 dark:text-gray-300">{{ $loop->iteration }}</td>
                         <td class="px-4 py-3 font-medium dark:text-gray-300">{{ $row->course->course_name }}</td>
                         <td class="px-4 py-3 dark:text-gray-300">{{ $row->course->course_type }}</td>
-                        <td class="px-4 py-3 dark:text-gray-300">Dummy Institution</td>
+                        <td class="px-4 py-3 dark:text-gray-300">
+                            @php
+                                $institution = $row->course->sme->sme_institution ?? __('Telecom Namibia');
+                                // Create acronym if institution name is too long (over 20 characters)
+                                if (strlen($institution) > 20) {
+                                    $words = explode(' ', $institution);
+                                    $acronym = '';
+                                    $skipWords = ['of', 'the', 'or', 'and', 'for', 'in', 'on', 'at', 'by', 'to', 'a', 'an'];
+
+                                    // Check if last elements contain business entity types
+                                    $businessTypes = ['(Pty)', 'Ltd', 'Inc', 'LLC', 'LLP', 'Corp', 'Limited'];
+                                    $entitySuffix = '';
+
+                                    // Extract business entity suffix if present
+                                    $lastWords = array_slice($words, -2);
+                                    foreach ($lastWords as $word) {
+                                        if (in_array($word, $businessTypes)) {
+                                            $entitySuffix .= ' ' . $word;
+                                        }
+                                    }
+
+                                    // Create acronym from remaining words
+                                    foreach ($words as $word) {
+                                        if (strlen($word) > 0 && !in_array(strtolower($word), $skipWords) && !in_array($word, $businessTypes)) {
+                                            $acronym .= strtoupper($word[0]);
+                                        }
+                                    }
+
+                                    $institution = '<span title="' . e($row->course->sme->sme_institution) . '">' . $acronym . $entitySuffix . '</span>';
+                                    echo $institution;
+                                } else {
+                                    echo e($institution);
+                                }
+                            @endphp
+                        </td>
                         <td class="px-4 py-3">
-                            <div class="text-sm dark:text-gray-300">{{ $row->user->email }}</div>
-                            <div class="text-xs text-gray-500 dark:text-gray-400">{{ $row->user->user_detail->phone_number }}</div>
+                            <div class="text-sm dark:text-gray-300">{{ $row->course->sme->sme_email ?? $row->user->email }}</div>
+
+                            <div class="text-xs text-gray-500 dark:text-gray-400">{{ $row->course->sme->sme_phone ?? $row->user->user_detail->phone_number }}</div>
                         </td>
                         <td class="px-4 py-3">
                             <div class="text-sm dark:text-gray-300">{{ $row->course->start_date->format('M d, Y') }}</div>
