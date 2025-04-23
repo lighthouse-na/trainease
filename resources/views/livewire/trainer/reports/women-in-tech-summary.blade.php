@@ -1,22 +1,24 @@
 <?php
+
 use Livewire\Volt\Component;
 use App\Models\Training\Course;
 use App\Models\UserDetail;
+use \Illuminate\Database\Eloquent\Collection as EloquentCollection;
 
 new class extends Component {
-    public $usersInStemCourses = [];
-    public $femaleUsersInStemCourses = [];
-    public $femalePercentage = 0;
-    public $malePercentage = 0;
-    public $percentageDifference = 0;
-    public $courseName = ''; // Course name should be set dynamically
+    public array $usersInStemCourses = [];
+    public EloquentCollection $femaleUsersInStemCourses;
+    public int $femalePercentage = 0;
+    public int $malePercentage = 0;
+    public int $percentageDifference = 0;
+    public string $courseName = ''; // Course name should be set dynamically
     // Filter properties
-    public $filterType = ''; // Default value
-    public $selectedQuarter = '';
-    public $selectedMonth = '';
-    public $selectedYear = '';
-    public $startDate = '';
-    public $endDate = '';
+    public string $filterType = ''; // Default value
+    public string $selectedQuarter = '';
+    public string $selectedMonth = '';
+    public string $selectedYear = '';
+    public string $startDate = '';
+    public string $endDate = '';
 
     public function mount(): void
     {
@@ -136,7 +138,8 @@ new class extends Component {
                     @click="showFilters = !showFilters"
                     class="btn btn-sm btn-primary flex items-center gap-2"
                 >
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                         stroke="currentColor">
                         <path
                             stroke-linecap="round"
                             stroke-linejoin="round"
@@ -160,8 +163,10 @@ new class extends Component {
                     style="display: none;"
                 >
                     <div class="p-4">
-                        <label for="filterType" class="block font-medium text-gray-700 dark:text-gray-300">Filter By:</label>
-                        <select wire:model.live="filterType" id="filterType" class="mt-2 w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                        <label for="filterType" class="block font-medium text-gray-700 dark:text-gray-300">Filter
+                            By:</label>
+                        <select wire:model.live="filterType" id="filterType"
+                                class="mt-2 w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
                             <option value="">Select Filter</option>
                             <option value="quarter">Quarter</option>
                             <option value="month">Month</option>
@@ -170,8 +175,10 @@ new class extends Component {
                         </select>
 
                         @if($filterType === 'quarter')
-                            <label for="selectedQuarter" class="block mt-4 text-gray-700 dark:text-gray-300">Select Quarter:</label>
-                            <select wire:model.live="selectedQuarter" id="selectedQuarter" class="mt-2 w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                            <label for="selectedQuarter" class="block mt-4 text-gray-700 dark:text-gray-300">Select
+                                Quarter:</label>
+                            <select wire:model.live="selectedQuarter" id="selectedQuarter"
+                                    class="mt-2 w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
                                 <option value="">Select Quarter</option>
                                 <option value="Q1">Q1 (Jan - Mar)</option>
                                 <option value="Q2">Q2 (Apr - Jun)</option>
@@ -179,20 +186,29 @@ new class extends Component {
                                 <option value="Q4">Q4 (Oct - Dec)</option>
                             </select>
                         @elseif($filterType === 'month')
-                            <label for="selectedMonth" class="block mt-4 text-gray-700 dark:text-gray-300">Select Month:</label>
-                            <select wire:model.live="selectedMonth" id="selectedMonth" class="mt-2 w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                            <label for="selectedMonth" class="block mt-4 text-gray-700 dark:text-gray-300">Select
+                                Month:</label>
+                            <select wire:model.live="selectedMonth" id="selectedMonth"
+                                    class="mt-2 w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
                                 <option value="">Select Month</option>
                                 @foreach(range(1, 12) as $month)
-                                    <option value="{{ $month }}">{{ \Carbon\Carbon::create()->month($month)->format('F') }}</option>
+                                    <option
+                                        value="{{ $month }}">{{ \Carbon\Carbon::create()->month($month)->format('F') }}</option>
                                 @endforeach
                             </select>
-                            <label for="selectedYear" class="block mt-4 text-gray-700 dark:text-gray-300">Select Year:</label>
-                            <input type="number" wire:model.live="selectedYear" id="selectedYear" class="mt-2 w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" min="2000" max="{{ now()->year }}">
+                            <label for="selectedYear" class="block mt-4 text-gray-700 dark:text-gray-300">Select
+                                Year:</label>
+                            <input type="number" wire:model.live="selectedYear" id="selectedYear"
+                                   class="mt-2 w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                                   min="2000" max="{{ now()->year }}">
                         @elseif($filterType === 'custom')
-                            <label for="startDate" class="block mt-4 text-gray-700 dark:text-gray-300">Start Date:</label>
-                            <input type="date" wire:model.live="startDate" id="startDate" class="mt-2 w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                            <label for="startDate" class="block mt-4 text-gray-700 dark:text-gray-300">Start
+                                Date:</label>
+                            <input type="date" wire:model.live="startDate" id="startDate"
+                                   class="mt-2 w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
                             <label for="endDate" class="block mt-4 text-gray-700 dark:text-gray-300">End Date:</label>
-                            <input type="date" wire:model.live="endDate" id="endDate" class="mt-2 w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                            <input type="date" wire:model.live="endDate" id="endDate"
+                                   class="mt-2 w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
                         @endif
 
                         <flux:button wire:click="filterData" variant="primary" class="w-full mt-4">
@@ -203,7 +219,7 @@ new class extends Component {
                 </div>
             </div>
         </div>
-                    {{--   does this gray beneath check nxa ?.....{ughh answer here     --}}
+        {{--   does this gray beneath check nxa ?.....{ughh answer here     --}}
         <div class="mb-6 bg-gradient-to-br from-gray-300 to-[#66cfb7] text-white p-6 rounded-lg shadow-lg">
             <h3 class="text-lg font-semibold mb-2">Gender Distribution</h3>
             <div class="flex items-center space-x-4">
@@ -228,11 +244,14 @@ new class extends Component {
             @if($femaleUsersInStemCourses->isEmpty())
                 <div class="overflow-x-auto bg-white dark:bg-gray-800 rounded-lg border dark:border-gray-700">
                     <div class="text-center py-8">
-                        <svg class="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        <svg class="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24"
+                             stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                         </svg>
                         <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-gray-100">No female users found</h3>
-                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">No female users are enrolled in this course based on the current filter.</p>
+                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">No female users are enrolled in this
+                            course based on the current filter.</p>
                     </div>
                 </div>
             @else
