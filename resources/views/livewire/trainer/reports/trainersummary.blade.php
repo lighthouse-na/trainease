@@ -39,27 +39,55 @@ new class extends Component {
 
         switch ($this->period) {
             case 'this_month':
-                $query->whereHas('course', function($q) {
-                    $q->whereMonth('start_date', now()->month)
-                      ->whereYear('start_date', now()->year);
-                });
-                break;
+            $query->whereHas('course', function($q) {
+                $q->whereMonth('start_date', now()->month)
+                  ->whereYear('start_date', now()->year);
+            });
+            break;
             case 'last_month':
-                $query->whereHas('course', function($q) {
-                    $q->whereMonth('start_date', now()->subMonth()->month)
-                      ->whereYear('start_date', now()->subMonth()->year);
-                });
-                break;
+            $query->whereHas('course', function($q) {
+                $q->whereMonth('start_date', now()->subMonth()->month)
+                  ->whereYear('start_date', now()->subMonth()->year);
+            });
+            break;
+            case 'q1':
+            $query->whereHas('course', function($q) {
+                $q->whereYear('start_date', now()->year)
+                  ->whereMonth('start_date', '>=', 1)
+                  ->whereMonth('start_date', '<=', 3);
+            });
+            break;
+            case 'q2':
+            $query->whereHas('course', function($q) {
+                $q->whereYear('start_date', now()->year)
+                  ->whereMonth('start_date', '>=', 4)
+                  ->whereMonth('start_date', '<=', 6);
+            });
+            break;
+            case 'q3':
+            $query->whereHas('course', function($q) {
+                $q->whereYear('start_date', now()->year)
+                  ->whereMonth('start_date', '>=', 7)
+                  ->whereMonth('start_date', '<=', 9);
+            });
+            break;
+            case 'q4':
+            $query->whereHas('course', function($q) {
+                $q->whereYear('start_date', now()->year)
+                  ->whereMonth('start_date', '>=', 10)
+                  ->whereMonth('start_date', '<=', 12);
+            });
+            break;
             case 'this_year':
-                $query->whereHas('course', function($q) {
-                    $q->whereYear('start_date', now()->year);
-                });
-                break;
+            $query->whereHas('course', function($q) {
+                $q->whereYear('start_date', now()->year);
+            });
+            break;
             case 'custom':
-                $query->whereHas('course', function($q) {
-                    $q->whereBetween('start_date', [$this->startDate, $this->endDate]);
-                });
-                break;
+            $query->whereHas('course', function($q) {
+                $q->whereBetween('start_date', [$this->startDate, $this->endDate]);
+            });
+            break;
         }
 
         $rawData = $query->get();
@@ -149,6 +177,10 @@ new class extends Component {
                     <flux:select.option value="">Select period</flux:select.option>
                     <flux:select.option value="this_month">This Month</flux:select.option>
                     <flux:select.option value="last_month">Last Month</flux:select.option>
+                    <flux:select.option value="q1">Q1 (Jan-Mar)</flux:select.option>
+                    <flux:select.option value="q2">Q2 (Apr-Jun)</flux:select.option>
+                    <flux:select.option value="q3">Q3 (Jul-Sep)</flux:select.option>
+                    <flux:select.option value="q4">Q4 (Oct-Dec)</flux:select.option>
                     <flux:select.option value="this_year">This Year</flux:select.option>
                     <flux:select.option value="custom">Custom Range</flux:select.option>
                     </flux:select>
