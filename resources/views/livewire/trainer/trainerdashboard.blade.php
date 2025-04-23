@@ -56,10 +56,10 @@ new class extends Component {
 
         $this->kpis = [
             ['title' => 'My courses', 'value' => $this->myCourses->count(), 'route' =>'#'],
-            ['title' => 'Staff Enrolled', 'value' => $totalStudents, 'route' => '#'],
+//            ['title' => 'Staff Enrolled', 'value' => $totalStudents, 'route' => '#'],
+            ['title' => 'Women in STEM', 'value' => number_format($womenInTechPercentage, 2) . '%', 'route' => 'women-in-tech-summary'],
             ['title' => 'Passing Rate', 'value' => number_format($passingRate, 1) . '%', 'route' => '#'],
             ['title' => 'Total Cost', 'value' => 'N$' . number_format($totalCost, 2), 'route' => 'summary'],
-            ['title' => 'Women in STEM', 'value' => number_format($womenInTechPercentage, 2) . '%', 'route' => 'women-in-tech-summary'],//           // add the women in stem shandie here aswell
         ];
 
 
@@ -183,7 +183,6 @@ new class extends Component {
             </table>
         </div>
     </div>
-
     <!-- Quick Actions -->
 
 
