@@ -20,10 +20,10 @@ new class extends Component {
     public string $startDate = '';
     public string $endDate = '';
 
+    public bool $showFilterDropdown = false;
+
     public function mount(): void
     {
-        // Example: Set $courseName dynamically (e.g., from route parameter)
-        $this->courseName = 'STEM Course'; // Replace with dynamic value if needed
         $this->fetchUsersInStemCourses();
         $this->calculateGenderMetrics();
     }
@@ -117,8 +117,6 @@ new class extends Component {
         $this->femaleUsersInStemCourses = $this->usersInStemCourses['female'];
         $this->calculateGenderMetrics();
     }
-
-    public bool $showFilterDropdown = false;
 
     public function toggleFilterDropdown(): void
     {
