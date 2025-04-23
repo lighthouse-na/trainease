@@ -48,11 +48,11 @@ new class extends Component {
         ];
     }
 }; ?>
-<div class="grid grid-cols-4 gap-6">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
     <!-- First row: Stats cards -->
-    <div class="col-span-3 grid grid-cols-3 gap-6">
+    <div class="col-span-1 md:col-span-2 lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
         @foreach ($stats as $stat)
-            <div class="relative rounded-lg px-6 py-4 bg-zinc-50 dark:bg-zinc-700 {{ $loop->iteration > 1 ? 'max-md:hidden' : '' }} {{ $loop->iteration > 3 ? 'max-lg:hidden' : '' }}">
+            <div class="relative rounded-lg px-4 sm:px-6 py-4 bg-zinc-50 dark:bg-zinc-700">
                 <flux:subheading>{{ $stat['title'] }}</flux:subheading>
                 <flux:heading size="xl" class="mb-2">{{ $stat['value'] }}</flux:heading>
                 <div class="absolute top-0 right-0 pr-2 pt-2">
@@ -62,13 +62,13 @@ new class extends Component {
         @endforeach
     </div>
 
-    <!-- Activity graph spanning two rows -->
-    <div class="col-span-1 row-span-2 rounded-xl">
+    <!-- Activity graph -->
+    <div class="col-span-1 lg:row-span-2 rounded-xl order-3 lg:order-2">
         @livewire('custom-components.activity-graph')
     </div>
 
     <!-- Second row: Trainings table -->
-    <div class="col-span-3 relative h-auto flex-1 overflow-hidden rounded-lg">
+    <div class="col-span-1 md:col-span-2 lg:col-span-3 relative h-auto flex-1 overflow-hidden rounded-lg order-2 lg:order-3">
         <flux:heading>My Trainings</flux:heading>
         <div class="overflow-x-auto bg-white dark:bg-gray-800 rounded-lg border dark:border-gray-700 mt-4">
             <table class="w-full whitespace-nowrap text-sm">
