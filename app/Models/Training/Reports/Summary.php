@@ -22,6 +22,15 @@ class Summary extends Model
         'other_cost',
         'subsistence_cost',
         'total_cost',
+        'facilitator_invoice',
+        'course_material_invoice',
+        'assessment_invoice',
+        'certification_invoice',
+        'travel_invoice',
+        'accommodation_invoice',
+        'other_invoice',
+        'subsistence_invoice',
+
     ];
 
     protected $casts = [
@@ -34,6 +43,15 @@ class Summary extends Model
         'other_cost' => 'decimal:2',
         'subsistence_cost' => 'decimal:2',
         'total_cost' => 'decimal:2',
+        'facilitator_invoice' => 'string',
+        'course_material_invoice' => 'string',
+        'assessment_invoice' => 'string',
+        'certification_invoice' => 'string',
+        'travel_invoice' => 'string',
+        'accommodation_invoice' => 'string',
+        'other_invoice' => 'string',
+        'subsistence_invoice' => 'string',
+
     ];
 
     /**
