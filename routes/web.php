@@ -32,6 +32,14 @@ Route::middleware(['auth'])->group(function () {
     Volt::route('sme','trainer.sme.index')->name('sme.index');
 
     /**
+     *
+     * Trainease Staff Routes
+     */
+
+     Volt::route('trainease/grades', 'staff.reports.grades')->name('my.grades');
+     Volt::route('trainease/costs', 'staff.reports.costs')->name('my.costs');
+
+    /**
      * SkillHarbor Routes
      * These are the routes for the skill audit compnent
      */
