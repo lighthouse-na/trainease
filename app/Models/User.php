@@ -121,6 +121,15 @@ class User extends Authenticatable
     }
 
     /**
+     * @return BelongsToMany<Course, $this>
+     */
+    public function enrolledCourses(): BelongsToMany
+    {
+        return $this->belongsToMany(Course::class, 'enrollments', 'user_id', 'course_id');
+    //edit this to only redturn courses shandies related to STEM
+    }
+
+    /**
      * @return HasMany<CourseProgress, $this>
      */
     public function courseProgress(): HasMany

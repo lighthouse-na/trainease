@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('course_fee');
             $table->string('course_image');
             $table->enum('course_type', ['online', 'face-to-face', 'hybrid']);
+            $table->boolean('is_stem');
             $table->date('start_date');
             $table->date('end_date');
             $table->timestamps();
