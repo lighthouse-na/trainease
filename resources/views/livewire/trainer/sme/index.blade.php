@@ -44,49 +44,7 @@ new class extends Component {
         $this->currentVendor = new SME();
     }
 
-    public function openModal($data)
-    {
-        $id = $data['data'] ?? null;
-        $modalId = $data['id'] ?? null;
 
-        if ($id) {
-            if ($modalId === 'edit-sme-vendor') {
-                $this->loadVendorForEdit($id);
-            } elseif ($modalId === 'contact-sme-vendor') {
-                $this->contactVendorId = $id;
-                $this->loadVendorForContact($id);
-            } elseif ($modalId === 'view-sme-vendor-details') {
-                $this->loadVendorForView($id);
-            } elseif ($modalId === 'schedule-meeting') {
-                $this->meetingVendorId = $id;
-            }
-        }
-    }
-
-    public function loadVendorForEdit($id)
-    {
-        $vendor = SME::findOrFail($id);
-        $this->editVendorId = $vendor->id;
-        $this->sme_name = $vendor->sme_name;
-        $this->sme_email = $vendor->sme_email;
-        $this->sme_phone = $vendor->sme_phone;
-        $this->sme_type = $vendor->sme_type;
-        $this->sme_institution = $vendor->sme_institution;
-        $this->sme_description = $vendor->sme_description;
-    }
-
-    public function loadVendorForContact($id)
-    {
-        $vendor = SME::findOrFail($id);
-        // Pre-fill subject with vendor name
-        $this->contact_subject = "Regarding collaboration with " . $vendor->sme_name;
-    }
-
-    public function loadVendorForView($id)
-    {
-        $this->currentVendor = SME::findOrFail($id);
-        $this->viewVendorId = $id;
-    }
 
     public function confirmDelete($id)
     {
@@ -130,86 +88,7 @@ new class extends Component {
         $this->dispatch('close-modal', ['id' => 'add-sme-vendor']);
     }
 
-    public function updateVendor()
-    {
-        $validated = $this->validate([
-            'sme_name' => 'required|string|max:255',
-            'sme_email' => 'required|email|max:255',
-            'sme_phone' => 'nullable|string|max:20',
-            'sme_type' => 'required|string|max:255',
-            'sme_institution' => 'nullable|string|max:255',
-            'sme_description' => 'nullable|string',
-        ]);
 
-        $vendor = SME::findOrFail($this->editVendorId);
-        $vendor->update([
-            'sme_name' => $this->sme_name,
-            'sme_email' => $this->sme_email,
-            'sme_phone' => $this->sme_phone,
-            'sme_type' => $this->sme_type,
-            'sme_institution' => $this->sme_institution,
-            'sme_description' => $this->sme_description,
-        ]);
-
-        $this->reset(['sme_name', 'sme_email', 'sme_phone', 'sme_type', 'sme_institution', 'sme_description', 'editVendorId']);
-
-        // Close the modal
-        $this->dispatch('close-modal', ['id' => 'edit-sme-vendor']);
-    }
-
-    public function sendMessage()
-    {
-        $this->validate([
-            'contact_subject' => 'required|string|max:255',
-            'contact_message' => 'required|string',
-        ]);
-
-        $vendor = SME::findOrFail($this->contactVendorId);
-
-        // Here you would typically send an email or create a message record
-        // For example:
-        // Mail::to($vendor->sme_email)->send(new VendorContactMail($vendor, $this->contact_subject, $this->contact_message));
-
-        // Since this is just a demo, we'll add a notification message
-        session()->flash('message', 'Message sent to ' . $vendor->sme_name);
-
-        $this->reset(['contact_subject', 'contact_message', 'contactVendorId']);
-
-        $this->dispatch('close-modal', ['id' => 'contact-sme-vendor']);
-    }
-
-    public function scheduleMeeting()
-    {
-        $this->validate([
-            'meeting_title' => 'required|string|max:255',
-            'meeting_date' => 'required|date',
-            'meeting_time' => 'required',
-            'meeting_type' => 'required|string',
-            'meeting_location' => 'nullable|string',
-            'meeting_agenda' => 'nullable|string',
-        ]);
-
-        $vendor = SME::findOrFail($this->meetingVendorId);
-
-        // Here you would create a meeting record in your database
-        // For example:
-        // Meeting::create([
-        //     'title' => $this->meeting_title,
-        //     'date' => $this->meeting_date,
-        //     'time' => $this->meeting_time,
-        //     'type' => $this->meeting_type,
-        //     'location' => $this->meeting_location,
-        //     'agenda' => $this->meeting_agenda,
-        //     'sme_id' => $this->meetingVendorId,
-        //     'user_id' => Auth::id(),
-        // ]);
-
-        session()->flash('message', 'Meeting scheduled with ' . $vendor->sme_name);
-
-        $this->reset(['meeting_title', 'meeting_date', 'meeting_time', 'meeting_type', 'meeting_location', 'meeting_agenda', 'meetingVendorId']);
-
-        $this->dispatch('close-modal', ['id' => 'schedule-meeting']);
-    }
 
     public function with(): array
     {
@@ -251,7 +130,17 @@ new class extends Component {
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($vendors as $vendor)
+                                @php
+                                    $groupedVendors = $vendors->groupBy('consultant_id');
+                                @endphp
+
+                                @forelse ($groupedVendors as $consultantId => $consultantVendors)
+                                    <tr class="bg-gray-50 dark:bg-gray-700">
+                                        <td colspan="5" class="px-4 py-2 font-semibold text-gray-700 dark:text-gray-300">
+                                            Consultant: {{ \App\Models\User::find($consultantId)->name }}
+                                        </td>
+                                    </tr>
+                                    @foreach ($consultantVendors as $vendor)
                                     <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 border-b border-gray-100 dark:border-gray-700"
                                         x-data="{
                                             contextMenuOpen: false,
@@ -459,161 +348,8 @@ new class extends Component {
                                             </template>
                                         </td>
                                     </tr>
-                                    <flux:modal :name="'edit-sme-vendor-'.$vendor->id" class="md:max-w-xl">
-                                        <form wire:submit="updateVendor">
-                                            <div class="space-y-6">
-                                                <div>
-                                                    <flux:heading size="lg">Edit SME Vendor</flux:heading>
-                                                    <flux:text class="mt-2">Update the details for this SME vendor.</flux:text>
-                                                </div>
 
-                                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                                    <flux:input wire:model="sme_name" label="Name" placeholder="Vendor name" required />
-                                                    <flux:input wire:model="sme_email" label="Email" type="email"
-                                                        placeholder="vendor@example.com" required />
-                                                    <flux:input wire:model="sme_phone" label="Phone" placeholder="Phone number" />
-                                                    <flux:select wire:model="sme_type" label="Type" required>
-                                                        <flux:select.option value="" disabled>Select type</flux:select.option>
-                                                        <flux:select.option value="internal">Internal</flux:select.option>
-                                                        <flux:select.option value="external">External</flux:select.option>
-                                                    </flux:select>
-                                                    <flux:input wire:model="sme_institution" label="Company/Institution"
-                                                        placeholder="Company name" />
-                                                </div>
 
-                                                <flux:textarea wire:model="sme_description" label="Description"
-                                                    placeholder="Vendor description" rows="3" />
-
-                                                <div class="flex justify-end space-x-3 pt-4">
-                                                    <flux:button x-on:click="$dispatch('close-modal', { id: 'edit-sme-vendor-{{ $vendor->id }}' })">Cancel
-                                                    </flux:button>
-                                                    <flux:button type="submit" variant="primary">Update Vendor</flux:button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </flux:modal>
-
-                                    <!-- Contact Vendor Modal -->
-                                    <flux:modal :name="'contact-sme-vendor-'.$vendor->id" class="md:max-w-xl">
-                                        <div class="space-y-6">
-                                            <div>
-                                                <flux:heading size="lg">Contact SME Vendor</flux:heading>
-                                                <flux:text class="mt-2">Send a message to this SME vendor.</flux:text>
-                                            </div>
-
-                                            <form wire:submit="sendMessage">
-                                                <div class="space-y-4">
-                                                    <flux:input wire:model="contact_subject" label="Subject" placeholder="Message subject" required />
-                                                    <flux:textarea wire:model="contact_message" label="Message"
-                                                        placeholder="Type your message here..." rows="5" required />
-
-                                                    <div class="flex justify-end space-x-3 pt-4">
-                                                        <flux:button x-on:click="$dispatch('close-modal', { id: 'contact-sme-vendor-{{ $vendor->id }}' })">Cancel
-                                                        </flux:button>
-                                                        <flux:button type="submit" variant="primary">Send Message</flux:button>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </flux:modal>
-
-                                    <!-- View Vendor Details Modal -->
-                                    <flux:modal :name="'view-sme-vendor-details-'.$vendor->id" class="md:max-w-xl">
-                                        <div class="space-y-6">
-                                            <div>
-                                                <flux:heading size="lg">Vendor Details</flux:heading>
-                                                <flux:text class="mt-2">Detailed information about this SME vendor.</flux:text>
-                                            </div>
-
-                                            <div class="space-y-4">
-                                                <div class="flex items-center justify-center mb-4">
-                                                    <div class="h-24 w-24">
-                                                        <flux:avatar wire:ignore name="{{ $vendor->sme_name ?? '' }}" color="auto" size="xl" />
-                                                    </div>
-                                                </div>
-
-                                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                                    <div>
-                                                        <label class="text-xs font-medium text-gray-500 dark:text-gray-400">Name</label>
-                                                        <div class="text-sm font-medium dark:text-gray-300">{{ $vendor->sme_name ?? '' }}</div>
-                                                    </div>
-
-                                                    <div>
-                                                        <label class="text-xs font-medium text-gray-500 dark:text-gray-400">Type</label>
-                                                        <div>
-                                                            <flux:badge color="{{ ($vendor->sme_type ?? '') === 'internal' ? 'blue' : 'orange' }}">
-                                                                {{ $vendor->sme_type ?? '' }}
-                                                            </flux:badge>
-                                                        </div>
-                                                    </div>
-
-                                                    <div>
-                                                        <label class="text-xs font-medium text-gray-500 dark:text-gray-400">Email</label>
-                                                        <div class="text-sm dark:text-gray-300">{{ $vendor->sme_email ?? '' }}</div>
-                                                    </div>
-
-                                                    <div>
-                                                        <label class="text-xs font-medium text-gray-500 dark:text-gray-400">Phone</label>
-                                                        <div class="text-sm dark:text-gray-300">{{ $vendor->sme_phone ?? 'Not provided' }}</div>
-                                                    </div>
-
-                                                    <div class="col-span-2">
-                                                        <label class="text-xs font-medium text-gray-500 dark:text-gray-400">Company/Institution</label>
-                                                        <div class="text-sm dark:text-gray-300">{{ $vendor->sme_institution ?? 'Not provided' }}</div>
-                                                    </div>
-
-                                                    <div class="col-span-2">
-                                                        <label class="text-xs font-medium text-gray-500 dark:text-gray-400">Description</label>
-                                                        <div class="text-sm dark:text-gray-300 mt-1">{{ $vendor->sme_description ?? 'No description provided' }}</div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="flex justify-end space-x-3 pt-4">
-                                                    <flux:button x-on:click="$dispatch('close-modal', { id: 'view-sme-vendor-details-{{ $vendor->id }}' })">Close</flux:button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </flux:modal>
-
-                                    <!-- Schedule Meeting Modal -->
-                                    <flux:modal :name="'schedule-meeting-'.$vendor->id" class="md:max-w-xl">
-                                        <div class="space-y-6">
-                                            <div>
-                                                <flux:heading size="lg">Schedule Meeting</flux:heading>
-                                                <flux:text class="mt-2">Schedule a meeting with this SME vendor.</flux:text>
-                                            </div>
-
-                                            <form wire:submit="scheduleMeeting">
-                                                <div class="space-y-4">
-                                                    <flux:input wire:model="meeting_title" label="Meeting Title"
-                                                        placeholder="Enter meeting title" required />
-
-                                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                                        <flux:input wire:model="meeting_date" label="Date" type="date" required />
-                                                        <flux:input wire:model="meeting_time" label="Time" type="time" required />
-                                                    </div>
-
-                                                    <flux:select wire:model="meeting_type" label="Meeting Type" required>
-                                                        <flux:select.option value="" disabled>Select meeting type</flux:select.option>
-                                                        <flux:select.option value="in-person">In-person</flux:select.option>
-                                                        <flux:select.option value="virtual">Virtual</flux:select.option>
-                                                        <flux:select.option value="phone">Phone call</flux:select.option>
-                                                    </flux:select>
-
-                                                    <flux:input wire:model="meeting_location" label="Location/Link"
-                                                        placeholder="Meeting location or video link" />
-
-                                                    <flux:textarea wire:model="meeting_agenda" label="Agenda"
-                                                        placeholder="Meeting agenda and topics to discuss" rows="3" />
-
-                                                    <div class="flex justify-end space-x-3 pt-4">
-                                                        <flux:button x-on:click="$dispatch('close-modal', { id: 'schedule-meeting-{{ $vendor->id }}' })">Cancel</flux:button>
-                                                        <flux:button type="submit" variant="primary">Schedule</flux:button>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </flux:modal>
 
                                     <!-- Delete Confirmation Modal -->
                                     <div x-data="{ open: @entangle('showDeleteModal') }" x-show="open" class="fixed z-50 inset-0 overflow-y-auto"
@@ -666,6 +402,7 @@ new class extends Component {
                                                     </button>
                                                 </div>
                                             </div>
+                                            @endforeach
                                 @empty
                                     <tr>
                                         <td colspan="5"
