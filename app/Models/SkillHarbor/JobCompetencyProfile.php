@@ -12,7 +12,7 @@ class JobCompetencyProfile extends Model
     //
     protected $table = 'jcps';
 
-    protected $fillable = ['position_title', 'job_grade', 'user_id'];
+    protected $fillable = ['position_title', 'job_grade', 'user_id', 'duty_station', 'job_purpose', 'is_active'];
 
     protected $casts = [
         'created_at' => 'datetime',
@@ -32,7 +32,7 @@ class JobCompetencyProfile extends Model
      */
     public function skills(): BelongsToMany
     {
-        return $this->belongsToMany(Skill::class)->withPivot('user_rating', 'supervisor_rating', 'required_level');
+        return $this->belongsToMany(Skill::class, 'jcp_skill', 'jcp_id', 'skill_id')->withPivot('user_rating', 'supervisor_rating', 'required_level');
     }
 
     /**
@@ -40,7 +40,7 @@ class JobCompetencyProfile extends Model
      */
     public function qualifications(): BelongsToMany
     {
-        return $this->belongsToMany(Qualification::class, 'jcp_qualification');
+        return $this->belongsToMany(Qualification::class, 'jcp_qualification', 'jcp_id', 'qualification_id')->withPivot('from_date', 'end_date', 'status');
     }
 
     public function scopeSearch(JobCompetencyProfile $query, string $val): void

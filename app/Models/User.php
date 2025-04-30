@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -6,7 +7,9 @@ namespace App\Models;
 use App\Models\Organisation\Department;
 use App\Models\Organisation\Division;
 use App\Models\Organisation\Organisation;
+use App\Models\SkillHarbor\JobCompetencyProfile;
 use App\Models\SkillHarbor\Qualification;
+use App\Models\SkillHarbor\SkillHarborEnrollment;
 use App\Models\Training\Course;
 use App\Models\Training\CourseMaterial;
 use App\Models\Training\CourseProgress;
@@ -126,7 +129,7 @@ class User extends Authenticatable
     public function enrolledCourses(): BelongsToMany
     {
         return $this->belongsToMany(Course::class, 'enrollments', 'user_id', 'course_id');
-    //edit this to only redturn courses shandies related to STEM
+        // edit this to only redturn courses shandies related to STEM
     }
 
     /**
@@ -212,4 +215,24 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Qualification::class, 'user_qualification')->withPivot('from_date', 'end_date', 'status');
     }
+
+    /**
+     * SkillHarbor Functions
+     */
+
+    public function supervisor(): HasOne
+    {
+        return $this->hasOne(User::class, 'supervisor_id');
+    }
+
+    public function supervisees(): HasMany
+    {
+        return $this->hasMany(User::class, 'user_id');
+    }
+
+    public function jcps(): HasOne
+    {
+        return $this->HasOne(JobCompetencyProfile::class, 'user_id');
+    }
+
 }

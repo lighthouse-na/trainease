@@ -23,21 +23,20 @@ Route::middleware(['auth'])->group(function () {
     Volt::route('courses', 'training.coursespage')->name('training.coursespage')->middleware(['check.user.details']);
     Volt::route('courses/{course}', 'training.showcourse')->name('training.coursepage')->middleware(['check.user.details']);
     Volt::route('quiz/{quiz}', 'training.quiz.quiz')->name('training.quiz')->middleware(['check.user.details']);
+
     Route::view('course/{course_id}/{enrollment_id}', 'courses.show-course')
         ->middleware(['check.user.details'])
         ->name('course.show');
 
     Volt::route('/c/course/{course?}', 'trainer.create-course')->name('create.course')->middleware(['role:trainer']);
     Volt::route('c/course_detail/{course_id}/', 'trainer.coursedetails')->name('course.details');
-    Volt::route('sme','trainer.sme.index')->name('sme.index');
+    Volt::route('sme', 'trainer.sme.index')->name('sme.index');
 
     /**
-     *
      * Trainease Staff Routes
      */
-
-     Volt::route('trainease/grades', 'staff.reports.grades')->name('my.grades');
-     Volt::route('trainease/costs', 'staff.reports.costs')->name('my.costs');
+    Volt::route('trainease/grades', 'staff.reports.grades')->name('my.grades');
+    Volt::route('trainease/costs', 'staff.reports.costs')->name('my.costs');
 
     /**
      * SkillHarbor Routes
@@ -58,14 +57,14 @@ Route::middleware(['auth'])->group(function () {
         Volt::route('skillharbor/directories/qualifications', 'skillharbor.directories.qualifications.qualificationstable')->name('skill-harbor.qualifications');
         Volt::route('skillharbor/directories/assessments', 'skillharbor.directories.assessments.assessmentstable')->name('skill-harbor.directories.assessments');
         Volt::route('skillharbor/directories/jcps', 'skillharbor.directories.jcps.jcptable')->name('skill-harbor.directories.jcps');
+        //create jcp form
+        Volt::route('skillharbor/directories/jcps/manage/{user}', 'skillharbor.directories.jcps.jcp-form')->name('skill-harbor.directories.jcps.manage');
 
         /**
-         *
          * Summary Routes
          */
-
-         Volt::route('/summary', 'trainer.reports.trainersummary')->name('summary');
-         Volt::route('/women-in-tech-summary', 'trainer.reports.women-in-tech-summary')->name('women-in-tech-summary');
+        Volt::route('/summary', 'trainer.reports.trainersummary')->name('summary');
+        Volt::route('/women-in-tech-summary', 'trainer.reports.women-in-tech-summary')->name('women-in-tech-summary');
     });
 
 });

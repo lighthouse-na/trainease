@@ -26,7 +26,7 @@ return new class extends Migration
          */
         Schema::create('jcps', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->nullable();
+            $table->foreignId('user_id')->nullable();
 
             $table->string('position_title');
             $table->string('job_grade');
@@ -58,6 +58,11 @@ return new class extends Migration
             $table->string('skill_description');
             $table->timestamps();
         });
+
+
+        $this->seedSkillCategories();
+        $this->seedSkills();
+
 
         /**
          *Create Qualifications Table
@@ -120,7 +125,49 @@ return new class extends Migration
         });
 
     }
+    public function seedSkillCategories()
+    {
+    $categories = [
+        ['category_title' => 'Advanced Digital'],
+        ['category_title' => 'Basic Digital'],
+        ['category_title' => 'Knowledge'],
+        ['category_title' => 'Functional'],
+        ['category_title' => 'Behavioral'],
+    ];
 
+    foreach ($categories as $category) {
+        DB::table('skill_categories')->insert($category);
+    }
+    }
+
+    public function seedSkills()
+    {
+    $skills = [
+        // Advanced Digital
+        ['skill_category_id' => 1, 'skill_title' => 'Data Analytics', 'skill_description' => 'Ability to analyze complex data sets and draw meaningful insights'],
+        ['skill_category_id' => 1, 'skill_title' => 'Programming', 'skill_description' => 'Proficiency in coding and software development'],
+
+        // Basic Digital
+        ['skill_category_id' => 2, 'skill_title' => 'Microsoft Office', 'skill_description' => 'Proficiency in using MS Word, Excel, and PowerPoint'],
+        ['skill_category_id' => 2, 'skill_title' => 'Email Management', 'skill_description' => 'Effective use of email communication tools'],
+
+        // Knowledge
+        ['skill_category_id' => 3, 'skill_title' => 'Industry Knowledge', 'skill_description' => 'Understanding of sector-specific practices and trends'],
+        ['skill_category_id' => 3, 'skill_title' => 'Regulatory Compliance', 'skill_description' => 'Knowledge of relevant laws and regulations'],
+
+        // Functional
+        ['skill_category_id' => 4, 'skill_title' => 'Project Management', 'skill_description' => 'Ability to plan, execute and close projects effectively'],
+        ['skill_category_id' => 4, 'skill_title' => 'Budget Management', 'skill_description' => 'Skills in financial planning and resource allocation'],
+
+        // Behavioral
+        ['skill_category_id' => 5, 'skill_title' => 'Leadership', 'skill_description' => 'Ability to guide and motivate teams'],
+        ['skill_category_id' => 5, 'skill_title' => 'Communication', 'skill_description' => 'Effective verbal and written communication skills']
+    ];
+
+    foreach ($skills as $skill) {
+        DB::table('skills')->insert($skill);
+    }
+    }
     /**
      * Reverse the migrations.
      */

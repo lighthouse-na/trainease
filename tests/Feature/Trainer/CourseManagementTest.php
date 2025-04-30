@@ -11,9 +11,9 @@ use function Pest\Laravel\actingAs;
 use function Pest\Laravel\assertDatabaseHas;
 
 // Setup the test environment
-beforeEach(function() {
+beforeEach(function () {
     // Create the trainer role if it doesn't exist
-    if (!Role::where('name', 'trainer')->exists()) {
+    if (! Role::where('name', 'trainer')->exists()) {
         Role::create(['name' => 'trainer']);
     }
 });

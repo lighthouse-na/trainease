@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>Dashboard for /home/hubert/laravel-12/trainease/app</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="_css/bootstrap.min.css?v=11.0.9" rel="stylesheet" type="text/css">
+  <link href="_css/nv.d3.min.css?v=11.0.9" rel="stylesheet" type="text/css">
+  <link href="_css/style.css?v=11.0.9" rel="stylesheet" type="text/css">
+  <link href="_css/custom.css" rel="stylesheet" type="text/css">
+ </head>
+ <body>
+  <header>
+   <div class="container-fluid">
+    <div class="row">
+     <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+       <ol class="breadcrumb">
+         <li class="breadcrumb-item"><a href="index.html">/home/hubert/laravel-12/trainease/app</a></li>
+         <li class="breadcrumb-item active">(Dashboard)</li>
+
+       </ol>
+      </nav>
+     </div>
+    </div>
+   </div>
+  </header>
+  <div class="container-fluid">
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Classes</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="classCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="classComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Exports/NTAClaimExport.php.html#7">App\Exports\NTAClaimExport</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/Auth/VerifyEmailController.php.html#10">App\Http\Controllers\Auth\VerifyEmailController</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/DashboardController.php.html#5">App\Http\Controllers\DashboardController</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Middleware/CheckUserDetails.php.html#10">App\Http\Middleware\CheckUserDetails</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Middleware/RoleMiddleware.php.html#10">App\Http\Middleware\RoleMiddleware</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Middleware/SkillHarborActive.php.html#10">App\Http\Middleware\SkillHarborActive</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Livewire/Actions/Logout.php.html#8">App\Livewire\Actions\Logout</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Livewire/CustomComponents/ActivityGraph.php.html#10">App\Livewire\CustomComponents\ActivityGraph</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Livewire/CustomComponents/MarkdownMe.php.html#8">App\Livewire\CustomComponents\MarkdownMe</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Organisation/Department.php.html#11">App\Models\Organisation\Department</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Organisation/Division.php.html#11">App\Models\Organisation\Division</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Organisation/Organisation.php.html#9">App\Models\Organisation\Organisation</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/SkillHarbor/Assessment.php.html#9">App\Models\SkillHarbor\Assessment</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/SkillHarbor/JobCompetencyProfile.php.html#10">App\Models\SkillHarbor\JobCompetencyProfile</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/SkillHarbor/Qualification.php.html#9">App\Models\SkillHarbor\Qualification</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/SkillHarbor/Skill.php.html#9">App\Models\SkillHarbor\Skill</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/SkillHarbor/SkillCategory.php.html#8">App\Models\SkillHarbor\SkillCategory</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/SkillHarbor/SkillHarborEnrollment.php.html#9">App\Models\SkillHarbor\SkillHarborEnrollment</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/Course.php.html#19">App\Models\Training\Course</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/CourseFeedback.php.html#9">App\Models\Training\CourseFeedback</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/CourseMaterial.php.html#10">App\Models\Training\CourseMaterial</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/CourseProgress.php.html#10">App\Models\Training\CourseProgress</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/Enrollment.php.html#11">App\Models\Training\Enrollment</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/Quiz/Option.php.html#9">App\Models\Training\Quiz\Option</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/Quiz/Question.php.html#9">App\Models\Training\Quiz\Question</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/Quiz/Quiz.php.html#10">App\Models\Training\Quiz\Quiz</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/Quiz/QuizResponse.php.html#10">App\Models\Training\Quiz\QuizResponse</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/Quiz/UserAnswer.php.html#8">App\Models\Training\Quiz\UserAnswer</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/Reports/Summary.php.html#10">App\Models\Training\Reports\Summary</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/SME.php.html#7">App\Models\Training\SME</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/User.php.html#29">App\Models\User</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/UserDetail.php.html#11">App\Models\UserDetail</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Providers/AppServiceProvider.php.html#8">App\Providers\AppServiceProvider</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Providers/VoltServiceProvider.php.html#8">App\Providers\VoltServiceProvider</a></td><td class="text-right">0%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Models/Training/Course.php.html#19">App\Models\Training\Course</a></td><td class="text-right">870</td></tr>
+       <tr><td><a href="Models/SkillHarbor/JobCompetencyProfile.php.html#10">App\Models\SkillHarbor\JobCompetencyProfile</a></td><td class="text-right">420</td></tr>
+       <tr><td><a href="Models/User.php.html#29">App\Models\User</a></td><td class="text-right">342</td></tr>
+       <tr><td><a href="Models/Training/Quiz/Quiz.php.html#10">App\Models\Training\Quiz\Quiz</a></td><td class="text-right">132</td></tr>
+       <tr><td><a href="Livewire/CustomComponents/ActivityGraph.php.html#10">App\Livewire\CustomComponents\ActivityGraph</a></td><td class="text-right">110</td></tr>
+       <tr><td><a href="Models/Training/Quiz/QuizResponse.php.html#10">App\Models\Training\Quiz\QuizResponse</a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="Models/Training/Quiz/UserAnswer.php.html#8">App\Models\Training\Quiz\UserAnswer</a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="Models/SkillHarbor/Skill.php.html#9">App\Models\SkillHarbor\Skill</a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Http/Controllers/Auth/VerifyEmailController.php.html#10">App\Http\Controllers\Auth\VerifyEmailController</a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Http/Middleware/CheckUserDetails.php.html#10">App\Http\Middleware\CheckUserDetails</a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Http/Middleware/RoleMiddleware.php.html#10">App\Http\Middleware\RoleMiddleware</a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Http/Middleware/SkillHarborActive.php.html#10">App\Http\Middleware\SkillHarborActive</a></td><td class="text-right">12</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Methods</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="methodCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="methodComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Exports/NTAClaimExport.php.html#11"><abbr title="App\Exports\NTAClaimExport::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Exports/NTAClaimExport.php.html#16"><abbr title="App\Exports\NTAClaimExport::array">array</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/Auth/VerifyEmailController.php.html#15"><abbr title="App\Http\Controllers\Auth\VerifyEmailController::__invoke">__invoke</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/DashboardController.php.html#7"><abbr title="App\Http\Controllers\DashboardController::index">index</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Middleware/CheckUserDetails.php.html#17"><abbr title="App\Http\Middleware\CheckUserDetails::handle">handle</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Middleware/RoleMiddleware.php.html#12"><abbr title="App\Http\Middleware\RoleMiddleware::handle">handle</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Middleware/SkillHarborActive.php.html#17"><abbr title="App\Http\Middleware\SkillHarborActive::handle">handle</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Livewire/Actions/Logout.php.html#13"><abbr title="App\Livewire\Actions\Logout::__invoke">__invoke</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Livewire/CustomComponents/ActivityGraph.php.html#22"><abbr title="App\Livewire\CustomComponents\ActivityGraph::mount">mount</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Livewire/CustomComponents/ActivityGraph.php.html#29"><abbr title="App\Livewire\CustomComponents\ActivityGraph::previousMonth">previousMonth</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Livewire/CustomComponents/ActivityGraph.php.html#35"><abbr title="App\Livewire\CustomComponents\ActivityGraph::nextMonth">nextMonth</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Livewire/CustomComponents/ActivityGraph.php.html#41"><abbr title="App\Livewire\CustomComponents\ActivityGraph::loadActivityData">loadActivityData</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Livewire/CustomComponents/ActivityGraph.php.html#92"><abbr title="App\Livewire\CustomComponents\ActivityGraph::render">render</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Livewire/CustomComponents/MarkdownMe.php.html#12"><abbr title="App\Livewire\CustomComponents\MarkdownMe::render">render</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Organisation/Department.php.html#21"><abbr title="App\Models\Organisation\Department::users">users</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Organisation/Department.php.html#29"><abbr title="App\Models\Organisation\Department::division">division</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Organisation/Division.php.html#21"><abbr title="App\Models\Organisation\Division::department">department</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Organisation/Division.php.html#29"><abbr title="App\Models\Organisation\Division::users">users</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Organisation/Division.php.html#37"><abbr title="App\Models\Organisation\Division::organisation">organisation</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Organisation/Organisation.php.html#19"><abbr title="App\Models\Organisation\Organisation::divisions">divisions</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/SkillHarbor/Assessment.php.html#23"><abbr title="App\Models\SkillHarbor\Assessment::enrolled">enrolled</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/SkillHarbor/Assessment.php.html#29"><abbr title="App\Models\SkillHarbor\Assessment::enrolledCount">enrolledCount</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/SkillHarbor/Assessment.php.html#37"><abbr title="App\Models\SkillHarbor\Assessment::getEnrolledDepartmentIds">getEnrolledDepartmentIds</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/SkillHarbor/Assessment.php.html#50"><abbr title="App\Models\SkillHarbor\Assessment::scopeSearch">scopeSearch</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/SkillHarbor/Assessment.php.html#55"><abbr title="App\Models\SkillHarbor\Assessment::countSubmittedForReview">countSubmittedForReview</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/SkillHarbor/JobCompetencyProfile.php.html#25"><abbr title="App\Models\SkillHarbor\JobCompetencyProfile::employee">employee</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/SkillHarbor/JobCompetencyProfile.php.html#33"><abbr title="App\Models\SkillHarbor\JobCompetencyProfile::skills">skills</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/SkillHarbor/JobCompetencyProfile.php.html#41"><abbr title="App\Models\SkillHarbor\JobCompetencyProfile::qualifications">qualifications</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/SkillHarbor/JobCompetencyProfile.php.html#46"><abbr title="App\Models\SkillHarbor\JobCompetencyProfile::scopeSearch">scopeSearch</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/SkillHarbor/JobCompetencyProfile.php.html#55"><abbr title="App\Models\SkillHarbor\JobCompetencyProfile::skill_category">skill_category</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/SkillHarbor/JobCompetencyProfile.php.html#63"><abbr title="App\Models\SkillHarbor\JobCompetencyProfile::sumRequiredLevelsByCategory">sumRequiredLevelsByCategory</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/SkillHarbor/JobCompetencyProfile.php.html#92"><abbr title="App\Models\SkillHarbor\JobCompetencyProfile::sumMyLevels">sumMyLevels</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/SkillHarbor/JobCompetencyProfile.php.html#120"><abbr title="App\Models\SkillHarbor\JobCompetencyProfile::sumSupervisorLevels">sumSupervisorLevels</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/SkillHarbor/Qualification.php.html#22"><abbr title="App\Models\SkillHarbor\Qualification::jcp">jcp</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/SkillHarbor/Qualification.php.html#30"><abbr title="App\Models\SkillHarbor\Qualification::user">user</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/SkillHarbor/Qualification.php.html#35"><abbr title="App\Models\SkillHarbor\Qualification::scopeSearch">scopeSearch</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/SkillHarbor/Skill.php.html#17"><abbr title="App\Models\SkillHarbor\Skill::category">category</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/SkillHarbor/Skill.php.html#25"><abbr title="App\Models\SkillHarbor\Skill::jcps">jcps</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/SkillHarbor/Skill.php.html#30"><abbr title="App\Models\SkillHarbor\Skill::scopeSearch">scopeSearch</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/SkillHarbor/SkillCategory.php.html#18"><abbr title="App\Models\SkillHarbor\SkillCategory::skills">skills</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/SkillHarbor/SkillHarborEnrollment.php.html#19"><abbr title="App\Models\SkillHarbor\SkillHarborEnrollment::user">user</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/SkillHarbor/SkillHarborEnrollment.php.html#27"><abbr title="App\Models\SkillHarbor\SkillHarborEnrollment::assessment">assessment</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/Course.php.html#34"><abbr title="App\Models\Training\Course::sme">sme</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/Course.php.html#42"><abbr title="App\Models\Training\Course::trainer">trainer</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/Course.php.html#50"><abbr title="App\Models\Training\Course::enrollment">enrollment</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/Course.php.html#58"><abbr title="App\Models\Training\Course::materials">materials</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/Course.php.html#66"><abbr title="App\Models\Training\Course::quizes">quizes</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/Course.php.html#74"><abbr title="App\Models\Training\Course::progress">progress</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/Course.php.html#82"><abbr title="App\Models\Training\Course::summary">summary</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/Course.php.html#90"><abbr title="App\Models\Training\Course::enrolledUsers">enrolledUsers</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/Course.php.html#98"><abbr title="App\Models\Training\Course::feedback">feedback</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/Course.php.html#106"><abbr title="App\Models\Training\Course::totalStudents">totalStudents</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/Course.php.html#114"><abbr title="App\Models\Training\Course::mostPopularCourse">mostPopularCourse</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/Course.php.html#128"><abbr title="App\Models\Training\Course::totalCost">totalCost</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/Course.php.html#136"><abbr title="App\Models\Training\Course::passingRate">passingRate</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/Course.php.html#152"><abbr title="App\Models\Training\Course::passRate">passRate</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/Course.php.html#173"><abbr title="App\Models\Training\Course::avgCourseProgress">avgCourseProgress</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/Course.php.html#206"><abbr title="App\Models\Training\Course::courseAverages">courseAverages</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/CourseFeedback.php.html#19"><abbr title="App\Models\Training\CourseFeedback::enrollment">enrollment</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/CourseMaterial.php.html#29"><abbr title="App\Models\Training\CourseMaterial::course">course</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/CourseMaterial.php.html#37"><abbr title="App\Models\Training\CourseMaterial::isCompletedByUser">isCompletedByUser</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/CourseMaterial.php.html#45"><abbr title="App\Models\Training\CourseMaterial::progress">progress</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/CourseProgress.php.html#20"><abbr title="App\Models\Training\CourseProgress::user">user</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/CourseProgress.php.html#28"><abbr title="App\Models\Training\CourseProgress::course">course</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/CourseProgress.php.html#36"><abbr title="App\Models\Training\CourseProgress::material">material</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/Enrollment.php.html#21"><abbr title="App\Models\Training\Enrollment::user">user</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/Enrollment.php.html#29"><abbr title="App\Models\Training\Enrollment::courses">courses</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/Enrollment.php.html#37"><abbr title="App\Models\Training\Enrollment::feedback">feedback</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/Quiz/Option.php.html#17"><abbr title="App\Models\Training\Quiz\Option::question">question</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/Quiz/Option.php.html#26"><abbr title="App\Models\Training\Quiz\Option::userAnswers">userAnswers</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/Quiz/Question.php.html#17"><abbr title="App\Models\Training\Quiz\Question::quiz">quiz</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/Quiz/Question.php.html#26"><abbr title="App\Models\Training\Quiz\Question::options">options</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/Quiz/Question.php.html#35"><abbr title="App\Models\Training\Quiz\Question::userAnswers">userAnswers</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/Quiz/Quiz.php.html#18"><abbr title="App\Models\Training\Quiz\Quiz::course">course</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/Quiz/Quiz.php.html#26"><abbr title="App\Models\Training\Quiz\Quiz::passingScore">passingScore</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/Quiz/Quiz.php.html#35"><abbr title="App\Models\Training\Quiz\Quiz::questions">questions</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/Quiz/Quiz.php.html#44"><abbr title="App\Models\Training\Quiz\Quiz::quizResponses">quizResponses</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/Quiz/Quiz.php.html#50"><abbr title="App\Models\Training\Quiz\Quiz::userHasCompleted">userHasCompleted</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/Quiz/Quiz.php.html#56"><abbr title="App\Models\Training\Quiz\Quiz::userScore">userScore</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/Quiz/Quiz.php.html#66"><abbr title="App\Models\Training\Quiz\Quiz::userHasPassed">userHasPassed</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/Quiz/Quiz.php.html#76"><abbr title="App\Models\Training\Quiz\Quiz::passRate">passRate</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/Quiz/QuizResponse.php.html#20"><abbr title="App\Models\Training\Quiz\QuizResponse::user">user</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/Quiz/QuizResponse.php.html#29"><abbr title="App\Models\Training\Quiz\QuizResponse::quiz">quiz</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/Quiz/QuizResponse.php.html#38"><abbr title="App\Models\Training\Quiz\QuizResponse::userAnswers">userAnswers</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/Quiz/QuizResponse.php.html#44"><abbr title="App\Models\Training\Quiz\QuizResponse::calculateScore">calculateScore</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/Quiz/UserAnswer.php.html#16"><abbr title="App\Models\Training\Quiz\UserAnswer::quizResponse">quizResponse</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/Quiz/UserAnswer.php.html#25"><abbr title="App\Models\Training\Quiz\UserAnswer::question">question</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/Quiz/UserAnswer.php.html#34"><abbr title="App\Models\Training\Quiz\UserAnswer::selectedOption">selectedOption</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/Quiz/UserAnswer.php.html#40"><abbr title="App\Models\Training\Quiz\UserAnswer::isCorrect">isCorrect</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/Reports/Summary.php.html#60"><abbr title="App\Models\Training\Reports\Summary::user">user</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/Reports/Summary.php.html#68"><abbr title="App\Models\Training\Reports\Summary::course">course</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Training/SME.php.html#22"><abbr title="App\Models\Training\SME::courses">courses</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/User.php.html#60"><abbr title="App\Models\User::casts">casts</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/User.php.html#71"><abbr title="App\Models\User::initials">initials</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/User.php.html#79"><abbr title="App\Models\User::user_details_filled">user_details_filled</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/User.php.html#87"><abbr title="App\Models\User::user_detail">user_detail</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/User.php.html#95"><abbr title="App\Models\User::department">department</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/User.php.html#103"><abbr title="App\Models\User::division">division</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/User.php.html#111"><abbr title="App\Models\User::organisation">organisation</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/User.php.html#119"><abbr title="App\Models\User::enrollments">enrollments</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/User.php.html#127"><abbr title="App\Models\User::enrolledCourses">enrolledCourses</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/User.php.html#136"><abbr title="App\Models\User::courseProgress">courseProgress</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/User.php.html#141"><abbr title="App\Models\User::calculateProgress">calculateProgress</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/User.php.html#167"><abbr title="App\Models\User::quizResponses">quizResponses</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/User.php.html#175"><abbr title="App\Models\User::getQuizAttempts">getQuizAttempts</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/User.php.html#182"><abbr title="App\Models\User::hasCompletedQuiz">hasCompletedQuiz</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/User.php.html#192"><abbr title="App\Models\User::userHasPassed">userHasPassed</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/User.php.html#204"><abbr title="App\Models\User::trainerCourses">trainerCourses</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/User.php.html#212"><abbr title="App\Models\User::qualifications">qualifications</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/UserDetail.php.html#27"><abbr title="App\Models\UserDetail::user">user</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/UserDetail.php.html#35"><abbr title="App\Models\UserDetail::division">division</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/UserDetail.php.html#43"><abbr title="App\Models\UserDetail::department">department</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/UserDetail.php.html#51"><abbr title="App\Models\UserDetail::supervisor">supervisor</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Providers/AppServiceProvider.php.html#13"><abbr title="App\Providers\AppServiceProvider::register">register</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Providers/AppServiceProvider.php.html#22"><abbr title="App\Providers\AppServiceProvider::boot">boot</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Providers/VoltServiceProvider.php.html#13"><abbr title="App\Providers\VoltServiceProvider::register">register</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Providers/VoltServiceProvider.php.html#21"><abbr title="App\Providers\VoltServiceProvider::boot">boot</abbr></a></td><td class="text-right">0%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Models/Training/Course.php.html#206"><abbr title="App\Models\Training\Course::courseAverages">courseAverages</abbr></a></td><td class="text-right">56</td></tr>
+       <tr><td><a href="Livewire/CustomComponents/ActivityGraph.php.html#41"><abbr title="App\Livewire\CustomComponents\ActivityGraph::loadActivityData">loadActivityData</abbr></a></td><td class="text-right">42</td></tr>
+       <tr><td><a href="Models/SkillHarbor/JobCompetencyProfile.php.html#63"><abbr title="App\Models\SkillHarbor\JobCompetencyProfile::sumRequiredLevelsByCategory">sumRequiredLevelsByCategory</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="Models/SkillHarbor/JobCompetencyProfile.php.html#92"><abbr title="App\Models\SkillHarbor\JobCompetencyProfile::sumMyLevels">sumMyLevels</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="Models/SkillHarbor/JobCompetencyProfile.php.html#120"><abbr title="App\Models\SkillHarbor\JobCompetencyProfile::sumSupervisorLevels">sumSupervisorLevels</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="Models/Training/Course.php.html#173"><abbr title="App\Models\Training\Course::avgCourseProgress">avgCourseProgress</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Http/Controllers/Auth/VerifyEmailController.php.html#15"><abbr title="App\Http\Controllers\Auth\VerifyEmailController::__invoke">__invoke</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Http/Middleware/CheckUserDetails.php.html#17"><abbr title="App\Http\Middleware\CheckUserDetails::handle">handle</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Http/Middleware/RoleMiddleware.php.html#12"><abbr title="App\Http\Middleware\RoleMiddleware::handle">handle</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Http/Middleware/SkillHarborActive.php.html#17"><abbr title="App\Http\Middleware\SkillHarborActive::handle">handle</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Models/Training/Course.php.html#152"><abbr title="App\Models\Training\Course::passRate">passRate</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Models/SkillHarbor/Skill.php.html#30"><abbr title="App\Models\SkillHarbor\Skill::scopeSearch">scopeSearch</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Models/Training/Course.php.html#114"><abbr title="App\Models\Training\Course::mostPopularCourse">mostPopularCourse</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Models/Training/Course.php.html#136"><abbr title="App\Models\Training\Course::passingRate">passingRate</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Models/Training/Quiz/Quiz.php.html#56"><abbr title="App\Models\Training\Quiz\Quiz::userScore">userScore</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Models/Training/Quiz/Quiz.php.html#66"><abbr title="App\Models\Training\Quiz\Quiz::userHasPassed">userHasPassed</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Models/Training/Quiz/Quiz.php.html#76"><abbr title="App\Models\Training\Quiz\Quiz::passRate">passRate</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Models/Training/Quiz/QuizResponse.php.html#44"><abbr title="App\Models\Training\Quiz\QuizResponse::calculateScore">calculateScore</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Models/Training/Quiz/UserAnswer.php.html#40"><abbr title="App\Models\Training\Quiz\UserAnswer::isCorrect">isCorrect</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Models/User.php.html#141"><abbr title="App\Models\User::calculateProgress">calculateProgress</abbr></a></td><td class="text-right">6</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <footer>
+    <hr/>
+    <p>
+     <small>Generated by <a href="https://github.com/sebastianbergmann/php-code-coverage" target="_top">php-code-coverage 11.0.9</a> using <a href="https://www.php.net/" target="_top">PHP 8.4.6</a> and <a href="https://phpunit.de/">PHPUnit 11.5.15</a> at Tue Apr 29 23:31:02 UTC 2025.</small>
+    </p>
+   </footer>
+  </div>
+  <script src="_js/jquery.min.js?v=11.0.9" type="text/javascript"></script>
+  <script src="_js/d3.min.js?v=11.0.9" type="text/javascript"></script>
+  <script src="_js/nv.d3.min.js?v=11.0.9" type="text/javascript"></script>
+  <script type="text/javascript">
+$(document).ready(function() {
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#classCoverageDistribution svg')
+      .datum(getCoverageDistributionData([34,0,0,0,0,0,0,0,0,0,0,2], "Class Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#methodCoverageDistribution svg')
+      .datum(getCoverageDistributionData([117,0,0,0,0,0,0,0,0,0,0,0], "Method Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getCoverageDistributionData(data, label) {
+    var labels = [
+      '0%',
+      '0-10%',
+      '10-20%',
+      '20-30%',
+      '30-40%',
+      '40-50%',
+      '50-60%',
+      '60-70%',
+      '70-80%',
+      '80-90%',
+      '90-100%',
+      '100%'
+    ];
+    var values = [];
+    $.each(labels, function(key) {
+      values.push({x: labels[key], y: data[key]});
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Cyclomatic Complexity');
+
+    d3.select('#classComplexity svg')
+      .datum(getComplexityData([[0,2,"<a href=\"Exports\/NTAClaimExport.php.html#7\">App\\Exports\\NTAClaimExport<\/a>"],[0,3,"<a href=\"Http\/Controllers\/Auth\/VerifyEmailController.php.html#10\">App\\Http\\Controllers\\Auth\\VerifyEmailController<\/a>"],[100,0,"<a href=\"Http\/Controllers\/Controller.php.html#5\">App\\Http\\Controllers\\Controller<\/a>"],[0,1,"<a href=\"Http\/Controllers\/DashboardController.php.html#5\">App\\Http\\Controllers\\DashboardController<\/a>"],[0,3,"<a href=\"Http\/Middleware\/CheckUserDetails.php.html#10\">App\\Http\\Middleware\\CheckUserDetails<\/a>"],[0,3,"<a href=\"Http\/Middleware\/RoleMiddleware.php.html#10\">App\\Http\\Middleware\\RoleMiddleware<\/a>"],[0,3,"<a href=\"Http\/Middleware\/SkillHarborActive.php.html#10\">App\\Http\\Middleware\\SkillHarborActive<\/a>"],[0,1,"<a href=\"Livewire\/Actions\/Logout.php.html#8\">App\\Livewire\\Actions\\Logout<\/a>"],[0,10,"<a href=\"Livewire\/CustomComponents\/ActivityGraph.php.html#10\">App\\Livewire\\CustomComponents\\ActivityGraph<\/a>"],[0,1,"<a href=\"Livewire\/CustomComponents\/MarkdownMe.php.html#8\">App\\Livewire\\CustomComponents\\MarkdownMe<\/a>"],[0,2,"<a href=\"Models\/Organisation\/Department.php.html#11\">App\\Models\\Organisation\\Department<\/a>"],[0,3,"<a href=\"Models\/Organisation\/Division.php.html#11\">App\\Models\\Organisation\\Division<\/a>"],[0,1,"<a href=\"Models\/Organisation\/Organisation.php.html#9\">App\\Models\\Organisation\\Organisation<\/a>"],[0,5,"<a href=\"Models\/SkillHarbor\/Assessment.php.html#9\">App\\Models\\SkillHarbor\\Assessment<\/a>"],[0,20,"<a href=\"Models\/SkillHarbor\/JobCompetencyProfile.php.html#10\">App\\Models\\SkillHarbor\\JobCompetencyProfile<\/a>"],[0,3,"<a href=\"Models\/SkillHarbor\/Qualification.php.html#9\">App\\Models\\SkillHarbor\\Qualification<\/a>"],[0,4,"<a href=\"Models\/SkillHarbor\/Skill.php.html#9\">App\\Models\\SkillHarbor\\Skill<\/a>"],[0,1,"<a href=\"Models\/SkillHarbor\/SkillCategory.php.html#8\">App\\Models\\SkillHarbor\\SkillCategory<\/a>"],[0,2,"<a href=\"Models\/SkillHarbor\/SkillHarborEnrollment.php.html#9\">App\\Models\\SkillHarbor\\SkillHarborEnrollment<\/a>"],[100,0,"<a href=\"Models\/SkillHarbor\/UserQualification.php.html#7\">App\\Models\\SkillHarbor\\UserQualification<\/a>"],[0,29,"<a href=\"Models\/Training\/Course.php.html#19\">App\\Models\\Training\\Course<\/a>"],[0,1,"<a href=\"Models\/Training\/CourseFeedback.php.html#9\">App\\Models\\Training\\CourseFeedback<\/a>"],[0,3,"<a href=\"Models\/Training\/CourseMaterial.php.html#10\">App\\Models\\Training\\CourseMaterial<\/a>"],[0,3,"<a href=\"Models\/Training\/CourseProgress.php.html#10\">App\\Models\\Training\\CourseProgress<\/a>"],[0,3,"<a href=\"Models\/Training\/Enrollment.php.html#11\">App\\Models\\Training\\Enrollment<\/a>"],[0,2,"<a href=\"Models\/Training\/Quiz\/Option.php.html#9\">App\\Models\\Training\\Quiz\\Option<\/a>"],[0,3,"<a href=\"Models\/Training\/Quiz\/Question.php.html#9\">App\\Models\\Training\\Quiz\\Question<\/a>"],[0,11,"<a href=\"Models\/Training\/Quiz\/Quiz.php.html#10\">App\\Models\\Training\\Quiz\\Quiz<\/a>"],[0,5,"<a href=\"Models\/Training\/Quiz\/QuizResponse.php.html#10\">App\\Models\\Training\\Quiz\\QuizResponse<\/a>"],[0,5,"<a href=\"Models\/Training\/Quiz\/UserAnswer.php.html#8\">App\\Models\\Training\\Quiz\\UserAnswer<\/a>"],[0,2,"<a href=\"Models\/Training\/Reports\/Summary.php.html#10\">App\\Models\\Training\\Reports\\Summary<\/a>"],[0,1,"<a href=\"Models\/Training\/SME.php.html#7\">App\\Models\\Training\\SME<\/a>"],[0,18,"<a href=\"Models\/User.php.html#29\">App\\Models\\User<\/a>"],[0,4,"<a href=\"Models\/UserDetail.php.html#11\">App\\Models\\UserDetail<\/a>"],[0,2,"<a href=\"Providers\/AppServiceProvider.php.html#8\">App\\Providers\\AppServiceProvider<\/a>"],[0,2,"<a href=\"Providers\/VoltServiceProvider.php.html#8\">App\\Providers\\VoltServiceProvider<\/a>"]], 'Class Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Method Complexity');
+
+    d3.select('#methodComplexity svg')
+      .datum(getComplexityData([[0,1,"<a href=\"Exports\/NTAClaimExport.php.html#11\">App\\Exports\\NTAClaimExport::__construct<\/a>"],[0,1,"<a href=\"Exports\/NTAClaimExport.php.html#16\">App\\Exports\\NTAClaimExport::array<\/a>"],[0,3,"<a href=\"Http\/Controllers\/Auth\/VerifyEmailController.php.html#15\">App\\Http\\Controllers\\Auth\\VerifyEmailController::__invoke<\/a>"],[0,1,"<a href=\"Http\/Controllers\/DashboardController.php.html#7\">App\\Http\\Controllers\\DashboardController::index<\/a>"],[0,3,"<a href=\"Http\/Middleware\/CheckUserDetails.php.html#17\">App\\Http\\Middleware\\CheckUserDetails::handle<\/a>"],[0,3,"<a href=\"Http\/Middleware\/RoleMiddleware.php.html#12\">App\\Http\\Middleware\\RoleMiddleware::handle<\/a>"],[0,3,"<a href=\"Http\/Middleware\/SkillHarborActive.php.html#17\">App\\Http\\Middleware\\SkillHarborActive::handle<\/a>"],[0,1,"<a href=\"Livewire\/Actions\/Logout.php.html#13\">App\\Livewire\\Actions\\Logout::__invoke<\/a>"],[0,1,"<a href=\"Livewire\/CustomComponents\/ActivityGraph.php.html#22\">App\\Livewire\\CustomComponents\\ActivityGraph::mount<\/a>"],[0,1,"<a href=\"Livewire\/CustomComponents\/ActivityGraph.php.html#29\">App\\Livewire\\CustomComponents\\ActivityGraph::previousMonth<\/a>"],[0,1,"<a href=\"Livewire\/CustomComponents\/ActivityGraph.php.html#35\">App\\Livewire\\CustomComponents\\ActivityGraph::nextMonth<\/a>"],[0,6,"<a href=\"Livewire\/CustomComponents\/ActivityGraph.php.html#41\">App\\Livewire\\CustomComponents\\ActivityGraph::loadActivityData<\/a>"],[0,1,"<a href=\"Livewire\/CustomComponents\/ActivityGraph.php.html#92\">App\\Livewire\\CustomComponents\\ActivityGraph::render<\/a>"],[0,1,"<a href=\"Livewire\/CustomComponents\/MarkdownMe.php.html#12\">App\\Livewire\\CustomComponents\\MarkdownMe::render<\/a>"],[0,1,"<a href=\"Models\/Organisation\/Department.php.html#21\">App\\Models\\Organisation\\Department::users<\/a>"],[0,1,"<a href=\"Models\/Organisation\/Department.php.html#29\">App\\Models\\Organisation\\Department::division<\/a>"],[0,1,"<a href=\"Models\/Organisation\/Division.php.html#21\">App\\Models\\Organisation\\Division::department<\/a>"],[0,1,"<a href=\"Models\/Organisation\/Division.php.html#29\">App\\Models\\Organisation\\Division::users<\/a>"],[0,1,"<a href=\"Models\/Organisation\/Division.php.html#37\">App\\Models\\Organisation\\Division::organisation<\/a>"],[0,1,"<a href=\"Models\/Organisation\/Organisation.php.html#19\">App\\Models\\Organisation\\Organisation::divisions<\/a>"],[0,1,"<a href=\"Models\/SkillHarbor\/Assessment.php.html#23\">App\\Models\\SkillHarbor\\Assessment::enrolled<\/a>"],[0,1,"<a href=\"Models\/SkillHarbor\/Assessment.php.html#29\">App\\Models\\SkillHarbor\\Assessment::enrolledCount<\/a>"],[0,1,"<a href=\"Models\/SkillHarbor\/Assessment.php.html#37\">App\\Models\\SkillHarbor\\Assessment::getEnrolledDepartmentIds<\/a>"],[0,1,"<a href=\"Models\/SkillHarbor\/Assessment.php.html#50\">App\\Models\\SkillHarbor\\Assessment::scopeSearch<\/a>"],[0,1,"<a href=\"Models\/SkillHarbor\/Assessment.php.html#55\">App\\Models\\SkillHarbor\\Assessment::countSubmittedForReview<\/a>"],[0,1,"<a href=\"Models\/SkillHarbor\/JobCompetencyProfile.php.html#25\">App\\Models\\SkillHarbor\\JobCompetencyProfile::employee<\/a>"],[0,1,"<a href=\"Models\/SkillHarbor\/JobCompetencyProfile.php.html#33\">App\\Models\\SkillHarbor\\JobCompetencyProfile::skills<\/a>"],[0,1,"<a href=\"Models\/SkillHarbor\/JobCompetencyProfile.php.html#41\">App\\Models\\SkillHarbor\\JobCompetencyProfile::qualifications<\/a>"],[0,1,"<a href=\"Models\/SkillHarbor\/JobCompetencyProfile.php.html#46\">App\\Models\\SkillHarbor\\JobCompetencyProfile::scopeSearch<\/a>"],[0,1,"<a href=\"Models\/SkillHarbor\/JobCompetencyProfile.php.html#55\">App\\Models\\SkillHarbor\\JobCompetencyProfile::skill_category<\/a>"],[0,5,"<a href=\"Models\/SkillHarbor\/JobCompetencyProfile.php.html#63\">App\\Models\\SkillHarbor\\JobCompetencyProfile::sumRequiredLevelsByCategory<\/a>"],[0,5,"<a href=\"Models\/SkillHarbor\/JobCompetencyProfile.php.html#92\">App\\Models\\SkillHarbor\\JobCompetencyProfile::sumMyLevels<\/a>"],[0,5,"<a href=\"Models\/SkillHarbor\/JobCompetencyProfile.php.html#120\">App\\Models\\SkillHarbor\\JobCompetencyProfile::sumSupervisorLevels<\/a>"],[0,1,"<a href=\"Models\/SkillHarbor\/Qualification.php.html#22\">App\\Models\\SkillHarbor\\Qualification::jcp<\/a>"],[0,1,"<a href=\"Models\/SkillHarbor\/Qualification.php.html#30\">App\\Models\\SkillHarbor\\Qualification::user<\/a>"],[0,1,"<a href=\"Models\/SkillHarbor\/Qualification.php.html#35\">App\\Models\\SkillHarbor\\Qualification::scopeSearch<\/a>"],[0,1,"<a href=\"Models\/SkillHarbor\/Skill.php.html#17\">App\\Models\\SkillHarbor\\Skill::category<\/a>"],[0,1,"<a href=\"Models\/SkillHarbor\/Skill.php.html#25\">App\\Models\\SkillHarbor\\Skill::jcps<\/a>"],[0,2,"<a href=\"Models\/SkillHarbor\/Skill.php.html#30\">App\\Models\\SkillHarbor\\Skill::scopeSearch<\/a>"],[0,1,"<a href=\"Models\/SkillHarbor\/SkillCategory.php.html#18\">App\\Models\\SkillHarbor\\SkillCategory::skills<\/a>"],[0,1,"<a href=\"Models\/SkillHarbor\/SkillHarborEnrollment.php.html#19\">App\\Models\\SkillHarbor\\SkillHarborEnrollment::user<\/a>"],[0,1,"<a href=\"Models\/SkillHarbor\/SkillHarborEnrollment.php.html#27\">App\\Models\\SkillHarbor\\SkillHarborEnrollment::assessment<\/a>"],[0,1,"<a href=\"Models\/Training\/Course.php.html#34\">App\\Models\\Training\\Course::sme<\/a>"],[0,1,"<a href=\"Models\/Training\/Course.php.html#42\">App\\Models\\Training\\Course::trainer<\/a>"],[0,1,"<a href=\"Models\/Training\/Course.php.html#50\">App\\Models\\Training\\Course::enrollment<\/a>"],[0,1,"<a href=\"Models\/Training\/Course.php.html#58\">App\\Models\\Training\\Course::materials<\/a>"],[0,1,"<a href=\"Models\/Training\/Course.php.html#66\">App\\Models\\Training\\Course::quizes<\/a>"],[0,1,"<a href=\"Models\/Training\/Course.php.html#74\">App\\Models\\Training\\Course::progress<\/a>"],[0,1,"<a href=\"Models\/Training\/Course.php.html#82\">App\\Models\\Training\\Course::summary<\/a>"],[0,1,"<a href=\"Models\/Training\/Course.php.html#90\">App\\Models\\Training\\Course::enrolledUsers<\/a>"],[0,1,"<a href=\"Models\/Training\/Course.php.html#98\">App\\Models\\Training\\Course::feedback<\/a>"],[0,1,"<a href=\"Models\/Training\/Course.php.html#106\">App\\Models\\Training\\Course::totalStudents<\/a>"],[0,2,"<a href=\"Models\/Training\/Course.php.html#114\">App\\Models\\Training\\Course::mostPopularCourse<\/a>"],[0,1,"<a href=\"Models\/Training\/Course.php.html#128\">App\\Models\\Training\\Course::totalCost<\/a>"],[0,2,"<a href=\"Models\/Training\/Course.php.html#136\">App\\Models\\Training\\Course::passingRate<\/a>"],[0,3,"<a href=\"Models\/Training\/Course.php.html#152\">App\\Models\\Training\\Course::passRate<\/a>"],[0,4,"<a href=\"Models\/Training\/Course.php.html#173\">App\\Models\\Training\\Course::avgCourseProgress<\/a>"],[0,7,"<a href=\"Models\/Training\/Course.php.html#206\">App\\Models\\Training\\Course::courseAverages<\/a>"],[0,1,"<a href=\"Models\/Training\/CourseFeedback.php.html#19\">App\\Models\\Training\\CourseFeedback::enrollment<\/a>"],[0,1,"<a href=\"Models\/Training\/CourseMaterial.php.html#29\">App\\Models\\Training\\CourseMaterial::course<\/a>"],[0,1,"<a href=\"Models\/Training\/CourseMaterial.php.html#37\">App\\Models\\Training\\CourseMaterial::isCompletedByUser<\/a>"],[0,1,"<a href=\"Models\/Training\/CourseMaterial.php.html#45\">App\\Models\\Training\\CourseMaterial::progress<\/a>"],[0,1,"<a href=\"Models\/Training\/CourseProgress.php.html#20\">App\\Models\\Training\\CourseProgress::user<\/a>"],[0,1,"<a href=\"Models\/Training\/CourseProgress.php.html#28\">App\\Models\\Training\\CourseProgress::course<\/a>"],[0,1,"<a href=\"Models\/Training\/CourseProgress.php.html#36\">App\\Models\\Training\\CourseProgress::material<\/a>"],[0,1,"<a href=\"Models\/Training\/Enrollment.php.html#21\">App\\Models\\Training\\Enrollment::user<\/a>"],[0,1,"<a href=\"Models\/Training\/Enrollment.php.html#29\">App\\Models\\Training\\Enrollment::courses<\/a>"],[0,1,"<a href=\"Models\/Training\/Enrollment.php.html#37\">App\\Models\\Training\\Enrollment::feedback<\/a>"],[0,1,"<a href=\"Models\/Training\/Quiz\/Option.php.html#17\">App\\Models\\Training\\Quiz\\Option::question<\/a>"],[0,1,"<a href=\"Models\/Training\/Quiz\/Option.php.html#26\">App\\Models\\Training\\Quiz\\Option::userAnswers<\/a>"],[0,1,"<a href=\"Models\/Training\/Quiz\/Question.php.html#17\">App\\Models\\Training\\Quiz\\Question::quiz<\/a>"],[0,1,"<a href=\"Models\/Training\/Quiz\/Question.php.html#26\">App\\Models\\Training\\Quiz\\Question::options<\/a>"],[0,1,"<a href=\"Models\/Training\/Quiz\/Question.php.html#35\">App\\Models\\Training\\Quiz\\Question::userAnswers<\/a>"],[0,1,"<a href=\"Models\/Training\/Quiz\/Quiz.php.html#18\">App\\Models\\Training\\Quiz\\Quiz::course<\/a>"],[0,1,"<a href=\"Models\/Training\/Quiz\/Quiz.php.html#26\">App\\Models\\Training\\Quiz\\Quiz::passingScore<\/a>"],[0,1,"<a href=\"Models\/Training\/Quiz\/Quiz.php.html#35\">App\\Models\\Training\\Quiz\\Quiz::questions<\/a>"],[0,1,"<a href=\"Models\/Training\/Quiz\/Quiz.php.html#44\">App\\Models\\Training\\Quiz\\Quiz::quizResponses<\/a>"],[0,1,"<a href=\"Models\/Training\/Quiz\/Quiz.php.html#50\">App\\Models\\Training\\Quiz\\Quiz::userHasCompleted<\/a>"],[0,2,"<a href=\"Models\/Training\/Quiz\/Quiz.php.html#56\">App\\Models\\Training\\Quiz\\Quiz::userScore<\/a>"],[0,2,"<a href=\"Models\/Training\/Quiz\/Quiz.php.html#66\">App\\Models\\Training\\Quiz\\Quiz::userHasPassed<\/a>"],[0,2,"<a href=\"Models\/Training\/Quiz\/Quiz.php.html#76\">App\\Models\\Training\\Quiz\\Quiz::passRate<\/a>"],[0,1,"<a href=\"Models\/Training\/Quiz\/QuizResponse.php.html#20\">App\\Models\\Training\\Quiz\\QuizResponse::user<\/a>"],[0,1,"<a href=\"Models\/Training\/Quiz\/QuizResponse.php.html#29\">App\\Models\\Training\\Quiz\\QuizResponse::quiz<\/a>"],[0,1,"<a href=\"Models\/Training\/Quiz\/QuizResponse.php.html#38\">App\\Models\\Training\\Quiz\\QuizResponse::userAnswers<\/a>"],[0,2,"<a href=\"Models\/Training\/Quiz\/QuizResponse.php.html#44\">App\\Models\\Training\\Quiz\\QuizResponse::calculateScore<\/a>"],[0,1,"<a href=\"Models\/Training\/Quiz\/UserAnswer.php.html#16\">App\\Models\\Training\\Quiz\\UserAnswer::quizResponse<\/a>"],[0,1,"<a href=\"Models\/Training\/Quiz\/UserAnswer.php.html#25\">App\\Models\\Training\\Quiz\\UserAnswer::question<\/a>"],[0,1,"<a href=\"Models\/Training\/Quiz\/UserAnswer.php.html#34\">App\\Models\\Training\\Quiz\\UserAnswer::selectedOption<\/a>"],[0,2,"<a href=\"Models\/Training\/Quiz\/UserAnswer.php.html#40\">App\\Models\\Training\\Quiz\\UserAnswer::isCorrect<\/a>"],[0,1,"<a href=\"Models\/Training\/Reports\/Summary.php.html#60\">App\\Models\\Training\\Reports\\Summary::user<\/a>"],[0,1,"<a href=\"Models\/Training\/Reports\/Summary.php.html#68\">App\\Models\\Training\\Reports\\Summary::course<\/a>"],[0,1,"<a href=\"Models\/Training\/SME.php.html#22\">App\\Models\\Training\\SME::courses<\/a>"],[0,1,"<a href=\"Models\/User.php.html#60\">App\\Models\\User::casts<\/a>"],[0,1,"<a href=\"Models\/User.php.html#71\">App\\Models\\User::initials<\/a>"],[0,1,"<a href=\"Models\/User.php.html#79\">App\\Models\\User::user_details_filled<\/a>"],[0,1,"<a href=\"Models\/User.php.html#87\">App\\Models\\User::user_detail<\/a>"],[0,1,"<a href=\"Models\/User.php.html#95\">App\\Models\\User::department<\/a>"],[0,1,"<a href=\"Models\/User.php.html#103\">App\\Models\\User::division<\/a>"],[0,1,"<a href=\"Models\/User.php.html#111\">App\\Models\\User::organisation<\/a>"],[0,1,"<a href=\"Models\/User.php.html#119\">App\\Models\\User::enrollments<\/a>"],[0,1,"<a href=\"Models\/User.php.html#127\">App\\Models\\User::enrolledCourses<\/a>"],[0,1,"<a href=\"Models\/User.php.html#136\">App\\Models\\User::courseProgress<\/a>"],[0,2,"<a href=\"Models\/User.php.html#141\">App\\Models\\User::calculateProgress<\/a>"],[0,1,"<a href=\"Models\/User.php.html#167\">App\\Models\\User::quizResponses<\/a>"],[0,1,"<a href=\"Models\/User.php.html#175\">App\\Models\\User::getQuizAttempts<\/a>"],[0,1,"<a href=\"Models\/User.php.html#182\">App\\Models\\User::hasCompletedQuiz<\/a>"],[0,1,"<a href=\"Models\/User.php.html#192\">App\\Models\\User::userHasPassed<\/a>"],[0,1,"<a href=\"Models\/User.php.html#204\">App\\Models\\User::trainerCourses<\/a>"],[0,1,"<a href=\"Models\/User.php.html#212\">App\\Models\\User::qualifications<\/a>"],[0,1,"<a href=\"Models\/UserDetail.php.html#27\">App\\Models\\UserDetail::user<\/a>"],[0,1,"<a href=\"Models\/UserDetail.php.html#35\">App\\Models\\UserDetail::division<\/a>"],[0,1,"<a href=\"Models\/UserDetail.php.html#43\">App\\Models\\UserDetail::department<\/a>"],[0,1,"<a href=\"Models\/UserDetail.php.html#51\">App\\Models\\UserDetail::supervisor<\/a>"],[0,1,"<a href=\"Providers\/AppServiceProvider.php.html#13\">App\\Providers\\AppServiceProvider::register<\/a>"],[0,1,"<a href=\"Providers\/AppServiceProvider.php.html#22\">App\\Providers\\AppServiceProvider::boot<\/a>"],[0,1,"<a href=\"Providers\/VoltServiceProvider.php.html#13\">App\\Providers\\VoltServiceProvider::register<\/a>"],[0,1,"<a href=\"Providers\/VoltServiceProvider.php.html#21\">App\\Providers\\VoltServiceProvider::boot<\/a>"]], 'Method Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getComplexityData(data, label) {
+    var values = [];
+    $.each(data, function(key) {
+      var value = Math.round(data[key][0]*100) / 100;
+      values.push({
+        x: value,
+        y: data[key][1],
+        class: data[key][2],
+        size: 0.05,
+        shape: 'diamond'
+      });
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+});
+  </script>
+ </body>
+</html>
