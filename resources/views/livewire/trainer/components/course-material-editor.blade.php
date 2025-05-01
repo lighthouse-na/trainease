@@ -281,11 +281,11 @@ new class extends Component {
         <!-- Editor Content -->
         <div x-data="setupEditor()"
              x-init="init($refs.editor)"
-             class="flex-1 flex flex-col"
+             class="flex-1 flex flex-col w-full"
              wire:ignore>
 
             <!-- Top Navigation Bar -->
-            <div class="w-fullsticky top-0 z-10 flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 shadow-sm">
+            <div class="w-fullsticky top-0 z-10 flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 shadow-sm max-w-full">
                 <input type="text" x-model="materialTitle" placeholder="Material Title"
                        class="w-full text-xl font-semibold bg-transparent focus:outline-none text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500" />
                 <div class="ml-4 flex gap-2">
@@ -297,7 +297,7 @@ new class extends Component {
             </div>
 
             <!-- Toolbar -->
-            <div class="flex flex-wrap items-center gap-2 p-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
+            <div class="flex flex-wrap items-center gap-2 p-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 w-full" >
                 <div class="relative" x-data="{ open: false }">
                     <button @click="open = !open" class="px-3 py-1.5 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-sm rounded-md">Heading ▼</button>
                     <div x-show="open" @click.outside="open = false" class="absolute z-20 mt-1 w-36 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded shadow-md">

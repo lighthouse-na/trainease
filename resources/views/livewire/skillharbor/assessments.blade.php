@@ -1,9 +1,22 @@
 <?php
 
 use Livewire\Volt\Component;
+use App\Models\User;
+use App\Models\SkillHarbor\SkillHarborEnrollment;
 
 new class extends Component {
     //
+    public $enrollments = [];
+
+    public function mount()
+    {
+        $this->enrollments = SkillHarborEnrollment::where('user_id', auth()->id())
+            ->with(['assessment'])
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+    }
+
 }; ?>
 
 <div class="flex flex-col items-start w-full">
@@ -24,23 +37,49 @@ new class extends Component {
 
                 <div class="divide-default dark:divide-gray-700 bg-white dark:bg-gray-900 divide-y rounded-lg"
                      data-slot="content">
-                    @foreach([
-                    ['name' => 'Telecom Skills Audit 2025' ,'date' => '2025-11-15', 'score' => '85%', 'status' => 'view supervisor result'],
+                     @forelse($enrollments as $enrollment)
+                     @php
+                         $assessment = $enrollment->assessment;
+                         $status = match(true) {
+                             $enrollment->supervisor_status === 1 => 'view supervisor result',
+                             $enrollment->user_status === 1 => 'view submission',
+                             default => 'pending',
+                         };
+                     @endphp
 
-                    ] as $assessment)
-                        <div class="flex flex-col sm:flex-row w-full justify-between p-4 sm:p-6 items-start gap-y-4 sm:gap-x-4 md:gap-x-20" data-slot="field">
-                            <div class="space-y-1 w-full sm:w-auto">
-                                <h4 class="font-md text-strong dark:text-white break-words">{{ $assessment['name'] }}</h4>
-                                <p class="text-xs text-weak dark:text-gray-400 mt-1">{{ __('Date') }}
-                                    : {{ $assessment['date'] }}</p>
-                            </div>
-                            <div class="flex items-center self-start sm:self-center">
-                                <span class="px-3 py-1 text-xs sm:text-sm rounded-lg cursor-pointer whitespace-nowrap {{ ($assessment['status'] === 'view supervisor result' || $assessment['status'] === 'view submission') ? 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100' : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100' }}">
-                                    {{ $assessment['status'] }}
-                                </span>
-                            </div>
-                        </div>
-                    @endforeach
+                     <div class="flex flex-col sm:flex-row w-full justify-between p-4 sm:p-6 items-start gap-y-4 sm:gap-x-4 md:gap-x-20" data-slot="field">
+                         <div class="space-y-1 w-full sm:w-auto">
+                             <h4 class="font-md text-strong dark:text-white break-words">{{ $assessment->assessment_title }}</h4>
+                             <p class="text-xs text-weak dark:text-gray-400 mt-1">{{ __('Date') }}: {{ \Carbon\Carbon::parse($assessment->closing_date)->toFormattedDateString() }}</p>
+                         </div>
+                         <div class="flex items-center self-start sm:self-center">
+                            @php
+                            $isCompleted = in_array($status, ['view supervisor result', 'view submission']);
+                            $variant = $isCompleted ? 'subtle' : 'outline';
+                            $colorClass = $isCompleted ? 'text-green-800 dark:text-green-100' : 'text-yellow-800 dark:text-yellow-100';
+                            $icon = $isCompleted ? 'check-circle' : 'exclamation-circle'; // Adjust icons based on status
+                        @endphp
+
+                        <flux:button
+                            type="button"
+                            size="sm"
+                            variant="{{ $variant }}"
+                            icon="{{ $icon }}"
+                            href="{{ route('skill-harbor.assessments.hub', $assessment->id) }}"
+                            icon:variant="solid"
+                            class="px-3 py-1 font-medium whitespace-nowrap {{ $colorClass }}"
+                        >
+                            {{ $status }}
+                        </flux:button>
+
+                         </div>
+                     </div>
+                 @empty
+                     <div class="p-6 text-center text-gray-500 dark:text-gray-400">
+                         {{ __('You have not been enrolled in any assessments yet.') }}
+                     </div>
+                 @endforelse
+
                 </div>
             </div>
         </div>

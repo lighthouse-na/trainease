@@ -65,6 +65,12 @@ Route::middleware(['auth'])->group(function () {
          */
         Volt::route('/summary', 'trainer.reports.trainersummary')->name('summary');
         Volt::route('/women-in-tech-summary', 'trainer.reports.women-in-tech-summary')->name('women-in-tech-summary');
+
+        /**
+         * Assessment Routes
+         */
+
+         Volt::route('skillharbor/hub', 'skillharbor.assessments.assessmenthub')->name('skill-harbor.assessments.hub');
     });
 
 });
