@@ -23,6 +23,8 @@ class DatabaseSeeder extends Seeder
                 'supervisor_id' => rand(1, 50), // Assuming some users are supervisors
                 'salary_ref_number' => rand(10000, 99999),
                 'gender' => ['male', 'female', 'other'][rand(0, 2)],
+                'job_grade' => ['A', 'B', 'C', 'D'][rand(0, 3)],
+                'aa_title' => ['Mr.', 'Ms.', 'Mrs.'][rand(0, 2)],
                 'dob' => now()->subYears(rand(20, 60))->subDays(rand(0, 365))->format('Y-m-d'),
                 'phone_number' => '+1'.rand(1000000000, 9999999999),
                 'address' => fake()->address(),

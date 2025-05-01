@@ -220,15 +220,13 @@ class User extends Authenticatable
      * SkillHarbor Functions
      */
 
-    public function supervisor(): HasOne
-    {
-        return $this->hasOne(User::class, 'supervisor_id');
-    }
+     public function supervisedUsers()
+     {
+         return User::whereHas('user_detail', function ($query) {
+             $query->where('supervisor_id', $this->id);
+         });
+     }
 
-    public function supervisees(): HasMany
-    {
-        return $this->hasMany(User::class, 'user_id');
-    }
 
     public function jcps(): HasOne
     {

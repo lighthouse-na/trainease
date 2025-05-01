@@ -21,14 +21,7 @@ new class extends Component {
     public function with(): array
     {
         return [
-            'users' => User::query()
-                ->when($this->search, function ($query, $search) {
-                    $query->where('name', 'like', "%{$search}%")
-                          ->orWhere('email', 'like', "%{$search}%");
-                })
-
-                ->orderBy($this->sortField, $this->sortDirection)
-                ->paginate(10)
+            'users' => auth()->user()->supervisedUsers()->paginate(10)
         ];
     }
 };
