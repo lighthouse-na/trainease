@@ -12,6 +12,7 @@
         "php": "^8.3",
         "hashids/hashids": "^5.0",
         "laravel/framework": "^12.0",
+        "laravel/nightwatch": "^1.4",
         "laravel/pulse": "^1.4",
         "laravel/tinker": "^2.10.1",
         "livewire/flux": "^2.0.",

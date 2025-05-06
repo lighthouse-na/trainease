@@ -40,7 +40,7 @@ class JobCompetencyProfile extends Model
      */
     public function qualifications(): BelongsToMany
     {
-        return $this->belongsToMany(Qualification::class, 'jcp_qualification', 'jcp_id', 'qualification_id')->withPivot('from_date', 'end_date', 'status');
+        return $this->belongsToMany(Qualification::class, 'jcp_qualification', 'jcp_id', 'qualification_id');
     }
 
     public function scopeSearch(JobCompetencyProfile $query, string $val): void

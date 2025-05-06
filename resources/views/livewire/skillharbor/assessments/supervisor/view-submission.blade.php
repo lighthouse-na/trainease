@@ -3,28 +3,28 @@
 use Livewire\Volt\Component;
 use Livewire\Attributes\Layout;
 use App\Models\SkillHarbor\SkillHarborEnrollment;
+use App\Models\User;
 
 new #[Layout('components.layouts.app.header')] class extends Component {
     //
     public $jcp;
+    public $user;
     public $status;
     public $enrollment;
+    public $skillRatings = [];
 
-    public function mount(SkillHarborEnrollment $skillharborEnrollment)
+    public function mount(User $userId, $skillharborEnrollment)
     {
-        $this->jcp = Auth::user()->jcps;
+        $this->user = $userId->load('jcps.skills'); // Eager load relationships
+        $this->jcp = $this->user->jcps;
+
         if ($this->jcp) {
-            foreach ($this->jcp->skills as $skill) {
-                $this->skillRatings[$skill->id] = $skill->pivot->user_rating;
-            }
+            $this->skillRatings = $this->jcp->skills->pluck('pivot.user_rating', 'id')->toArray();
         }
 
-        $this->enrollment = $skillharborEnrollment;
-
-        $this->status = $skillharborEnrollment->user_status;
+        $this->enrollment = $this->user->getCurrentSkillHarborEnrollment($skillharborEnrollment);
+        $this->status = $this->enrollment->supervisor_status; // Direct access instead of another query
     }
-
-    public $skillRatings = [];
 
     public function submitAssessment()
     {
@@ -32,20 +32,23 @@ new #[Layout('components.layouts.app.header')] class extends Component {
             'skillRatings.*' => 'required|integer|min:1|max:5',
         ]);
 
-        foreach ($this->skillRatings as $skillId => $rating) {
-            $this->jcp->skills()->updateExistingPivot($skillId, [
-                'user_rating' => $rating,
-                'updated_at' => now(),
+        // Batch update instead of individual updates
+        $updates = collect($this->skillRatings)->map(fn($rating, $skillId) => [
+            'skill_id' => $skillId,
+            'supervisor_rating' => $rating,
+            'updated_at' => now()
+        ])->toArray();
+
+        $this->jcp->skills()->sync($updates, false);
+
+        if ($this->enrollment) {
+            $this->enrollment->update([
+                'supervisor_status' => 1,
+                'user_status' => 1
             ]);
         }
 
-        // Update the skillharbor enrollment status
-
-        if ($this->enrollment) {
-            $this->enrollment->update(['user_status' => 1]);
-        }
-
-        session()->flash('message', 'Assessment submitted successfully.');
+        session()->flash('message', 'Assessment evaluated successfully.');
     }
 }; ?>
 
@@ -111,11 +114,12 @@ new #[Layout('components.layouts.app.header')] class extends Component {
                         <div class="p-6 bg-gray-50 border-t border-gray-200">
                             <flux:button wire:click="submitAssessment" variant="primary"
                                 :disabled="session('message') || $status === 1"
-                                class="w-full justify-center bg-sky-600 hover:bg-sky-700 disabled:bg-gray-400 text-white font-semibold py-3 rounded-b-lg transition">
+                                class="w-full justify-center disabled:bg-gray-400 text-white font-semibold py-3 rounded-b-lg transition">
+
                                 @if (session('message'))
-                                    Assessment Submitted
+                                    Assessment Reviewed
                                 @elseif($status === 1)
-                                    Assessment Already Completed
+                                    Assessment Already Reviewed
                                 @else
                                     Submit Assessment
                                 @endif
@@ -144,7 +148,7 @@ new #[Layout('components.layouts.app.header')] class extends Component {
                             <div class="flex items-center px-4 py-3">
                                 <div class="min-w-0 flex-1">
                                     <p class="text-sm text-gray-500">Employee</p>
-                                    <p class="text-sm font-medium text-gray-900 truncate">{{ Auth::user()->name }}</p>
+                                    <p class="text-sm font-medium text-gray-900 truncate">{{ $user->name }}</p>
                                 </div>
                             </div>
 

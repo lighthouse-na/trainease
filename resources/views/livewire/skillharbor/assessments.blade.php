@@ -65,7 +65,7 @@ new class extends Component {
                             size="sm"
                             variant="{{ $variant }}"
                             icon="{{ $icon }}"
-                            href="{{ route('skill-harbor.assessments.hub', $assessment->id) }}"
+                            href="{{ route('skill-harbor.assessments.hub', ['skillharborEnrollment' => $enrollment->id]) }}"
                             icon:variant="solid"
                             class="px-3 py-1 font-medium whitespace-nowrap {{ $colorClass }}"
                         >

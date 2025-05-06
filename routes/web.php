@@ -70,7 +70,11 @@ Route::middleware(['auth'])->group(function () {
          * Assessment Routes
          */
 
-         Volt::route('skillharbor/hub', 'skillharbor.assessments.assessmenthub')->name('skill-harbor.assessments.hub');
+         Volt::route('skillharbor/hub/{skillharborEnrollment}', 'skillharbor.assessments.assessmenthub')->name('skill-harbor.assessments.hub');
+         //supervisor submission table
+         Volt::route('skillharbor/hub/{skillharborEnrollment}/submission', 'skillharbor.assessments.supervisor.submissions')->name('skill-harbor.submissions');
+         //supervisor review page
+         Volt::route('skillharbor/hub/{userId}/{skillharborEnrollment}', 'skillharbor.assessments.supervisor.view-submission')->name('skill-harbor.view.submission');
     });
 
 });

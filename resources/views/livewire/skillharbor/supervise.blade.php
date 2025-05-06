@@ -1,9 +1,18 @@
 <?php
 
 use Livewire\Volt\Component;
+use App\Models\SkillHarbor\SkillHarborEnrollment;
 
 new class extends Component {
     //
+    public $enrollments = [];
+
+    public function mount(){
+        $this->enrollments = SkillHarborEnrollment::where('user_id', auth()->id())
+            ->with(['assessment'])
+            ->orderBy('created_at', 'desc')
+            ->get();    }
+
 }; ?>
 
 <div class="flex flex-col items-start">
@@ -16,31 +25,47 @@ new class extends Component {
                 <div class="space-y-1 ">
                 <h3 class="font-medium text-strong dark:text-white">{{ __('Current Assessments') }}</h3>
                 <p class="text-default w-full text-xs text-pretty dark:text-gray-300" data-slot="description">
-                    {{ __('View your staff skill assessments') }}
+                    {{ __('View your staff skill assessment submissions.') }}
                 </p>
                 </div>
             </div>
 
-            <div class="divide-default bg-white dark:bg-gray-900 shadow-xs-with-border divide-y dark:divide-gray-700 rounded-lg" data-slot="content">
-                @foreach([
-                ['name' => 'Frontend Development Skills', 'date' => '2023-11-15', 'score' => '85%', 'status' => 'view supervisor result'],
+            <div class="divide-default dark:divide-gray-700 bg-white dark:bg-gray-900 divide-y rounded-lg"
+                     data-slot="content">
+                     @forelse($enrollments as $enrollment)
+                     @php
+                         $assessment = $enrollment->assessment;
 
-                ] as $assessment)
-                <div class="flex w-full justify-between p-6 items-start gap-x-20 gap-y-8" data-slot="field">
-                    <div class="space-y-1">
-                    <h4 class="font-md text-strong dark:text-white">{{ $assessment['name'] }}</h4>
-                    <p class="text-xs text-weak mt-1 dark:text-gray-400">{{ __('Date') }}: {{ $assessment['date'] }}</p>
-                    </div>
-                    <div class="flex items-center gap-4">
-                    <span class="px-3 py-1 text-sm rounded-lg cursor-pointer {{ ($assessment['status'] === 'view supervisor result' || $assessment['status'] === 'view submission') ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100' : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-100' }}">
-                        {{ __("View Submissions") }}
-                    </span>
+                     @endphp
 
-                    </div>
+                     <div class="flex flex-col sm:flex-row w-full justify-between p-4 sm:p-6 items-start gap-y-4 sm:gap-x-4 md:gap-x-20" data-slot="field">
+                         <div class="space-y-1 w-full sm:w-auto">
+                             <h4 class="font-md text-strong dark:text-white break-words">{{ $assessment->assessment_title }}</h4>
+                             <p class="text-xs text-weak dark:text-gray-400 mt-1">{{ __('Date') }}: {{ \Carbon\Carbon::parse($assessment->closing_date)->toFormattedDateString() }}</p>
+                         </div>
+                         <div class="flex items-center self-start sm:self-center">
+
+
+                        <flux:button
+                            type="button"
+                            size="sm"
+                            variant="primary"
+                            icon="check"
+                            href="{{ route('skill-harbor.submissions', $assessment->id) }}"
+                            icon:variant="solid"
+                        >
+                            view submissions
+                        </flux:button>
+
+                         </div>
+                     </div>
+                 @empty
+                     <div class="p-6 text-center text-gray-500 dark:text-gray-400">
+                         {{ __('You have not been enrolled in any assessments yet.') }}
+                     </div>
+                 @endforelse
+
                 </div>
-                @endforeach
-            </div>
-            </div>
         </div>
     </x-skillharbor.layout>
 </div>

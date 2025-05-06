@@ -227,6 +227,17 @@ class User extends Authenticatable
          });
      }
 
+     public function skillharborEnrollment(){
+            return $this->hasMany(SkillHarborEnrollment::class, 'user_id');
+     }
+
+     public function getCurrentSkillHarborEnrollment($assessment_id)
+     {
+            return $this->skillharborEnrollment()
+                ->where('assessment_id', $assessment_id)
+                ->first();
+     }
+
 
     public function jcps(): HasOne
     {
