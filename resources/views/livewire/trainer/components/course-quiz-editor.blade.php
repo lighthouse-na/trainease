@@ -15,9 +15,10 @@ new class extends Component {
     public function mount($course){
         $this->course = Course::find($course);
         $this->quizzes = $this->course
-                ->quizes()
-                ->with(['questions.options'])
-                ->get();
+            ->quizes()
+            ->with(['questions.options'])
+            ->get() ?? collect([]);
+
 
             // If there are quizzes, set up the first one
             if ($this->quizzes->isNotEmpty()) {

@@ -256,8 +256,7 @@ new class extends Component {
                                 @php
                                     $enrolledCount = $assessment->enrolledCount();
                                     $submittedCount = $assessment->countSubmittedForReview();
-                                    $percentage =
-                                        $enrolledCount > 0 ? round(($submittedCount / $enrolledCount) * 100) : 0;
+                                    $percentage = round(($submittedCount / $enrolledCount) * 100, 2);
                                 @endphp
                                 <div class="relative pt-1">
                                     <div class="overflow-hidden h-2 mb-1 text-xs flex rounded bg-gray-200 dark:bg-gray-700">

@@ -17,7 +17,7 @@ new class extends Component {
     public bool $isEditingMaterial= false;
 
     public function mount($course){
-        $this->courseMaterials= Course::find($course)->materials;
+        $this->courseMaterials= Course::find($course)->materials ?? [];
         $this->courseCreated= true;
     }
 
