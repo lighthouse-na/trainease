@@ -21,12 +21,14 @@ class Course extends Model
     /** @use HasFactory<\Database\Factories\Training\CourseFactory> */
     use HasFactory;
 
-    protected $fillable = ['course_name', 'course_description', 'course_fee', 'course_image', 'user_id','sme_id', 'start_date', 'end_date', 'course_type', 'is_stem'];
+    protected $fillable = ['course_name', 'course_description', 'course_fee', 'course_image', 'user_id', 'sme_id', 'start_date', 'end_date', 'course_type', 'is_stem'];
 
     protected $casts = [
         'start_date' => 'date:dd/mm/yyyy',
         'end_date' => 'date:dd/mm/yyyy',
+        'is_stem' => 'boolean'
     ];
+
 
     /**
      * @return BelongsTo<User, $this>

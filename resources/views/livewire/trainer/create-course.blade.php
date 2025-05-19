@@ -25,8 +25,10 @@ new class extends Component {
     public float $course_fee;
     public string $startDate;
     public string $endDate;
-    public string $course_type;
+    // public string $course_type;
+    public string $course_type = 'online';
     public int $userId;
+    public $is_stem = false;
 
     // Materials properties
 
@@ -122,7 +124,8 @@ new class extends Component {
             'endDate' => 'required|date|after:startDate',
             'course_fee' => 'required|numeric|min:0',
             'course_type' => 'required',
-            'courseImage' => 'required'
+            'courseImage' => 'required',
+            'is_stem' => 'required|boolean',
         ]);
 
         // Process image if uploaded
@@ -142,6 +145,7 @@ new class extends Component {
             $course->end_date = $this->endDate;
             $course->course_fee = $this->course_fee;
             $course->course_type = $this->course_type;
+            $course->is_stem = $this->is_stem;
 
             if ($imagePath) {
                 $course->course_image = $imagePath;
@@ -161,6 +165,7 @@ new class extends Component {
                 'course_image' => $imagePath,
                 'user_id' => Auth::user()->id,
                 'course_type' => $this->course_type,
+                'is_stem' => $this->is_stem,
             ]);
 
             $this->courseId = $course->id;
@@ -168,7 +173,6 @@ new class extends Component {
             $this->existingImage = $imagePath;
 
             session()->flash('message', 'Course created successfully!');
-
         }
     }
 
@@ -343,15 +347,13 @@ new class extends Component {
 
             // Success notification
 
-            session()->flash('message', "Existing materials removed and {$importCount} new materials imported successfully!"
-            );
+            session()->flash('message', "Existing materials removed and {$importCount} new materials imported successfully!");
 
             // Close the modal
             $this->isModalOpen = false;
 
             // Refresh the materials list for the current course
             $this->refreshCourseMaterials();
-
         } catch (Exception $e) {
             // Rollback in case of error
             DB::rollBack();
@@ -360,13 +362,13 @@ new class extends Component {
             Log::error('Course material import failed: ' . $e->getMessage(), [
                 'exception' => $e,
                 'from_course_id' => $this->importedCourseId,
-                'to_course_id' => $currentCourseId
+                'to_course_id' => $currentCourseId,
             ]);
 
             // Error notification
             $this->dispatch('notify', [
                 'type' => 'error',
-                'message' => "Failed to import materials: " . $e->getMessage()
+                'message' => 'Failed to import materials: ' . $e->getMessage(),
             ]);
         }
         $this->modal('importModal')->close();
@@ -399,7 +401,6 @@ new class extends Component {
         // Update the materials property with fresh data
         $this->materials = CourseMaterial::where('course_id', $this->courseId)->get();
     }
-
 
     public function addQuestion()
     {
@@ -539,7 +540,7 @@ new class extends Component {
 
         $this->activeTab = $tab;
     }
-} ?>
+}; ?>
 
 <div>
     <div class="p-6 ">
@@ -555,71 +556,79 @@ new class extends Component {
             <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" role="tablist">
                 <li class="mr-2" role="presentation">
                     <button class="inline-block p-4 border-b-2 rounded-t-lg"
-                            :class="{
+                        :class="{
                             'border-accent-content text-accent-content dark:text-accent-content': $wire
                                 .activeTab === 'course',
                             'border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 dark:hover:border-gray-500': $wire
                                 .activeTab !== 'course'
                         }"
-                            wire:click="setTab('course')" type="button" role="tab">Course Details
+                        wire:click="setTab('course')" type="button" role="tab">Course Details
                     </button>
                 </li>
                 <li class="mr-2" role="presentation">
                     <button class="inline-block p-4 border-b-2 rounded-t-lg"
-                            :class="{
-                            'border-accent-content text-accent-content dark:text-accent-content': $wire.activeTab === 'materials' && $wire
+                        :class="{
+                            'border-accent-content text-accent-content dark:text-accent-content': $wire
+                                .activeTab === 'materials' && $wire
                                 .courseCreated,
-                            'border-transparent text-gray-400 dark:text-gray-500 cursor-not-allowed': !$wire.courseCreated,
+                            'border-transparent text-gray-400 dark:text-gray-500 cursor-not-allowed': !$wire
+                                .courseCreated,
                             'border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 dark:hover:border-gray-500': $wire
                                 .activeTab !== 'materials' && $wire.courseCreated
                         }"
-                            wire:click="setTab('materials')" type="button" role="tab" :disabled="!$wire.courseCreated"
-                            :title="!$wire.courseCreated ? 'Save course details first' : ''">Course Materials
+                        wire:click="setTab('materials')" type="button" role="tab" :disabled="!$wire.courseCreated"
+                        :title="!$wire.courseCreated ? 'Save course details first' : ''">Course Materials
                     </button>
                 </li>
 
                 <li class="mr-2" role="presentation">
                     <button class="inline-block p-4 border-b-2 rounded-t-lg"
-                            :class="{
-                            'border-accent-content text-accent-content dark:text-accent-content': $wire.activeTab === 'quiz' && $wire
+                        :class="{
+                            'border-accent-content text-accent-content dark:text-accent-content': $wire
+                                .activeTab === 'quiz' && $wire
                                 .courseCreated,
-                            'border-transparent text-gray-400 dark:text-gray-500 cursor-not-allowed': !$wire.courseCreated,
+                            'border-transparent text-gray-400 dark:text-gray-500 cursor-not-allowed': !$wire
+                                .courseCreated,
                             'border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 dark:hover:border-gray-500': $wire
                                 .activeTab !== 'quiz' && $wire.courseCreated
                         }"
-                            wire:click="setTab('quiz')" type="button" role="tab" :disabled="!$wire.courseCreated"
-                            :title="!$wire.courseCreated ? 'Save course details first' : ''">Quiz
+                        wire:click="setTab('quiz')" type="button" role="tab" :disabled="!$wire.courseCreated"
+                        :title="!$wire.courseCreated ? 'Save course details first' : ''">Quiz
                     </button>
                 </li>
                 <li role="presentation">
                     <button class="inline-block p-4 border-b-2 rounded-t-lg"
-                            :class="{
-                            'border-accent-content text-accent-content dark:text-accent-content': $wire.activeTab === 'enrollments' && $wire
+                        :class="{
+                            'border-accent-content text-accent-content dark:text-accent-content': $wire
+                                .activeTab === 'enrollments' && $wire
                                 .courseCreated,
-                            'border-transparent text-gray-400 dark:text-gray-500 cursor-not-allowed': !$wire.courseCreated,
+                            'border-transparent text-gray-400 dark:text-gray-500 cursor-not-allowed': !$wire
+                                .courseCreated,
                             'border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 dark:hover:border-gray-500': $wire
                                 .activeTab !== 'enrollments' && $wire.courseCreated
                         }"
-                            wire:click="setTab('enrollments')" type="button" role="tab"
-                            :disabled="!$wire.courseCreated"
-                            :title="!$wire.courseCreated ? 'Save course details first' : ''">Enrollments
+                        wire:click="setTab('enrollments')" type="button" role="tab"
+                        :disabled="!$wire.courseCreated"
+                        :title="!$wire.courseCreated ? 'Save course details first' : ''">Enrollments
                     </button>
                 </li>
             </ul>
         </div>
 
         <div class="tab-content">
+            {{--  COURSE Details SECTION --}}
             <div x-show="$wire.activeTab === 'course'" class="p-4 rounded-lg bg-white dark:bg-gray-800" x-transition>
                 <h3 class="text-lg font-semibold mb-4 dark:text-white">Course Information</h3>
-                <form wire:click.prevent="saveCourse">
+                {{-- <form wire:click.prevent="saveCourse"> --}}
+                <form wire:submit.prevent="saveCourse">
                     <div class="mb-4">
                         <flux:input id="title" label="Course Title" wire:model="title"
-                                    class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
+                            class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
                     </div>
                     <div class="mb-4">
 
-                        <flux:textarea id="description" label="Course Description" wire:model="description" rows="4"
-                                       class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
+                        <flux:textarea id="description" label="Course Description" wire:model="description"
+                            rows="4" class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
                     </div>
                     <div class="flex grid grid-cols-2 gap-2 mb-4">
                         <flux:field>
@@ -629,7 +638,7 @@ new class extends Component {
                                     N$
                                 </flux:input.group.prefix>
                                 <flux:input wire:model.live="course_fee" type="decimal:2" min="0" required
-                                            class="dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
+                                    class="dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
                             </flux:input.group>
                         </flux:field>
 
@@ -637,7 +646,7 @@ new class extends Component {
                             <flux:label class="dark:text-gray-300">Course Type</flux:label>
 
                             <flux:select wire:model.live="course_type"
-                                         class="dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                                class="dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                                 <flux:select.option value="online">Online</flux:select.option>
                                 <flux:select.option value="face-to-face">Face to Face</flux:select.option>
                                 <flux:select.option value="hybrid">Hybrid</flux:select.option>
@@ -647,12 +656,11 @@ new class extends Component {
                     <div class="mb-4">
 
                         <flux:input type="file" id="course_image" label="Course Image" wire:model="courseImage"
-                                    class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                                    accept="image/*"/>
+                            class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white" accept="image/*" />
 
                         <div class="mt-2">
-                            <img src="{{ url('storage/' . $existingImage) }}"
-                                 class="h-24 w-auto object-cover rounded" alt="{{ $existingImage }}">
+                            <img src="{{ url('storage/' . $existingImage) }}" class="h-24 w-auto object-cover rounded"
+                                alt="{{ $existingImage }}">
                             <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Current image</p>
                         </div>
                     </div>
@@ -660,24 +668,54 @@ new class extends Component {
                         <div>
 
                             <flux:input label="Start Date" type="date" id="start_date" wire:model="startDate"
-                                        class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
+                                class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
                         </div>
                         <div>
 
                             <flux:input label="End Date" type="date" id="end_date" wire:model="endDate"
-                                        class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
+                                class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
                         </div>
                     </div>
-                    <flux:button variant="primary" type="submit">
-                        {{ $courseId ? 'Update Course' : 'Create Course' }}</flux:button>
 
+                    {{-- IS_STEM FIELD --}}
+                    <div class="mb-4 p-4 bg-gray-50 dark:bg-gray-700 rounded shadow-sm">
+                        <flux:field>
+                            <flux:label for="is_stem" class="dark:text-gray-300">Is this a STEM course?</flux:label>
+                            <flux:select id="is_stem" wire:model="is_stem"
+                                class="w-full mt-2 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                                <flux:select.option value="">Select...</flux:select.option>
+                                <flux:select.option value="1">Yes</flux:select.option>
+                                <flux:select.option value="0">No</flux:select.option>
+                            </flux:select>
+                        </flux:field>
+                    </div>
+
+                    <flux:button variant="primary" type="submit" wire:loading.attr="disabled">
+                        {{ $courseId ? 'Update Course' : 'Create Course' }}
+                        <div wire:loading.inline wire:target="saveCourse">
+                            <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg"
+                                fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10"
+                                    stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor"
+                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                                </path>
+                            </svg>
+                        </div>
+                    </flux:button>
+
+                    @if (session()->has('message'))
+                        <div class="mt-4 text-green-500">
+                            {{ session('message') }}
+                        </div>
+                    @endif
 
                 </form>
             </div>
 
+            {{--  COURSE MATERIALS SECTION --}}
             <div x-show="$wire.activeTab === 'materials' && $wire.courseCreated"
-                 class="p-4 rounded-lg bg-white dark:bg-gray-800"
-                 x-transition>
+                class="p-4 rounded-lg bg-white dark:bg-gray-800" x-transition>
                 <div class="flex inline justify-end items-center">
                     <h3 class="text-lg font-semibold mb-4 dark:text-white">Course Materials</h3>
 
@@ -697,18 +735,19 @@ new class extends Component {
 
                                 @forelse ($courseMaterials as $material)
                                     <div class="bg-white dark:bg-gray-700 border rounded-lg p-4 dark:border-gray-600">
-                                        <h5 class="font-semibold text-lg mb-1 truncate dark:text-white">{{ $material->material_name }}
+                                        <h5 class="font-semibold text-lg mb-1 truncate dark:text-white">
+                                            {{ $material->material_name }}
                                         </h5>
-                                        <p class="text-gray-500 dark:text-gray-300 text-sm mb-3 line-clamp-2">{{ $material->description }}
+                                        <p class="text-gray-500 dark:text-gray-300 text-sm mb-3 line-clamp-2">
+                                            {{ $material->description }}
                                         </p>
                                         <div class="flex justify-start space-x-2 items-center">
                                             <flux:button wire:click="editMaterial({{ $material->id }})"
-                                                         variant="primary"
-                                                         size="xs" outline>
+                                                variant="primary" size="xs" outline>
                                                 Edit
                                             </flux:button>
                                             <flux:button wire:click="deleteMaterial({{ $material->id }})"
-                                                         variant="danger" size="xs" outline>
+                                                variant="danger" size="xs" outline>
                                                 Delete
                                             </flux:button>
                                             <span
@@ -730,21 +769,22 @@ new class extends Component {
 
                 <flux:modal name="importModal" dismissible="true" wire:model="isModalOpen">
                     <div>
-                        <flux:select label="Course to Import Course Materials From" wire:model.live="importedCourseId">
+                        <flux:select label="Course to Import Course Materials From"
+                            wire:model.live="importedCourseId">
                             <flux:select.option value="">Select a course...
                             </flux:select.option>
-                            @foreach(Course::lazy() as $course)
-                                <flux:select.option
-                                    value="{{ $course->id }}">{{ $course->course_name }}</flux:select.option>
+                            @foreach (Course::lazy() as $course)
+                                <flux:select.option value="{{ $course->id }}">{{ $course->course_name }}
+                                </flux:select.option>
                             @endforeach
                         </flux:select>
 
-                        @if($importedCourseId)
+                        @if ($importedCourseId)
                             <div class="mt-4">
                                 <h3 class="text-lg font-medium mb-2">Available Materials</h3>
                                 <div class="flex flex-wrap gap-1">
-                                    @foreach($importedMaterials as $mat)
-                                        <flux:badge color="lime">{{$mat->material_name}}</flux:badge>
+                                    @foreach ($importedMaterials as $mat)
+                                        <flux:badge color="lime">{{ $mat->material_name }}</flux:badge>
                                     @endforeach
                                 </div>
                             </div>
@@ -759,33 +799,35 @@ new class extends Component {
                 </flux:modal>
 
                 <flux:modal name="materialModal" variant="flyout" position="right" dismissible="true"
-                            wire:model="isModalOpen" class="">
+                    wire:model="isModalOpen" class="">
                     <div class="p-6">
                         <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
                             {{ isset($editingMaterialId) ? 'Edit Material' : 'Add Material' }}
                         </h2>
 
-                        <form wire:submit.prevent="{{ isset($editingMaterialId) ? 'updateMaterial' : 'saveMaterial' }}">
+                        <form
+                            wire:submit.prevent="{{ isset($editingMaterialId) ? 'updateMaterial' : 'saveMaterial' }}">
                             <div class="mb-4">
                                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
-                                       for="materialTitle">Material Title</label>
+                                    for="materialTitle">Material Title</label>
                                 <flux:input id="materialTitle" wire:model="materialTitle"
-                                            class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
+                                    class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
                             </div>
 
                             <div class="mb-4">
                                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
-                                       for="materialDescription">Material Description</label>
-                                <flux:textarea id="materialDescription" wire:model="materialDescription" rows="3"
-                                               class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
+                                    for="materialDescription">Material Description</label>
+                                <flux:textarea id="materialDescription" wire:model="materialDescription"
+                                    rows="3"
+                                    class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
                             </div>
 
                             <div class="mb-4">
                                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
-                                       for="materialContent">Content</label>
+                                    for="materialContent">Content</label>
                                 <flux:textarea id="materialContent" wire:model="materialContent" rows="6"
-                                               class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
-                                {{--                                <livewire:custom-components.markdown-me wire:model="content"/>--}}
+                                    class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+                                {{--                                <livewire:custom-components.markdown-me wire:model="content"/> --}}
                             </div>
 
                             <div class="flex justify-between items-center">
@@ -795,7 +837,7 @@ new class extends Component {
 
                                 @if (isset($editingMaterialId))
                                     <button type="button" wire:click="$set('editingMaterialId', null)"
-                                            class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300">
+                                        class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300">
                                         Cancel Edit
                                     </button>
                                 @endif
@@ -807,61 +849,66 @@ new class extends Component {
 
             </div>
 
+            {{--  QUIZ SECTION --}}
             <div x-show="$wire.activeTab === 'quiz' && $wire.courseCreated"
-                 class="p-4 rounded-lg bg-white dark:bg-gray-800" x-transition>
+                class="p-4 rounded-lg bg-white dark:bg-gray-800" x-transition>
                 <h3 class="text-lg font-semibold mb-4 dark:text-white">Course Quiz</h3>
                 <form wire:submit.prevent="saveQuiz">
                     <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" for="quizTitle">Quiz
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                            for="quizTitle">Quiz
                             Title</label>
                         <x-input id="quizTitle" wire:model="quizTitle"
-                                 class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
+                            class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
-                                   for="quizAttempts">Maximum
+                                for="quizAttempts">Maximum
                                 Attempts</label>
                             <x-input id="quizAttempts" wire:model="quizAttempts" type="number" min="1"
-                                     class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
+                                class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
-                                   for="passingScore">Passing Score
+                                for="passingScore">Passing Score
                                 (%)</label>
                             <x-input id="passingScore" wire:model="passingScore" type="number" min="0"
-                                     max="100" class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
+                                max="100" class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
                         </div>
                     </div>
 
                     <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Questions</label>
+                        <label
+                            class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Questions</label>
 
                         @foreach ($questions as $index => $question)
                             <div class="p-4 border rounded-md mb-3 bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
                                 <div class="mb-3">
-                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Question
+                                    <label
+                                        class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Question
                                         {{ $index + 1 }}</label>
                                     <x-input wire:model="questions.{{ $index }}.text"
-                                             class="w-full dark:bg-gray-800 dark:border-gray-600 dark:text-white"
-                                             placeholder="Enter question"/>
+                                        class="w-full dark:bg-gray-800 dark:border-gray-600 dark:text-white"
+                                        placeholder="Enter question" />
                                 </div>
 
                                 <div class="mb-2">
-                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Options</label>
+                                    <label
+                                        class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Options</label>
                                     @foreach (['A', 'B', 'C', 'D'] as $optionIndex => $optionLabel)
                                         <div class="flex items-center mb-2">
                                             <div class="mr-2 dark:text-white">{{ $optionLabel }}.</div>
                                             <input
                                                 wire:model="questions.{{ $index }}.options.{{ $optionIndex }}"
                                                 class="w-full dark:bg-gray-800 dark:border-gray-600 dark:text-white"
-                                                placeholder="Option {{ $optionLabel }}"/>
+                                                placeholder="Option {{ $optionLabel }}" />
                                             <label class="inline-flex items-center ml-2">
                                                 <input type="radio"
-                                                       wire:model="questions.{{ $index }}.correct_answer"
-                                                       value="{{ $optionIndex }}"
-                                                       class="form-radio h-4 w-4 text-accent-content dark:bg-gray-800 dark:border-gray-600">
+                                                    wire:model="questions.{{ $index }}.correct_answer"
+                                                    value="{{ $optionIndex }}"
+                                                    class="form-radio h-4 w-4 text-accent-content dark:bg-gray-800 dark:border-gray-600">
                                                 <span
                                                     class="ml-1 text-sm text-gray-700 dark:text-gray-300">Correct</span>
                                             </label>
@@ -870,18 +917,18 @@ new class extends Component {
                                 </div>
 
                                 <button type="button" wire:click="removeQuestion({{ $index }})"
-                                        class="text-sm text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300">
+                                    class="text-sm text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300">
                                     Remove Question
                                 </button>
                             </div>
                         @endforeach
 
                         <button type="button" wire:click="addQuestion"
-                                class="inline-flex items-center text-sm text-accent-content hover:text-blue-800 dark:hover:text-blue-300 mt-2">
+                            class="inline-flex items-center text-sm text-accent-content hover:text-blue-800 dark:hover:text-blue-300 mt-2">
                             <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                 xmlns="http://www.w3.org/2000/svg">
+                                xmlns="http://www.w3.org/2000/svg">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                      d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                    d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                             </svg>
                             Add Question
                         </button>
@@ -894,17 +941,17 @@ new class extends Component {
             </div>
 
             <div x-show="$wire.activeTab === 'enrollments' && $wire.courseCreated"
-                 class="p-4 rounded-lg bg-white dark:bg-gray-800"
-                 x-transition>
+                class="p-4 rounded-lg bg-white dark:bg-gray-800" x-transition>
                 <h3 class="text-lg font-semibold mb-4 dark:text-white">Student Enrollments</h3>
 
                 <div class="mb-6">
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" for="studentSearch">Search
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                        for="studentSearch">Search
                         Students</label>
                     <div class="flex">
                         <x-input id="studentSearch" wire:model.live="studentSearch"
-                                 class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                                 placeholder="Search by name or email"/>
+                            class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                            placeholder="Search by name or email" />
                         <x-button type="button" class="ml-2 bg-accent-content hover:bg-accent-content">
                             Search
                         </x-button>
@@ -932,14 +979,15 @@ new class extends Component {
                                 <div class="p-3 flex items-center justify-between">
                                     <div>
                                         <p class="font-medium dark:text-white">{{ $student['name'] }}</p>
-                                        <p class="text-sm text-gray-500 dark:text-gray-400">{{ $student['email'] }}</p>
+                                        <p class="text-sm text-gray-500 dark:text-gray-400">{{ $student['email'] }}
+                                        </p>
                                     </div>
                                     <button type="button" wire:click="removeStudent({{ $index }})"
-                                            class="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                             xmlns="http://www.w3.org/2000/svg">
+                                        class="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                  d="M6 18L18 6M6 6l12 12"></path>
+                                                d="M6 18L18 6M6 6l12 12"></path>
                                         </svg>
                                     </button>
                                 </div>
@@ -950,29 +998,29 @@ new class extends Component {
                     @endif
                 </div>
 
-                <x-button type="button" wire:click="enrollStudents" class="bg-accent-content hover:bg-accent-content"
-                          :disabled="count($selectedStudents) === 0">
+                <x-button type="button" wire:click="enrollStudents"
+                    class="bg-accent-content hover:bg-accent-content" :disabled="count($selectedStudents) === 0">
                     Enroll Selected Students
                 </x-button>
             </div>
 
             <div x-show="$wire.activeTab !== 'course' && !$wire.courseCreated"
-                 class="p-4 rounded-lg bg-white dark:bg-gray-800 text-center"
-                 x-transition>
+                class="p-4 rounded-lg bg-white dark:bg-gray-800 text-center" x-transition>
                 <div class="py-8">
-                    <svg class="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24"
-                         stroke="currentColor">
+                    <svg class="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
+                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
                         </path>
                     </svg>
                     <h3 class="mt-2 text-lg font-medium text-gray-900 dark:text-white">Course details required</h3>
-                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Please complete and save the course details
+                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Please complete and save the course
+                        details
                         first before
                         adding materials, quizzes, or enrollments.</p>
                     <div class="mt-3">
                         <button type="button" wire:click="setTab('course')"
-                                class="text-sm font-medium text-accent-content hover:text-accent-content dark:text-accent-content">
+                            class="text-sm font-medium text-accent-content hover:text-accent-content dark:text-accent-content">
                             Go back to course details <span aria-hidden="true">&rarr;</span>
                         </button>
                     </div>
