@@ -50,6 +50,8 @@ test('user can complete user details form', function () {
         'dob' => '1990-01-01',
         'phone_number' => '1234567890',
         'address' => '123 Main Street',
+        'aa_title' => 'RDM',
+        'job_grade' => 'A',
     ];
 
     Volt::test('settings.user-detail-form')
@@ -61,11 +63,14 @@ test('user can complete user details form', function () {
         ->set('dob', $formData['dob'])
         ->set('phone_number', $formData['phone_number'])
         ->set('address', $formData['address'])
+        ->set('aa_title', $formData['aa_title'])
+        ->set('job_grade', $formData['job_grade'])
         ->call('updateUserDetails')
         ->assertDispatched('user-details-updated');
 
     $this->assertDatabaseHas('user_details', array_merge($formData, ['user_id' => $user->id]));
 });
+
 test('user can update user details', function () {
     $user = User::factory()->create();
     $userDetail = UserDetail::factory()->create(['user_id' => $user->id]);
@@ -81,6 +86,8 @@ test('user can update user details', function () {
         'dob' => '1985-05-15',
         'phone_number' => '0987654321',
         'address' => '456 Another Street',
+        'aa_title' => 'RDM',
+        'job_grade' => 'B',
     ];
 
     Volt::test('settings.user-detail-form')
@@ -92,11 +99,14 @@ test('user can update user details', function () {
         ->set('dob', $updatedData['dob'])
         ->set('phone_number', $updatedData['phone_number'])
         ->set('address', $updatedData['address'])
+        ->set('aa_title', $updatedData['aa_title'])
+        ->set('job_grade', $updatedData['job_grade'])
         ->call('updateUserDetails')
         ->assertDispatched('user-details-updated');
 
     $this->assertDatabaseHas('user_details', array_merge($updatedData, ['user_id' => $user->id]));
 });
+
 test('user cannot delete user details', function () {
     $user = User::factory()->create();
     $userDetail = UserDetail::factory()->create(['user_id' => $user->id]);

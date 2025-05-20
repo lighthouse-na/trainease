@@ -21,7 +21,7 @@
                                wire:navigate>{{ __('Online Courses') }}</flux:navlist.item>
                                <flux:navlist.item icon="user-group" :href="route('sme.index')"
                                :current="request()->routeIs('sme.index')" wire:navigate
-                              >{{ __('SME') }} </flux:navlist.item>
+                              >{{ __('SME Vendors') }} </flux:navlist.item>
 
             <flux:navlist.item icon="clipboard-document-check" :href="route('skill-harbor')"
                                :current="request()->routeIs('skill-harbor.*')" wire:navigate

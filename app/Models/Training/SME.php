@@ -14,7 +14,7 @@ class SME extends Model
         'sme_type',
         'sme_institution',
         'sme_description',
-        'consultant_id'
+        'consultant_id',
     ];
 
     protected $table = 'smes';

@@ -5,9 +5,18 @@ use App\Models\User;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Volt\Volt;
+use Spatie\Permission\Models\Role;
 
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\assertDatabaseHas;
+
+// Setup the test environment
+beforeEach(function () {
+    // Create the trainer role if it doesn't exist
+    if (! Role::where('name', 'trainer')->exists()) {
+        Role::create(['name' => 'trainer']);
+    }
+});
 
 // Setup function to create a logged-in user
 function createLoggedInUser()
@@ -127,7 +136,7 @@ it('adds course materials after course creation', function () {
 });
 
 it('adds a quiz to a course', function () {
-    $user = createLoggedInUser();
+    createLoggedInUser();
 
     // Create course first
     Volt::test('trainer.create-course')
@@ -144,7 +153,7 @@ it('adds a quiz to a course', function () {
     $course = Course::latest()->first();
 
     // Add quiz
-    $quizComponent = Volt::test('trainer.create-course', ['course' => $course])
+    Volt::test('trainer.create-course', ['course' => $course])
         ->set('quizTitle', 'Comprehensive Quiz')
         ->set('quizAttempts', 3)
         ->set('passingScore', 70)
@@ -156,9 +165,10 @@ it('adds a quiz to a course', function () {
                 'correct_answer' => 2,
             ],
         ])
-        ->call('saveQuiz');
+        ->call('saveQuiz')
+        ->assertHasNoErrors()
+        ->assertSet('questions', []);
 
-    $quizComponent->assertHasNoErrors();
     // Verify quiz was added
     assertDatabaseHas('quizzes', [
         'course_id' => $course->id,

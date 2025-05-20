@@ -42,21 +42,21 @@ new class extends Component {
 
     <!-- Appearance Settings -->
     <x-skillharbor.layout heading="{{ __('Dashboard') }}" subheading="{{ __('') }}">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 w-full">
             <!-- Profile Summary Card -->
-            <div class=" rounded-lg border p-1 col-span-2">
+            <div class="rounded-lg border p-1 col-span-1 md:col-span-2">
                 @livewire('skillharbor.dashboard.qualificationmanager')
-
             </div>
+
             <!-- Top Skills Section -->
             <div class="rounded-lg border p-1 col-span-1">
-                <div class="flex justify-between items-center  px-6 py-2">
-                    <h3 class="text-sm font-medium text-gray-900  py-2 dark:text-white">Top Skills</h3>
-
+                <div class="flex justify-between items-center px-2 sm:px-6 py-2">
+                    <h3 class="text-sm font-medium text-gray-900 py-2 dark:text-white">Top Skills</h3>
                 </div>
-                <div class="bg-white dark:bg-gray-700 rounded-lg p-4 ">
-                    <div class="flex items-center justify-center space-y-2  ">
-
+                <div class="bg-white dark:bg-gray-700 rounded-lg p-2 sm:p-4">
+                    <div class="flex items-center justify-center space-y-2">
+                        <div class="text-center p-2 sm:p-4">
+                            <svg width="100%" height="auto" viewBox="0 0 156 132" max-width="120"
                         <div class="text-center p-4">
                             <svg width="120" height="100" viewBox="0 0 156 132" fill="none"
                                  xmlns="http://www.w3.org/2000/svg" class="mx-auto">

@@ -24,12 +24,14 @@ return new class extends Migration
             'user_id' => 2,
             'sme_id'=> 1,
             'is_stem' => false,
+
             'course_description' => 'This course provides essential knowledge and skills to protect Telecom Namibia from cyber threats. It covers topics such as password security, phishing awareness, data protection, and incident response.',
             'course_fee' => 0,
             'course_image' => 'https://cdn.dribbble.com/userupload/14375213/file/original-fd4b67a6f4e6c8bfeca200725dd400a3.jpg?resize=1600x1333&vertical=center',
             'course_type' => 'online',
             'start_date' => now(),
             'end_date' => now()->addMonths(1),
+            'is_stem' => true,
 
         ]);
 

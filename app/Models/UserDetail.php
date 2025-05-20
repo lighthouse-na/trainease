@@ -52,4 +52,8 @@ class UserDetail extends Model
     {
         return $this->belongsTo(User::class, 'supervisor_id');
     }
+    public function supervisees()
+    {
+        return $this->hasMany(User::class, 'supervisor_id');
+    }
 }

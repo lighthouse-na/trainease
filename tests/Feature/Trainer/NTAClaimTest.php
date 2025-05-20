@@ -1,15 +1,14 @@
 <?php
 
-use App\Models\User;
+use App\Exports\NTAClaimExport;
 use App\Models\Training\Course;
 use App\Models\Training\Reports\Summary;
-use Livewire\Livewire;
-use Illuminate\Support\Facades\Auth;
-use App\Exports\NTAClaimExport;
+use App\Models\User;
 use App\Models\UserDetail;
+use Livewire\Livewire;
 use Maatwebsite\Excel\Facades\Excel;
 
-use function Pest\Laravel\{actingAs};
+use function Pest\Laravel\actingAs;
 
 beforeEach(function () {
     // Create trainer role
@@ -39,8 +38,9 @@ it('exports report for valid standard periods', function (string $period) {
 
     Livewire::test('trainer/reports/trainersummary')->set('period', $period)->set('exportFormat', 'excel')->call('exportReport');
 
-    Excel::assertDownloaded('training-summary-' . now()->format('Y-m-d') . '.xlsx', function (NTAClaimExport $export) {
+    Excel::assertDownloaded('training-summary-'.now()->format('Y-m-d').'.xlsx', function (NTAClaimExport $export) {
         expect($export)->toBeInstanceOf(NTAClaimExport::class);
+
         return true;
     });
 })->with(['this_month', 'last_month', 'this_year']);
@@ -76,9 +76,8 @@ it('exports custom range if dates are valid', function () {
         ->set('exportFormat', 'csv')
         ->call('exportReport');
 
-    Excel::assertDownloaded('training-summary-' . now()->format('Y-m-d') . '.csv');
+    Excel::assertDownloaded('training-summary-'.now()->format('Y-m-d').'.csv');
 });
-
 
 it('paginates summary data correctly', function () {
     for ($i = 0; $i < 30; $i++) {

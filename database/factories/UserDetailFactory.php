@@ -27,6 +27,8 @@ class UserDetailFactory extends Factory
             'dob' => $this->faker->date('Y-m-d', '-18 years'),
             'phone_number' => $this->faker->phoneNumber(),
             'address' => $this->faker->address(),
+            'aa_title' => $this->faker->randomElement(['RDM', 'RAM', 'RDF', 'RAF']),
+            'job_grade' => $this->faker->randomElement(['A', 'B', 'C', 'D']),
         ];
     }
 }
