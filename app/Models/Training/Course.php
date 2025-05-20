@@ -26,7 +26,9 @@ class Course extends Model
     protected $casts = [
         'start_date' => 'date:dd/mm/yyyy',
         'end_date' => 'date:dd/mm/yyyy',
+        'is_stem' => 'boolean'
     ];
+
 
     /**
      * @return BelongsTo<User, $this>

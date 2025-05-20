@@ -27,9 +27,11 @@ new #[Layout('components.layouts.app.header')] class extends Component {
     public float $course_fee;
     public string $startDate;
     public string $endDate;
-    public string $course_type;
+    // public string $course_type;
+    public string $course_type = 'online';
     public int $userId;
-    public $sme_id;
+    public $is_stem = false;
+
 
 
 
@@ -69,8 +71,9 @@ new #[Layout('components.layouts.app.header')] class extends Component {
             'endDate' => 'required|date|after:startDate',
             'course_fee' => 'required|numeric|min:0',
             'course_type' => 'required',
-            'courseImage' => $this->courseId ? 'nullable' : 'required', // <-- ✅
-            'sme_id' => 'nullable',
+            'courseImage' => 'required',
+            'is_stem' => 'required|boolean',
+
         ]);
 
         // Process image if uploaded
@@ -90,7 +93,9 @@ new #[Layout('components.layouts.app.header')] class extends Component {
             $course->end_date = $this->endDate;
             $course->course_fee = $this->course_fee;
             $course->course_type = $this->course_type;
-            $course->sme_id = $this->sme_id ?? null;
+            $course->is_stem = $this->is_stem;
+
+
             if ($imagePath) {
                 $course->course_image = $imagePath;
             }
@@ -108,7 +113,8 @@ new #[Layout('components.layouts.app.header')] class extends Component {
                 'course_image' => $imagePath,
                 'user_id' => Auth::user()->id,
                 'course_type' => $this->course_type,
-                'sme_id' => $this->sme_id ?? null,
+                'is_stem' => $this->is_stem,
+
             ]);
 
             $this->courseId = $course->id;
@@ -118,6 +124,130 @@ new #[Layout('components.layouts.app.header')] class extends Component {
             session()->flash('message', 'Course created successfully!');
         }
     }
+
+    public function saveMaterial()
+    {
+        if (!$this->courseCreated) {
+            return;
+        }
+
+        // Validate material data
+        $this->validate([
+            'materialTitle' => 'required|min:3',
+            'materialDescription' => 'required',
+            'materialContent' => 'required',
+        ]);
+
+        // Get the course
+        $course = Course::find($this->courseId);
+
+        // Create the material
+        $course->materials()->create([
+            'material_name' => $this->materialTitle,
+            'description' => $this->materialDescription,
+            'material_content' => $this->materialContent,
+        ]);
+
+        // Reset the form fields
+        $this->materialTitle = '';
+        $this->materialDescription = '';
+        $this->materialContent = '';
+        $this->materialFile = null;
+
+        // Refresh the materials list
+        $this->courseMaterials = $course->materials;
+        $this->modal('materialModal')->close();
+    }
+
+    public function editMaterial($materialId)
+    {
+        if (!$this->courseCreated) {
+            return;
+        }
+        $this->isEditingMaterial = true;
+        $this->modal('materialModal')->show();
+        // Find the material from the course materials collection
+        $material = $this->courseMaterials->find($materialId);
+
+        if ($material) {
+            // Populate the form fields with the material data
+            $this->materialTitle = $material->material_name;
+            $this->materialDescription = $material->description;
+            $this->materialContent = $material->material_content;
+
+            // Set active tab to materials to display the edit form
+            $this->activeTab = 'materials';
+
+            // Store the material ID for update
+            $this->editingMaterialId = $materialId;
+        }
+    }
+
+    public function deleteMaterial($materialId)
+    {
+        if (!$this->courseCreated) {
+            return;
+        }
+
+        // Find the course
+        $course = Course::find($this->courseId);
+
+        // Find the material and delete it
+        $material = $course->materials()->find($materialId);
+
+        if ($material) {
+            $material->delete();
+
+            // Refresh the materials list
+            $this->courseMaterials = $course->materials;
+
+            session()->flash('message', 'Course material deleted successfully!');
+        }
+    }
+
+    public function updateMaterial()
+    {
+        if (!$this->courseCreated || !$this->editingMaterialId) {
+            return;
+        }
+
+        // Validate material data
+        $this->validate([
+            'materialTitle' => 'required|min:3',
+            'materialDescription' => 'required',
+            'materialContent' => 'required',
+        ]);
+
+        // Get the course
+        $course = Course::find($this->courseId);
+
+        // Find the material and update it
+        $material = $course->materials()->find($this->editingMaterialId);
+
+        if ($material) {
+            $material->update([
+                'material_name' => $this->materialTitle,
+                'description' => $this->materialDescription,
+                'material_content' => $this->materialContent,
+            ]);
+
+            // Reset form fields
+            $this->materialTitle = '';
+            $this->materialDescription = '';
+            $this->materialContent = '';
+            $this->materialFile = null;
+            $this->editingMaterialId;
+            $this->isEditingMaterial = false;
+
+            // Refresh the materials list
+            $this->modal('materialModal')->close();
+            $this->courseMaterials = $course->materials;
+
+            session()->flash('message', 'Course material updated successfully!');
+
+        }
+    }
+
 
 
 
@@ -160,6 +290,7 @@ new #[Layout('components.layouts.app.header')] class extends Component {
                 <li class="mr-2" role="presentation">
                     <button class="inline-block p-4 border-b-2 rounded-t-lg"
                         :class="{
+
                             'border-accent-content text-accent-content dark:text-accent-content': $wire.activeTab=== 'materials' &&
                                 $wire
                                 .courseCreated,
@@ -176,6 +307,7 @@ new #[Layout('components.layouts.app.header')] class extends Component {
                 <li class="mr-2" role="presentation">
                     <button class="inline-block p-4 border-b-2 rounded-t-lg"
                         :class="{
+
                             'border-accent-content text-accent-content dark:text-accent-content': $wire.activeTab=== 'quiz' &&
                                 $wire
                                 .courseCreated,
@@ -191,6 +323,7 @@ new #[Layout('components.layouts.app.header')] class extends Component {
                 <li role="presentation">
                     <button class="inline-block p-4 border-b-2 rounded-t-lg"
                         :class="{
+
                             'border-accent-content text-accent-content dark:text-accent-content': $wire.activeTab=== 'enrollments' &&
                                 $wire
                                 .courseCreated,
@@ -208,6 +341,7 @@ new #[Layout('components.layouts.app.header')] class extends Component {
         </div>
 
         <div class="tab-content">
+
             <div x-show="$wire.activeTab=== 'course'" class="p-4 rounded-lg bg-white dark:bg-gray-800" x-transition>
                 <h3 class="text-lg font-semibold mb-4 dark:text-white">Course Information</h3>
                 <form wire:submit.prevent="saveCourse">
@@ -228,6 +362,7 @@ new #[Layout('components.layouts.app.header')] class extends Component {
                                 <flux:input.group.prefix class="dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                                     N$
                                 </flux:input.group.prefix>
+
                                 <flux:input wire:model="course_fee" type="decimal:2" min="0.00" required
                                     icon="currency-dollar" placeholder="0.00"
                                     class="dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
@@ -252,6 +387,7 @@ new #[Layout('components.layouts.app.header')] class extends Component {
                         <flux:field>
                             <flux:label class="dark:text-gray-300">Course Type</flux:label>
 
+
                             <flux:select wire:model="course_type" icon="device-tablet"
                                 placeholder="Choose course delivery format"
                                 class="dark:bg-gray-700 dark:border-gray-600 dark:text-white">
@@ -263,6 +399,7 @@ new #[Layout('components.layouts.app.header')] class extends Component {
                     </div>
                     <div class="mb-4">
                         <flux:input type="file" id="course_image" label="Course Image" wire:model="courseImage"
+
                             icon="photo" placeholder="Upload course thumbnail"
                             class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white" accept="image/*" />
 
@@ -275,11 +412,13 @@ new #[Layout('components.layouts.app.header')] class extends Component {
                     <div class="grid grid-cols-2 gap-4 mb-4">
                         <div>
                             <flux:input label="Start Date" type="date" id="start_date" wire:model="startDate"
+
                                 icon="calendar" placeholder="YYYY-MM-DD"
                                 class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
                         </div>
                         <div>
                             <flux:input label="End Date" type="date" id="end_date" wire:model="endDate"
+
                                 icon="calendar" placeholder="YYYY-MM-DD"
                                 class="w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
                         </div>
@@ -297,6 +436,7 @@ new #[Layout('components.layouts.app.header')] class extends Component {
                 ])
 
             </div>
+
 
             <div x-show="$wire.activeTab=== 'quiz' && $wire.courseCreated"
                 class="p-4 rounded-lg bg-white dark:bg-gray-800" x-transition>
