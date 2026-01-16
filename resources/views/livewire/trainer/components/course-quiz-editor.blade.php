@@ -13,42 +13,44 @@ new class extends Component {
 
 
     public function mount($course){
-        $this->course = Course::find($course);
-        $this->quizzes = $this->course
-            ->quizes()
-            ->with(['questions.options'])
-            ->get() ?? collect([]);
+        $course = Course::find($course);
+        if ($course) {
+            $this->quizzes = $course
+                ->quizes()
+                ->with(['questions.options'])
+                ->get() ?? collect([]);
 
 
-            // If there are quizzes, set up the first one
-            if ($this->quizzes->isNotEmpty()) {
-                $this->quiz = $this->quizzes->first();
-                $this->quizTitle = $this->quiz->title;
-                $this->quizAttempts = $this->quiz->max_attempts;
-                $this->passingScore = $this->quiz->passing_score;
+                // If there are quizzes, set up the first one
+                if ($this->quizzes->isNotEmpty()) {
+                    $this->quiz = $this->quizzes->first();
+                    $this->quizTitle = $this->quiz->title;
+                    $this->quizAttempts = $this->quiz->max_attempts;
+                    $this->passingScore = $this->quiz->passing_score;
 
-                // Setup questions array for the form
-                $this->questions = $this->quiz->questions
-                    ->map(function ($question) {
-                        $questionData = [
-                            'id' => $question->id,
-                            'text' => $question->question_text,
-                            'question_type' => $question->question_type,
-                            'options' => [],
-                        ];
+                    // Setup questions array for the form
+                    $this->questions = $this->quiz->questions
+                        ->map(function ($question) {
+                            $questionData = [
+                                'id' => $question->id,
+                                'text' => $question->question_text,
+                                'question_type' => $question->question_type,
+                                'options' => [],
+                            ];
 
-                        // Setup options for each question
-                        foreach ($question->options as $index => $option) {
-                            $questionData['options'][$index] = $option->option_text;
-                            if ($option->is_correct) {
-                                $questionData['correct_answer'] = $index;
+                            // Setup options for each question
+                            foreach ($question->options as $index => $option) {
+                                $questionData['options'][$index] = $option->option_text;
+                                if ($option->is_correct) {
+                                    $questionData['correct_answer'] = $index;
+                                }
                             }
-                        }
 
-                        return $questionData;
-                    })
-                    ->toArray();
-            }
+                            return $questionData;
+                        })
+                        ->toArray();
+                }
+        }
     }
     public function addQuestion()
     {

@@ -9,9 +9,12 @@ new class extends Component {
     public $selectedStudents = [];
     public $activeTab = 'course';
     public $course;
-    public function mount(int $course)
+    public function mount($course)
     {
-        $this->course = Course::findOrFail($course);
+        $course = Course::find($course);
+        if ($course) {
+            $this->course = $course;
+        }
         $this->selectedStudents = [];
     }
 

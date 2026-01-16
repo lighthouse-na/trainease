@@ -26,6 +26,7 @@ class CourseFactory extends Factory
             'course_fee' => $this->faker->randomFloat(2, 0, 1000),
             'course_image' => $this->faker->imageUrl(),
             'user_id' => 1,
+            'is_stem' => false,
 
         ];
     }

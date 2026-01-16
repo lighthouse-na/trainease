@@ -71,9 +71,12 @@ test('users are redirected to the dashboard after successful login', function ()
 
 });
 
+use App\Http\Middleware\VerifyCsrfToken;
+
 test('users can logout', function () {
     $user = User::factory()->create();
     $this->actingAs($user);
-    $this->post('/logout');
+    $response = $this->withoutMiddleware(VerifyCsrfToken::class)->post(route('logout'));
+    $response->assertRedirect(route('home'));
     $this->assertGuest();
 });

@@ -23,6 +23,7 @@ class CourseMaterial extends Model
         'quiz_data' => 'array', // Automatically decode JSON quizzes
     ];
 
+
     /**
      * @return BelongsTo<Course, $this>
      */

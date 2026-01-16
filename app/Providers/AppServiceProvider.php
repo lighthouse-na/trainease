@@ -12,8 +12,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
-
+        $this->app->alias('Markdown', \Spatie\LaravelMarkdown\MarkdownFacade::class);
     }
 
     /**

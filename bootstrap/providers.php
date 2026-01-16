@@ -6,4 +6,5 @@ return [
     App\Providers\TelescopeServiceProvider::class,
     App\Providers\VoltServiceProvider::class,
     Maatwebsite\Excel\ExcelServiceProvider::class,
+    Spatie\LaravelMarkdown\MarkdownServiceProvider::class,
 ];
